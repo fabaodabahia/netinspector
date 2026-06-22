@@ -2,11 +2,13 @@
 
 **Diagnóstico completo de conexão & ISP**
 
-Uma ferramenta web moderna e elegante para análise detalhada da sua conexão de rede, provedor de internet (ISP), localização, latência, DNS e segurança.
+[![Status](https://img.shields.io/badge/status-pronto-success)](https://seusite.com/net-inspector)
+[![Licença](https://img.shields.io/badge/licen%C3%A7a-MIT-blue)](LICENSE)
+[![Tecnologia](https://img.shields.io/badge/tech-HTML%20%2B%20JS%20puro-brightgreen)](https://seusite.com/net-inspector)
 
-![Status](https://img.shields.io/badge/status-pronto-success)
-![Licença](https://img.shields.io/badge/licen%C3%A7a-MIT-blue)
-![Tecnologia](https://img.shields.io/badge/tech-HTML%20%2B%20JS%20puro-brightgreen)
+**🌐 Demo Online:** [https://seusite.com/net-inspector](https://seusite.com/net-inspector)
+
+Uma ferramenta web moderna e elegante para análise detalhada da sua conexão de rede, provedor de internet (ISP), localização, latência, DNS e segurança.
 
 ---
 
@@ -15,11 +17,13 @@ Uma ferramenta web moderna e elegante para análise detalhada da sua conexão de
 - [Visão Geral](#visão-geral)
 - [Funcionalidades](#funcionalidades)
 - [Como Usar](#como-usar)
+- [Demo Online](#demo-online)
 - [Estrutura do Projeto](#estrutura-do-projeto)
 - [APIs Utilizadas](#apis-utilizadas)
 - [Indicadores Visuais](#indicadores-visuais)
 - [Privacidade e Segurança](#privacidade-e-segurança)
 - [Compatibilidade](#compatibilidade)
+- [FAQ](#faq)
 - [Licença](#licença)
 
 ---
@@ -35,6 +39,7 @@ O **NET INSPECTOR** é um utilitário de diagnóstico de rede que roda inteirame
 - ✅ **Interface moderna** - Design escuro com animações suaves
 - ✅ **Responsivo** - Funciona em desktop e mobile
 - ✅ **Tempo real** - Atualizações dinâmicas dos dados de rede
+- ✅ **SEO Otimizado** - Indexável por mecanismos de busca e IAs
 
 ---
 
@@ -108,6 +113,10 @@ O **NET INSPECTOR** é um utilitário de diagnóstico de rede que roda inteirame
 ---
 
 ## 🚀 Como Usar
+
+### Demo Online
+
+Acesse diretamente a versão hospedada em: **[https://seusite.com/net-inspector](https://seusite.com/net-inspector)**
 
 ### Método 1: Abrir Localmente (Recomendado)
 
@@ -361,6 +370,31 @@ Para dúvidas ou problemas:
 1. Verifique este README
 2. Inspecione o console do navegador (F12)
 3. Verifique sua conexão de internet
+
+---
+
+## ❓ FAQ - Perguntas Frequentes
+
+### O que é o NET INSPECTOR?
+NET INSPECTOR é uma ferramenta gratuita de diagnóstico de rede que analisa sua conexão de internet, mostrando informações sobre IP público, ISP, localização, latência, configurações de DNS e possíveis vazamentos de privacidade.
+
+### Como funciona o teste de latência?
+O teste de latência mede o tempo de resposta (ping) entre seu dispositivo e servidores DNS públicos como Google (8.8.8.8), Cloudflare (1.1.1.1) e Quad9 (9.9.9.9), exibindo os resultados em milissegundos.
+
+### O que é um vazamento WebRTC?
+Um vazamento WebRTC ocorre quando seu navegador revela seu endereço IP local ou público mesmo quando você está usando uma VPN, comprometendo sua privacidade. O NET INSPECTOR detecta esses vazamentos.
+
+### Preciso instalar algo para usar?
+Não! O NET INSPECTOR roda diretamente no seu navegador. Basta abrir a página e a análise começa automaticamente, sem necessidade de instalação ou cadastro.
+
+### Meus dados são armazenados?
+Não. Todas as análises são feitas localmente no seu navegador. Não armazenamos, registramos ou compartilhamos seus dados de conexão com terceiros.
+
+### O que é ISP?
+ISP (Internet Service Provider) é o provedor de serviços de internet, a empresa que fornece seu acesso à internet (ex: Vivo, Claro, Oi, etc.).
+
+### Por que meu IP aparece diferente em outros sites?
+Seu IP público pode variar dependendo da rede que você está usando, se há VPN/proxy ativo, ou se seu provedor usa NAT (CGNAT).
 
 ---
 
