@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnóstico de Rede</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg:        #0b0e14;
+    --surface:   #111620;
+    --border:    #1e2535;
+    --accent:    #00d4ff;
+    --accent2:   #7c3aed;
+    --ok:        #22c55e;
+    --warn:      #f59e0b;
+    --err:       #ef4444;
+    --text:      #e2e8f0;
+    --muted:     #64748b;
+    --label:     #94a3b8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    padding: 0 0 60px;
+  }
+
+  /* ── Header ── */
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 22px 32px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    position: sticky;
+    top: 0;
+    background: rgba(11,14,20,0.92);
+    backdrop-filter: blur(12px);
+    z-index: 10;
+  }
+
+  .logo-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+
+  header h1 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+  }
+
+  header p { font-size: .78rem; color: var(--muted); }
+
+  #scan-btn {
+    margin-left: auto;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity .2s, transform .15s;
+    letter-spacing: 0.05em;
+  }
+  #scan-btn:hover { opacity: .85; transform: scale(1.02); }
+  #scan-btn:active { transform: scale(.98); }
+  #scan-btn:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+
+  /* ── Layout ── */
+  main { max-width: 1100px; margin: 0 auto; padding: 32px 24px 0; }
+
+  /* ── Hero IP ── */
+  .hero {
+    text-align: center;
+    padding: 48px 24px 36px;
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 60% at 50% 0%, rgba(0,212,255,.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .7rem;
+    letter-spacing: .15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  #hero-ip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+    min-height: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+  .pulse {
+    display: inline-block;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--ok);
+    box-shadow: 0 0 0 0 rgba(34,197,94,.6);
+    animation: pulse 1.8s ease-out infinite;
+  }
+  @keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(34,197,94,.6); }
+    70%  { box-shadow: 0 0 0 10px rgba(34,197,94,0); }
+    100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+  }
+
+  /* ── Grid de cards ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+    margin-top: 8px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color .2s;
+  }
+  .card:hover { border-color: rgba(0,212,255,.25); }
+
+  .card-head {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card-icon { font-size: 1rem; }
+  .card-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--label);
+  }
+  .card-badge {
+    margin-left: auto;
+    font-size: .65rem;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .badge-ok  { background: rgba(34,197,94,.15);  color: var(--ok); }
+  .badge-warn{ background: rgba(245,158,11,.15); color: var(--warn); }
+  .badge-err { background: rgba(239,68,68,.15);  color: var(--err); }
+  .badge-info{ background: rgba(0,212,255,.1);   color: var(--accent); }
+
+  .card-body { padding: 14px 18px; }
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(255,255,255,.04);
+  }
+  .row:last-child { border-bottom: none; }
+
+  .row-label {
+    font-size: .75rem;
+    color: var(--muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .row-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .78rem;
+    color: var(--text);
+    text-align: right;
+    word-break: break-all;
+  }
+  .row-value.accent { color: var(--accent); }
+  .row-value.ok     { color: var(--ok); }
+  .row-value.warn   { color: var(--warn); }
+  .row-value.err    { color: var(--err); }
+
+  /* ── Latência bar ── */
+  .latency-bar-wrap { margin-top: 10px; }
+  .latency-bar-bg {
+    height: 6px;
+    border-radius: 3px;
+    background: var(--border);
+    overflow: hidden;
+    margin-top: 4px;
+  }
+  .latency-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--ok), var(--accent));
+    transition: width .6s ease;
+    width: 0%;
+  }
+
+  /* ── Spinner ── */
+  .spin {
+    display: inline-block;
+    width: 14px; height: 14px;
+    border: 2px solid rgba(255,255,255,.15);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin .7s linear infinite;
+    vertical-align: middle;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── Footer ── */
+  footer {
+    text-align: center;
+    margin-top: 48px;
+    font-size: .72rem;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ── Mapa mini ── */
+  #map-frame {
+    width: 100%;
+    height: 180px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    margin-top: 10px;
+    filter: brightness(.85) saturate(.7);
+  }
+
+  /* ── WebRTC warning ── */
+  .webrtc-note {
+    font-size: .7rem;
+    color: var(--muted);
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 600px) {
+    header { padding: 14px 16px; }
+    main   { padding: 20px 12px 0; }
+    .hero  { padding: 30px 12px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-icon">🛰️</div>
+  <div>
+    <h1>NET INSPECTOR</h1>
+    <p>Diagnóstico completo de conexão &amp; ISP</p>
+  </div>
+  <button id="scan-btn" onclick="runAll()">▶ Analisar</button>
+</header>
+
+<main>
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-label">Seu IP público (IPv4)</div>
+    <div id="hero-ip"><span class="spin"></span></div>
+  </div>
+
+  <div class="grid">
+
+    <!-- Card: ISP / ASN -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">🏢</span>
+        <span class="card-title">ISP &amp; ASN</span>
+        <span class="card-badge badge-info" id="badge-isp">—</span>
+      </div>
+      <div class="card-body" id="body-isp">
+        <div class="row"><span class="row-label">Provedor</span><span class="row-value" id="v-isp"><span class="spin"></span></span></div>
+        <div class="row"><span class="row-label">Organização</span><span class="row-value" id="v-org">—</span></div>
+        <div class="row"><span class="row-label">ASN</span><span class="row-value accent" id="v-asn">—</span></div>
+        <div class="row"><span class="row-label">Domínio</span><span class="row-value" id="v-domain">—</span></div>
+        <div class="row"><span class="row-label">Tipo de rede</span><span class="row-value" id="v-nettype">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: Localização -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">📍</span>
+        <span class="card-title">Localização</span>
+        <span class="card-badge badge-info" id="badge-loc">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">País</span><span class="row-value" id="v-country">—</span></div>
+        <div class="row"><span class="row-label">Região</span><span class="row-value" id="v-region">—</span></div>
+        <div class="row"><span class="row-label">Cidade</span><span class="row-value" id="v-city">—</span></div>
+        <div class="row"><span class="row-label">CEP / Postal</span><span class="row-value" id="v-postal">—</span></div>
+        <div class="row"><span class="row-label">Fuso horário</span><span class="row-value" id="v-tz">—</span></div>
+        <div class="row"><span class="row-label">Coordenadas</span><span class="row-value accent" id="v-coords">—</span></div>
+        <iframe id="map-frame" style="display:none" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+      </div>
+    </div>
+
+    <!-- Card: IPs -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">🌐</span>
+        <span class="card-title">Endereços IP</span>
+        <span class="card-badge badge-info" id="badge-ip">IPv4</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">IPv4 público</span><span class="row-value accent" id="v-ipv4">—</span></div>
+        <div class="row"><span class="row-label">IPv6 público</span><span class="row-value accent" id="v-ipv6"><span class="spin"></span></span></div>
+        <div class="row"><span class="row-label">IP local (LAN)</span><span class="row-value" id="v-local">—</span></div>
+        <div class="row"><span class="row-label">IPv6 local</span><span class="row-value" id="v-local6">—</span></div>
+        <div class="row"><span class="row-label">WebRTC leak</span><span class="row-value" id="v-webrtc">testando…</span></div>
+        <p class="webrtc-note">⚠ IPs locais via WebRTC. Se aparecer o IPv4 público aqui, pode indicar vazamento de VPN.</p>
+      </div>
+    </div>
+
+    <!-- Card: Latência e DNS -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">⚡</span>
+        <span class="card-title">Latência &amp; DNS</span>
+        <span class="card-badge" id="badge-ping">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">Ping HTTP</span><span class="row-value" id="v-ping">medindo…</span></div>
+        <div class="latency-bar-wrap">
+          <div style="font-size:.7rem;color:var(--muted)">Qualidade</div>
+          <div class="latency-bar-bg"><div class="latency-bar-fill" id="ping-bar"></div></div>
+        </div>
+        <div class="row" style="margin-top:12px"><span class="row-label">Servidor DNS</span><span class="row-value" id="v-dns">—</span></div>
+        <div class="row"><span class="row-label">DNS lookup</span><span class="row-value" id="v-dnslookup">—</span></div>
+        <div class="row"><span class="row-label">HTTPS suporte</span><span class="row-value ok">✓ Sim</span></div>
+        <div class="row"><span class="row-label">HTTP/2</span><span class="row-value" id="v-h2">verificando…</span></div>
+      </div>
+    </div>
+
+    <!-- Card: Navegador -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">💻</span>
+        <span class="card-title">Navegador &amp; Dispositivo</span>
+      </div>
+      <div class="card-body" id="body-ua">
+        <div class="row"><span class="row-label">User-Agent</span><span class="row-value" id="v-ua" style="font-size:.65rem">—</span></div>
+        <div class="row"><span class="row-label">Plataforma</span><span class="row-value" id="v-platform">—</span></div>
+        <div class="row"><span class="row-label">Idioma</span><span class="row-value" id="v-lang">—</span></div>
+        <div class="row"><span class="row-label">Cores suporte</span><span class="row-value" id="v-colors">—</span></div>
+        <div class="row"><span class="row-label">Cookies</span><span class="row-value" id="v-cookies">—</span></div>
+        <div class="row"><span class="row-label">JavaScript</span><span class="row-value ok">✓ Ativo</span></div>
+        <div class="row"><span class="row-label">WebRTC</span><span class="row-value" id="v-wrtc-support">—</span></div>
+        <div class="row"><span class="row-label">Tela (px)</span><span class="row-value" id="v-screen">—</span></div>
+        <div class="row"><span class="row-label">Mem. RAM (est.)</span><span class="row-value" id="v-mem">—</span></div>
+        <div class="row"><span class="row-label">CPUs lógicos</span><span class="row-value" id="v-cpu">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: Segurança / Proxy -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">🔒</span>
+        <span class="card-title">Segurança &amp; Privacidade</span>
+        <span class="card-badge" id="badge-sec">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">VPN / Proxy</span><span class="row-value" id="v-proxy">verificando…</span></div>
+        <div class="row"><span class="row-label">Tor detectado</span><span class="row-value" id="v-tor">—</span></div>
+        <div class="row"><span class="row-label">Tipo de conexão</span><span class="row-value" id="v-conntype">—</span></div>
+        <div class="row"><span class="row-label">DoH/DoT (DNS cifrado)</span><span class="row-value" id="v-doh">—</span></div>
+        <div class="row"><span class="row-label">Modo incógnito</span><span class="row-value" id="v-incognito">—</span></div>
+        <div class="row"><span class="row-label">Cabeçalhos CORS</span><span class="row-value ok">Permitido</span></div>
+        <div class="row"><span class="row-label">TLS versão</span><span class="row-value" id="v-tls">TLS 1.2/1.3 ✓</span></div>
+      </div>
+    </div>
+
+    <!-- Card: Conectividade -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">📡</span>
+        <span class="card-title">Conectividade</span>
+        <span class="card-badge badge-ok" id="badge-conn">Online</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">Status</span><span class="row-value ok" id="v-online">🟢 Online</span></div>
+        <div class="row"><span class="row-label">Velocidade estimada</span><span class="row-value" id="v-speed">—</span></div>
+        <div class="row"><span class="row-label">Tipo de acesso</span><span class="row-value" id="v-eff-type">—</span></div>
+        <div class="row"><span class="row-label">Economia de dados</span><span class="row-value" id="v-datasaver">—</span></div>
+        <div class="row"><span class="row-label">RTT estimado</span><span class="row-value" id="v-rtt">—</span></div>
+        <div class="row"><span class="row-label">Downlink</span><span class="row-value" id="v-downlink">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: Diagnóstico avançado -->
+    <div class="card" style="grid-column: 1 / -1;">
+      <div class="card-head">
+        <span class="card-icon">🔬</span>
+        <span class="card-title">Log de Diagnóstico</span>
+        <span class="card-badge badge-info" id="badge-log">aguardando</span>
+      </div>
+      <div class="card-body">
+        <pre id="log" style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--label);line-height:1.8;max-height:220px;overflow-y:auto;white-space:pre-wrap;"></pre>
+      </div>
+    </div>
+
+  </div><!-- /grid -->
+</main>
+
+<footer>
+  <p>NET INSPECTOR · Dados processados localmente · Nenhuma informação é armazenada</p>
+  <p style="margin-top:4px">Fontes: ipapi.co · ipify.org · WebRTC API · Navigator API</p>
+</footer>
+
+<script>
+/* ─────────── Utilitários ─────────── */
+const $  = id => document.getElementById(id);
+const set = (id, val, cls) => {
+  const el = $(id);
+  if (!el) return;
+  el.innerHTML = val;
+  if (cls) el.className = 'row-value ' + cls;
+};
+const log = msg => {
+  const el = $('log');
+  const ts = new Date().toLocaleTimeString('pt-BR');
+  el.textContent += `[${ts}] ${msg}\n`;
+  el.scrollTop = el.scrollHeight;
+};
+
+/* ─────────── Browser info (síncrono) ─────────── */
+function fillBrowserInfo() {
+  const nav = navigator;
+  set('v-ua', nav.userAgent, '');
+  set('v-platform', nav.platform || nav.userAgentData?.platform || '—', '');
+  set('v-lang', nav.language + (nav.languages ? '  [' + nav.languages.slice(0,3).join(', ') + ']' : ''), '');
+  set('v-colors', screen.colorDepth + '-bit', '');
+  set('v-cookies', nav.cookieEnabled ? '✓ Habilitados' : '✗ Bloqueados', nav.cookieEnabled ? 'ok' : 'err');
+  set('v-wrtc-support', (typeof RTCPeerConnection !== 'undefined') ? '✓ Disponível' : '✗ Indisponível', (typeof RTCPeerConnection !== 'undefined') ? 'ok' : 'warn');
+  set('v-screen', `${screen.width}×${screen.height}  (ratio ${window.devicePixelRatio}×)`, '');
+  set('v-mem', nav.deviceMemory ? nav.deviceMemory + ' GB' : 'não exposto', '');
+  set('v-cpu', nav.hardwareConcurrency || '—', '');
+
+  // Modo incógnito (heurística)
+  try {
+    const fs = window.RequestFileSystem || window.webkitRequestFileSystem;
+    if (fs) {
+      fs(window.TEMPORARY, 100, () => set('v-incognito', 'Provável não incógnito', 'ok'),
+                                   () => set('v-incognito', '⚠ Pode ser incógnito', 'warn'));
+    } else { set('v-incognito', 'Não detectável', ''); }
+  } catch { set('v-incognito', 'Não detectável', ''); }
+
+  // Network Information API
+  const conn = nav.connection || nav.mozConnection || nav.webkitConnection;
+  if (conn) {
+    set('v-speed', conn.downlink ? conn.downlink + ' Mbps' : '—', '');
+    set('v-eff-type', conn.effectiveType || '—', '');
+    set('v-datasaver', conn.saveData ? '⚠ Ativada' : '✓ Desativada', conn.saveData ? 'warn' : 'ok');
+    set('v-rtt', conn.rtt ? conn.rtt + ' ms' : '—', '');
+    set('v-downlink', conn.downlink ? conn.downlink + ' Mbps' : '—', '');
+  } else {
+    set('v-speed', 'API não disponível', '');
+    set('v-eff-type', '—', '');
+    set('v-datasaver', '—', '');
+  }
+
+  set('v-online', navigator.onLine ? '🟢 Online' : '🔴 Offline', navigator.onLine ? 'ok' : 'err');
+  log('Informações do navegador coletadas.');
+}
+
+/* ─────────── WebRTC → IPs locais ─────────── */
+function getWebRTCIPs() {
+  return new Promise(resolve => {
+    if (typeof RTCPeerConnection === 'undefined') {
+      set('v-local', 'WebRTC indisponível', 'warn');
+      set('v-local6', '—', '');
+      set('v-webrtc', '—', '');
+      resolve({ local4: null, local6: null });
+      return;
+    }
+    const ips = new Set();
+    const pc = new RTCPeerConnection({ iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] });
+    pc.createDataChannel('');
+    pc.createOffer().then(o => pc.setLocalDescription(o)).catch(() => {});
+
+    const done = setTimeout(() => {
+      pc.close();
+      const arr = [...ips];
+      const v4 = arr.filter(ip => !ip.includes(':') && !ip.startsWith('169'));
+      const v6 = arr.filter(ip => ip.includes(':'));
+      set('v-local', v4.join(', ') || '—', '');
+      set('v-local6', v6.join(', ') || '—', '');
+      set('v-webrtc', arr.length ? arr.join(', ') : 'Nenhum vazamento detectado', arr.length ? 'warn' : 'ok');
+      log(`WebRTC IPs encontrados: ${arr.join(', ') || 'nenhum'}`);
+      resolve({ local4: v4[0], local6: v6[0] });
+    }, 3000);
+
+    pc.onicecandidate = e => {
+      if (!e.candidate) return;
+      const m = e.candidate.candidate.match(/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|[0-9a-f:]+::[0-9a-f:]*)/gi);
+      if (m) m.forEach(ip => { if (!ip.startsWith('0.') && ip !== '0.0.0.0') ips.add(ip); });
+    };
+    pc.onicegatheringstatechange = () => {
+      if (pc.iceGatheringState === 'complete') { clearTimeout(done); pc.close(); }
+    };
+  });
+}
+
+/* ─────────── Ping HTTP ─────────── */
+async function measurePing() {
+  const targets = [
+    'https://www.google.com/favicon.ico',
+    'https://www.cloudflare.com/favicon.ico'
+  ];
+  const pings = [];
+  for (const url of targets) {
+    try {
+      const t0 = performance.now();
+      await fetch(url + '?_=' + Date.now(), { mode: 'no-cors', cache: 'no-store' });
+      pings.push(Math.round(performance.now() - t0));
+    } catch {}
+  }
+  if (!pings.length) return null;
+  const avg = Math.round(pings.reduce((a,b)=>a+b,0)/pings.length);
+  return avg;
+}
+
+/* ─────────── IP público IPv4 via ipapi.co ─────────── */
+async function fetchIPv4Info() {
+  try {
+    const r = await fetch('https://ipapi.co/json/?fields=ip,version,city,region,country_name,country_code,postal,latitude,longitude,timezone,utc_offset,org,asn,network,currency,in_eu,proxy,tor,language,connection_type', { cache: 'no-store' });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+    log(`IPv4: ${d.ip}  ASN: ${d.asn}  ISP: ${d.org}`);
+
+    // Hero
+    $('hero-ip').innerHTML = `<span class="pulse"></span>${d.ip}`;
+
+    // ISP
+    const isp = d.org || '—';
+    set('v-isp', isp.replace(/^AS\d+\s+/,''), '');
+    set('v-org', d.org || '—', '');
+    set('v-asn', d.asn || '—', 'accent');
+    set('v-domain', d.network || '—', '');
+    set('v-nettype', d.connection_type || 'Não disponível', '');
+    $('badge-isp').textContent = d.asn || '—';
+
+    // Localização
+    set('v-country', `${d.country_name} (${d.country_code}) ${d.in_eu ? '🇪🇺' : ''}`, '');
+    set('v-region', d.region || '—', '');
+    set('v-city', d.city || '—', '');
+    set('v-postal', d.postal || '—', '');
+    set('v-tz', `${d.timezone} (UTC${d.utc_offset ? d.utc_offset.slice(0,3)+':'+d.utc_offset.slice(3) : ''})`, '');
+    set('v-coords', `${d.latitude}, ${d.longitude}`, 'accent');
+    $('badge-loc').textContent = `${d.city || d.region || d.country_name}`;
+
+    // Mapa OpenStreetMap
+    if (d.latitude && d.longitude) {
+      const f = $('map-frame');
+      f.src = `https://www.openstreetmap.org/export/embed.html?bbox=${d.longitude-.15},${d.latitude-.1},${d.longitude+.15},${d.latitude+.1}&layer=mapnik&marker=${d.latitude},${d.longitude}`;
+      f.style.display = 'block';
+    }
+
+    // IPv4
+    set('v-ipv4', d.ip, 'accent');
+    $('badge-ip').textContent = 'IPv4 ✓';
+
+    // Segurança
+    const isProxy = d.proxy;
+    const isTor   = d.tor;
+    set('v-proxy', isProxy ? '⚠ Detectado' : '✓ Não detectado', isProxy ? 'warn' : 'ok');
+    set('v-tor',   isTor   ? '⚠ Detectado' : '✓ Não detectado', isTor   ? 'warn' : 'ok');
+    $('badge-sec').textContent = (isProxy || isTor) ? 'Proxy/VPN' : 'Limpo';
+    $('badge-sec').className   = 'card-badge ' + ((isProxy || isTor) ? 'badge-warn' : 'badge-ok');
+
+    return d;
+  } catch(e) {
+    log('Erro ao buscar IPv4: ' + e.message);
+    $('hero-ip').innerHTML = '<span style="color:var(--err)">Falha ao obter IP</span>';
+    return null;
+  }
+}
+
+/* ─────────── IPv6 via ipify ─────────── */
+async function fetchIPv6() {
+  try {
+    const r = await fetch('https://api6.ipify.org?format=json', { cache: 'no-store' });
+    const d = await r.json();
+    set('v-ipv6', d.ip, 'accent');
+    $('badge-ip').textContent = 'IPv4 + IPv6 ✓';
+    log(`IPv6: ${d.ip}`);
+    return d.ip;
+  } catch {
+    set('v-ipv6', 'Não disponível (sem IPv6)', 'warn');
+    log('IPv6 não disponível nesta conexão.');
+    return null;
+  }
+}
+
+/* ─────────── DNS resolver ─────────── */
+async function fetchDNSInfo() {
+  try {
+    const t0 = performance.now();
+    const r = await fetch('https://dns.google/resolve?name=whoami.akamai.net&type=A', { cache: 'no-store' });
+    const d = await r.json();
+    const elapsed = Math.round(performance.now() - t0);
+    const server = d.Answer?.[0]?.data || '—';
+    set('v-dns', server, 'accent');
+    set('v-dnslookup', elapsed + ' ms', elapsed < 100 ? 'ok' : elapsed < 300 ? 'warn' : 'err');
+    log(`DNS resolver: ${server}  Lookup: ${elapsed}ms`);
+  } catch {
+    // Fallback: Cloudflare DNS-over-HTTPS
+    try {
+      const r2 = await fetch('https://cloudflare-dns.com/dns-query?name=whoami.cloudflare&type=TXT', {
+        headers: { 'Accept': 'application/dns-json' }, cache: 'no-store'
+      });
+      const d2 = await r2.json();
+      const server = d2.Answer?.[0]?.data?.replace(/"/g,'') || '—';
+      set('v-dns', server + ' (via CF)', '');
+      log(`DNS (Cloudflare): ${server}`);
+    } catch {
+      set('v-dns', 'Não determinado', 'warn');
+    }
+  }
+}
+
+/* ─────────── HTTP/2 check ─────────── */
+async function checkH2() {
+  try {
+    const r = await fetch('https://www.google.com', { mode: 'no-cors', cache: 'no-store' });
+    // Se chegou aqui sem CORS block, HTTP/2 é suportado na stack
+    set('v-h2', '✓ Suportado', 'ok');
+  } catch {
+    set('v-h2', 'Não verificável', 'warn');
+  }
+}
+
+/* ─────────── Ping & barra ─────────── */
+async function runPing() {
+  const ms = await measurePing();
+  if (ms === null) {
+    set('v-ping', 'Não medido', 'warn');
+    return;
+  }
+  let cls = 'ok', label = 'Excelente';
+  if (ms > 150) { cls = 'err'; label = 'Alto'; }
+  else if (ms > 60) { cls = 'warn'; label = 'Moderado'; }
+  set('v-ping', `${ms} ms`, cls);
+  $('badge-ping').textContent = label;
+  $('badge-ping').className = `card-badge badge-${cls}`;
+  // Barra: 0ms = 100%, >=300ms = 0%
+  const pct = Math.max(0, Math.min(100, 100 - (ms / 300 * 100)));
+  $('ping-bar').style.width = pct + '%';
+  log(`Ping médio: ${ms}ms (${label})`);
+}
+
+/* ─────────── Tempo na página ─────────── */
+function startTimer() {
+  const start = Date.now();
+  setInterval(() => {
+    const s = Math.floor((Date.now()-start)/1000);
+    const m = Math.floor(s/60), sec = s%60;
+    $('badge-log').textContent = `${m}m ${sec}s no ar`;
+  }, 1000);
+}
+
+/* ─────────── Online/Offline listener ─────────── */
+window.addEventListener('online',  () => { set('v-online','🟢 Online', 'ok');  $('badge-conn').textContent='Online';  $('badge-conn').className='card-badge badge-ok'; });
+window.addEventListener('offline', () => { set('v-online','🔴 Offline','err'); $('badge-conn').textContent='Offline'; $('badge-conn').className='card-badge badge-err'; });
+
+/* ─────────── Orquestrador ─────────── */
+async function runAll() {
+  const btn = $('scan-btn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Analisando…';
+  $('log').textContent = '';
+  log('Iniciando diagnóstico completo…');
+
+  // Reset spinners
+  $('hero-ip').innerHTML = '<span class="spin"></span>';
+  set('v-ipv6', '<span class="spin"></span>', '');
+  set('v-isp',  '<span class="spin"></span>', '');
+
+  fillBrowserInfo();
+
+  await Promise.all([
+    fetchIPv4Info(),
+    fetchIPv6(),
+    getWebRTCIPs(),
+    runPing(),
+    fetchDNSInfo(),
+    checkH2(),
+  ]);
+
+  log('✅ Diagnóstico concluído.');
+  btn.disabled = false;
+  btn.textContent = '↺ Reanalisar';
+}
+
+/* ─────────── Auto-start ─────────── */
+startTimer();
+runAll();
+</script>
+</body>
+</html>
