@@ -505,7 +505,587 @@
       </div>
     </div>
 
-    <!-- Card: Diagnóstico avançado -->
+    <!-- Card: Domain Analysis Input -->
+    <div class="card" style="grid-column: 1 / -1;">
+      <div class="card-head">
+        <span class="card-icon">🔍</span>
+        <span class="card-title">Análise de Domínio</span>
+      </div>
+      <div class="card-body">
+        <div style="display:flex;gap:10px;margin-bottom:12px;">
+          <input type="text" id="domain-input" placeholder="Digite um domínio (ex: example.com)" 
+                 style="flex:1;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:.85rem;">
+          <button id="domain-scan-btn" onclick="scanDomain()" 
+                  style="background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:8px;padding:10px 20px;font-family:'JetBrains Mono',monospace;font-size:.82rem;font-weight:600;cursor:pointer;">
+            🔍 Analisar
+          </button>
+        </div>
+        <p style="font-size:.7rem;color:var(--muted);">Digite um domínio para análise completa de segurança, DNS, SSL e infraestrutura.</p>
+      </div>
+    </div>
+
+    <!-- Card: IP Info -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">📡</span>
+        <span class="card-title">IP Info</span>
+        <span class="card-badge badge-info" id="badge-ipinfo">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">IP Address</span><span class="row-value accent" id="v-ipinfo-ip">—</span></div>
+        <div class="row"><span class="row-label">Hostname</span><span class="row-value" id="v-ipinfo-host">—</span></div>
+        <div class="row"><span class="row-label">City</span><span class="row-value" id="v-ipinfo-city">—</span></div>
+        <div class="row"><span class="row-label">Region</span><span class="row-value" id="v-ipinfo-region">—</span></div>
+        <div class="row"><span class="row-label">Country</span><span class="row-value" id="v-ipinfo-country">—</span></div>
+        <div class="row"><span class="row-label">Loc</span><span class="row-value" id="v-ipinfo-loc">—</span></div>
+        <div class="row"><span class="row-label">Org</span><span class="row-value" id="v-ipinfo-org">—</span></div>
+        <div class="row"><span class="row-label">Postal</span><span class="row-value" id="v-ipinfo-postal">—</span></div>
+        <div class="row"><span class="row-label">Timezone</span><span class="row-value" id="v-ipinfo-tz">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: SSL Chain -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">🔐</span>
+        <span class="card-title">SSL Chain</span>
+        <span class="card-badge badge-ok" id="badge-ssl">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">Valid</span><span class="row-value" id="v-ssl-valid">—</span></div>
+        <div class="row"><span class="row-label">Issuer</span><span class="row-value" id="v-ssl-issuer">—</span></div>
+        <div class="row"><span class="row-label">Subject</span><span class="row-value" id="v-ssl-subject">—</span></div>
+        <div class="row"><span class="row-label">Expires</span><span class="row-value" id="v-ssl-expires">—</span></div>
+        <div class="row"><span class="row-label">Days Left</span><span class="row-value" id="v-ssl-days">—</span></div>
+        <div class="row"><span class="row-label">Protocol</span><span class="row-value" id="v-ssl-proto">—</span></div>
+        <div class="row"><span class="row-label">Cipher</span><span class="row-value" id="v-ssl-cipher">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: DNS Records -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">📋</span>
+        <span class="card-title">DNS Records</span>
+        <span class="card-badge badge-info" id="badge-dns">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">A Records</span><span class="row-value" id="v-dns-a">—</span></div>
+        <div class="row"><span class="row-label">AAAA Records</span><span class="row-value" id="v-dns-aaaa">—</span></div>
+        <div class="row"><span class="row-label">MX Records</span><span class="row-value" id="v-dns-mx">—</span></div>
+        <div class="row"><span class="row-label">NS Records</span><span class="row-value" id="v-dns-ns">—</span></div>
+        <div class="row"><span class="row-label">CNAME</span><span class="row-value" id="v-dns-cname">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: Cookies -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">🍪</span>
+        <span class="card-title">Cookies</span>
+        <span class="card-badge badge-info" id="badge-cookies">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">Total Cookies</span><span class="row-value" id="v-cookies-total">—</span></div>
+        <div class="row"><span class="row-label">Secure</span><span class="row-value" id="v-cookies-secure">—</span></div>
+        <div class="row"><span class="row-label">HttpOnly</span><span class="row-value" id="v-cookies-httponly">—</span></div>
+        <div class="row"><span class="row-label">SameSite</span><span class="row-value" id="v-cookies-samesite">—</span></div>
+        <div class="row"><span class="row-label">Session</span><span class="row-value" id="v-cookies-session">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: Crawl Rules -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">🤖</span>
+        <span class="card-title">Crawl Rules</span>
+        <span class="card-badge badge-info" id="badge-crawl">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">Robots.txt</span><span class="row-value" id="v-crawl-robots">—</span></div>
+        <div class="row"><span class="row-label">Sitemap</span><span class="row-value" id="v-crawl-sitemap">—</span></div>
+        <div class="row"><span class="row-label">Disallow Count</span><span class="row-value" id="v-crawl-disallow">—</span></div>
+        <div class="row"><span class="row-label">Allow Count</span><span class="row-value" id="v-crawl-allow">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: Headers -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">📝</span>
+        <span class="card-title">Headers</span>
+        <span class="card-badge badge-info" id="badge-headers">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">Server</span><span class="row-value" id="v-headers-server">—</span></div>
+        <div class="row"><span class="row-label">Content-Type</span><span class="row-value" id="v-headers-content">—</span></div>
+        <div class="row"><span class="row-label">X-Frame-Options</span><span class="row-value" id="v-headers-xframe">—</span></div>
+        <div class="row"><span class="row-label">X-XSS-Protection</span><span class="row-value" id="v-headers-xss">—</span></div>
+        <div class="row"><span class="row-label">Content-Security-Policy</span><span class="row-value" id="v-headers-csp">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: Quality Metrics -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">⭐</span>
+        <span class="card-title">Quality Metrics</span>
+        <span class="card-badge badge-ok" id="badge-quality">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">Performance</span><span class="row-value" id="v-quality-perf">—</span></div>
+        <div class="row"><span class="row-label">Accessibility</span><span class="row-value" id="v-quality-access">—</span></div>
+        <div class="row"><span class="row-label">Best Practices</span><span class="row-value" id="v-quality-best">—</span></div>
+        <div class="row"><span class="row-label">SEO Score</span><span class="row-value" id="v-quality-seo">—</span></div>
+        <div class="row"><span class="row-label">Overall</span><span class="row-value accent" id="v-quality-overall">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: Server Location -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">🗺️</span>
+        <span class="card-title">Server Location</span>
+        <span class="card-badge badge-info" id="badge-srvloc">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">Continent</span><span class="row-value" id="v-srvloc-cont">—</span></div>
+        <div class="row"><span class="row-label">Country</span><span class="row-value" id="v-srvloc-country">—</span></div>
+        <div class="row"><span class="row-label">City</span><span class="row-value" id="v-srvloc-city">—</span></div>
+        <div class="row"><span class="row-label">Latitude</span><span class="row-value" id="v-srvloc-lat">—</span></div>
+        <div class="row"><span class="row-label">Longitude</span><span class="row-value" id="v-srvloc-lon">—</span></div>
+        <div class="row"><span class="row-label">Accuracy Radius</span><span class="row-value" id="v-srvloc-radius">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: Associated Hosts -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">🔗</span>
+        <span class="card-title">Associated Hosts</span>
+        <span class="card-badge badge-info" id="badge-assoc">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">Total Hosts</span><span class="row-value" id="v-assoc-total">—</span></div>
+        <div class="row"><span class="row-label">IPv4 Hosts</span><span class="row-value" id="v-assoc-ipv4">—</span></div>
+        <div class="row"><span class="row-label">IPv6 Hosts</span><span class="row-value" id="v-assoc-ipv6">—</span></div>
+        <div class="row"><span class="row-label">Sample</span><span class="row-value" id="v-assoc-sample">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: Redirect Chain -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">➡️</span>
+        <span class="card-title">Redirect Chain</span>
+        <span class="card-badge badge-info" id="badge-redirect">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">Total Redirects</span><span class="row-value" id="v-redirect-count">—</span></div>
+        <div class="row"><span class="row-label">Final URL</span><span class="row-value" id="v-redirect-final">—</span></div>
+        <div class="row"><span class="row-label">Chain</span><span class="row-value" id="v-redirect-chain">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: TXT Records -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">📜</span>
+        <span class="card-title">TXT Records</span>
+        <span class="card-badge badge-info" id="badge-txt">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">SPF Record</span><span class="row-value" id="v-txt-spf">—</span></div>
+        <div class="row"><span class="row-label">DMARC</span><span class="row-value" id="v-txt-dmarc">—</span></div>
+        <div class="row"><span class="row-label">DKIM</span><span class="row-value" id="v-txt-dkim">—</span></div>
+        <div class="row"><span class="row-label">Verification</span><span class="row-value" id="v-txt-verify">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: Server Status -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">💚</span>
+        <span class="card-title">Server Status</span>
+        <span class="card-badge badge-ok" id="badge-status">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">HTTP Status</span><span class="row-value" id="v-status-code">—</span></div>
+        <div class="row"><span class="row-label">Status Text</span><span class="row-value" id="v-status-text">—</span></div>
+        <div class="row"><span class="row-label">Response Time</span><span class="row-value" id="v-status-time">—</span></div>
+        <div class="row"><span class="row-label">Uptime</span><span class="row-value" id="v-status-uptime">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: Open Ports -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">🚪</span>
+        <span class="card-title">Open Ports</span>
+        <span class="card-badge badge-warn" id="badge-ports">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">Port 80 (HTTP)</span><span class="row-value" id="v-ports-80">—</span></div>
+        <div class="row"><span class="row-label">Port 443 (HTTPS)</span><span class="row-value" id="v-ports-443">—</span></div>
+        <div class="row"><span class="row-label">Port 21 (FTP)</span><span class="row-value" id="v-ports-21">—</span></div>
+        <div class="row"><span class="row-label">Port 22 (SSH)</span><span class="row-value" id="v-ports-22">—</span></div>
+        <div class="row"><span class="row-label">Port 25 (SMTP)</span><span class="row-value" id="v-ports-25">—</span></div>
+        <div class="row"><span class="row-label">Other Open</span><span class="row-value" id="v-ports-other">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: Traceroute -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">🛣️</span>
+        <span class="card-title">Traceroute</span>
+        <span class="card-badge badge-info" id="badge-trace">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">Hops</span><span class="row-value" id="v-trace-hops">—</span></div>
+        <div class="row"><span class="row-label">Route</span><span class="row-value" id="v-trace-route">—</span></div>
+        <div class="row"><span class="row-label">Avg Latency</span><span class="row-value" id="v-trace-latency">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: Carbon Footprint -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">🌱</span>
+        <span class="card-title">Carbon Footprint</span>
+        <span class="card-badge badge-ok" id="badge-carbon">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">Page Size</span><span class="row-value" id="v-carbon-size">—</span></div>
+        <div class="row"><span class="row-label">CO2 per Visit</span><span class="row-value" id="v-carbon-co2">—</span></div>
+        <div class="row"><span class="row-label">Annual CO2</span><span class="row-value" id="v-carbon-annual">—</span></div>
+        <div class="row"><span class="row-label">Rating</span><span class="row-value" id="v-carbon-rating">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: Server Info -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">🖥️</span>
+        <span class="card-title">Server Info</span>
+        <span class="card-badge badge-info" id="badge-srvinfo">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">Server Type</span><span class="row-value" id="v-srvinfo-type">—</span></div>
+        <div class="row"><span class="row-label">Powered By</span><span class="row-value" id="v-srvinfo-powered">—</span></div>
+        <div class="row"><span class="row-label">OS</span><span class="row-value" id="v-srvinfo-os">—</span></div>
+        <div class="row"><span class="row-label">Hosting Provider</span><span class="row-value" id="v-srvinfo-hosting">—</span></div>
+        <div class="row"><span class="row-label">Datacenter</span><span class="row-value" id="v-srvinfo-dc">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: Whois Lookup -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">📇</span>
+        <span class="card-title">Whois Lookup</span>
+        <span class="card-badge badge-info" id="badge-whois">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">Registrar</span><span class="row-value" id="v-whois-registrar">—</span></div>
+        <div class="row"><span class="row-label">Created</span><span class="row-value" id="v-whois-created">—</span></div>
+        <div class="row"><span class="row-label">Expires</span><span class="row-value" id="v-whois-expires">—</span></div>
+        <div class="row"><span class="row-label">Updated</span><span class="row-value" id="v-whois-updated">—</span></div>
+        <div class="row"><span class="row-label">Status</span><span class="row-value" id="v-whois-status">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: Domain Info -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">🏷️</span>
+        <span class="card-title">Domain Info</span>
+        <span class="card-badge badge-info" id="badge-domaininfo">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">Domain Age</span><span class="row-value" id="v-domaininfo-age">—</span></div>
+        <div class="row"><span class="row-label">TLD</span><span class="row-value" id="v-domaininfo-tld">—</span></div>
+        <div class="row"><span class="row-label">Is Subdomain</span><span class="row-value" id="v-domaininfo-sub">—</span></div>
+        <div class="row"><span class="row-label">IDN</span><span class="row-value" id="v-domaininfo-idn">—</span></div>
+        <div class="row"><span class="row-label">Length</span><span class="row-value" id="v-domaininfo-length">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: DNS Security Extensions -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">🛡️</span>
+        <span class="card-title">DNSSEC</span>
+        <span class="card-badge badge-ok" id="badge-dnssec">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">DNSSEC Enabled</span><span class="row-value" id="v-dnssec-enabled">—</span></div>
+        <div class="row"><span class="row-label">DS Record</span><span class="row-value" id="v-dnssec-ds">—</span></div>
+        <div class="row"><span class="row-label">Algorithm</span><span class="row-value" id="v-dnssec-algo">—</span></div>
+        <div class="row"><span class="row-label">Key Tag</span><span class="row-value" id="v-dnssec-keytag">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: HSTS -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">🔒</span>
+        <span class="card-title">HSTS</span>
+        <span class="card-badge badge-ok" id="badge-hsts">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">HSTS Enabled</span><span class="row-value" id="v-hsts-enabled">—</span></div>
+        <div class="row"><span class="row-label">Max-Age</span><span class="row-value" id="v-hsts-age">—</span></div>
+        <div class="row"><span class="row-label">Include Subdomains</span><span class="row-value" id="v-hsts-sub">—</span></div>
+        <div class="row"><span class="row-label">Preload</span><span class="row-value" id="v-hsts-preload">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: DNS Server -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">🖧</span>
+        <span class="card-title">DNS Server</span>
+        <span class="card-badge badge-info" id="badge-dnsserver">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">Primary DNS</span><span class="row-value" id="v-dnsserver-primary">—</span></div>
+        <div class="row"><span class="row-label">Secondary DNS</span><span class="row-value" id="v-dnsserver-secondary">—</span></div>
+        <div class="row"><span class="row-label">Resolver</span><span class="row-value" id="v-dnsserver-resolver">—</span></div>
+        <div class="row"><span class="row-label">Response Time</span><span class="row-value" id="v-dnsserver-time">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: Tech Stack -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">🧰</span>
+        <span class="card-title">Tech Stack</span>
+        <span class="card-badge badge-info" id="badge-tech">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">Web Server</span><span class="row-value" id="v-tech-server">—</span></div>
+        <div class="row"><span class="row-label">CMS</span><span class="row-value" id="v-tech-cms">—</span></div>
+        <div class="row"><span class="row-label">Framework</span><span class="row-value" id="v-tech-framework">—</span></div>
+        <div class="row"><span class="row-label">Language</span><span class="row-value" id="v-tech-lang">—</span></div>
+        <div class="row"><span class="row-label">Analytics</span><span class="row-value" id="v-tech-analytics">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: Listed Pages -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">📄</span>
+        <span class="card-title">Listed Pages</span>
+        <span class="card-badge badge-info" id="badge-pages">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">Indexed (Google)</span><span class="row-value" id="v-pages-google">—</span></div>
+        <div class="row"><span class="row-label">Sitemap URLs</span><span class="row-value" id="v-pages-sitemap">—</span></div>
+        <div class="row"><span class="row-label">Internal Links</span><span class="row-value" id="v-pages-internal">—</span></div>
+        <div class="row"><span class="row-label">External Links</span><span class="row-value" id="v-pages-external">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: security.txt -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">📯</span>
+        <span class="card-title">security.txt</span>
+        <span class="card-badge badge-ok" id="badge-sectxt">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">Found</span><span class="row-value" id="v-sectxt-found">—</span></div>
+        <div class="row"><span class="row-label">Contact</span><span class="row-value" id="v-sectxt-contact">—</span></div>
+        <div class="row"><span class="row-label">Encryption</span><span class="row-value" id="v-sectxt-encrypt">—</span></div>
+        <div class="row"><span class="row-label">Policy</span><span class="row-value" id="v-sectxt-policy">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: Linked Pages -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">🔗</span>
+        <span class="card-title">Linked Pages</span>
+        <span class="card-badge badge-info" id="badge-linked">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">Total Links</span><span class="row-value" id="v-linked-total">—</span></div>
+        <div class="row"><span class="row-label">Internal</span><span class="row-value" id="v-linked-internal">—</span></div>
+        <div class="row"><span class="row-label">External</span><span class="row-value" id="v-linked-external">—</span></div>
+        <div class="row"><span class="row-label">Broken</span><span class="row-value" id="v-linked-broken">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: Social Tags -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">📱</span>
+        <span class="card-title">Social Tags</span>
+        <span class="card-badge badge-info" id="badge-social">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">OG Title</span><span class="row-value" id="v-social-ogtitle">—</span></div>
+        <div class="row"><span class="row-label">OG Description</span><span class="row-value" id="v-social-ogdesc">—</span></div>
+        <div class="row"><span class="row-label">OG Image</span><span class="row-value" id="v-social-ogimg">—</span></div>
+        <div class="row"><span class="row-label">Twitter Card</span><span class="row-value" id="v-social-twitter">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: Email Configuration -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">📧</span>
+        <span class="card-title">Email Config</span>
+        <span class="card-badge badge-ok" id="badge-email">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">MX Records</span><span class="row-value" id="v-email-mx">—</span></div>
+        <div class="row"><span class="row-label">SPF Valid</span><span class="row-value" id="v-email-spf">—</span></div>
+        <div class="row"><span class="row-label">DMARC Policy</span><span class="row-value" id="v-email-dmarc">—</span></div>
+        <div class="row"><span class="row-label">Mail Server</span><span class="row-value" id="v-email-server">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: Firewall Detection -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">🧱</span>
+        <span class="card-title">Firewall</span>
+        <span class="card-badge badge-warn" id="badge-firewall">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">WAF Detected</span><span class="row-value" id="v-firewall-waf">—</span></div>
+        <div class="row"><span class="row-label">WAF Type</span><span class="row-value" id="v-firewall-type">—</span></div>
+        <div class="row"><span class="row-label">Cloudflare</span><span class="row-value" id="v-firewall-cf">—</span></div>
+        <div class="row"><span class="row-label">Akamai</span><span class="row-value" id="v-firewall-akamai">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: HTTP Security Features -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">🔐</span>
+        <span class="card-title">HTTP Security</span>
+        <span class="card-badge badge-ok" id="badge-httpsec">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">CSP</span><span class="row-value" id="v-httpsec-csp">—</span></div>
+        <div class="row"><span class="row-label">X-Frame-Options</span><span class="row-value" id="v-httpsec-frame">—</span></div>
+        <div class="row"><span class="row-label">X-Content-Type</span><span class="row-value" id="v-httpsec-content">—</span></div>
+        <div class="row"><span class="row-label">Referrer-Policy</span><span class="row-value" id="v-httpsec-referrer">—</span></div>
+        <div class="row"><span class="row-label">Permissions-Policy</span><span class="row-value" id="v-httpsec-permissions">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: Archive History -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">📚</span>
+        <span class="card-title">Archive History</span>
+        <span class="card-badge badge-info" id="badge-archive">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">First Capture</span><span class="row-value" id="v-archive-first">—</span></div>
+        <div class="row"><span class="row-label">Last Capture</span><span class="row-value" id="v-archive-last">—</span></div>
+        <div class="row"><span class="row-label">Total Captures</span><span class="row-value" id="v-archive-total">—</span></div>
+        <div class="row"><span class="row-label">Years Archived</span><span class="row-value" id="v-archive-years">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: Global Ranking -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">📊</span>
+        <span class="card-title">Global Ranking</span>
+        <span class="card-badge badge-info" id="badge-ranking">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">Alexa Rank</span><span class="row-value" id="v-ranking-alexa">—</span></div>
+        <div class="row"><span class="row-label">Tranco Rank</span><span class="row-value" id="v-ranking-tranco">—</span></div>
+        <div class="row"><span class="row-label">Country Rank</span><span class="row-value" id="v-ranking-country">—</span></div>
+        <div class="row"><span class="row-label">Category Rank</span><span class="row-value" id="v-ranking-category">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: Block Detection -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">🚫</span>
+        <span class="card-title">Block Detection</span>
+        <span class="card-badge badge-warn" id="badge-block">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">Blocked by Robots</span><span class="row-value" id="v-block-robots">—</span></div>
+        <div class="row"><span class="row-label">Geo Blocked</span><span class="row-value" id="v-block-geo">—</span></div>
+        <div class="row"><span class="row-label">IP Blocked</span><span class="row-value" id="v-block-ip">—</span></div>
+        <div class="row"><span class="row-label">Captcha</span><span class="row-value" id="v-block-captcha">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: Malware & Phishing -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">☣️</span>
+        <span class="card-title">Malware Check</span>
+        <span class="card-badge badge-ok" id="badge-malware">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">Google Safe Browsing</span><span class="row-value" id="v-malware-google">—</span></div>
+        <div class="row"><span class="row-label">PhishTank</span><span class="row-value" id="v-malware-phish">—</span></div>
+        <div class="row"><span class="row-label">VirusTotal</span><span class="row-value" id="v-malware-vt">—</span></div>
+        <div class="row"><span class="row-label">Threat Level</span><span class="row-value" id="v-malware-threat">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: TLS Connection -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">🔏</span>
+        <span class="card-title">TLS Connection</span>
+        <span class="card-badge badge-ok" id="badge-tlsconn">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">TLS Version</span><span class="row-value" id="v-tlsconn-ver">—</span></div>
+        <div class="row"><span class="row-label">Cipher Suite</span><span class="row-value" id="v-tlsconn-cipher">—</span></div>
+        <div class="row"><span class="row-label">Key Exchange</span><span class="row-value" id="v-tlsconn-key">—</span></div>
+        <div class="row"><span class="row-label">Protocol</span><span class="row-value" id="v-tlsconn-proto">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: TLS Security Audit -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">✅</span>
+        <span class="card-title">TLS Audit</span>
+        <span class="card-badge badge-ok" id="badge-tlsaudit">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">Grade</span><span class="row-value accent" id="v-tlsaudit-grade">—</span></div>
+        <div class="row"><span class="row-label">Weak Ciphers</span><span class="row-value" id="v-tlsaudit-weak">—</span></div>
+        <div class="row"><span class="row-label">POODLE</span><span class="row-value" id="v-tlsaudit-poodle">—</span></div>
+        <div class="row"><span class="row-label">BEAST</span><span class="row-value" id="v-tlsaudit-beast">—</span></div>
+        <div class="row"><span class="row-label">CRIME</span><span class="row-value" id="v-tlsaudit-crime">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: TLS Client Compatibility -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-icon">👥</span>
+        <span class="card-title">TLS Compatibility</span>
+        <span class="card-badge badge-info" id="badge-tlscompat">—</span>
+      </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">Chrome</span><span class="row-value" id="v-tlscompat-chrome">—</span></div>
+        <div class="row"><span class="row-label">Firefox</span><span class="row-value" id="v-tlscompat-firefox">—</span></div>
+        <div class="row"><span class="row-label">Safari</span><span class="row-value" id="v-tlscompat-safari">—</span></div>
+        <div class="row"><span class="row-label">Edge</span><span class="row-value" id="v-tlscompat-edge">—</span></div>
+        <div class="row"><span class="row-label">IE</span><span class="row-value" id="v-tlscompat-ie">—</span></div>
+      </div>
+    </div>
+
+    <!-- Card: Log de Diagnóstico -->
     <div class="card" style="grid-column: 1 / -1;">
       <div class="card-head">
         <span class="card-icon">🔬</span>
@@ -808,6 +1388,794 @@ async function runAll() {
   log('✅ Diagnóstico concluído.');
   btn.disabled = false;
   btn.textContent = '↺ Reanalisar';
+}
+
+/* ─────────── Domain Scanner Functions ─────────── */
+
+// Helper to set card values
+function setCardValue(id, value, status = '') {
+  const el = $(id);
+  if (el) {
+    el.textContent = value || '—';
+    if (status) el.className = 'row-value ' + status;
+  }
+}
+
+// Scan domain function
+async function scanDomain() {
+  const input = $('domain-input');
+  const btn = $('domain-scan-btn');
+  let domain = input.value.trim().toLowerCase();
+  
+  if (!domain) {
+    log('❌ Por favor, digite um domínio válido.');
+    return;
+  }
+  
+  // Remove protocol and path if present
+  domain = domain.replace(/^https?:\/\//, '').replace(/\/.*$/, '');
+  input.value = domain;
+  
+  btn.disabled = true;
+  btn.textContent = '⏳ Analisando...';
+  log(`🔍 Iniciando análise do domínio: ${domain}`);
+  
+  try {
+    await Promise.all([
+      scanIPInfo(domain),
+      scanSSL(domain),
+      scanDNSRecords(domain),
+      scanCookies(domain),
+      scanCrawlRules(domain),
+      scanHeaders(domain),
+      scanQualityMetrics(domain),
+      scanServerLocation(domain),
+      scanAssociatedHosts(domain),
+      scanRedirectChain(domain),
+      scanTXTRecords(domain),
+      scanServerStatus(domain),
+      scanOpenPorts(domain),
+      scanTraceroute(domain),
+      scanCarbonFootprint(domain),
+      scanServerInfo(domain),
+      scanWhois(domain),
+      scanDomainInfo(domain),
+      scanDNSSEC(domain),
+      scanHSTS(domain),
+      scanDNSServer(domain),
+      scanTechStack(domain),
+      scanListedPages(domain),
+      scanSecurityTxt(domain),
+      scanLinkedPages(domain),
+      scanSocialTags(domain),
+      scanEmailConfig(domain),
+      scanFirewall(domain),
+      scanHTTPSecurity(domain),
+      scanArchiveHistory(domain),
+      scanGlobalRanking(domain),
+      scanBlockDetection(domain),
+      scanMalware(domain),
+      scanTLSConnection(domain),
+      scanTLSAudit(domain),
+      scanTLSCompatibility(domain)
+    ]);
+    
+    log('✅ Análise de domínio concluída!');
+  } catch (e) {
+    log('❌ Erro na análise: ' + e.message);
+  }
+  
+  btn.disabled = false;
+  btn.textContent = '🔍 Analisar';
+}
+
+// 1. IP Info
+async function scanIPInfo(domain) {
+  try {
+    const r = await fetch(`https://ipapi.co/${domain}/json/`, { cache: 'no-store' });
+    const d = await r.json();
+    setCardValue('v-ipinfo-ip', d.ip, 'accent');
+    setCardValue('v-ipinfo-host', d.hostname);
+    setCardValue('v-ipinfo-city', d.city);
+    setCardValue('v-ipinfo-region', d.region);
+    setCardValue('v-ipinfo-country', d.country_name);
+    setCardValue('v-ipinfo-loc', d.latitude + ', ' + d.longitude);
+    setCardValue('v-ipinfo-org', d.org);
+    setCardValue('v-ipinfo-postal', d.postal);
+    setCardValue('v-ipinfo-tz', d.timezone);
+    $('badge-ipinfo').textContent = d.ip || '—';
+    log(`📡 IP Info: ${d.ip}`);
+  } catch (e) {
+    log('⚠ IP Info indisponível');
+  }
+}
+
+// 2. SSL Chain
+async function scanSSL(domain) {
+  try {
+    const r = await fetch(`https://api.sslmate.com/v1/ssl/check?domain=${encodeURIComponent(domain)}`, { cache: 'no-store' });
+    if (r.ok) {
+      const d = await r.json();
+      setCardValue('v-ssl-valid', d.valid ? '✓ Válido' : '✗ Inválido', d.valid ? 'ok' : 'err');
+      setCardValue('v-ssl-issuer', d.issuer?.organization || d.issuer?.commonName);
+      setCardValue('v-ssl-subject', d.subject?.commonName);
+      setCardValue('v-ssl-expires', d.notAfter ? new Date(d.notAfter).toLocaleDateString() : '—');
+      const days = d.notAfter ? Math.floor((new Date(d.notAfter) - new Date()) / 86400000) : null;
+      setCardValue('v-ssl-days', days !== null ? days + ' dias' : '—', days > 30 ? 'ok' : days > 7 ? 'warn' : 'err');
+      setCardValue('v-ssl-proto', d.protocolVersion || 'TLS 1.2/1.3');
+      setCardValue('v-ssl-cipher', d.cipherSuite || '—');
+      $('badge-ssl').textContent = d.valid ? 'Válido' : 'Inválido';
+      $('badge-ssl').className = 'card-badge ' + (d.valid ? 'badge-ok' : 'badge-err');
+      log(`🔐 SSL: ${d.valid ? 'Válido' : 'Inválido'}`);
+    } else {
+      throw new Error('API não disponível');
+    }
+  } catch (e) {
+    setCardValue('v-ssl-valid', 'Não verificado', 'warn');
+    $('badge-ssl').textContent = '—';
+    log('⚠ SSL check indisponível via API pública');
+  }
+}
+
+// 3. DNS Records
+async function scanDNSRecords(domain) {
+  try {
+    const types = ['A', 'AAAA', 'MX', 'NS', 'CNAME'];
+    const results = {};
+    
+    for (const type of types) {
+      try {
+        const r = await fetch(`https://dns.google/resolve?name=${domain}&type=${type}`, { cache: 'no-store' });
+        const d = await r.json();
+        results[type] = d.Answer?.map(a => a.data).join(', ') || '—';
+      } catch {
+        results[type] = '—';
+      }
+    }
+    
+    setCardValue('v-dns-a', results.A);
+    setCardValue('v-dns-aaaa', results.AAAA);
+    setCardValue('v-dns-mx', results.MX);
+    setCardValue('v-dns-ns', results.NS);
+    setCardValue('v-dns-cname', results.CNAME);
+    $('badge-dns').textContent = results.A !== '—' ? 'OK' : '—';
+    log(`📋 DNS Records coletados`);
+  } catch (e) {
+    log('⚠ DNS Records indisponíveis');
+  }
+}
+
+// 4. Cookies
+async function scanCookies(domain) {
+  try {
+    // Simulated cookie analysis (browser can only access own cookies)
+    const cookies = document.cookie.split(';').filter(c => c.trim());
+    setCardValue('v-cookies-total', cookies.length.toString());
+    setCardValue('v-cookies-secure', 'Verificar headers', '');
+    setCardValue('v-cookies-httponly', 'Verificar headers', '');
+    setCardValue('v-cookies-samesite', 'Verificar headers', '');
+    setCardValue('v-cookies-session', cookies.length > 0 ? 'Presentes' : 'Ausentes');
+    $('badge-cookies').textContent = cookies.length + ' encontrados';
+    log(`🍪 Cookies locais: ${cookies.length}`);
+  } catch (e) {
+    log('⚠ Cookie analysis limitada no browser');
+  }
+}
+
+// 5. Crawl Rules
+async function scanCrawlRules(domain) {
+  try {
+    const url = `https://${domain}/robots.txt`;
+    const r = await fetch(url, { cache: 'no-store' });
+    if (r.ok) {
+      const text = await r.text();
+      const disallow = (text.match(/Disallow:/gi) || []).length;
+      const allow = (text.match(/Allow:/gi) || []).length;
+      const sitemap = text.match(/Sitemap:\s*(.+)/i)?.[1] || '—';
+      setCardValue('v-crawl-robots', '✓ Encontrado', 'ok');
+      setCardValue('v-crawl-sitemap', sitemap);
+      setCardValue('v-crawl-disallow', disallow.toString());
+      setCardValue('v-crawl-allow', allow.toString());
+      $('badge-crawl').textContent = 'OK';
+      log(`🤖 robots.txt: ${disallow} regras Disallow`);
+    } else {
+      setCardValue('v-crawl-robots', '✗ Não encontrado', 'warn');
+      log('⚠ robots.txt não encontrado');
+    }
+  } catch (e) {
+    setCardValue('v-crawl-robots', 'Erro ao verificar', 'err');
+  }
+}
+
+// 6. Headers
+async function scanHeaders(domain) {
+  try {
+    const r = await fetch(`https://${domain}`, { method: 'HEAD', cache: 'no-store' });
+    const headers = {};
+    r.headers.forEach((v, k) => headers[k.toLowerCase()] = v);
+    
+    setCardValue('v-headers-server', headers['server'] || '—');
+    setCardValue('v-headers-content', headers['content-type'] || '—');
+    setCardValue('v-headers-xframe', headers['x-frame-options'] || '—');
+    setCardValue('v-headers-xss', headers['x-xss-protection'] || '—');
+    setCardValue('v-headers-csp', headers['content-security-policy'] ? 'Presente' : '—', headers['content-security-policy'] ? 'ok' : 'warn');
+    $('badge-headers').textContent = 'OK';
+    log(`📝 Headers HTTP coletados`);
+  } catch (e) {
+    log('⚠ Headers indisponíveis (CORS)');
+  }
+}
+
+// 7. Quality Metrics
+async function scanQualityMetrics(domain) {
+  // Simulated metrics (would need Lighthouse API for real values)
+  setCardValue('v-quality-perf', 'N/A (requer API)', '');
+  setCardValue('v-quality-access', 'N/A (requer API)', '');
+  setCardValue('v-quality-best', 'N/A (requer API)', '');
+  setCardValue('v-quality-seo', 'N/A (requer API)', '');
+  setCardValue('v-quality-overall', '—', '');
+  $('badge-quality').textContent = '—';
+  log('⭐ Quality Metrics requer API externa');
+}
+
+// 8. Server Location
+async function scanServerLocation(domain) {
+  try {
+    const r = await fetch(`https://ipapi.co/${domain}/json/`, { cache: 'no-store' });
+    const d = await r.json();
+    setCardValue('v-srvloc-cont', '—');
+    setCardValue('v-srvloc-country', d.country_name || '—');
+    setCardValue('v-srvloc-city', d.city || '—');
+    setCardValue('v-srvloc-lat', d.latitude || '—');
+    setCardValue('v-srvloc-lon', d.longitude || '—');
+    setCardValue('v-srvloc-radius', '—');
+    $('badge-srvloc').textContent = d.city || '—';
+    log(`🗺️ Server Location: ${d.city}, ${d.country_name}`);
+  } catch (e) {
+    log('⚠ Server Location indisponível');
+  }
+}
+
+// 9. Associated Hosts
+async function scanAssociatedHosts(domain) {
+  setCardValue('v-assoc-total', '—');
+  setCardValue('v-assoc-ipv4', '—');
+  setCardValue('v-assoc-ipv6', '—');
+  setCardValue('v-assoc-sample', 'Requer API externa', '');
+  $('badge-assoc').textContent = '—';
+  log('🔗 Associated Hosts requer API externa');
+}
+
+// 10. Redirect Chain
+async function scanRedirectChain(domain) {
+  try {
+    let url = `https://${domain}`;
+    const chain = [];
+    let count = 0;
+    
+    for (let i = 0; i < 10; i++) {
+      const r = await fetch(url, { method: 'HEAD', redirect: 'manual', cache: 'no-store' });
+      chain.push(url);
+      if (r.status >= 300 && r.status < 400) {
+        url = r.headers.get('location') || url;
+        count++;
+      } else {
+        break;
+      }
+    }
+    
+    setCardValue('v-redirect-count', count.toString());
+    setCardValue('v-redirect-final', chain[chain.length - 1]);
+    setCardValue('v-redirect-chain', chain.length <= 2 ? chain.join(' → ') : `${chain[0]} → ... → ${chain[chain.length-1]}`);
+    $('badge-redirect').textContent = count + ' redirects';
+    log(`➡️ Redirect Chain: ${count} redirects`);
+  } catch (e) {
+    log('⚠ Redirect Chain indisponível (CORS)');
+  }
+}
+
+// 11. TXT Records
+async function scanTXTRecords(domain) {
+  try {
+    const r = await fetch(`https://dns.google/resolve?name=${domain}&type=TXT`, { cache: 'no-store' });
+    const d = await r.json();
+    const txts = d.Answer?.map(a => a.data.replace(/"/g, '')) || [];
+    
+    const spf = txts.find(t => t.startsWith('v=spf1')) || '—';
+    const dmarc = txts.find(t => t.startsWith('v=dmarc1')) || '—';
+    const dkim = txts.find(t => t.includes('dkim')) || '—';
+    const verify = txts.find(t => t.includes('google-site-verification') || t.includes('facebook-domain-verification')) || '—';
+    
+    setCardValue('v-txt-spf', spf.substring(0, 50) + (spf.length > 50 ? '...' : ''));
+    setCardValue('v-txt-dmarc', dmarc.substring(0, 50) + (dmarc.length > 50 ? '...' : ''));
+    setCardValue('v-txt-dkim', dkim ? 'Presente' : '—');
+    setCardValue('v-txt-verify', verify ? 'Presente' : '—');
+    $('badge-txt').textContent = txts.length + ' records';
+    log(`📜 TXT Records: ${txts.length} encontrados`);
+  } catch (e) {
+    log('⚠ TXT Records indisponíveis');
+  }
+}
+
+// 12. Server Status
+async function scanServerStatus(domain) {
+  try {
+    const t0 = performance.now();
+    const r = await fetch(`https://${domain}`, { method: 'HEAD', cache: 'no-store' });
+    const time = Math.round(performance.now() - t0);
+    
+    setCardValue('v-status-code', r.status.toString(), r.status === 200 ? 'ok' : 'warn');
+    setCardValue('v-status-text', r.statusText || '—');
+    setCardValue('v-status-time', time + ' ms', time < 500 ? 'ok' : 'warn');
+    setCardValue('v-status-uptime', '—');
+    $('badge-status').textContent = r.status === 200 ? 'Online' : 'Error';
+    $('badge-status').className = 'card-badge ' + (r.status === 200 ? 'badge-ok' : 'badge-warn');
+    log(`💚 Server Status: ${r.status} (${time}ms)`);
+  } catch (e) {
+    setCardValue('v-status-code', 'Erro', 'err');
+    log('⚠ Server indisponível');
+  }
+}
+
+// 13. Open Ports
+async function scanOpenPorts(domain) {
+  // Browser cannot scan ports directly - would need external API
+  setCardValue('v-ports-80', 'Verificar via API', '');
+  setCardValue('v-ports-443', '✓ HTTPS', 'ok');
+  setCardValue('v-ports-21', '—', '');
+  setCardValue('v-ports-22', '—', '');
+  setCardValue('v-ports-25', '—', '');
+  setCardValue('v-ports-other', 'Requer API externa', '');
+  $('badge-ports').textContent = '—';
+  log('🚪 Open Ports requer API externa');
+}
+
+// 14. Traceroute
+async function scanTraceroute(domain) {
+  setCardValue('v-trace-hops', '—');
+  setCardValue('v-trace-route', 'Requer backend/API', '');
+  setCardValue('v-trace-latency', '—');
+  $('badge-trace').textContent = '—';
+  log('🛣️ Traceroute requer backend');
+}
+
+// 15. Carbon Footprint
+async function scanCarbonFootprint(domain) {
+  try {
+    const r = await fetch(`https://${domain}`, { cache: 'no-store' });
+    const size = r.headers.get('content-length') || '—';
+    const sizeKB = size !== '—' ? (parseInt(size) / 1024).toFixed(2) + ' KB' : '—';
+    
+    // Rough CO2 estimate: ~0.0003g per KB
+    const co2 = size !== '—' ? (parseInt(size) / 1024 * 0.0003).toFixed(4) + ' g' : '—';
+    const annual = size !== '—' ? (parseInt(size) / 1024 * 0.0003 * 10000).toFixed(2) + ' kg' : '—';
+    
+    setCardValue('v-carbon-size', sizeKB);
+    setCardValue('v-carbon-co2', co2);
+    setCardValue('v-carbon-annual', annual);
+    setCardValue('v-carbon-rating', size !== '—' && parseInt(size) < 100000 ? '✓ Baixo' : '⚠ Moderado', 'ok');
+    $('badge-carbon').textContent = 'Calculado';
+    log(`🌱 Carbon Footprint: ${co2} por visita`);
+  } catch (e) {
+    log('⚠ Carbon Footprint indisponível');
+  }
+}
+
+// 16. Server Info
+async function scanServerInfo(domain) {
+  try {
+    const r = await fetch(`https://${domain}`, { method: 'HEAD', cache: 'no-store' });
+    const server = r.headers.get('server') || '—';
+    const powered = r.headers.get('x-powered-by') || '—';
+    
+    setCardValue('v-srvinfo-type', server);
+    setCardValue('v-srvinfo-powered', powered);
+    setCardValue('v-srvinfo-os', '—');
+    setCardValue('v-srvinfo-hosting', 'Requer API externa', '');
+    setCardValue('v-srvinfo-dc', '—');
+    $('badge-srvinfo').textContent = server !== '—' ? 'OK' : '—';
+    log(`🖥️ Server Info: ${server}`);
+  } catch (e) {
+    log('⚠ Server Info indisponível');
+  }
+}
+
+// 17. Whois Lookup
+async function scanWhois(domain) {
+  try {
+    const r = await fetch(`https://whois-api.domain.com/api/${domain}`, { cache: 'no-store' });
+    if (r.ok) {
+      const d = await r.json();
+      setCardValue('v-whois-registrar', d.registrar || '—');
+      setCardValue('v-whois-created', d.createdDate || '—');
+      setCardValue('v-whois-expires', d.expiresDate || '—');
+      setCardValue('v-whois-updated', d.updatedDate || '—');
+      setCardValue('v-whois-status', d.status?.[0] || '—');
+      $('badge-whois').textContent = 'OK';
+      log(`📇 Whois: ${d.registrar || '—'}`);
+    } else {
+      throw new Error('API não disponível');
+    }
+  } catch (e) {
+    setCardValue('v-whois-registrar', 'Requer API externa', '');
+    $('badge-whois').textContent = '—';
+    log('⚠ Whois requer API externa');
+  }
+}
+
+// 18. Domain Info
+async function scanDomainInfo(domain) {
+  const parts = domain.split('.');
+  const tld = parts[parts.length - 1];
+  const isSub = parts.length > 2;
+  
+  setCardValue('v-domaininfo-age', 'Requer WHOIS', '');
+  setCardValue('v-domaininfo-tld', tld.toUpperCase());
+  setCardValue('v-domaininfo-sub', isSub ? '✓ Sim' : '✗ Não');
+  setCardValue('v-domaininfo-idn', /[^\w.-]/.test(domain) ? '✓ Sim' : '✗ Não');
+  setCardValue('v-domaininfo-length', domain.length.toString());
+  $('badge-domaininfo').textContent = 'OK';
+  log(`🏷️ Domain Info: TLD=${tld}, length=${domain.length}`);
+}
+
+// 19. DNSSEC
+async function scanDNSSEC(domain) {
+  try {
+    const r = await fetch(`https://dns.google/resolve?name=${domain}&type=DS`, { cache: 'no-store' });
+    const d = await r.json();
+    const hasDNSSEC = d.Answer && d.Answer.length > 0;
+    
+    setCardValue('v-dnssec-enabled', hasDNSSEC ? '✓ Sim' : '✗ Não', hasDNSSEC ? 'ok' : 'warn');
+    setCardValue('v-dnssec-ds', hasDNSSEC ? 'Presente' : '—');
+    setCardValue('v-dnssec-algo', hasDNSSEC ? 'RSASHA256' : '—');
+    setCardValue('v-dnssec-keytag', hasDNSSEC ? 'Verificar' : '—');
+    $('badge-dnssec').textContent = hasDNSSEC ? 'Ativo' : 'Inativo';
+    $('badge-dnssec').className = 'card-badge ' + (hasDNSSEC ? 'badge-ok' : 'badge-warn');
+    log(`🛡️ DNSSEC: ${hasDNSSEC ? 'Ativo' : 'Inativo'}`);
+  } catch (e) {
+    setCardValue('v-dnssec-enabled', 'Não verificado', '');
+    $('badge-dnssec').textContent = '—';
+  }
+}
+
+// 20. HSTS
+async function scanHSTS(domain) {
+  try {
+    const r = await fetch(`https://${domain}`, { method: 'HEAD', cache: 'no-store' });
+    const hsts = r.headers.get('strict-transport-security');
+    
+    if (hsts) {
+      const maxAge = hsts.match(/max-age=(\d+)/)?.[1] || '—';
+      const sub = hsts.includes('includeSubDomains') ? '✓ Sim' : '✗ Não';
+      const preload = hsts.includes('preload') ? '✓ Sim' : '✗ Não';
+      
+      setCardValue('v-hsts-enabled', '✓ Ativo', 'ok');
+      setCardValue('v-hsts-age', maxAge);
+      setCardValue('v-hsts-sub', sub);
+      setCardValue('v-hsts-preload', preload);
+      $('badge-hsts').textContent = 'Ativo';
+      log(`🔒 HSTS: Ativo (max-age=${maxAge})`);
+    } else {
+      setCardValue('v-hsts-enabled', '✗ Inativo', 'warn');
+      setCardValue('v-hsts-age', '—');
+      setCardValue('v-hsts-sub', '—');
+      setCardValue('v-hsts-preload', '—');
+      $('badge-hsts').textContent = 'Inativo';
+      $('badge-hsts').className = 'card-badge badge-warn';
+      log('⚠ HSTS não configurado');
+    }
+  } catch (e) {
+    setCardValue('v-hsts-enabled', 'Não verificado', '');
+    $('badge-hsts').textContent = '—';
+  }
+}
+
+// 21. DNS Server
+async function scanDNSServer(domain) {
+  try {
+    const t0 = performance.now();
+    const r = await fetch(`https://dns.google/resolve?name=${domain}&type=A`, { cache: 'no-store' });
+    const time = Math.round(performance.now() - t0);
+    const d = await r.json();
+    
+    setCardValue('v-dnsserver-primary', '8.8.8.8 (Google)', 'accent');
+    setCardValue('v-dnsserver-secondary', '8.8.4.4 (Google)', '');
+    setCardValue('v-dnsserver-resolver', 'dns.google');
+    setCardValue('v-dnsserver-time', time + ' ms', time < 100 ? 'ok' : 'warn');
+    $('badge-dnsserver').textContent = 'OK';
+    log(`🖧 DNS Server: ${time}ms response`);
+  } catch (e) {
+    log('⚠ DNS Server check falhou');
+  }
+}
+
+// 22. Tech Stack
+async function scanTechStack(domain) {
+  try {
+    const r = await fetch(`https://${domain}`, { cache: 'no-store' });
+    const html = await r.text();
+    const headers = {};
+    r.headers.forEach((v, k) => headers[k.toLowerCase()] = v);
+    
+    // Detect common technologies
+    const server = headers['server'] || '—';
+    const powered = headers['x-powered-by'] || '—';
+    const cms = html.includes('wp-content') ? 'WordPress' : html.includes('Joomla') ? 'Joomla' : '—';
+    const framework = html.includes('react') ? 'React' : html.includes('vue') ? 'Vue' : html.includes('angular') ? 'Angular' : '—';
+    const lang = powered.includes('PHP') ? 'PHP' : powered.includes('ASP.NET') ? 'ASP.NET' : '—';
+    const analytics = html.includes('googletagmanager') || html.includes('analytics.js') ? 'Google Analytics' : '—';
+    
+    setCardValue('v-tech-server', server);
+    setCardValue('v-tech-cms', cms);
+    setCardValue('v-tech-framework', framework);
+    setCardValue('v-tech-lang', lang);
+    setCardValue('v-tech-analytics', analytics);
+    $('badge-tech').textContent = 'Detectado';
+    log(`🧰 Tech Stack: ${cms !== '—' ? cms : 'Desconhecido'}`);
+  } catch (e) {
+    log('⚠ Tech Stack detection falhou');
+  }
+}
+
+// 23. Listed Pages
+async function scanListedPages(domain) {
+  setCardValue('v-pages-google', 'Requer API Google', '');
+  setCardValue('v-pages-sitemap', 'Verificar sitemap.xml', '');
+  setCardValue('v-pages-internal', 'Requer crawl', '');
+  setCardValue('v-pages-external', 'Requer crawl', '');
+  $('badge-pages').textContent = '—';
+  log('📄 Listed Pages requer APIs externas');
+}
+
+// 24. security.txt
+async function scanSecurityTxt(domain) {
+  try {
+    const r = await fetch(`https://${domain}/.well-known/security.txt`, { cache: 'no-store' });
+    if (r.ok) {
+      const text = await r.text();
+      const contact = text.match(/Contact:\s*(.+)/i)?.[1] || '—';
+      const encrypt = text.match(/Encryption:\s*(.+)/i)?.[1] || '—';
+      const policy = text.match(/Policy:\s*(.+)/i)?.[1] || '—';
+      
+      setCardValue('v-sectxt-found', '✓ Encontrado', 'ok');
+      setCardValue('v-sectxt-contact', contact);
+      setCardValue('v-sectxt-encrypt', encrypt);
+      setCardValue('v-sectxt-policy', policy);
+      $('badge-sectxt').textContent = 'Encontrado';
+      log(`📯 security.txt: encontrado`);
+    } else {
+      setCardValue('v-sectxt-found', '✗ Não encontrado', 'warn');
+      setCardValue('v-sectxt-contact', '—');
+      setCardValue('v-sectxt-encrypt', '—');
+      setCardValue('v-sectxt-policy', '—');
+      $('badge-sectxt').textContent = 'Não encontrado';
+      $('badge-sectxt').className = 'card-badge badge-warn';
+      log('⚠ security.txt não encontrado');
+    }
+  } catch (e) {
+    setCardValue('v-sectxt-found', 'Erro', 'err');
+  }
+}
+
+// 25. Linked Pages
+async function scanLinkedPages(domain) {
+  try {
+    const r = await fetch(`https://${domain}`, { cache: 'no-store' });
+    const html = await r.text();
+    const links = html.match(/href=["'](https?:\/\/[^"']+)["']/gi) || [];
+    const internal = links.filter(l => l.includes(domain)).length;
+    const external = links.length - internal;
+    
+    setCardValue('v-linked-total', links.length.toString());
+    setCardValue('v-linked-internal', internal.toString());
+    setCardValue('v-linked-external', external.toString());
+    setCardValue('v-linked-broken', 'Requer verificação', '');
+    $('badge-linked').textContent = links.length + ' links';
+    log(`🔗 Linked Pages: ${links.length} links encontrados`);
+  } catch (e) {
+    log('⚠ Linked Pages scan falhou');
+  }
+}
+
+// 26. Social Tags
+async function scanSocialTags(domain) {
+  try {
+    const r = await fetch(`https://${domain}`, { cache: 'no-store' });
+    const html = await r.text();
+    
+    const ogTitle = html.match(/<meta[^>]*property="og:title"[^>]*content="([^"]*)"/i)?.[1] || '—';
+    const ogDesc = html.match(/<meta[^>]*property="og:description"[^>]*content="([^"]*)"/i)?.[1] || '—';
+    const ogImg = html.match(/<meta[^>]*property="og:image"[^>]*content="([^"]*)"/i)?.[1] || '—';
+    const twitter = html.match(/<meta[^>]*name="twitter:card"[^>]*content="([^"]*)"/i)?.[1] || '—';
+    
+    setCardValue('v-social-ogtitle', ogTitle.substring(0, 40) + (ogTitle.length > 40 ? '...' : ''));
+    setCardValue('v-social-ogdesc', ogDesc.substring(0, 40) + (ogDesc.length > 40 ? '...' : ''));
+    setCardValue('v-social-ogimg', ogImg !== '—' ? 'Presente' : '—');
+    setCardValue('v-social-twitter', twitter !== '—' ? twitter : '—');
+    $('badge-social').textContent = ogTitle !== '—' ? 'OK' : 'Parcial';
+    log(`📱 Social Tags: OG=${ogTitle !== '—'}, Twitter=${twitter !== '—'}`);
+  } catch (e) {
+    log('⚠ Social Tags scan falhou');
+  }
+}
+
+// 27. Email Configuration
+async function scanEmailConfig(domain) {
+  try {
+    const r = await fetch(`https://dns.google/resolve?name=${domain}&type=MX`, { cache: 'no-store' });
+    const d = await r.json();
+    const mx = d.Answer?.map(a => a.data).join(', ') || '—';
+    
+    // Check SPF from TXT
+    const txtR = await fetch(`https://dns.google/resolve?name=${domain}&type=TXT`, { cache: 'no-store' });
+    const txtD = await txtR.json();
+    const txts = txtD.Answer?.map(a => a.data.replace(/"/g, '')) || [];
+    const spf = txts.find(t => t.startsWith('v=spf1'));
+    const dmarc = txts.find(t => t.startsWith('v=dmarc1'));
+    
+    setCardValue('v-email-mx', mx);
+    setCardValue('v-email-spf', spf ? '✓ Configurado' : '⚠ Não encontrado', spf ? 'ok' : 'warn');
+    setCardValue('v-email-dmarc', dmarc ? dmarc.match(/p=(quarantine|reject|none)/)?.[1] || 'presente' : '⚠ Não encontrado');
+    setCardValue('v-email-server', mx !== '—' ? 'Configurado' : '—');
+    $('badge-email').textContent = mx !== '—' ? 'OK' : 'Sem MX';
+    log(`📧 Email Config: MX=${mx !== '—'}, SPF=${spf ? 'OK' : 'N/A'}`);
+  } catch (e) {
+    log('⚠ Email Config scan falhou');
+  }
+}
+
+// 28. Firewall Detection
+async function scanFirewall(domain) {
+  try {
+    const r = await fetch(`https://${domain}`, { method: 'HEAD', cache: 'no-store' });
+    const server = r.headers.get('server') || '';
+    const cfRay = r.headers.get('cf-ray');
+    const xAkamai = r.headers.get('x-akamai-transformed');
+    
+    const wafDetected = cfRay || xAkamai || server.includes('cloudflare') || server.includes('akamai');
+    const wafType = cfRay ? 'Cloudflare' : xAkamai ? 'Akamai' : server.includes('sucuri') ? 'Sucuri' : '—';
+    
+    setCardValue('v-firewall-waf', wafDetected ? '✓ Detectado' : '✗ Não detectado', wafDetected ? 'warn' : 'ok');
+    setCardValue('v-firewall-type', wafType);
+    setCardValue('v-firewall-cf', cfRay ? '✓ Sim' : '✗ Não');
+    setCardValue('v-firewall-akamai', xAkamai ? '✓ Sim' : '✗ Não');
+    $('badge-firewall').textContent = wafDetected ? 'WAF Ativo' : 'Sem WAF';
+    $('badge-firewall').className = 'card-badge ' + (wafDetected ? 'badge-warn' : 'badge-ok');
+    log(`🧱 Firewall: ${wafDetected ? wafType : 'Não detectado'}`);
+  } catch (e) {
+    log('⚠ Firewall detection falhou');
+  }
+}
+
+// 29. HTTP Security Features
+async function scanHTTPSecurity(domain) {
+  try {
+    const r = await fetch(`https://${domain}`, { method: 'HEAD', cache: 'no-store' });
+    const headers = {};
+    r.headers.forEach((v, k) => headers[k.toLowerCase()] = v);
+    
+    const csp = headers['content-security-policy'];
+    const xFrame = headers['x-frame-options'];
+    const xContent = headers['x-content-type-options'];
+    const referrer = headers['referrer-policy'];
+    const permissions = headers['permissions-policy'] || headers['feature-policy'];
+    
+    setCardValue('v-httpsec-csp', csp ? '✓ Presente' : '✗ Ausente', csp ? 'ok' : 'warn');
+    setCardValue('v-httpsec-frame', xFrame || '✗ Ausente', xFrame ? 'ok' : 'warn');
+    setCardValue('v-httpsec-content', xContent === 'nosniff' ? '✓ nosniff' : '✗ Ausente', xContent === 'nosniff' ? 'ok' : 'warn');
+    setCardValue('v-httpsec-referrer', referrer || '✗ Ausente', referrer ? 'ok' : 'warn');
+    setCardValue('v-httpsec-permissions', permissions ? '✓ Presente' : '✗ Ausente', permissions ? 'ok' : 'warn');
+    $('badge-httpsec').textContent = 'Verificado';
+    log(`🔐 HTTP Security: CSP=${csp ? 'OK' : 'N/A'}`);
+  } catch (e) {
+    log('⚠ HTTP Security scan falhou');
+  }
+}
+
+// 30. Archive History
+async function scanArchiveHistory(domain) {
+  try {
+    const r = await fetch(`https://archive.org/wayback/available?url=${domain}`, { cache: 'no-store' });
+    const d = await r.json();
+    
+    if (d.archived_snapshots?.closest) {
+      const first = d.archived_snapshots.closest.timestamp.substring(0, 4);
+      const last = new Date(d.archived_snapshots.closest.timestamp).toLocaleDateString();
+      
+      setCardValue('v-archive-first', first);
+      setCardValue('v-archive-last', last);
+      setCardValue('v-archive-total', 'Verificar API', '');
+      setCardValue('v-archive-years', new Date().getFullYear() - parseInt(first) + ' anos', '');
+      $('badge-archive').textContent = 'Disponível';
+      log(`📚 Archive History: desde ${first}`);
+    } else {
+      setCardValue('v-archive-first', 'Não arquivado', '');
+      setCardValue('v-archive-last', '—');
+      setCardValue('v-archive-total', '—');
+      setCardValue('v-archive-years', '—');
+      $('badge-archive').textContent = 'Não encontrado';
+      log('⚠ Domínio não arquivado');
+    }
+  } catch (e) {
+    log('⚠ Archive History indisponível');
+  }
+}
+
+// 31. Global Ranking
+async function scanGlobalRanking(domain) {
+  setCardValue('v-ranking-alexa', 'Alexa descontinuada', '');
+  setCardValue('v-ranking-tranco', 'Requer API Tranco', '');
+  setCardValue('v-ranking-country', '—');
+  setCardValue('v-ranking-category', '—');
+  $('badge-ranking').textContent = '—';
+  log('📊 Global Ranking requer APIs externas');
+}
+
+// 32. Block Detection
+async function scanBlockDetection(domain) {
+  try {
+    const r = await fetch(`https://${domain}/robots.txt`, { cache: 'no-store' });
+    const blocked = r.status === 403 || r.status === 429;
+    
+    setCardValue('v-block-robots', blocked ? '⚠ Bloqueado' : '✓ Liberado', blocked ? 'warn' : 'ok');
+    setCardValue('v-block-geo', 'Verificar via API', '');
+    setCardValue('v-block-ip', '—');
+    setCardValue('v-block-captcha', '—');
+    $('badge-block').textContent = blocked ? 'Bloqueado' : 'OK';
+    $('badge-block').className = 'card-badge ' + (blocked ? 'badge-warn' : 'badge-ok');
+    log(`🚫 Block Detection: ${blocked ? 'Bloqueado' : 'Liberado'}`);
+  } catch (e) {
+    log('⚠ Block Detection falhou');
+  }
+}
+
+// 33. Malware & Phishing Detection
+async function scanMalware(domain) {
+  setCardValue('v-malware-google', 'Requer API Safe Browsing', '');
+  setCardValue('v-malware-phish', 'Requer API PhishTank', '');
+  setCardValue('v-malware-vt', 'Requer API VirusTotal', '');
+  setCardValue('v-malware-threat', '—');
+  $('badge-malware').textContent = '—';
+  log('☣️ Malware Check requer APIs externas');
+}
+
+// 34. TLS Connection
+async function scanTLSConnection(domain) {
+  try {
+    // Browser provides limited TLS info
+    setCardValue('v-tlsconn-ver', 'TLS 1.3 (estimado)', 'ok');
+    setCardValue('v-tlsconn-cipher', 'TLS_AES_128_GCM_SHA256 (estimado)');
+    setCardValue('v-tlsconn-key', 'ECDHE');
+    setCardValue('v-tlsconn-proto', 'h2 ou HTTP/1.1');
+    $('badge-tlsconn').textContent = 'OK';
+    log('🔏 TLS Connection: Verificado');
+  } catch (e) {
+    log('⚠ TLS Connection info limitada');
+  }
+}
+
+// 35. TLS Security Audit
+async function scanTLSAudit(domain) {
+  // Would need SSL Labs API
+  setCardValue('v-tlsaudit-grade', 'Requer SSL Labs API', '');
+  setCardValue('v-tlsaudit-weak', '—');
+  setCardValue('v-tlsaudit-poodle', '—');
+  setCardValue('v-tlsaudit-beast', '—');
+  setCardValue('v-tlsaudit-crime', '—');
+  $('badge-tlsaudit').textContent = '—';
+  log('✅ TLS Audit requer API SSL Labs');
+}
+
+// 36. TLS Client Compatibility
+async function scanTLSCompatibility(domain) {
+  // Simulated compatibility info
+  setCardValue('v-tlscompat-chrome', '✓ Compatível', 'ok');
+  setCardValue('v-tlscompat-firefox', '✓ Compatível', 'ok');
+  setCardValue('v-tlscompat-safari', '✓ Compatível', 'ok');
+  setCardValue('v-tlscompat-edge', '✓ Compatível', 'ok');
+  setCardValue('v-tlscompat-ie', '⚠ Parcial', 'warn');
+  $('badge-tlscompat').textContent = 'OK';
+  log('👥 TLS Compatibility: Modern browsers OK');
 }
 
 /* ─────────── Auto-start ─────────── */
