@@ -6,7 +6,7 @@
 [![Licença](https://img.shields.io/badge/licen%C3%A7a-MIT-blue)](LICENSE)
 [![Tecnologia](https://img.shields.io/badge/tech-HTML%20%2B%20JS%20puro-brightgreen)](https://seusite.com/net-inspector)
 
-**🌐 Demo Online:** [https://seusite.com/net-inspector](https://seusite.com/net-inspector)
+**🌐 Demo Online:** [https://netinspector.net/](https://netinspector.net)
 
 Uma ferramenta web moderna e elegante para análise detalhada da sua conexão de rede, provedor de internet (ISP), localização, latência, DNS e segurança.
 
