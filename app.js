@@ -2112,7 +2112,146 @@ async function scanTLSCompatibility(domain) {
   log('👥 TLS Compatibility: Modern browsers OK');
 }
 
+/* ─────────── Sistema de Navegação Unificado ─────────── */
+
+function setupMobileMenu() {
+  const toggleBtn = document.getElementById('mobile-menu-toggle');
+  const navMobile = document.getElementById('nav-mobile');
+  if (!toggleBtn || !navMobile) return;
+
+  toggleBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    const isHidden = navMobile.classList.contains('hidden');
+    if (isHidden) {
+      navMobile.classList.remove('hidden');
+      toggleBtn.setAttribute('aria-expanded', 'true');
+      toggleBtn.textContent = '✕';
+    } else {
+      navMobile.classList.add('hidden');
+      toggleBtn.setAttribute('aria-expanded', 'false');
+      toggleBtn.textContent = '☰';
+    }
+  });
+
+  // Fechar ao clicar fora do menu
+  document.addEventListener('click', e => {
+    if (!navMobile.classList.contains('hidden') && !navMobile.contains(e.target) && e.target !== toggleBtn) {
+      navMobile.classList.add('hidden');
+      toggleBtn.setAttribute('aria-expanded', 'false');
+      toggleBtn.textContent = '☰';
+    }
+  });
+
+  // Fechar automaticamente ao redimensionar para tela desktop
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 860 && !navMobile.classList.contains('hidden')) {
+      navMobile.classList.add('hidden');
+      toggleBtn.setAttribute('aria-expanded', 'false');
+      toggleBtn.textContent = '☰';
+    }
+  });
+}
+
+function renderHeader() {
+  const header = document.getElementById('main-header');
+  if (!header) return;
+
+  const page = (document.body && document.body.dataset && document.body.dataset.page) ? document.body.dataset.page : 'all';
+
+  // Configuração das rotas
+  const navItems = [
+    { id: 'all',    label: '🏠 Diagnóstico Completo', href: 'index.html', title: 'Diagnóstico Completo' },
+    { id: 'ip',     label: '🌐 Qual Meu IP?',        href: 'meu-ip.html', title: 'Qual é o Meu IP?' },
+    { id: 'domain', label: '🔍 Analisar Domínio',     href: 'domain.html', title: 'Análise de Domínio' }
+  ];
+
+  // Configuração do botão de ação contextual
+  let actionBtnHtml = '';
+  if (page === 'all') {
+    actionBtnHtml = `<button id="scan-btn" class="action-btn" onclick="runAll()">▶ Analisar</button>`;
+  } else if (page === 'ip') {
+    actionBtnHtml = `<a href="index.html" class="action-btn">Ver Diagnóstico Completo ↗</a>`;
+  } else if (page === 'domain') {
+    actionBtnHtml = `<a href="index.html" class="action-btn">← Diagnóstico de Rede</a>`;
+  }
+
+  // Links de navegação desktop
+  const desktopLinksHtml = navItems.map(item => {
+    const isActive = page === item.id;
+    return `<a href="${item.href}" class="nav-link ${isActive ? 'nav-active' : ''}">${item.label}</a>`;
+  }).join('');
+
+  // Links de navegação mobile
+  const mobileLinksHtml = navItems.map(item => {
+    const isActive = page === item.id;
+    return `<a href="${item.href}" class="nav-link-mobile ${isActive ? 'nav-active' : ''}">${item.label}</a>`;
+  }).join('');
+
+  // Breadcrumb Schema.org dinâmico
+  const currentItem = navItems.find(item => item.id === page) || navItems[0];
+  const canonicalUrl = page === 'all' ? 'https://netinspector.net/' : `https://netinspector.net/${currentItem.href}`;
+
+  const breadcrumbJson = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://netinspector.net/"
+      }
+    ]
+  };
+
+  if (page !== 'all') {
+    breadcrumbJson.itemListElement.push({
+      "@type": "ListItem",
+      "position": 2,
+      "name": currentItem.title,
+      "item": canonicalUrl
+    });
+  }
+
+  // Montagem do Header
+  header.innerHTML = `
+    <div class="header-container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">🛰️</div>
+        <div class="logo-text">
+          <h1>NET INSPECTOR</h1>
+          <p>Diagnóstico completo de conexão &amp; ISP</p>
+        </div>
+      </a>
+
+      <nav class="nav-desktop" aria-label="Navegação Principal">
+        ${desktopLinksHtml}
+      </nav>
+
+      ${actionBtnHtml}
+
+      <button id="mobile-menu-toggle" class="mobile-menu-toggle" aria-label="Abrir Menu de Navegação" aria-expanded="false">
+        ☰
+      </button>
+    </div>
+
+    <nav id="nav-mobile" class="nav-mobile hidden" aria-label="Menu Mobile">
+      ${mobileLinksHtml}
+    </nav>
+  `;
+
+  // Injeção do Breadcrumb Schema.org no DOM
+  const scriptTag = document.createElement('script');
+  scriptTag.type = 'application/ld+json';
+  scriptTag.textContent = JSON.stringify(breadcrumbJson);
+  header.appendChild(scriptTag);
+
+  // Inicialização de eventos do menu mobile
+  setupMobileMenu();
+}
+
 /* ─────────── Auto-start ─────────── */
+renderHeader();
 renderCards();
 startTimer();
 
@@ -2124,3 +2263,4 @@ if (currentPage !== 'domain') {
 // Global window exposure for inline onclick handlers
 window.runAll = runAll;
 window.scanDomain = scanDomain;
+window.renderHeader = renderHeader;

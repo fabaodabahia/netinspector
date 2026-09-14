@@ -111,16 +111,9 @@
   <!-- Script da Aplicação (defer para execução síncrona pós-DOM) -->
   <script src="./app.js" defer></script>
 </head>
-<body>
+<body data-page="all">
 
-<header>
-  <div class="logo-icon">🛰️</div>
-  <div>
-    <h1>NET INSPECTOR</h1>
-    <p>Diagnóstico completo de conexão &amp; ISP</p>
-  </div>
-  <button id="scan-btn" onclick="runAll()">▶ Analisar</button>
-</header>
+<header id="main-header"></header>
 
 <main>
   <!-- Hero -->
