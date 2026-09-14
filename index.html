@@ -1073,6 +1073,279 @@ function renderCards() {
   container.appendChild(fragment);
 }
 
+/* ─────────── API Manager ─────────── */
+const ApiManager = {
+  // In-flight promises e cache de sessão em memória
+  _cache: new Map(),
+  _cacheTtlMs: 60000, // 60s
+  DEFAULT_TIMEOUT_MS: 6000,
+
+  /**
+   * Limpa entradas expiradas do cache
+   */
+  _cleanup() {
+    const now = Date.now();
+    for (const [k, v] of this._cache.entries()) {
+      if (v.expiresAt && v.expiresAt < now) {
+        this._cache.delete(k);
+      }
+    }
+  },
+
+  /**
+   * Executa uma requisição com timeout e in-flight deduplication
+   * @param {string} key Chave única para o cache
+   * @param {Function} fetcher Função assíncrona que executa a requisição
+   * @param {boolean} useCache Se true, armazena e reutiliza o resultado durante o TTL
+   */
+  async _execute(key, fetcher, useCache = true) {
+    this._cleanup();
+    if (useCache && this._cache.has(key)) {
+      const entry = this._cache.get(key);
+      if (entry.promise) return entry.promise;
+      if (entry.data !== undefined && (!entry.expiresAt || entry.expiresAt > Date.now())) {
+        return entry.data;
+      }
+    }
+
+    const promise = (async () => {
+      try {
+        const result = await fetcher();
+        if (useCache) {
+          this._cache.set(key, {
+            data: result,
+            expiresAt: Date.now() + this._cacheTtlMs
+          });
+        }
+        return result;
+      } catch (err) {
+        // Remove do cache em caso de erro para permitir retry futuro
+        this._cache.delete(key);
+        throw err;
+      }
+    })();
+
+    if (useCache) {
+      this._cache.set(key, { promise, expiresAt: Date.now() + this._cacheTtlMs });
+    }
+
+    return promise;
+  },
+
+  /**
+   * Wrapper com AbortController timeout
+   */
+  async request(url, options = {}, timeoutMs = this.DEFAULT_TIMEOUT_MS) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const resp = await fetch(url, {
+        ...options,
+        signal: controller.signal
+      });
+      clearTimeout(timeoutId);
+      return resp;
+    } catch (err) {
+      clearTimeout(timeoutId);
+      throw err;
+    }
+  },
+
+  /**
+   * Requisição GET JSON com deduplicação e timeout
+   */
+  async getJson(url, options = {}, timeoutMs = this.DEFAULT_TIMEOUT_MS) {
+    const key = 'json:' + url;
+    return this._execute(key, async () => {
+      const resp = await this.request(url, { ...options, cache: 'no-store' }, timeoutMs);
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      return await resp.json();
+    });
+  },
+
+  /**
+   * Requisição GET Text/HTML com deduplicação e timeout
+   */
+  async getText(url, options = {}, timeoutMs = this.DEFAULT_TIMEOUT_MS) {
+    const key = 'text:' + url;
+    return this._execute(key, async () => {
+      const resp = await this.request(url, { ...options, cache: 'no-store' }, timeoutMs);
+      const text = await resp.text();
+      return {
+        ok: resp.ok,
+        status: resp.status,
+        headers: resp.headers,
+        text
+      };
+    });
+  },
+
+  /**
+   * Requisição HEAD com deduplicação de headers e timeout
+   */
+  async head(url, options = {}, timeoutMs = this.DEFAULT_TIMEOUT_MS) {
+    const key = 'head:' + url;
+    return this._execute(key, async () => {
+      const resp = await this.request(url, { ...options, method: 'HEAD', cache: 'no-store' }, timeoutMs);
+      const headers = {};
+      resp.headers.forEach((val, name) => {
+        headers[name.toLowerCase()] = val;
+      });
+      return {
+        ok: resp.ok,
+        status: resp.status,
+        statusText: resp.statusText,
+        headers,
+        getHeader: name => resp.headers.get(name) || headers[name.toLowerCase()] || null
+      };
+    });
+  },
+
+  /**
+   * DoH Resolver com fallback automático (Google DoH -> Cloudflare DoH) e 1 retry leve
+   */
+  async resolveDns(name, type = 'A') {
+    const key = `dns:${type}:${name}`;
+    return this._execute(key, async () => {
+      // 1. Google DNS (1 retry leve)
+      for (let attempt = 0; attempt < 2; attempt++) {
+        try {
+          const resp = await this.request(
+            `https://dns.google/resolve?name=${encodeURIComponent(name)}&type=${encodeURIComponent(type)}`,
+            { cache: 'no-store' },
+            4000
+          );
+          if (resp.ok) {
+            const data = await resp.json();
+            return {
+              provider: 'Google DNS',
+              status: data.Status,
+              answer: data.Answer || [],
+              raw: data
+            };
+          }
+        } catch (e) {
+          if (attempt === 1) break;
+        }
+      }
+
+      // 2. Fallback: Cloudflare DoH
+      try {
+        const cfResp = await this.request(
+          `https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(name)}&type=${encodeURIComponent(type)}`,
+          {
+            headers: { 'Accept': 'application/dns-json' },
+            cache: 'no-store'
+          },
+          4000
+        );
+        if (cfResp.ok) {
+          const cfData = await cfResp.json();
+          return {
+            provider: 'Cloudflare DNS',
+            status: cfData.Status,
+            answer: cfData.Answer || [],
+            raw: cfData
+          };
+        }
+      } catch (cfErr) {}
+
+      return { provider: null, status: -1, answer: [], raw: null };
+    });
+  },
+
+  /**
+   * Obtenção de IP e Geo com fallback transparente e Shape Matching estrito
+   */
+  async getClientIpInfo() {
+    const key = 'client:ipinfo';
+    return this._execute(key, async () => {
+      // Provedor Primário: ipapi.co
+      try {
+        const resp = await this.request(
+          'https://ipapi.co/json/?fields=ip,version,city,region,country_name,country_code,postal,latitude,longitude,timezone,utc_offset,org,asn,network,currency,in_eu,proxy,tor,language,connection_type',
+          { cache: 'no-store' },
+          6000
+        );
+        if (resp.ok) {
+          const d = await resp.json();
+          if (d && d.ip) return d;
+        }
+      } catch (e) {}
+
+      // Fallback 1: ip-api.com
+      try {
+        const resp2 = await this.request(
+          'https://ip-api.com/json/?fields=status,message,country,countryCode,region,regionName,city,zip,lat,lon,timezone,offset,isp,org,as,query',
+          { cache: 'no-store' },
+          6000
+        );
+        if (resp2.ok) {
+          const d2 = await resp2.json();
+          if (d2 && d2.status === 'success') {
+            const offsetHours = d2.offset ? Math.floor(d2.offset / 3600) : 0;
+            const utcSign = offsetHours >= 0 ? '+' : '-';
+            const utcStr = `${utcSign}${String(Math.abs(offsetHours)).padStart(2, '0')}00`;
+            const asnMatch = (d2.as || '').match(/^(AS\d+)/);
+            return {
+              ip: d2.query,
+              version: 'IPv4',
+              city: d2.city || '',
+              region: d2.regionName || d2.region || '',
+              country_name: d2.country || '',
+              country_code: d2.countryCode || '',
+              postal: d2.zip || '',
+              latitude: d2.lat || 0,
+              longitude: d2.lon || 0,
+              timezone: d2.timezone || '',
+              utc_offset: utcStr,
+              org: d2.org || d2.isp || '',
+              asn: asnMatch ? asnMatch[1] : (d2.as || ''),
+              network: d2.isp || '',
+              in_eu: false,
+              proxy: false,
+              tor: false,
+              connection_type: 'Banda Larga / Provedor'
+            };
+          }
+        }
+      } catch (e2) {}
+
+      // Fallback 2: api.ipify.org
+      try {
+        const resp3 = await this.request('https://api.ipify.org?format=json', { cache: 'no-store' }, 4000);
+        if (resp3.ok) {
+          const d3 = await resp3.json();
+          if (d3 && d3.ip) {
+            return {
+              ip: d3.ip,
+              version: 'IPv4',
+              city: '—',
+              region: '—',
+              country_name: 'Não determinado',
+              country_code: '',
+              postal: '—',
+              latitude: null,
+              longitude: null,
+              timezone: '—',
+              utc_offset: '',
+              org: '—',
+              asn: '—',
+              network: '—',
+              in_eu: false,
+              proxy: false,
+              tor: false,
+              connection_type: '—'
+            };
+          }
+        }
+      } catch (e3) {}
+
+      throw new Error('Todos os provedores de IP falharam');
+    }, false);
+  }
+};
+
 /* ─────────── Utilitários ─────────── */
 const $  = id => document.getElementById(id);
 const set = (id, val, cls) => {
@@ -1083,6 +1356,7 @@ const set = (id, val, cls) => {
 };
 const log = msg => {
   const el = $('log');
+  if (!el) return;
   const ts = new Date().toLocaleTimeString('pt-BR');
   el.textContent += `[${ts}] ${msg}\n`;
   el.scrollTop = el.scrollHeight;
@@ -1176,21 +1450,19 @@ async function measurePing() {
   for (const url of targets) {
     try {
       const t0 = performance.now();
-      await fetch(url + '?_=' + Date.now(), { mode: 'no-cors', cache: 'no-store' });
+      await ApiManager.request(url + '?_=' + Date.now(), { mode: 'no-cors', cache: 'no-store' }, 3000);
       pings.push(Math.round(performance.now() - t0));
     } catch {}
   }
   if (!pings.length) return null;
-  const avg = Math.round(pings.reduce((a,b)=>a+b,0)/pings.length);
+  const avg = Math.round(pings.reduce((a, b) => a + b, 0) / pings.length);
   return avg;
 }
 
-/* ─────────── IP público IPv4 via ipapi.co ─────────── */
+/* ─────────── IP público IPv4 via ApiManager ─────────── */
 async function fetchIPv4Info() {
   try {
-    const r = await fetch('https://ipapi.co/json/?fields=ip,version,city,region,country_name,country_code,postal,latitude,longitude,timezone,utc_offset,org,asn,network,currency,in_eu,proxy,tor,language,connection_type', { cache: 'no-store' });
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    const d = await r.json();
+    const d = await ApiManager.getClientIpInfo();
     log(`IPv4: ${d.ip}  ASN: ${d.asn}  ISP: ${d.org}`);
 
     // Hero
@@ -1198,7 +1470,7 @@ async function fetchIPv4Info() {
 
     // ISP
     const isp = d.org || '—';
-    set('v-isp', isp.replace(/^AS\d+\s+/,''), '');
+    set('v-isp', isp.replace(/^AS\d+\s+/, ''), '');
     set('v-org', d.org || '—', '');
     set('v-asn', d.asn || '—', 'accent');
     set('v-domain', d.network || '—', '');
@@ -1206,19 +1478,21 @@ async function fetchIPv4Info() {
     $('badge-isp').textContent = d.asn || '—';
 
     // Localização
-    set('v-country', `${d.country_name} (${d.country_code}) ${d.in_eu ? '🇪🇺' : ''}`, '');
+    set('v-country', `${d.country_name || '—'} (${d.country_code || '—'}) ${d.in_eu ? '🇪🇺' : ''}`, '');
     set('v-region', d.region || '—', '');
     set('v-city', d.city || '—', '');
     set('v-postal', d.postal || '—', '');
-    set('v-tz', `${d.timezone} (UTC${d.utc_offset ? d.utc_offset.slice(0,3)+':'+d.utc_offset.slice(3) : ''})`, '');
-    set('v-coords', `${d.latitude}, ${d.longitude}`, 'accent');
-    $('badge-loc').textContent = `${d.city || d.region || d.country_name}`;
+    set('v-tz', `${d.timezone || '—'} (UTC${d.utc_offset ? d.utc_offset.slice(0, 3) + ':' + d.utc_offset.slice(3) : ''})`, '');
+    set('v-coords', (d.latitude && d.longitude) ? `${d.latitude}, ${d.longitude}` : '—', 'accent');
+    $('badge-loc').textContent = `${d.city || d.region || d.country_name || '—'}`;
 
     // Mapa OpenStreetMap
     if (d.latitude && d.longitude) {
       const f = $('map-frame');
-      f.src = `https://www.openstreetmap.org/export/embed.html?bbox=${d.longitude-.15},${d.latitude-.1},${d.longitude+.15},${d.latitude+.1}&layer=mapnik&marker=${d.latitude},${d.longitude}`;
-      f.style.display = 'block';
+      if (f) {
+        f.src = `https://www.openstreetmap.org/export/embed.html?bbox=${d.longitude - .15},${d.latitude - .1},${d.longitude + .15},${d.latitude + .1}&layer=mapnik&marker=${d.latitude},${d.longitude}`;
+        f.style.display = 'block';
+      }
     }
 
     // IPv4
@@ -1237,15 +1511,30 @@ async function fetchIPv4Info() {
   } catch(e) {
     log('Erro ao buscar IPv4: ' + e.message);
     $('hero-ip').innerHTML = '<span style="color:var(--err)">Falha ao obter IP</span>';
+    set('v-isp', 'Erro de conexão', 'err');
+    set('v-org', '—', '');
+    set('v-asn', '—', '');
+    set('v-domain', '—', '');
+    set('v-nettype', '—', '');
+    set('v-ipv4', 'Não obtido', 'err');
+    set('v-country', '—', '');
+    set('v-region', '—', '');
+    set('v-city', '—', '');
+    set('v-postal', '—', '');
+    set('v-tz', '—', '');
+    set('v-coords', '—', '');
+    set('v-proxy', 'Não verificado', 'warn');
+    set('v-tor', 'Não verificado', 'warn');
+    $('badge-isp').textContent = '—';
+    $('badge-loc').textContent = '—';
     return null;
   }
 }
 
-/* ─────────── IPv6 via ipify ─────────── */
+/* ─────────── IPv6 via ApiManager ─────────── */
 async function fetchIPv6() {
   try {
-    const r = await fetch('https://api6.ipify.org?format=json', { cache: 'no-store' });
-    const d = await r.json();
+    const d = await ApiManager.getJson('https://api6.ipify.org?format=json', {}, 5000);
     set('v-ipv6', d.ip, 'accent');
     $('badge-ip').textContent = 'IPv4 + IPv6 ✓';
     log(`IPv6: ${d.ip}`);
@@ -1257,38 +1546,33 @@ async function fetchIPv6() {
   }
 }
 
-/* ─────────── DNS resolver ─────────── */
+/* ─────────── DNS resolver via ApiManager ─────────── */
 async function fetchDNSInfo() {
   try {
     const t0 = performance.now();
-    const r = await fetch('https://dns.google/resolve?name=whoami.akamai.net&type=A', { cache: 'no-store' });
-    const d = await r.json();
+    const res = await ApiManager.resolveDns('whoami.akamai.net', 'A');
     const elapsed = Math.round(performance.now() - t0);
-    const server = d.Answer?.[0]?.data || '—';
-    set('v-dns', server, 'accent');
-    set('v-dnslookup', elapsed + ' ms', elapsed < 100 ? 'ok' : elapsed < 300 ? 'warn' : 'err');
-    log(`DNS resolver: ${server}  Lookup: ${elapsed}ms`);
-  } catch {
-    // Fallback: Cloudflare DNS-over-HTTPS
-    try {
-      const r2 = await fetch('https://cloudflare-dns.com/dns-query?name=whoami.cloudflare&type=TXT', {
-        headers: { 'Accept': 'application/dns-json' }, cache: 'no-store'
-      });
-      const d2 = await r2.json();
-      const server = d2.Answer?.[0]?.data?.replace(/"/g,'') || '—';
-      set('v-dns', server + ' (via CF)', '');
-      log(`DNS (Cloudflare): ${server}`);
-    } catch {
+    const server = res.answer?.[0]?.data || '—';
+
+    if (server !== '—') {
+      const label = res.provider === 'Cloudflare DNS' ? server + ' (via CF)' : server;
+      set('v-dns', label, 'accent');
+      set('v-dnslookup', elapsed + ' ms', elapsed < 100 ? 'ok' : elapsed < 300 ? 'warn' : 'err');
+      log(`DNS resolver: ${label}  Lookup: ${elapsed}ms`);
+    } else {
       set('v-dns', 'Não determinado', 'warn');
+      set('v-dnslookup', elapsed + ' ms', 'warn');
     }
+  } catch {
+    set('v-dns', 'Não determinado', 'warn');
+    set('v-dnslookup', '—', 'warn');
   }
 }
 
-/* ─────────── HTTP/2 check ─────────── */
+/* ─────────── HTTP/2 check via ApiManager ─────────── */
 async function checkH2() {
   try {
-    const r = await fetch('https://www.google.com', { mode: 'no-cors', cache: 'no-store' });
-    // Se chegou aqui sem CORS block, HTTP/2 é suportado na stack
+    await ApiManager.request('https://www.google.com', { mode: 'no-cors', cache: 'no-store' }, 4000);
     set('v-h2', '✓ Suportado', 'ok');
   } catch {
     set('v-h2', 'Não verificável', 'warn');
@@ -1318,8 +1602,8 @@ async function runPing() {
 function startTimer() {
   const start = Date.now();
   setInterval(() => {
-    const s = Math.floor((Date.now()-start)/1000);
-    const m = Math.floor(s/60), sec = s%60;
+    const s = Math.floor((Date.now() - start) / 1000);
+    const m = Math.floor(s / 60), sec = s % 60;
     $('badge-log').textContent = `${m}m ${sec}s no ar`;
   }, 1000);
 }
@@ -1439,8 +1723,7 @@ async function scanDomain() {
 // 1. IP Info
 async function scanIPInfo(domain) {
   try {
-    const r = await fetch(`https://ipapi.co/${domain}/json/`, { cache: 'no-store' });
-    const d = await r.json();
+    const d = await ApiManager.getJson(`https://ipapi.co/${domain}/json/`, {}, 6000);
     setCardValue('v-ipinfo-ip', d.ip, 'accent');
     setCardValue('v-ipinfo-host', d.hostname);
     setCardValue('v-ipinfo-city', d.city);
@@ -1453,6 +1736,8 @@ async function scanIPInfo(domain) {
     $('badge-ipinfo').textContent = d.ip || '—';
     log(`📡 IP Info: ${d.ip}`);
   } catch (e) {
+    setCardValue('v-ipinfo-ip', 'Indisponível', 'warn');
+    $('badge-ipinfo').textContent = '—';
     log('⚠ IP Info indisponível');
   }
 }
@@ -1460,23 +1745,18 @@ async function scanIPInfo(domain) {
 // 2. SSL Chain
 async function scanSSL(domain) {
   try {
-    const r = await fetch(`https://api.sslmate.com/v1/ssl/check?domain=${encodeURIComponent(domain)}`, { cache: 'no-store' });
-    if (r.ok) {
-      const d = await r.json();
-      setCardValue('v-ssl-valid', d.valid ? '✓ Válido' : '✗ Inválido', d.valid ? 'ok' : 'err');
-      setCardValue('v-ssl-issuer', d.issuer?.organization || d.issuer?.commonName);
-      setCardValue('v-ssl-subject', d.subject?.commonName);
-      setCardValue('v-ssl-expires', d.notAfter ? new Date(d.notAfter).toLocaleDateString() : '—');
-      const days = d.notAfter ? Math.floor((new Date(d.notAfter) - new Date()) / 86400000) : null;
-      setCardValue('v-ssl-days', days !== null ? days + ' dias' : '—', days > 30 ? 'ok' : days > 7 ? 'warn' : 'err');
-      setCardValue('v-ssl-proto', d.protocolVersion || 'TLS 1.2/1.3');
-      setCardValue('v-ssl-cipher', d.cipherSuite || '—');
-      $('badge-ssl').textContent = d.valid ? 'Válido' : 'Inválido';
-      $('badge-ssl').className = 'card-badge ' + (d.valid ? 'badge-ok' : 'badge-err');
-      log(`🔐 SSL: ${d.valid ? 'Válido' : 'Inválido'}`);
-    } else {
-      throw new Error('API não disponível');
-    }
+    const d = await ApiManager.getJson(`https://api.sslmate.com/v1/ssl/check?domain=${encodeURIComponent(domain)}`, {}, 6000);
+    setCardValue('v-ssl-valid', d.valid ? '✓ Válido' : '✗ Inválido', d.valid ? 'ok' : 'err');
+    setCardValue('v-ssl-issuer', d.issuer?.organization || d.issuer?.commonName);
+    setCardValue('v-ssl-subject', d.subject?.commonName);
+    setCardValue('v-ssl-expires', d.notAfter ? new Date(d.notAfter).toLocaleDateString() : '—');
+    const days = d.notAfter ? Math.floor((new Date(d.notAfter) - new Date()) / 86400000) : null;
+    setCardValue('v-ssl-days', days !== null ? days + ' dias' : '—', days > 30 ? 'ok' : days > 7 ? 'warn' : 'err');
+    setCardValue('v-ssl-proto', d.protocolVersion || 'TLS 1.2/1.3');
+    setCardValue('v-ssl-cipher', d.cipherSuite || '—');
+    $('badge-ssl').textContent = d.valid ? 'Válido' : 'Inválido';
+    $('badge-ssl').className = 'card-badge ' + (d.valid ? 'badge-ok' : 'badge-err');
+    log(`🔐 SSL: ${d.valid ? 'Válido' : 'Inválido'}`);
   } catch (e) {
     setCardValue('v-ssl-valid', 'Não verificado', 'warn');
     $('badge-ssl').textContent = '—';
@@ -1484,21 +1764,23 @@ async function scanSSL(domain) {
   }
 }
 
-// 3. DNS Records
+// 3. DNS Records (Otimizado com consultas concorrentes via ApiManager.resolveDns)
 async function scanDNSRecords(domain) {
   try {
     const types = ['A', 'AAAA', 'MX', 'NS', 'CNAME'];
-    const results = {};
-    
-    for (const type of types) {
+    const dnsPromises = types.map(async type => {
       try {
-        const r = await fetch(`https://dns.google/resolve?name=${domain}&type=${type}`, { cache: 'no-store' });
-        const d = await r.json();
-        results[type] = d.Answer?.map(a => a.data).join(', ') || '—';
+        const res = await ApiManager.resolveDns(domain, type);
+        const text = res.answer?.map(a => a.data).join(', ') || '—';
+        return { type, text };
       } catch {
-        results[type] = '—';
+        return { type, text: '—' };
       }
-    }
+    });
+
+    const resultsArray = await Promise.all(dnsPromises);
+    const results = {};
+    resultsArray.forEach(r => { results[r.type] = r.text; });
     
     setCardValue('v-dns-a', results.A);
     setCardValue('v-dns-aaaa', results.AAAA);
@@ -1506,7 +1788,7 @@ async function scanDNSRecords(domain) {
     setCardValue('v-dns-ns', results.NS);
     setCardValue('v-dns-cname', results.CNAME);
     $('badge-dns').textContent = results.A !== '—' ? 'OK' : '—';
-    log(`📋 DNS Records coletados`);
+    log('📋 DNS Records coletados');
   } catch (e) {
     log('⚠ DNS Records indisponíveis');
   }
@@ -1515,7 +1797,6 @@ async function scanDNSRecords(domain) {
 // 4. Cookies
 async function scanCookies(domain) {
   try {
-    // Simulated cookie analysis (browser can only access own cookies)
     const cookies = document.cookie.split(';').filter(c => c.trim());
     setCardValue('v-cookies-total', cookies.length.toString());
     setCardValue('v-cookies-secure', 'Verificar headers', '');
@@ -1529,13 +1810,13 @@ async function scanCookies(domain) {
   }
 }
 
-// 5. Crawl Rules
+// 5. Crawl Rules (usa ApiManager.getText com deduplicação)
 async function scanCrawlRules(domain) {
   try {
     const url = `https://${domain}/robots.txt`;
-    const r = await fetch(url, { cache: 'no-store' });
-    if (r.ok) {
-      const text = await r.text();
+    const res = await ApiManager.getText(url, {}, 5000);
+    if (res.ok) {
+      const text = res.text;
       const disallow = (text.match(/Disallow:/gi) || []).length;
       const allow = (text.match(/Allow:/gi) || []).length;
       const sitemap = text.match(/Sitemap:\s*(.+)/i)?.[1] || '—';
@@ -1550,16 +1831,19 @@ async function scanCrawlRules(domain) {
       log('⚠ robots.txt não encontrado');
     }
   } catch (e) {
-    setCardValue('v-crawl-robots', 'Erro ao verificar', 'err');
+    setCardValue('v-crawl-robots', '⚠ Bloqueado (CORS)', 'warn');
+    setCardValue('v-crawl-sitemap', '—');
+    setCardValue('v-crawl-disallow', '—');
+    setCardValue('v-crawl-allow', '—');
+    $('badge-crawl').textContent = '—';
   }
 }
 
-// 6. Headers
+// 6. Headers (usa ApiManager.head com deduplicação)
 async function scanHeaders(domain) {
   try {
-    const r = await fetch(`https://${domain}`, { method: 'HEAD', cache: 'no-store' });
-    const headers = {};
-    r.headers.forEach((v, k) => headers[k.toLowerCase()] = v);
+    const res = await ApiManager.head(`https://${domain}`, {}, 5000);
+    const headers = res.headers;
     
     setCardValue('v-headers-server', headers['server'] || '—');
     setCardValue('v-headers-content', headers['content-type'] || '—');
@@ -1567,15 +1851,20 @@ async function scanHeaders(domain) {
     setCardValue('v-headers-xss', headers['x-xss-protection'] || '—');
     setCardValue('v-headers-csp', headers['content-security-policy'] ? 'Presente' : '—', headers['content-security-policy'] ? 'ok' : 'warn');
     $('badge-headers').textContent = 'OK';
-    log(`📝 Headers HTTP coletados`);
+    log('📝 Headers HTTP coletados');
   } catch (e) {
+    setCardValue('v-headers-server', '⚠ Indisponível (CORS)', 'warn');
+    setCardValue('v-headers-content', '—');
+    setCardValue('v-headers-xframe', '—');
+    setCardValue('v-headers-xss', '—');
+    setCardValue('v-headers-csp', '—');
+    $('badge-headers').textContent = '—';
     log('⚠ Headers indisponíveis (CORS)');
   }
 }
 
 // 7. Quality Metrics
 async function scanQualityMetrics(domain) {
-  // Simulated metrics (would need Lighthouse API for real values)
   setCardValue('v-quality-perf', 'N/A (requer API)', '');
   setCardValue('v-quality-access', 'N/A (requer API)', '');
   setCardValue('v-quality-best', 'N/A (requer API)', '');
@@ -1585,11 +1874,10 @@ async function scanQualityMetrics(domain) {
   log('⭐ Quality Metrics requer API externa');
 }
 
-// 8. Server Location
+// 8. Server Location (compartilha o mesmo cache com scanIPInfo)
 async function scanServerLocation(domain) {
   try {
-    const r = await fetch(`https://ipapi.co/${domain}/json/`, { cache: 'no-store' });
-    const d = await r.json();
+    const d = await ApiManager.getJson(`https://ipapi.co/${domain}/json/`, {}, 6000);
     setCardValue('v-srvloc-cont', '—');
     setCardValue('v-srvloc-country', d.country_name || '—');
     setCardValue('v-srvloc-city', d.city || '—');
@@ -1599,6 +1887,8 @@ async function scanServerLocation(domain) {
     $('badge-srvloc').textContent = d.city || '—';
     log(`🗺️ Server Location: ${d.city}, ${d.country_name}`);
   } catch (e) {
+    setCardValue('v-srvloc-country', 'Indisponível', 'warn');
+    $('badge-srvloc').textContent = '—';
     log('⚠ Server Location indisponível');
   }
 }
@@ -1620,8 +1910,8 @@ async function scanRedirectChain(domain) {
     const chain = [];
     let count = 0;
     
-    for (let i = 0; i < 10; i++) {
-      const r = await fetch(url, { method: 'HEAD', redirect: 'manual', cache: 'no-store' });
+    for (let i = 0; i < 5; i++) {
+      const r = await ApiManager.request(url, { method: 'HEAD', redirect: 'manual', cache: 'no-store' }, 4000);
       chain.push(url);
       if (r.status >= 300 && r.status < 400) {
         url = r.headers.get('location') || url;
@@ -1637,16 +1927,19 @@ async function scanRedirectChain(domain) {
     $('badge-redirect').textContent = count + ' redirects';
     log(`➡️ Redirect Chain: ${count} redirects`);
   } catch (e) {
+    setCardValue('v-redirect-count', '0');
+    setCardValue('v-redirect-final', `https://${domain}`);
+    setCardValue('v-redirect-chain', '⚠ Direto / Bloqueado por CORS');
+    $('badge-redirect').textContent = 'CORS';
     log('⚠ Redirect Chain indisponível (CORS)');
   }
 }
 
-// 11. TXT Records
+// 11. TXT Records via ApiManager.resolveDns
 async function scanTXTRecords(domain) {
   try {
-    const r = await fetch(`https://dns.google/resolve?name=${domain}&type=TXT`, { cache: 'no-store' });
-    const d = await r.json();
-    const txts = d.Answer?.map(a => a.data.replace(/"/g, '')) || [];
+    const res = await ApiManager.resolveDns(domain, 'TXT');
+    const txts = res.answer?.map(a => a.data.replace(/"/g, '')) || [];
     
     const spf = txts.find(t => t.startsWith('v=spf1')) || '—';
     const dmarc = txts.find(t => t.startsWith('v=dmarc1')) || '—';
@@ -1660,33 +1953,37 @@ async function scanTXTRecords(domain) {
     $('badge-txt').textContent = txts.length + ' records';
     log(`📜 TXT Records: ${txts.length} encontrados`);
   } catch (e) {
+    $('badge-txt').textContent = '—';
     log('⚠ TXT Records indisponíveis');
   }
 }
 
-// 12. Server Status
+// 12. Server Status (reutiliza HEAD com deduplicação)
 async function scanServerStatus(domain) {
   try {
     const t0 = performance.now();
-    const r = await fetch(`https://${domain}`, { method: 'HEAD', cache: 'no-store' });
+    const res = await ApiManager.head(`https://${domain}`, {}, 5000);
     const time = Math.round(performance.now() - t0);
     
-    setCardValue('v-status-code', r.status.toString(), r.status === 200 ? 'ok' : 'warn');
-    setCardValue('v-status-text', r.statusText || '—');
+    setCardValue('v-status-code', res.status.toString(), res.status === 200 ? 'ok' : 'warn');
+    setCardValue('v-status-text', res.statusText || '—');
     setCardValue('v-status-time', time + ' ms', time < 500 ? 'ok' : 'warn');
     setCardValue('v-status-uptime', '—');
-    $('badge-status').textContent = r.status === 200 ? 'Online' : 'Error';
-    $('badge-status').className = 'card-badge ' + (r.status === 200 ? 'badge-ok' : 'badge-warn');
-    log(`💚 Server Status: ${r.status} (${time}ms)`);
+    $('badge-status').textContent = res.status === 200 ? 'Online' : 'Status ' + res.status;
+    $('badge-status').className = 'card-badge ' + (res.status === 200 ? 'badge-ok' : 'badge-warn');
+    log(`💚 Server Status: ${res.status} (${time}ms)`);
   } catch (e) {
-    setCardValue('v-status-code', 'Erro', 'err');
-    log('⚠ Server indisponível');
+    setCardValue('v-status-code', '⚠ CORS/Off', 'warn');
+    setCardValue('v-status-text', 'Sem resposta CORS');
+    setCardValue('v-status-time', '—');
+    $('badge-status').textContent = 'Erro';
+    $('badge-status').className = 'card-badge badge-warn';
+    log('⚠ Server indisponível ou bloqueado por CORS');
   }
 }
 
 // 13. Open Ports
 async function scanOpenPorts(domain) {
-  // Browser cannot scan ports directly - would need external API
   setCardValue('v-ports-80', 'Verificar via API', '');
   setCardValue('v-ports-443', '✓ HTTPS', 'ok');
   setCardValue('v-ports-21', '—', '');
@@ -1706,14 +2003,14 @@ async function scanTraceroute(domain) {
   log('🛣️ Traceroute requer backend');
 }
 
-// 15. Carbon Footprint
+// 15. Carbon Footprint (reutiliza getText/head)
 async function scanCarbonFootprint(domain) {
   try {
-    const r = await fetch(`https://${domain}`, { cache: 'no-store' });
-    const size = r.headers.get('content-length') || '—';
+    const res = await ApiManager.getText(`https://${domain}`, {}, 5000);
+    const contentLength = res.headers ? res.headers.get('content-length') : null;
+    const size = contentLength || (res.text ? res.text.length.toString() : '—');
     const sizeKB = size !== '—' ? (parseInt(size) / 1024).toFixed(2) + ' KB' : '—';
     
-    // Rough CO2 estimate: ~0.0003g per KB
     const co2 = size !== '—' ? (parseInt(size) / 1024 * 0.0003).toFixed(4) + ' g' : '—';
     const annual = size !== '—' ? (parseInt(size) / 1024 * 0.0003 * 10000).toFixed(2) + ' kg' : '—';
     
@@ -1724,16 +2021,21 @@ async function scanCarbonFootprint(domain) {
     $('badge-carbon').textContent = 'Calculado';
     log(`🌱 Carbon Footprint: ${co2} por visita`);
   } catch (e) {
-    log('⚠ Carbon Footprint indisponível');
+    setCardValue('v-carbon-size', '—');
+    setCardValue('v-carbon-co2', '—');
+    setCardValue('v-carbon-annual', '—');
+    setCardValue('v-carbon-rating', 'Indisponível (CORS)', 'warn');
+    $('badge-carbon').textContent = '—';
+    log('⚠ Carbon Footprint indisponível (CORS)');
   }
 }
 
-// 16. Server Info
+// 16. Server Info (reutiliza HEAD com deduplicação)
 async function scanServerInfo(domain) {
   try {
-    const r = await fetch(`https://${domain}`, { method: 'HEAD', cache: 'no-store' });
-    const server = r.headers.get('server') || '—';
-    const powered = r.headers.get('x-powered-by') || '—';
+    const res = await ApiManager.head(`https://${domain}`, {}, 5000);
+    const server = res.headers['server'] || '—';
+    const powered = res.headers['x-powered-by'] || '—';
     
     setCardValue('v-srvinfo-type', server);
     setCardValue('v-srvinfo-powered', powered);
@@ -1743,6 +2045,9 @@ async function scanServerInfo(domain) {
     $('badge-srvinfo').textContent = server !== '—' ? 'OK' : '—';
     log(`🖥️ Server Info: ${server}`);
   } catch (e) {
+    setCardValue('v-srvinfo-type', '⚠ Indisponível (CORS)', 'warn');
+    setCardValue('v-srvinfo-powered', '—');
+    $('badge-srvinfo').textContent = '—';
     log('⚠ Server Info indisponível');
   }
 }
@@ -1750,19 +2055,14 @@ async function scanServerInfo(domain) {
 // 17. Whois Lookup
 async function scanWhois(domain) {
   try {
-    const r = await fetch(`https://whois-api.domain.com/api/${domain}`, { cache: 'no-store' });
-    if (r.ok) {
-      const d = await r.json();
-      setCardValue('v-whois-registrar', d.registrar || '—');
-      setCardValue('v-whois-created', d.createdDate || '—');
-      setCardValue('v-whois-expires', d.expiresDate || '—');
-      setCardValue('v-whois-updated', d.updatedDate || '—');
-      setCardValue('v-whois-status', d.status?.[0] || '—');
-      $('badge-whois').textContent = 'OK';
-      log(`📇 Whois: ${d.registrar || '—'}`);
-    } else {
-      throw new Error('API não disponível');
-    }
+    const d = await ApiManager.getJson(`https://whois-api.domain.com/api/${domain}`, {}, 5000);
+    setCardValue('v-whois-registrar', d.registrar || '—');
+    setCardValue('v-whois-created', d.createdDate || '—');
+    setCardValue('v-whois-expires', d.expiresDate || '—');
+    setCardValue('v-whois-updated', d.updatedDate || '—');
+    setCardValue('v-whois-status', d.status?.[0] || '—');
+    $('badge-whois').textContent = 'OK';
+    log(`📇 Whois: ${d.registrar || '—'}`);
   } catch (e) {
     setCardValue('v-whois-registrar', 'Requer API externa', '');
     $('badge-whois').textContent = '—';
@@ -1785,12 +2085,11 @@ async function scanDomainInfo(domain) {
   log(`🏷️ Domain Info: TLD=${tld}, length=${domain.length}`);
 }
 
-// 19. DNSSEC
+// 19. DNSSEC via ApiManager.resolveDns
 async function scanDNSSEC(domain) {
   try {
-    const r = await fetch(`https://dns.google/resolve?name=${domain}&type=DS`, { cache: 'no-store' });
-    const d = await r.json();
-    const hasDNSSEC = d.Answer && d.Answer.length > 0;
+    const res = await ApiManager.resolveDns(domain, 'DS');
+    const hasDNSSEC = res.answer && res.answer.length > 0;
     
     setCardValue('v-dnssec-enabled', hasDNSSEC ? '✓ Sim' : '✗ Não', hasDNSSEC ? 'ok' : 'warn');
     setCardValue('v-dnssec-ds', hasDNSSEC ? 'Presente' : '—');
@@ -1805,11 +2104,11 @@ async function scanDNSSEC(domain) {
   }
 }
 
-// 20. HSTS
+// 20. HSTS (reutiliza HEAD com deduplicação)
 async function scanHSTS(domain) {
   try {
-    const r = await fetch(`https://${domain}`, { method: 'HEAD', cache: 'no-store' });
-    const hsts = r.headers.get('strict-transport-security');
+    const res = await ApiManager.head(`https://${domain}`, {}, 5000);
+    const hsts = res.headers['strict-transport-security'];
     
     if (hsts) {
       const maxAge = hsts.match(/max-age=(\d+)/)?.[1] || '—';
@@ -1821,6 +2120,7 @@ async function scanHSTS(domain) {
       setCardValue('v-hsts-sub', sub);
       setCardValue('v-hsts-preload', preload);
       $('badge-hsts').textContent = 'Ativo';
+      $('badge-hsts').className = 'card-badge badge-ok';
       log(`🔒 HSTS: Ativo (max-age=${maxAge})`);
     } else {
       setCardValue('v-hsts-enabled', '✗ Inativo', 'warn');
@@ -1832,39 +2132,43 @@ async function scanHSTS(domain) {
       log('⚠ HSTS não configurado');
     }
   } catch (e) {
-    setCardValue('v-hsts-enabled', 'Não verificado', '');
+    setCardValue('v-hsts-enabled', '⚠ Indisponível (CORS)', 'warn');
+    setCardValue('v-hsts-age', '—');
+    setCardValue('v-hsts-sub', '—');
+    setCardValue('v-hsts-preload', '—');
     $('badge-hsts').textContent = '—';
   }
 }
 
-// 21. DNS Server
+// 21. DNS Server via ApiManager.resolveDns
 async function scanDNSServer(domain) {
   try {
     const t0 = performance.now();
-    const r = await fetch(`https://dns.google/resolve?name=${domain}&type=A`, { cache: 'no-store' });
+    const res = await ApiManager.resolveDns(domain, 'A');
     const time = Math.round(performance.now() - t0);
-    const d = await r.json();
     
     setCardValue('v-dnsserver-primary', '8.8.8.8 (Google)', 'accent');
     setCardValue('v-dnsserver-secondary', '8.8.4.4 (Google)', '');
-    setCardValue('v-dnsserver-resolver', 'dns.google');
+    setCardValue('v-dnsserver-resolver', res.provider || 'dns.google');
     setCardValue('v-dnsserver-time', time + ' ms', time < 100 ? 'ok' : 'warn');
     $('badge-dnsserver').textContent = 'OK';
     log(`🖧 DNS Server: ${time}ms response`);
   } catch (e) {
+    $('badge-dnsserver').textContent = 'Falha';
     log('⚠ DNS Server check falhou');
   }
 }
 
-// 22. Tech Stack
+// 22. Tech Stack (reutiliza HTML e headers via ApiManager)
 async function scanTechStack(domain) {
   try {
-    const r = await fetch(`https://${domain}`, { cache: 'no-store' });
-    const html = await r.text();
+    const res = await ApiManager.getText(`https://${domain}`, {}, 5000);
+    const html = res.text;
     const headers = {};
-    r.headers.forEach((v, k) => headers[k.toLowerCase()] = v);
+    if (res.headers) {
+      res.headers.forEach((v, k) => headers[k.toLowerCase()] = v);
+    }
     
-    // Detect common technologies
     const server = headers['server'] || '—';
     const powered = headers['x-powered-by'] || '—';
     const cms = html.includes('wp-content') ? 'WordPress' : html.includes('Joomla') ? 'Joomla' : '—';
@@ -1880,6 +2184,12 @@ async function scanTechStack(domain) {
     $('badge-tech').textContent = 'Detectado';
     log(`🧰 Tech Stack: ${cms !== '—' ? cms : 'Desconhecido'}`);
   } catch (e) {
+    setCardValue('v-tech-server', '⚠ Indisponível (CORS)', 'warn');
+    setCardValue('v-tech-cms', '—');
+    setCardValue('v-tech-framework', '—');
+    setCardValue('v-tech-lang', '—');
+    setCardValue('v-tech-analytics', '—');
+    $('badge-tech').textContent = '—';
     log('⚠ Tech Stack detection falhou');
   }
 }
@@ -1894,12 +2204,12 @@ async function scanListedPages(domain) {
   log('📄 Listed Pages requer APIs externas');
 }
 
-// 24. security.txt
+// 24. security.txt via ApiManager.getText
 async function scanSecurityTxt(domain) {
   try {
-    const r = await fetch(`https://${domain}/.well-known/security.txt`, { cache: 'no-store' });
-    if (r.ok) {
-      const text = await r.text();
+    const res = await ApiManager.getText(`https://${domain}/.well-known/security.txt`, {}, 5000);
+    if (res.ok) {
+      const text = res.text;
       const contact = text.match(/Contact:\s*(.+)/i)?.[1] || '—';
       const encrypt = text.match(/Encryption:\s*(.+)/i)?.[1] || '—';
       const policy = text.match(/Policy:\s*(.+)/i)?.[1] || '—';
@@ -1909,7 +2219,8 @@ async function scanSecurityTxt(domain) {
       setCardValue('v-sectxt-encrypt', encrypt);
       setCardValue('v-sectxt-policy', policy);
       $('badge-sectxt').textContent = 'Encontrado';
-      log(`📯 security.txt: encontrado`);
+      $('badge-sectxt').className = 'card-badge badge-ok';
+      log('📯 security.txt: encontrado');
     } else {
       setCardValue('v-sectxt-found', '✗ Não encontrado', 'warn');
       setCardValue('v-sectxt-contact', '—');
@@ -1920,15 +2231,19 @@ async function scanSecurityTxt(domain) {
       log('⚠ security.txt não encontrado');
     }
   } catch (e) {
-    setCardValue('v-sectxt-found', 'Erro', 'err');
+    setCardValue('v-sectxt-found', '⚠ Bloqueado (CORS)', 'warn');
+    setCardValue('v-sectxt-contact', '—');
+    setCardValue('v-sectxt-encrypt', '—');
+    setCardValue('v-sectxt-policy', '—');
+    $('badge-sectxt').textContent = '—';
   }
 }
 
-// 25. Linked Pages
+// 25. Linked Pages (reutiliza HTML via ApiManager)
 async function scanLinkedPages(domain) {
   try {
-    const r = await fetch(`https://${domain}`, { cache: 'no-store' });
-    const html = await r.text();
+    const res = await ApiManager.getText(`https://${domain}`, {}, 5000);
+    const html = res.text;
     const links = html.match(/href=["'](https?:\/\/[^"']+)["']/gi) || [];
     const internal = links.filter(l => l.includes(domain)).length;
     const external = links.length - internal;
@@ -1940,15 +2255,20 @@ async function scanLinkedPages(domain) {
     $('badge-linked').textContent = links.length + ' links';
     log(`🔗 Linked Pages: ${links.length} links encontrados`);
   } catch (e) {
+    setCardValue('v-linked-total', '—');
+    setCardValue('v-linked-internal', '—');
+    setCardValue('v-linked-external', '—');
+    setCardValue('v-linked-broken', '⚠ Indisponível (CORS)');
+    $('badge-linked').textContent = '—';
     log('⚠ Linked Pages scan falhou');
   }
 }
 
-// 26. Social Tags
+// 26. Social Tags (reutiliza HTML via ApiManager)
 async function scanSocialTags(domain) {
   try {
-    const r = await fetch(`https://${domain}`, { cache: 'no-store' });
-    const html = await r.text();
+    const res = await ApiManager.getText(`https://${domain}`, {}, 5000);
+    const html = res.text;
     
     const ogTitle = html.match(/<meta[^>]*property="og:title"[^>]*content="([^"]*)"/i)?.[1] || '—';
     const ogDesc = html.match(/<meta[^>]*property="og:description"[^>]*content="([^"]*)"/i)?.[1] || '—';
@@ -1962,21 +2282,25 @@ async function scanSocialTags(domain) {
     $('badge-social').textContent = ogTitle !== '—' ? 'OK' : 'Parcial';
     log(`📱 Social Tags: OG=${ogTitle !== '—'}, Twitter=${twitter !== '—'}`);
   } catch (e) {
+    setCardValue('v-social-ogtitle', '⚠ Indisponível (CORS)');
+    setCardValue('v-social-ogdesc', '—');
+    setCardValue('v-social-ogimg', '—');
+    setCardValue('v-social-twitter', '—');
+    $('badge-social').textContent = '—';
     log('⚠ Social Tags scan falhou');
   }
 }
 
-// 27. Email Configuration
+// 27. Email Configuration (consultas concorrentes via ApiManager.resolveDns)
 async function scanEmailConfig(domain) {
   try {
-    const r = await fetch(`https://dns.google/resolve?name=${domain}&type=MX`, { cache: 'no-store' });
-    const d = await r.json();
-    const mx = d.Answer?.map(a => a.data).join(', ') || '—';
-    
-    // Check SPF from TXT
-    const txtR = await fetch(`https://dns.google/resolve?name=${domain}&type=TXT`, { cache: 'no-store' });
-    const txtD = await txtR.json();
-    const txts = txtD.Answer?.map(a => a.data.replace(/"/g, '')) || [];
+    const [mxRes, txtRes] = await Promise.all([
+      ApiManager.resolveDns(domain, 'MX'),
+      ApiManager.resolveDns(domain, 'TXT')
+    ]);
+
+    const mx = mxRes.answer?.map(a => a.data).join(', ') || '—';
+    const txts = txtRes.answer?.map(a => a.data.replace(/"/g, '')) || [];
     const spf = txts.find(t => t.startsWith('v=spf1'));
     const dmarc = txts.find(t => t.startsWith('v=dmarc1'));
     
@@ -1987,17 +2311,18 @@ async function scanEmailConfig(domain) {
     $('badge-email').textContent = mx !== '—' ? 'OK' : 'Sem MX';
     log(`📧 Email Config: MX=${mx !== '—'}, SPF=${spf ? 'OK' : 'N/A'}`);
   } catch (e) {
+    $('badge-email').textContent = '—';
     log('⚠ Email Config scan falhou');
   }
 }
 
-// 28. Firewall Detection
+// 28. Firewall Detection (reutiliza HEAD com deduplicação)
 async function scanFirewall(domain) {
   try {
-    const r = await fetch(`https://${domain}`, { method: 'HEAD', cache: 'no-store' });
-    const server = r.headers.get('server') || '';
-    const cfRay = r.headers.get('cf-ray');
-    const xAkamai = r.headers.get('x-akamai-transformed');
+    const res = await ApiManager.head(`https://${domain}`, {}, 5000);
+    const server = res.headers['server'] || '';
+    const cfRay = res.headers['cf-ray'];
+    const xAkamai = res.headers['x-akamai-transformed'];
     
     const wafDetected = cfRay || xAkamai || server.includes('cloudflare') || server.includes('akamai');
     const wafType = cfRay ? 'Cloudflare' : xAkamai ? 'Akamai' : server.includes('sucuri') ? 'Sucuri' : '—';
@@ -2010,16 +2335,20 @@ async function scanFirewall(domain) {
     $('badge-firewall').className = 'card-badge ' + (wafDetected ? 'badge-warn' : 'badge-ok');
     log(`🧱 Firewall: ${wafDetected ? wafType : 'Não detectado'}`);
   } catch (e) {
+    setCardValue('v-firewall-waf', '⚠ Indisponível (CORS)', 'warn');
+    setCardValue('v-firewall-type', '—');
+    setCardValue('v-firewall-cf', '—');
+    setCardValue('v-firewall-akamai', '—');
+    $('badge-firewall').textContent = '—';
     log('⚠ Firewall detection falhou');
   }
 }
 
-// 29. HTTP Security Features
+// 29. HTTP Security Features (reutiliza HEAD com deduplicação)
 async function scanHTTPSecurity(domain) {
   try {
-    const r = await fetch(`https://${domain}`, { method: 'HEAD', cache: 'no-store' });
-    const headers = {};
-    r.headers.forEach((v, k) => headers[k.toLowerCase()] = v);
+    const res = await ApiManager.head(`https://${domain}`, {}, 5000);
+    const headers = res.headers;
     
     const csp = headers['content-security-policy'];
     const xFrame = headers['x-frame-options'];
@@ -2035,15 +2364,20 @@ async function scanHTTPSecurity(domain) {
     $('badge-httpsec').textContent = 'Verificado';
     log(`🔐 HTTP Security: CSP=${csp ? 'OK' : 'N/A'}`);
   } catch (e) {
+    setCardValue('v-httpsec-csp', '⚠ Indisponível (CORS)', 'warn');
+    setCardValue('v-httpsec-frame', '—');
+    setCardValue('v-httpsec-content', '—');
+    setCardValue('v-httpsec-referrer', '—');
+    setCardValue('v-httpsec-permissions', '—');
+    $('badge-httpsec').textContent = '—';
     log('⚠ HTTP Security scan falhou');
   }
 }
 
-// 30. Archive History
+// 30. Archive History via ApiManager.getJson
 async function scanArchiveHistory(domain) {
   try {
-    const r = await fetch(`https://archive.org/wayback/available?url=${domain}`, { cache: 'no-store' });
-    const d = await r.json();
+    const d = await ApiManager.getJson(`https://archive.org/wayback/available?url=${encodeURIComponent(domain)}`, {}, 6000);
     
     if (d.archived_snapshots?.closest) {
       const first = d.archived_snapshots.closest.timestamp.substring(0, 4);
@@ -2064,6 +2398,11 @@ async function scanArchiveHistory(domain) {
       log('⚠ Domínio não arquivado');
     }
   } catch (e) {
+    setCardValue('v-archive-first', 'Indisponível', 'warn');
+    setCardValue('v-archive-last', '—');
+    setCardValue('v-archive-total', '—');
+    setCardValue('v-archive-years', '—');
+    $('badge-archive').textContent = '—';
     log('⚠ Archive History indisponível');
   }
 }
@@ -2078,11 +2417,12 @@ async function scanGlobalRanking(domain) {
   log('📊 Global Ranking requer APIs externas');
 }
 
-// 32. Block Detection
+// 32. Block Detection (reutiliza robots.txt via ApiManager)
 async function scanBlockDetection(domain) {
   try {
-    const r = await fetch(`https://${domain}/robots.txt`, { cache: 'no-store' });
-    const blocked = r.status === 403 || r.status === 429;
+    const url = `https://${domain}/robots.txt`;
+    const res = await ApiManager.getText(url, {}, 5000);
+    const blocked = res.status === 403 || res.status === 429;
     
     setCardValue('v-block-robots', blocked ? '⚠ Bloqueado' : '✓ Liberado', blocked ? 'warn' : 'ok');
     setCardValue('v-block-geo', 'Verificar via API', '');
@@ -2092,6 +2432,11 @@ async function scanBlockDetection(domain) {
     $('badge-block').className = 'card-badge ' + (blocked ? 'badge-warn' : 'badge-ok');
     log(`🚫 Block Detection: ${blocked ? 'Bloqueado' : 'Liberado'}`);
   } catch (e) {
+    setCardValue('v-block-robots', '⚠ Bloqueado (CORS)', 'warn');
+    setCardValue('v-block-geo', '—');
+    setCardValue('v-block-ip', '—');
+    setCardValue('v-block-captcha', '—');
+    $('badge-block').textContent = '—';
     log('⚠ Block Detection falhou');
   }
 }
@@ -2109,7 +2454,6 @@ async function scanMalware(domain) {
 // 34. TLS Connection
 async function scanTLSConnection(domain) {
   try {
-    // Browser provides limited TLS info
     setCardValue('v-tlsconn-ver', 'TLS 1.3 (estimado)', 'ok');
     setCardValue('v-tlsconn-cipher', 'TLS_AES_128_GCM_SHA256 (estimado)');
     setCardValue('v-tlsconn-key', 'ECDHE');
@@ -2123,7 +2467,6 @@ async function scanTLSConnection(domain) {
 
 // 35. TLS Security Audit
 async function scanTLSAudit(domain) {
-  // Would need SSL Labs API
   setCardValue('v-tlsaudit-grade', 'Requer SSL Labs API', '');
   setCardValue('v-tlsaudit-weak', '—');
   setCardValue('v-tlsaudit-poodle', '—');
@@ -2135,7 +2478,6 @@ async function scanTLSAudit(domain) {
 
 // 36. TLS Client Compatibility
 async function scanTLSCompatibility(domain) {
-  // Simulated compatibility info
   setCardValue('v-tlscompat-chrome', '✓ Compatível', 'ok');
   setCardValue('v-tlscompat-firefox', '✓ Compatível', 'ok');
   setCardValue('v-tlscompat-safari', '✓ Compatível', 'ok');
