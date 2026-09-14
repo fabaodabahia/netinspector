@@ -3,6 +3,7 @@
 
 User-agent: *
 Allow: /
+Allow: /?skipgc=
 
 # Sitemap
 Sitemap: https://netinspector.net/sitemap.xml

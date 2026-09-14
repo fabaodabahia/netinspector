@@ -108,6 +108,10 @@
   }
   </script>
 
+  <!-- Analytics Privacy-First (Sem cookies / LGPD & GDPR compliant) -->
+  <script data-goatcounter="https://netinspector.goatcounter.com/count"
+          async src="//gc.zgo.at/count.js"></script>
+
   <!-- Script da Aplicação (defer para execução síncrona pós-DOM) -->
   <script src="./app.js" defer></script>
 </head>
@@ -132,6 +136,22 @@
     <a href="./domain.html" style="color:var(--color-text-secondary);text-decoration:none;border-bottom:1px dotted var(--color-border-hover);">Análise de Domínio</a> · 
     Fontes: ipapi.co · ipify.org · WebRTC API · Navigator API
   </p>
+  <p style="margin-top:6px;font-size:0.7rem;color:var(--color-text-muted);">
+    📊 Analytics privacy-first via GoatCounter (sem cookies) — 
+    <a href="https://netinspector.goatcounter.com/" target="_blank" rel="noopener" style="color:var(--color-accent);text-decoration:none;">Ver estatísticas públicas ↗</a> · 
+    <button id="analytics-optout-btn" onclick="toggleAnalytics()" class="optout-btn">Desativar Analytics</button>
+  </p>
+
+  <details class="privacy-details">
+    <summary>🔒 Como protegemos sua privacidade</summary>
+    <div class="privacy-content">
+      <p><strong>✅ Nenhum dado é armazenado</strong> — Todas as análises são processadas localmente no seu navegador.</p>
+      <p><strong>✅ Sem cookies</strong> — Não usamos cookies para rastreamento, publicidade ou identificação.</p>
+      <p><strong>✅ Analytics ético</strong> — Usamos GoatCounter (open-source, sem cookies, IP anonimizado com hash criptográfico irreversível).</p>
+      <p><strong>✅ Transparência total</strong> — <a href="https://netinspector.goatcounter.com/" target="_blank" rel="noopener">Veja as estatísticas públicas em tempo real</a>.</p>
+      <p><strong>✅ Opt-out simples</strong> — <button onclick="toggleAnalytics()" class="optout-btn inline">Desativar analytics</button> caso prefira não ser contabilizado.</p>
+    </div>
+  </details>
 </footer>
 
 <!-- Conteúdo SEO: Texto explicativo para indexação -->

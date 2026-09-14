@@ -234,13 +234,30 @@ Classificação:
 
 ### Compromisso de Privacidade
 
-✅ **Nenhum dado é armazenado** - Todas as informações são processadas localmente no seu navegador
+✅ **Nenhum dado é armazenado** - Todas as informações são processadas localmente no seu navegador  
+✅ **Sem cookies** - Nenhum dado de tracking ou sessão é persistido no seu dispositivo  
+✅ **Código aberto** - Todo o código é auditável e 100% client-side  
 
-✅ **Sem tracking** - Não há scripts de rastreamento ou analytics
+### 📊 Analytics Privacy-First
 
-✅ **Código aberto** - Todo o código está visível no arquivo HTML
+O NET INSPECTOR usa [GoatCounter](https://www.goatcounter.com/) para entender como a ferramenta é utilizada, sem comprometer sua privacidade:
 
-### Dados Coletados
+- ✅ **Sem cookies** - Nenhum dado é armazenado no seu navegador
+- ✅ **Sem tracking cross-site** - Não seguimos você em outros sites
+- ✅ **IP anonimizado** - Seu IP é hasheado e nunca armazenado em texto claro
+- ✅ **Sem banner de consentimento** - Não incomodamos você com popups
+- ✅ **Transparência total** - Você pode ver as estatísticas públicas em tempo real: **[https://netinspector.goatcounter.com/](https://netinspector.goatcounter.com/)**
+- ✅ **Opt-out fácil** - Use o botão "Desativar Analytics" no rodapé de qualquer página (adiciona `?skipgc=on`)
+
+**Dados coletados (totalmente anonimizados):**
+- Páginas visitadas (ex: `/meu-ip.html`, `/domain.html`)
+- Referrer (origem da navegação)
+- Navegador e sistema operacional (genéricos, não identificáveis)
+- Tamanho de tela (faixas amplas, não exato)
+
+Nenhum dado pessoal é coletado, armazenado ou compartilhado com terceiros.
+
+### Dados Coletados pelas Ferramentas
 
 As seguintes informações são temporariamente exibidas na tela (não são enviadas para nenhum servidor além das APIs necessárias):
 

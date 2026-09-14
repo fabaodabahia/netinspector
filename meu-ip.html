@@ -107,6 +107,10 @@
   }
   </script>
 
+  <!-- Analytics Privacy-First (Sem cookies / LGPD & GDPR compliant) -->
+  <script data-goatcounter="https://netinspector.goatcounter.com/count"
+          async src="//gc.zgo.at/count.js"></script>
+
   <!-- Script da Aplicação compartilhado -->
   <script src="./app.js" defer></script>
 </head>
@@ -197,6 +201,11 @@
     <a href="./index.html" style="color:var(--color-accent);text-decoration:none;">Diagnóstico Completo (45+ Scanners)</a> · 
     <a href="./domain.html" style="color:var(--color-accent);text-decoration:none;">Análise de Domínio</a> · 
     Fontes: ipapi.co · ipify.org · WebRTC API · Navigator API
+  </p>
+  <p style="margin-top:6px;font-size:0.7rem;color:var(--color-text-muted);">
+    📊 Analytics privacy-first via GoatCounter (sem cookies) — 
+    <a href="https://netinspector.goatcounter.com/" target="_blank" rel="noopener" style="color:var(--color-accent);text-decoration:none;">Ver estatísticas públicas ↗</a> · 
+    <button id="analytics-optout-btn" onclick="toggleAnalytics()" class="optout-btn">Desativar Analytics</button>
   </p>
 </footer>
 

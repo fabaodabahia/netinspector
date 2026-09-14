@@ -511,6 +511,95 @@ footer {
 .text-right      { text-align: right; }
 .hidden          { display: none !important; }
 
+/* ─────────── Privacy Details & Opt-out ─────────── */
+.privacy-details {
+  margin: var(--spacing-xl) auto 0;
+  max-width: 800px;
+  padding: var(--spacing-md);
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  text-align: left;
+}
+
+.privacy-details summary {
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--color-accent);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  outline: none;
+  transition: color var(--transition-base);
+}
+
+.privacy-details summary:hover {
+  color: #fff;
+}
+
+.privacy-content {
+  margin-top: var(--spacing-md);
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+.privacy-content p {
+  margin-bottom: var(--spacing-sm);
+}
+
+.privacy-content a {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+.optout-btn {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  border-radius: var(--radius-sm);
+  padding: 2px 8px;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.optout-btn:hover {
+  color: var(--color-text-primary);
+  border-color: var(--color-accent);
+  background: rgba(0, 212, 255, 0.08);
+}
+
+.optout-btn.inline {
+  display: inline-block;
+  margin-left: 4px;
+}
+
+/* Toast de Notificação */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-accent);
+  color: var(--color-text-primary);
+  padding: 12px 20px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  box-shadow: var(--shadow-glow);
+  z-index: 1000;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* ─────────── 7. Animações & Transições ─────────── */
 .spin {
   display: inline-block;

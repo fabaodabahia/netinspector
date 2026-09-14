@@ -2250,10 +2250,65 @@ function renderHeader() {
   setupMobileMenu();
 }
 
+/* ─────────── Privacy-First Analytics (GoatCounter) ─────────── */
+
+/**
+ * Exibe um toast temporário na tela
+ * @param {string} msg Mensagem a ser exibida
+ */
+function showToast(msg) {
+  let toast = document.getElementById('toast-notification');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'toast-notification';
+    toast.className = 'toast';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 3000);
+}
+
+/**
+ * Alterna o parâmetro ?skipgc=on para ativar/desativar analytics
+ */
+function toggleAnalytics() {
+  const url = new URL(window.location.href);
+  const isOptedOut = url.searchParams.get('skipgc') === 'on';
+
+  if (isOptedOut) {
+    url.searchParams.delete('skipgc');
+    showToast('Analytics ativado.');
+  } else {
+    url.searchParams.set('skipgc', 'on');
+    showToast('Analytics desativado para esta sessão.');
+  }
+
+  // Atualiza a URL e recarrega a página para respeitar a diretiva do GoatCounter
+  setTimeout(() => {
+    window.location.href = url.toString();
+  }, 600);
+}
+
+/**
+ * Atualiza o texto dos botões de opt-out com base na URL atual
+ */
+function updateOptOutButtons() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const isOptedOut = urlParams.get('skipgc') === 'on';
+  const buttons = document.querySelectorAll('.optout-btn, #analytics-optout-btn');
+  buttons.forEach(btn => {
+    btn.textContent = isOptedOut ? 'Ativar Analytics' : 'Desativar Analytics';
+  });
+}
+
 /* ─────────── Auto-start ─────────── */
 renderHeader();
 renderCards();
 startTimer();
+updateOptOutButtons();
 
 const currentPage = (document.body && document.body.dataset && document.body.dataset.page) ? document.body.dataset.page : 'all';
 if (currentPage !== 'domain') {
@@ -2264,3 +2319,5 @@ if (currentPage !== 'domain') {
 window.runAll = runAll;
 window.scanDomain = scanDomain;
 window.renderHeader = renderHeader;
+window.toggleAnalytics = toggleAnalytics;
+window.showToast = showToast;
