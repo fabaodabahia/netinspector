@@ -2,9 +2,9 @@
 
 **Diagnóstico completo de conexão & ISP**
 
-[![Status](https://img.shields.io/badge/status-pronto-success)](https://seusite.com/net-inspector)
+[![Status](https://img.shields.io/badge/status-pronto-success)](https://netinspector.net)
 [![Licença](https://img.shields.io/badge/licen%C3%A7a-MIT-blue)](LICENSE)
-[![Tecnologia](https://img.shields.io/badge/tech-HTML%20%2B%20JS%20puro-brightgreen)](https://seusite.com/net-inspector)
+[![Tecnologia](https://img.shields.io/badge/tech-HTML%20%2B%20JS%20puro-brightgreen)](https://netinspector.net)
 
 **🌐 Demo Online:** [https://netinspector.net/](https://netinspector.net)
 
@@ -116,7 +116,7 @@ O **NET INSPECTOR** é um utilitário de diagnóstico de rede que roda inteirame
 
 ### Demo Online
 
-Acesse diretamente a versão hospedada em: **[https://seusite.com/net-inspector](https://seusite.com/net-inspector)**
+Acesse diretamente a versão hospedada em: **[https://netinspector.net/](https://netinspector.net/)**
 
 ### Método 1: Abrir Localmente (Recomendado)
 
@@ -158,11 +158,11 @@ Depois acesse: `http://localhost:8000`
 
 ### Método 3: Hospedagem Web
 
-Faça upload do arquivo `index.html` para qualquer hospedagem estática:
+Faça upload dos arquivos para qualquer hospedagem estática:
+- Cloudflare Pages
 - GitHub Pages
 - Netlify
 - Vercel
-- Cloudflare Pages
 - Servidor Apache/Nginx
 
 ---
@@ -170,13 +170,17 @@ Faça upload do arquivo `index.html` para qualquer hospedagem estática:
 ## 📁 Estrutura do Projeto
 
 ```
-/workspace
-├── index.html      # Arquivo principal (HTML + CSS + JS)
-├── LICENSE         # Licença MIT
-└── README.md       # Este arquivo de documentação
+netinspector/
+├── index.html       (Hub - Diagnóstico Completo)
+├── meu-ip.html      (Landing Page - Meu IP)
+├── domain.html      (Landing Page - Análise de Domínio)
+├── style.css        (Design System)
+├── app.js           (Lógica da Aplicação)
+├── sitemap.xml      (Sitemap para SEO)
+├── robots.txt       (Regras para Crawlers)
+├── LICENSE          (Licença MIT)
+└── README.md        (Documentação)
 ```
-
-**Nota:** Todo o código está contido em um único arquivo `index.html` para facilitar a portabilidade.
 
 ---
 

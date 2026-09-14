@@ -673,13 +673,26 @@ function createCard(config) {
 }
 
 /**
- * Renderiza todos os cards configurados no container do grid
+ * Renderiza os cards configurados no container do grid
+ * Suporta filtragem condicional baseada no atributo data-page do <body>
  */
 function renderCards() {
   const container = document.getElementById('cards-container');
   if (!container) return;
   const fragment = document.createDocumentFragment();
-  CARDS_CONFIG.forEach(cfg => {
+
+  const page = (document.body && document.body.dataset && document.body.dataset.page) ? document.body.dataset.page : 'all';
+  let cardsToRender = CARDS_CONFIG;
+
+  if (page === 'ip') {
+    const allowedCards = ['isp', 'location', 'ip', 'diagnostic-log'];
+    cardsToRender = CARDS_CONFIG.filter(cfg => allowedCards.includes(cfg.id));
+  } else if (page === 'domain') {
+    const personalCards = ['isp', 'location', 'ip', 'latency', 'browser', 'security', 'connectivity'];
+    cardsToRender = CARDS_CONFIG.filter(cfg => !personalCards.includes(cfg.id));
+  }
+
+  cardsToRender.forEach(cfg => {
     fragment.appendChild(createCard(cfg));
   });
   container.appendChild(fragment);
@@ -2102,7 +2115,11 @@ async function scanTLSCompatibility(domain) {
 /* ─────────── Auto-start ─────────── */
 renderCards();
 startTimer();
-runAll();
+
+const currentPage = (document.body && document.body.dataset && document.body.dataset.page) ? document.body.dataset.page : 'all';
+if (currentPage !== 'domain') {
+  runAll();
+}
 
 // Global window exposure for inline onclick handlers
 window.runAll = runAll;

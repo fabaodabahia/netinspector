@@ -5,7 +5,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://seusite.com/sitemap.xml
+Sitemap: https://netinspector.net/sitemap.xml
 
 # Crawl-delay (opcional, para evitar sobrecarga)
 Crawl-delay: 1

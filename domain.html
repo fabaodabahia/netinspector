@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO Meta Tags -->
+  <title>Analisador de Domínio Online Gratuito — DNS, SSL, Whois, Segurança | NET INSPECTOR</title>
+  <meta name="description" content="Ferramenta online gratuita para análise completa de domínios. Verifique registros DNS (A, MX, TXT, NS), validade de certificado SSL/TLS, consulta Whois, cabeçalhos HTTP, portas e infraestrutura.">
+  <meta name="keywords" content="analisador de domínio, verificar dns de site, analisar segurança de site, checar ssl de domínio, whois lookup, verificar domínio, dns lookup, ssl checker, net inspector">
+  <meta name="author" content="NET INSPECTOR">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://netinspector.net/domain.html">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://netinspector.net/domain.html">
+  <meta property="og:title" content="Analisador de Domínio Online Gratuito — DNS, SSL, Whois, Segurança">
+  <meta property="og:description" content="Audite qualquer domínio ou site da web: registros DNS, certificados SSL/TLS, dados Whois, portas e segurança HTTP. 100% gratuito e client-side.">
+  <meta property="og:image" content="https://netinspector.net/og-image.png">
+
+  <!-- Twitter Card -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://netinspector.net/domain.html">
+  <meta property="twitter:title" content="Analisador de Domínio Online Gratuito — DNS, SSL, Whois, Segurança">
+  <meta property="twitter:description" content="Audite qualquer domínio ou site da web: registros DNS, certificados SSL/TLS, dados Whois, portas e segurança HTTP. 100% gratuito e client-side.">
+  <meta property="twitter:image" content="https://netinspector.net/og-image.png">
+
+  <!-- Google Fonts Optimization -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap">
+
+  <!-- Design System CSS -->
+  <link rel="stylesheet" href="./style.css">
+
+  <!-- Schema.org JSON-LD para IA e Search Engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "@id": "https://netinspector.net/domain.html#webapp",
+        "name": "Analisador de Domínio — NET INSPECTOR",
+        "alternateName": "Verificador de DNS, SSL e Whois",
+        "url": "https://netinspector.net/domain.html",
+        "description": "Ferramenta online gratuita para análise completa de domínios: registros DNS, certificados SSL/TLS, consulta Whois, cabeçalhos de segurança, portas e infraestrutura.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "featureList": "DNS Lookup (A, AAAA, MX, TXT, NS), Verificação de Certificado SSL, Consulta Whois, Port Scanner, Headers HTTP de Segurança, Auditoria TLS",
+        "keywords": "analisador de domínio, verificar dns de site, analisar segurança de site, checar ssl de domínio, whois lookup, verificar domínio",
+        "inLanguage": "pt-BR"
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://netinspector.net/domain.html#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Quantas informações a ferramenta analisa de um domínio?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "O NET INSPECTOR executa mais de 36 verificações em paralelo, incluindo resolução DNS profunda, cadeias de certificação SSL, dados Whois, cabeçalhos de segurança HTTP, portas comuns, firewall (WAF) e histórico de arquivamento."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "A análise é gratuita e sem limites?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sim! A análise é 100% gratuita, ilimitada e não requer cadastro ou instalação."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Os dados do domínio analisado são armazenados?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Não. Todas as requisições são processadas diretamente pelo navegador do cliente (client-side) utilizando APIs públicas e DoH. Nenhum histórico ou busca é gravado em servidores próprios."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Por que alguns campos aparecem como 'Indisponível (CORS)'?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Por ser uma ferramenta 100% client-side, algumas consultas HTTP diretas são restringidas pela política de CORS dos navegadores para evitar requisições não autorizadas entre origens."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "O que significam os headers de segurança HTTP?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Cabeçalhos HTTP como HSTS, CSP, X-Frame-Options e X-Content-Type-Options instruem o navegador sobre como proteger os visitantes contra ataques como clickjacking, injeção de scripts (XSS) e downgrade de conexão."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <!-- Script da Aplicação compartilhado -->
+  <script src="./app.js" defer></script>
+</head>
+<body data-page="domain">
+
+<header>
+  <div class="logo-icon">🛰️</div>
+  <div>
+    <a href="./index.html" style="text-decoration:none;color:inherit;">
+      <h1>NET INSPECTOR</h1>
+    </a>
+    <p>Analisador de Domínio &amp; Infraestrutura</p>
+  </div>
+  <div style="display:flex;align-items:center;gap:var(--spacing-sm);margin-left:auto;">
+    <a href="./index.html" class="btn" style="text-decoration:none;padding:7px 14px;background:transparent;border:1px solid var(--color-border);border-radius:var(--radius-md);color:var(--color-text-secondary);font-size:0.8rem;font-weight:500;transition:all var(--transition-base);">← Diagnóstico de Rede</a>
+    <a href="./meu-ip.html" class="btn" style="text-decoration:none;padding:7px 14px;background:transparent;border:1px solid var(--color-border);border-radius:var(--radius-md);color:var(--color-text-secondary);font-size:0.8rem;font-weight:500;transition:all var(--transition-base);">Qual meu IP? ↗</a>
+  </div>
+</header>
+
+<main>
+  <!-- Hero Section -->
+  <div class="hero">
+    <div class="hero-label">Diagnóstico de Segurança, DNS e SSL</div>
+    <h1 style="font-size:clamp(1.5rem, 4vw, 2.3rem);color:var(--color-text-primary);margin-bottom:var(--spacing-xs);font-weight:700;">
+      Analisador de Domínio Online Gratuito
+    </h1>
+    <p style="font-size:0.95rem;color:var(--color-text-secondary);max-width:680px;margin:0 auto;">
+      Inspecione a infraestrutura completa de qualquer site: registros DNS, certificado SSL/TLS, dados Whois, cabeçalhos de segurança HTTP, portas e tecnologias em tempo real.
+    </p>
+  </div>
+
+  <!-- Grid de Cards Filtrada (Input de Domínio + 36 Scanners + Log) -->
+  <div class="grid" id="cards-container"></div>
+
+  <!-- Artigo Rico e Otimizado para SEO -->
+  <article style="max-width:960px;margin:var(--spacing-2xl) auto 0;padding:var(--spacing-xl);background:var(--color-bg-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);line-height:1.75;color:var(--color-text-secondary);">
+    <h2 style="font-size:1.4rem;color:var(--color-text-primary);margin-bottom:var(--spacing-md);display:flex;align-items:center;gap:var(--spacing-sm);">
+      <span>🔍</span> O que é uma Análise de Domínio?
+    </h2>
+    <p style="margin-bottom:var(--spacing-md);">
+      A <strong>análise de domínio</strong> é um procedimento técnico de auditoria que investiga todos os aspectos públicos da presença digital de um site ou servidor na internet. Ela abrange desde o roteamento básico de tráfego (DNS) até camadas críticas de criptografia (SSL/TLS), políticas de correio eletrônico (SPF, DKIM, DMARC) e cabeçalhos de segurança que protegem os visitantes contra ataques virtuais.
+    </p>
+    <p style="margin-bottom:var(--spacing-xl);">
+      Seja para desenvolvedores depurando configurações de servidores, analistas de cibersegurança auditando vulnerabilidades ou proprietários de sites verificando a integridade de seus serviços, o <strong>NET INSPECTOR</strong> executa mais de 36 testes em paralelo diretamente pelo navegador, sem necessidade de instalar utilitários de linha de comando como <code>dig</code>, <code>nslookup</code>, <code>whois</code> ou <code>nmap</code>.
+    </p>
+
+    <h2 style="font-size:1.4rem;color:var(--color-text-primary);margin-bottom:var(--spacing-md);display:flex;align-items:center;gap:var(--spacing-sm);">
+      <span>🌐</span> Como verificar os registros DNS de um site?
+    </h2>
+    <p style="margin-bottom:var(--spacing-md);">
+      O <strong>Domain Name System (DNS)</strong> é a agenda telefônica da internet, convertendo nomes de domínios memorizáveis (como <code>google.com</code>) em endereços numéricos IP legíveis por máquinas. Nossa ferramenta consulta resoluções autoritativas via <em>DNS-over-HTTPS (DoH)</em> para examinar múltiplos tipos de registros essenciais:
+    </p>
+    <ul style="margin-bottom:var(--spacing-xl);padding-left:var(--spacing-lg);">
+      <li style="margin-bottom:6px;"><strong>Registros A e AAAA:</strong> Mapeiam o domínio para os servidores IPv4 e IPv6 de hospedagem.</li>
+      <li style="margin-bottom:6px;"><strong>Registros MX (Mail Exchange):</strong> Indicam os servidores responsáveis por receber e-mails no domínio.</li>
+      <li style="margin-bottom:6px;"><strong>Registros NS (Name Server):</strong> Identificam quais servidores autoritativos hospedam as zonas DNS do site (ex: Cloudflare, Route 53).</li>
+      <li style="margin-bottom:6px;"><strong>Registros TXT:</strong> Guardam chaves de verificação de propriedade e regras vitais de combate a spam e phishing, como <strong>SPF</strong> e <strong>DMARC</strong>.</li>
+      <li><strong>Registros CNAME:</strong> Criam pseudônimos ou redirecionamentos canônicos para outros nomes de host.</li>
+    </ul>
+
+    <h2 style="font-size:1.4rem;color:var(--color-text-primary);margin-bottom:var(--spacing-md);display:flex;align-items:center;gap:var(--spacing-sm);">
+      <span>🔐</span> Por que verificar o certificado SSL/TLS de um domínio?
+    </h2>
+    <p style="margin-bottom:var(--spacing-md);">
+      O protocolo <strong>HTTPS</strong> garante que toda a comunicação entre o navegador do usuário e o servidor web permaneça criptografada, impedindo interceptações por terceiros (ataques Man-in-the-Middle). Auditar o certificado SSL/TLS permite atestar:
+    </p>
+    <p style="margin-bottom:var(--spacing-xl);">
+      1) A <strong>validade temporal</strong> do certificado, prevenindo erros de expiração que bloqueiam os visitantes com avisos de segurança alarmantes; 2) A <strong>cadeia de confiança (Certificate Authority)</strong>, assegurando que o certificado foi emitido por uma autoridade reconhecida mundialmente; e 3) O suporte a versões criptográficas modernas, como <strong>TLS 1.2 e TLS 1.3</strong>, isolando cifras obsoletas suscetíveis a vulnerabilidades históricas (como POODLE ou BEAST).
+    </p>
+
+    <h2 style="font-size:1.4rem;color:var(--color-text-primary);margin-bottom:var(--spacing-md);display:flex;align-items:center;gap:var(--spacing-sm);">
+      <span>📋</span> O que é Whois e para que serve?
+    </h2>
+    <p style="margin-bottom:var(--spacing-md);">
+      O <strong>Whois</strong> é um protocolo padronizado que permite consultar os bancos de dados públicos dos registradores de domínios (como Registro.br, Verisign e ICANN). Através dele, é possível descobrir a data em que o domínio foi registrado pela primeira vez, sua última data de renovação e a data exata de expiração.
+    </p>
+    <p style="margin-bottom:var(--spacing-xl);">
+      Essas informações são cruciais para monitorar a antiguidade de um site (domínios mais antigos transmitem maior autoridade para motores de busca), conferir o status do domínio e planejar a renovação contratual antes do congelamento ou leilão do domínio.
+    </p>
+
+    <h2 style="font-size:1.4rem;color:var(--color-text-primary);margin-bottom:var(--spacing-md);display:flex;align-items:center;gap:var(--spacing-sm);">
+      <span>❓</span> Perguntas Frequentes sobre Análise de Domínio (FAQ)
+    </h2>
+
+    <div style="display:flex;flex-direction:column;gap:var(--spacing-md);">
+      <div style="padding:var(--spacing-md);background:var(--color-bg-primary);border:1px solid var(--color-border);border-radius:var(--radius-md);">
+        <strong style="color:var(--color-text-primary);display:block;margin-bottom:var(--spacing-xs);">Quantas informações a ferramenta analisa de um domínio?</strong>
+        <p style="font-size:0.9rem;margin:0;">O NET INSPECTOR executa mais de 36 verificações em paralelo, incluindo resolução DNS profunda, cadeias de certificação SSL, dados Whois, cabeçalhos de segurança HTTP, portas comuns, firewall (WAF) e histórico de arquivamento.</p>
+      </div>
+
+      <div style="padding:var(--spacing-md);background:var(--color-bg-primary);border:1px solid var(--color-border);border-radius:var(--radius-md);">
+        <strong style="color:var(--color-text-primary);display:block;margin-bottom:var(--spacing-xs);">A análise é gratuita e sem limites?</strong>
+        <p style="font-size:0.9rem;margin:0;">Sim! A ferramenta é 100% gratuita, sem limite diário de consultas e não requer cadastro ou fornecimento de e-mail.</p>
+      </div>
+
+      <div style="padding:var(--spacing-md);background:var(--color-bg-primary);border:1px solid var(--color-border);border-radius:var(--radius-md);">
+        <strong style="color:var(--color-text-primary);display:block;margin-bottom:var(--spacing-xs);">Os dados do domínio analisado são armazenados?</strong>
+        <p style="font-size:0.9rem;margin:0;">Não. Todas as requisições são processadas diretamente pelo navegador do cliente (client-side) utilizando APIs públicas e DoH. Nenhum histórico ou busca é gravado em servidores próprios.</p>
+      </div>
+
+      <div style="padding:var(--spacing-md);background:var(--color-bg-primary);border:1px solid var(--color-border);border-radius:var(--radius-md);">
+        <strong style="color:var(--color-text-primary);display:block;margin-bottom:var(--spacing-xs);">Por que alguns campos aparecem como "Indisponível (CORS)"?</strong>
+        <p style="font-size:0.9rem;margin:0;">Por ser uma ferramenta 100% client-side, algumas consultas HTTP diretas são restringidas pela política de CORS dos navegadores para evitar requisições não autorizadas entre origens.</p>
+      </div>
+
+      <div style="padding:var(--spacing-md);background:var(--color-bg-primary);border:1px solid var(--color-border);border-radius:var(--radius-md);">
+        <strong style="color:var(--color-text-primary);display:block;margin-bottom:var(--spacing-xs);">O que significam os headers de segurança HTTP?</strong>
+        <p style="font-size:0.9rem;margin:0;">Cabeçalhos HTTP como HSTS, CSP, X-Frame-Options e X-Content-Type-Options instruem o navegador sobre como proteger os visitantes contra ataques como clickjacking, injeção de scripts (XSS) e downgrade de conexão.</p>
+      </div>
+    </div>
+
+    <!-- CTA para o Hub Principal e Meu IP -->
+    <div style="margin-top:var(--spacing-2xl);padding:var(--spacing-lg);background:linear-gradient(135deg, rgba(0,212,255,0.08), rgba(124,58,237,0.08));border:1px solid var(--color-border-hover);border-radius:var(--radius-md);text-align:center;">
+      <h3 style="color:var(--color-text-primary);margin-bottom:var(--spacing-xs);font-size:1.1rem;">Quer testar a sua própria conexão de internet?</h3>
+      <p style="font-size:0.9rem;margin-bottom:var(--spacing-md);color:var(--color-text-secondary);">Descubra seu IP público, velocidade de latência com ping em milissegundos, informações do seu provedor e vazamento de WebRTC.</p>
+      <div style="display:flex;justify-content:center;gap:var(--spacing-md);flex-wrap:wrap;">
+        <a href="./meu-ip.html" class="btn" style="display:inline-block;text-decoration:none;padding:10px 20px;background:var(--color-bg-surface);border:1px solid var(--color-border);color:var(--color-text-primary);border-radius:var(--radius-md);font-weight:600;font-size:0.88rem;">Descobrir Meu IP 📍</a>
+        <a href="./index.html" class="btn" style="display:inline-block;text-decoration:none;padding:10px 22px;background:var(--gradient-accent);color:var(--color-bg-primary);border-radius:var(--radius-md);font-weight:700;font-size:0.88rem;box-shadow:var(--shadow-glow);">Diagnóstico Completo de Rede 🚀</a>
+      </div>
+    </div>
+  </article>
+</main>
+
+<footer>
+  <p>NET INSPECTOR · Diagnóstico de Domínio e Conexão 100% Client-Side · Nenhum dado é registrado</p>
+  <p style="margin-top:4px">
+    <a href="./index.html" style="color:var(--color-accent);text-decoration:none;">Diagnóstico Completo</a> · 
+    <a href="./meu-ip.html" style="color:var(--color-accent);text-decoration:none;">Qual é o Meu IP?</a> · 
+    Fontes: Google DNS · Cloudflare DoH · WebRTC API · Navigator API
+  </p>
+</footer>
+
+</body>
+</html>
