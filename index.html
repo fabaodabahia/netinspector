@@ -377,727 +377,7 @@
     <div id="hero-ip"><span class="spin"></span></div>
   </div>
 
-  <div class="grid">
-
-    <!-- Card: ISP / ASN -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">🏢</span>
-        <span class="card-title">ISP &amp; ASN</span>
-        <span class="card-badge badge-info" id="badge-isp">—</span>
-      </div>
-      <div class="card-body" id="body-isp">
-        <div class="row"><span class="row-label">Provedor</span><span class="row-value" id="v-isp"><span class="spin"></span></span></div>
-        <div class="row"><span class="row-label">Organização</span><span class="row-value" id="v-org">—</span></div>
-        <div class="row"><span class="row-label">ASN</span><span class="row-value accent" id="v-asn">—</span></div>
-        <div class="row"><span class="row-label">Domínio</span><span class="row-value" id="v-domain">—</span></div>
-        <div class="row"><span class="row-label">Tipo de rede</span><span class="row-value" id="v-nettype">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: Localização -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">📍</span>
-        <span class="card-title">Localização</span>
-        <span class="card-badge badge-info" id="badge-loc">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">País</span><span class="row-value" id="v-country">—</span></div>
-        <div class="row"><span class="row-label">Região</span><span class="row-value" id="v-region">—</span></div>
-        <div class="row"><span class="row-label">Cidade</span><span class="row-value" id="v-city">—</span></div>
-        <div class="row"><span class="row-label">CEP / Postal</span><span class="row-value" id="v-postal">—</span></div>
-        <div class="row"><span class="row-label">Fuso horário</span><span class="row-value" id="v-tz">—</span></div>
-        <div class="row"><span class="row-label">Coordenadas</span><span class="row-value accent" id="v-coords">—</span></div>
-        <iframe id="map-frame" style="display:none" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
-      </div>
-    </div>
-
-    <!-- Card: IPs -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">🌐</span>
-        <span class="card-title">Endereços IP</span>
-        <span class="card-badge badge-info" id="badge-ip">IPv4</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">IPv4 público</span><span class="row-value accent" id="v-ipv4">—</span></div>
-        <div class="row"><span class="row-label">IPv6 público</span><span class="row-value accent" id="v-ipv6"><span class="spin"></span></span></div>
-        <div class="row"><span class="row-label">IP local (LAN)</span><span class="row-value" id="v-local">—</span></div>
-        <div class="row"><span class="row-label">IPv6 local</span><span class="row-value" id="v-local6">—</span></div>
-        <div class="row"><span class="row-label">WebRTC leak</span><span class="row-value" id="v-webrtc">testando…</span></div>
-        <p class="webrtc-note">⚠ IPs locais via WebRTC. Se aparecer o IPv4 público aqui, pode indicar vazamento de VPN.</p>
-      </div>
-    </div>
-
-    <!-- Card: Latência e DNS -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">⚡</span>
-        <span class="card-title">Latência &amp; DNS</span>
-        <span class="card-badge" id="badge-ping">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">Ping HTTP</span><span class="row-value" id="v-ping">medindo…</span></div>
-        <div class="latency-bar-wrap">
-          <div style="font-size:.7rem;color:var(--muted)">Qualidade</div>
-          <div class="latency-bar-bg"><div class="latency-bar-fill" id="ping-bar"></div></div>
-        </div>
-        <div class="row" style="margin-top:12px"><span class="row-label">Servidor DNS</span><span class="row-value" id="v-dns">—</span></div>
-        <div class="row"><span class="row-label">DNS lookup</span><span class="row-value" id="v-dnslookup">—</span></div>
-        <div class="row"><span class="row-label">HTTPS suporte</span><span class="row-value ok">✓ Sim</span></div>
-        <div class="row"><span class="row-label">HTTP/2</span><span class="row-value" id="v-h2">verificando…</span></div>
-      </div>
-    </div>
-
-    <!-- Card: Navegador -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">💻</span>
-        <span class="card-title">Navegador &amp; Dispositivo</span>
-      </div>
-      <div class="card-body" id="body-ua">
-        <div class="row"><span class="row-label">User-Agent</span><span class="row-value" id="v-ua" style="font-size:.65rem">—</span></div>
-        <div class="row"><span class="row-label">Plataforma</span><span class="row-value" id="v-platform">—</span></div>
-        <div class="row"><span class="row-label">Idioma</span><span class="row-value" id="v-lang">—</span></div>
-        <div class="row"><span class="row-label">Cores suporte</span><span class="row-value" id="v-colors">—</span></div>
-        <div class="row"><span class="row-label">Cookies</span><span class="row-value" id="v-cookies">—</span></div>
-        <div class="row"><span class="row-label">JavaScript</span><span class="row-value ok">✓ Ativo</span></div>
-        <div class="row"><span class="row-label">WebRTC</span><span class="row-value" id="v-wrtc-support">—</span></div>
-        <div class="row"><span class="row-label">Tela (px)</span><span class="row-value" id="v-screen">—</span></div>
-        <div class="row"><span class="row-label">Mem. RAM (est.)</span><span class="row-value" id="v-mem">—</span></div>
-        <div class="row"><span class="row-label">CPUs lógicos</span><span class="row-value" id="v-cpu">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: Segurança / Proxy -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">🔒</span>
-        <span class="card-title">Segurança &amp; Privacidade</span>
-        <span class="card-badge" id="badge-sec">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">VPN / Proxy</span><span class="row-value" id="v-proxy">verificando…</span></div>
-        <div class="row"><span class="row-label">Tor detectado</span><span class="row-value" id="v-tor">—</span></div>
-        <div class="row"><span class="row-label">Tipo de conexão</span><span class="row-value" id="v-conntype">—</span></div>
-        <div class="row"><span class="row-label">DoH/DoT (DNS cifrado)</span><span class="row-value" id="v-doh">—</span></div>
-        <div class="row"><span class="row-label">Modo incógnito</span><span class="row-value" id="v-incognito">—</span></div>
-        <div class="row"><span class="row-label">Cabeçalhos CORS</span><span class="row-value ok">Permitido</span></div>
-        <div class="row"><span class="row-label">TLS versão</span><span class="row-value" id="v-tls">TLS 1.2/1.3 ✓</span></div>
-      </div>
-    </div>
-
-    <!-- Card: Conectividade -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">📡</span>
-        <span class="card-title">Conectividade</span>
-        <span class="card-badge badge-ok" id="badge-conn">Online</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">Status</span><span class="row-value ok" id="v-online">🟢 Online</span></div>
-        <div class="row"><span class="row-label">Velocidade estimada</span><span class="row-value" id="v-speed">—</span></div>
-        <div class="row"><span class="row-label">Tipo de acesso</span><span class="row-value" id="v-eff-type">—</span></div>
-        <div class="row"><span class="row-label">Economia de dados</span><span class="row-value" id="v-datasaver">—</span></div>
-        <div class="row"><span class="row-label">RTT estimado</span><span class="row-value" id="v-rtt">—</span></div>
-        <div class="row"><span class="row-label">Downlink</span><span class="row-value" id="v-downlink">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: Domain Analysis Input -->
-    <div class="card" style="grid-column: 1 / -1;">
-      <div class="card-head">
-        <span class="card-icon">🔍</span>
-        <span class="card-title">Análise de Domínio</span>
-      </div>
-      <div class="card-body">
-        <div style="display:flex;gap:10px;margin-bottom:12px;">
-          <input type="text" id="domain-input" placeholder="Digite um domínio (ex: example.com)" 
-                 style="flex:1;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:.85rem;">
-          <button id="domain-scan-btn" onclick="scanDomain()" 
-                  style="background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:8px;padding:10px 20px;font-family:'JetBrains Mono',monospace;font-size:.82rem;font-weight:600;cursor:pointer;">
-            🔍 Analisar
-          </button>
-        </div>
-        <p style="font-size:.7rem;color:var(--muted);">Digite um domínio para análise completa de segurança, DNS, SSL e infraestrutura.</p>
-      </div>
-    </div>
-
-    <!-- Card: IP Info -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">📡</span>
-        <span class="card-title">IP Info</span>
-        <span class="card-badge badge-info" id="badge-ipinfo">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">IP Address</span><span class="row-value accent" id="v-ipinfo-ip">—</span></div>
-        <div class="row"><span class="row-label">Hostname</span><span class="row-value" id="v-ipinfo-host">—</span></div>
-        <div class="row"><span class="row-label">City</span><span class="row-value" id="v-ipinfo-city">—</span></div>
-        <div class="row"><span class="row-label">Region</span><span class="row-value" id="v-ipinfo-region">—</span></div>
-        <div class="row"><span class="row-label">Country</span><span class="row-value" id="v-ipinfo-country">—</span></div>
-        <div class="row"><span class="row-label">Loc</span><span class="row-value" id="v-ipinfo-loc">—</span></div>
-        <div class="row"><span class="row-label">Org</span><span class="row-value" id="v-ipinfo-org">—</span></div>
-        <div class="row"><span class="row-label">Postal</span><span class="row-value" id="v-ipinfo-postal">—</span></div>
-        <div class="row"><span class="row-label">Timezone</span><span class="row-value" id="v-ipinfo-tz">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: SSL Chain -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">🔐</span>
-        <span class="card-title">SSL Chain</span>
-        <span class="card-badge badge-ok" id="badge-ssl">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">Valid</span><span class="row-value" id="v-ssl-valid">—</span></div>
-        <div class="row"><span class="row-label">Issuer</span><span class="row-value" id="v-ssl-issuer">—</span></div>
-        <div class="row"><span class="row-label">Subject</span><span class="row-value" id="v-ssl-subject">—</span></div>
-        <div class="row"><span class="row-label">Expires</span><span class="row-value" id="v-ssl-expires">—</span></div>
-        <div class="row"><span class="row-label">Days Left</span><span class="row-value" id="v-ssl-days">—</span></div>
-        <div class="row"><span class="row-label">Protocol</span><span class="row-value" id="v-ssl-proto">—</span></div>
-        <div class="row"><span class="row-label">Cipher</span><span class="row-value" id="v-ssl-cipher">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: DNS Records -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">📋</span>
-        <span class="card-title">DNS Records</span>
-        <span class="card-badge badge-info" id="badge-dns">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">A Records</span><span class="row-value" id="v-dns-a">—</span></div>
-        <div class="row"><span class="row-label">AAAA Records</span><span class="row-value" id="v-dns-aaaa">—</span></div>
-        <div class="row"><span class="row-label">MX Records</span><span class="row-value" id="v-dns-mx">—</span></div>
-        <div class="row"><span class="row-label">NS Records</span><span class="row-value" id="v-dns-ns">—</span></div>
-        <div class="row"><span class="row-label">CNAME</span><span class="row-value" id="v-dns-cname">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: Cookies -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">🍪</span>
-        <span class="card-title">Cookies</span>
-        <span class="card-badge badge-info" id="badge-cookies">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">Total Cookies</span><span class="row-value" id="v-cookies-total">—</span></div>
-        <div class="row"><span class="row-label">Secure</span><span class="row-value" id="v-cookies-secure">—</span></div>
-        <div class="row"><span class="row-label">HttpOnly</span><span class="row-value" id="v-cookies-httponly">—</span></div>
-        <div class="row"><span class="row-label">SameSite</span><span class="row-value" id="v-cookies-samesite">—</span></div>
-        <div class="row"><span class="row-label">Session</span><span class="row-value" id="v-cookies-session">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: Crawl Rules -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">🤖</span>
-        <span class="card-title">Crawl Rules</span>
-        <span class="card-badge badge-info" id="badge-crawl">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">Robots.txt</span><span class="row-value" id="v-crawl-robots">—</span></div>
-        <div class="row"><span class="row-label">Sitemap</span><span class="row-value" id="v-crawl-sitemap">—</span></div>
-        <div class="row"><span class="row-label">Disallow Count</span><span class="row-value" id="v-crawl-disallow">—</span></div>
-        <div class="row"><span class="row-label">Allow Count</span><span class="row-value" id="v-crawl-allow">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: Headers -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">📝</span>
-        <span class="card-title">Headers</span>
-        <span class="card-badge badge-info" id="badge-headers">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">Server</span><span class="row-value" id="v-headers-server">—</span></div>
-        <div class="row"><span class="row-label">Content-Type</span><span class="row-value" id="v-headers-content">—</span></div>
-        <div class="row"><span class="row-label">X-Frame-Options</span><span class="row-value" id="v-headers-xframe">—</span></div>
-        <div class="row"><span class="row-label">X-XSS-Protection</span><span class="row-value" id="v-headers-xss">—</span></div>
-        <div class="row"><span class="row-label">Content-Security-Policy</span><span class="row-value" id="v-headers-csp">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: Quality Metrics -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">⭐</span>
-        <span class="card-title">Quality Metrics</span>
-        <span class="card-badge badge-ok" id="badge-quality">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">Performance</span><span class="row-value" id="v-quality-perf">—</span></div>
-        <div class="row"><span class="row-label">Accessibility</span><span class="row-value" id="v-quality-access">—</span></div>
-        <div class="row"><span class="row-label">Best Practices</span><span class="row-value" id="v-quality-best">—</span></div>
-        <div class="row"><span class="row-label">SEO Score</span><span class="row-value" id="v-quality-seo">—</span></div>
-        <div class="row"><span class="row-label">Overall</span><span class="row-value accent" id="v-quality-overall">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: Server Location -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">🗺️</span>
-        <span class="card-title">Server Location</span>
-        <span class="card-badge badge-info" id="badge-srvloc">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">Continent</span><span class="row-value" id="v-srvloc-cont">—</span></div>
-        <div class="row"><span class="row-label">Country</span><span class="row-value" id="v-srvloc-country">—</span></div>
-        <div class="row"><span class="row-label">City</span><span class="row-value" id="v-srvloc-city">—</span></div>
-        <div class="row"><span class="row-label">Latitude</span><span class="row-value" id="v-srvloc-lat">—</span></div>
-        <div class="row"><span class="row-label">Longitude</span><span class="row-value" id="v-srvloc-lon">—</span></div>
-        <div class="row"><span class="row-label">Accuracy Radius</span><span class="row-value" id="v-srvloc-radius">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: Associated Hosts -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">🔗</span>
-        <span class="card-title">Associated Hosts</span>
-        <span class="card-badge badge-info" id="badge-assoc">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">Total Hosts</span><span class="row-value" id="v-assoc-total">—</span></div>
-        <div class="row"><span class="row-label">IPv4 Hosts</span><span class="row-value" id="v-assoc-ipv4">—</span></div>
-        <div class="row"><span class="row-label">IPv6 Hosts</span><span class="row-value" id="v-assoc-ipv6">—</span></div>
-        <div class="row"><span class="row-label">Sample</span><span class="row-value" id="v-assoc-sample">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: Redirect Chain -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">➡️</span>
-        <span class="card-title">Redirect Chain</span>
-        <span class="card-badge badge-info" id="badge-redirect">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">Total Redirects</span><span class="row-value" id="v-redirect-count">—</span></div>
-        <div class="row"><span class="row-label">Final URL</span><span class="row-value" id="v-redirect-final">—</span></div>
-        <div class="row"><span class="row-label">Chain</span><span class="row-value" id="v-redirect-chain">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: TXT Records -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">📜</span>
-        <span class="card-title">TXT Records</span>
-        <span class="card-badge badge-info" id="badge-txt">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">SPF Record</span><span class="row-value" id="v-txt-spf">—</span></div>
-        <div class="row"><span class="row-label">DMARC</span><span class="row-value" id="v-txt-dmarc">—</span></div>
-        <div class="row"><span class="row-label">DKIM</span><span class="row-value" id="v-txt-dkim">—</span></div>
-        <div class="row"><span class="row-label">Verification</span><span class="row-value" id="v-txt-verify">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: Server Status -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">💚</span>
-        <span class="card-title">Server Status</span>
-        <span class="card-badge badge-ok" id="badge-status">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">HTTP Status</span><span class="row-value" id="v-status-code">—</span></div>
-        <div class="row"><span class="row-label">Status Text</span><span class="row-value" id="v-status-text">—</span></div>
-        <div class="row"><span class="row-label">Response Time</span><span class="row-value" id="v-status-time">—</span></div>
-        <div class="row"><span class="row-label">Uptime</span><span class="row-value" id="v-status-uptime">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: Open Ports -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">🚪</span>
-        <span class="card-title">Open Ports</span>
-        <span class="card-badge badge-warn" id="badge-ports">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">Port 80 (HTTP)</span><span class="row-value" id="v-ports-80">—</span></div>
-        <div class="row"><span class="row-label">Port 443 (HTTPS)</span><span class="row-value" id="v-ports-443">—</span></div>
-        <div class="row"><span class="row-label">Port 21 (FTP)</span><span class="row-value" id="v-ports-21">—</span></div>
-        <div class="row"><span class="row-label">Port 22 (SSH)</span><span class="row-value" id="v-ports-22">—</span></div>
-        <div class="row"><span class="row-label">Port 25 (SMTP)</span><span class="row-value" id="v-ports-25">—</span></div>
-        <div class="row"><span class="row-label">Other Open</span><span class="row-value" id="v-ports-other">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: Traceroute -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">🛣️</span>
-        <span class="card-title">Traceroute</span>
-        <span class="card-badge badge-info" id="badge-trace">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">Hops</span><span class="row-value" id="v-trace-hops">—</span></div>
-        <div class="row"><span class="row-label">Route</span><span class="row-value" id="v-trace-route">—</span></div>
-        <div class="row"><span class="row-label">Avg Latency</span><span class="row-value" id="v-trace-latency">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: Carbon Footprint -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">🌱</span>
-        <span class="card-title">Carbon Footprint</span>
-        <span class="card-badge badge-ok" id="badge-carbon">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">Page Size</span><span class="row-value" id="v-carbon-size">—</span></div>
-        <div class="row"><span class="row-label">CO2 per Visit</span><span class="row-value" id="v-carbon-co2">—</span></div>
-        <div class="row"><span class="row-label">Annual CO2</span><span class="row-value" id="v-carbon-annual">—</span></div>
-        <div class="row"><span class="row-label">Rating</span><span class="row-value" id="v-carbon-rating">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: Server Info -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">🖥️</span>
-        <span class="card-title">Server Info</span>
-        <span class="card-badge badge-info" id="badge-srvinfo">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">Server Type</span><span class="row-value" id="v-srvinfo-type">—</span></div>
-        <div class="row"><span class="row-label">Powered By</span><span class="row-value" id="v-srvinfo-powered">—</span></div>
-        <div class="row"><span class="row-label">OS</span><span class="row-value" id="v-srvinfo-os">—</span></div>
-        <div class="row"><span class="row-label">Hosting Provider</span><span class="row-value" id="v-srvinfo-hosting">—</span></div>
-        <div class="row"><span class="row-label">Datacenter</span><span class="row-value" id="v-srvinfo-dc">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: Whois Lookup -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">📇</span>
-        <span class="card-title">Whois Lookup</span>
-        <span class="card-badge badge-info" id="badge-whois">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">Registrar</span><span class="row-value" id="v-whois-registrar">—</span></div>
-        <div class="row"><span class="row-label">Created</span><span class="row-value" id="v-whois-created">—</span></div>
-        <div class="row"><span class="row-label">Expires</span><span class="row-value" id="v-whois-expires">—</span></div>
-        <div class="row"><span class="row-label">Updated</span><span class="row-value" id="v-whois-updated">—</span></div>
-        <div class="row"><span class="row-label">Status</span><span class="row-value" id="v-whois-status">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: Domain Info -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">🏷️</span>
-        <span class="card-title">Domain Info</span>
-        <span class="card-badge badge-info" id="badge-domaininfo">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">Domain Age</span><span class="row-value" id="v-domaininfo-age">—</span></div>
-        <div class="row"><span class="row-label">TLD</span><span class="row-value" id="v-domaininfo-tld">—</span></div>
-        <div class="row"><span class="row-label">Is Subdomain</span><span class="row-value" id="v-domaininfo-sub">—</span></div>
-        <div class="row"><span class="row-label">IDN</span><span class="row-value" id="v-domaininfo-idn">—</span></div>
-        <div class="row"><span class="row-label">Length</span><span class="row-value" id="v-domaininfo-length">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: DNS Security Extensions -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">🛡️</span>
-        <span class="card-title">DNSSEC</span>
-        <span class="card-badge badge-ok" id="badge-dnssec">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">DNSSEC Enabled</span><span class="row-value" id="v-dnssec-enabled">—</span></div>
-        <div class="row"><span class="row-label">DS Record</span><span class="row-value" id="v-dnssec-ds">—</span></div>
-        <div class="row"><span class="row-label">Algorithm</span><span class="row-value" id="v-dnssec-algo">—</span></div>
-        <div class="row"><span class="row-label">Key Tag</span><span class="row-value" id="v-dnssec-keytag">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: HSTS -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">🔒</span>
-        <span class="card-title">HSTS</span>
-        <span class="card-badge badge-ok" id="badge-hsts">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">HSTS Enabled</span><span class="row-value" id="v-hsts-enabled">—</span></div>
-        <div class="row"><span class="row-label">Max-Age</span><span class="row-value" id="v-hsts-age">—</span></div>
-        <div class="row"><span class="row-label">Include Subdomains</span><span class="row-value" id="v-hsts-sub">—</span></div>
-        <div class="row"><span class="row-label">Preload</span><span class="row-value" id="v-hsts-preload">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: DNS Server -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">🖧</span>
-        <span class="card-title">DNS Server</span>
-        <span class="card-badge badge-info" id="badge-dnsserver">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">Primary DNS</span><span class="row-value" id="v-dnsserver-primary">—</span></div>
-        <div class="row"><span class="row-label">Secondary DNS</span><span class="row-value" id="v-dnsserver-secondary">—</span></div>
-        <div class="row"><span class="row-label">Resolver</span><span class="row-value" id="v-dnsserver-resolver">—</span></div>
-        <div class="row"><span class="row-label">Response Time</span><span class="row-value" id="v-dnsserver-time">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: Tech Stack -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">🧰</span>
-        <span class="card-title">Tech Stack</span>
-        <span class="card-badge badge-info" id="badge-tech">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">Web Server</span><span class="row-value" id="v-tech-server">—</span></div>
-        <div class="row"><span class="row-label">CMS</span><span class="row-value" id="v-tech-cms">—</span></div>
-        <div class="row"><span class="row-label">Framework</span><span class="row-value" id="v-tech-framework">—</span></div>
-        <div class="row"><span class="row-label">Language</span><span class="row-value" id="v-tech-lang">—</span></div>
-        <div class="row"><span class="row-label">Analytics</span><span class="row-value" id="v-tech-analytics">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: Listed Pages -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">📄</span>
-        <span class="card-title">Listed Pages</span>
-        <span class="card-badge badge-info" id="badge-pages">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">Indexed (Google)</span><span class="row-value" id="v-pages-google">—</span></div>
-        <div class="row"><span class="row-label">Sitemap URLs</span><span class="row-value" id="v-pages-sitemap">—</span></div>
-        <div class="row"><span class="row-label">Internal Links</span><span class="row-value" id="v-pages-internal">—</span></div>
-        <div class="row"><span class="row-label">External Links</span><span class="row-value" id="v-pages-external">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: security.txt -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">📯</span>
-        <span class="card-title">security.txt</span>
-        <span class="card-badge badge-ok" id="badge-sectxt">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">Found</span><span class="row-value" id="v-sectxt-found">—</span></div>
-        <div class="row"><span class="row-label">Contact</span><span class="row-value" id="v-sectxt-contact">—</span></div>
-        <div class="row"><span class="row-label">Encryption</span><span class="row-value" id="v-sectxt-encrypt">—</span></div>
-        <div class="row"><span class="row-label">Policy</span><span class="row-value" id="v-sectxt-policy">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: Linked Pages -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">🔗</span>
-        <span class="card-title">Linked Pages</span>
-        <span class="card-badge badge-info" id="badge-linked">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">Total Links</span><span class="row-value" id="v-linked-total">—</span></div>
-        <div class="row"><span class="row-label">Internal</span><span class="row-value" id="v-linked-internal">—</span></div>
-        <div class="row"><span class="row-label">External</span><span class="row-value" id="v-linked-external">—</span></div>
-        <div class="row"><span class="row-label">Broken</span><span class="row-value" id="v-linked-broken">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: Social Tags -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">📱</span>
-        <span class="card-title">Social Tags</span>
-        <span class="card-badge badge-info" id="badge-social">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">OG Title</span><span class="row-value" id="v-social-ogtitle">—</span></div>
-        <div class="row"><span class="row-label">OG Description</span><span class="row-value" id="v-social-ogdesc">—</span></div>
-        <div class="row"><span class="row-label">OG Image</span><span class="row-value" id="v-social-ogimg">—</span></div>
-        <div class="row"><span class="row-label">Twitter Card</span><span class="row-value" id="v-social-twitter">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: Email Configuration -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">📧</span>
-        <span class="card-title">Email Config</span>
-        <span class="card-badge badge-ok" id="badge-email">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">MX Records</span><span class="row-value" id="v-email-mx">—</span></div>
-        <div class="row"><span class="row-label">SPF Valid</span><span class="row-value" id="v-email-spf">—</span></div>
-        <div class="row"><span class="row-label">DMARC Policy</span><span class="row-value" id="v-email-dmarc">—</span></div>
-        <div class="row"><span class="row-label">Mail Server</span><span class="row-value" id="v-email-server">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: Firewall Detection -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">🧱</span>
-        <span class="card-title">Firewall</span>
-        <span class="card-badge badge-warn" id="badge-firewall">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">WAF Detected</span><span class="row-value" id="v-firewall-waf">—</span></div>
-        <div class="row"><span class="row-label">WAF Type</span><span class="row-value" id="v-firewall-type">—</span></div>
-        <div class="row"><span class="row-label">Cloudflare</span><span class="row-value" id="v-firewall-cf">—</span></div>
-        <div class="row"><span class="row-label">Akamai</span><span class="row-value" id="v-firewall-akamai">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: HTTP Security Features -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">🔐</span>
-        <span class="card-title">HTTP Security</span>
-        <span class="card-badge badge-ok" id="badge-httpsec">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">CSP</span><span class="row-value" id="v-httpsec-csp">—</span></div>
-        <div class="row"><span class="row-label">X-Frame-Options</span><span class="row-value" id="v-httpsec-frame">—</span></div>
-        <div class="row"><span class="row-label">X-Content-Type</span><span class="row-value" id="v-httpsec-content">—</span></div>
-        <div class="row"><span class="row-label">Referrer-Policy</span><span class="row-value" id="v-httpsec-referrer">—</span></div>
-        <div class="row"><span class="row-label">Permissions-Policy</span><span class="row-value" id="v-httpsec-permissions">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: Archive History -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">📚</span>
-        <span class="card-title">Archive History</span>
-        <span class="card-badge badge-info" id="badge-archive">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">First Capture</span><span class="row-value" id="v-archive-first">—</span></div>
-        <div class="row"><span class="row-label">Last Capture</span><span class="row-value" id="v-archive-last">—</span></div>
-        <div class="row"><span class="row-label">Total Captures</span><span class="row-value" id="v-archive-total">—</span></div>
-        <div class="row"><span class="row-label">Years Archived</span><span class="row-value" id="v-archive-years">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: Global Ranking -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">📊</span>
-        <span class="card-title">Global Ranking</span>
-        <span class="card-badge badge-info" id="badge-ranking">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">Alexa Rank</span><span class="row-value" id="v-ranking-alexa">—</span></div>
-        <div class="row"><span class="row-label">Tranco Rank</span><span class="row-value" id="v-ranking-tranco">—</span></div>
-        <div class="row"><span class="row-label">Country Rank</span><span class="row-value" id="v-ranking-country">—</span></div>
-        <div class="row"><span class="row-label">Category Rank</span><span class="row-value" id="v-ranking-category">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: Block Detection -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">🚫</span>
-        <span class="card-title">Block Detection</span>
-        <span class="card-badge badge-warn" id="badge-block">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">Blocked by Robots</span><span class="row-value" id="v-block-robots">—</span></div>
-        <div class="row"><span class="row-label">Geo Blocked</span><span class="row-value" id="v-block-geo">—</span></div>
-        <div class="row"><span class="row-label">IP Blocked</span><span class="row-value" id="v-block-ip">—</span></div>
-        <div class="row"><span class="row-label">Captcha</span><span class="row-value" id="v-block-captcha">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: Malware & Phishing -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">☣️</span>
-        <span class="card-title">Malware Check</span>
-        <span class="card-badge badge-ok" id="badge-malware">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">Google Safe Browsing</span><span class="row-value" id="v-malware-google">—</span></div>
-        <div class="row"><span class="row-label">PhishTank</span><span class="row-value" id="v-malware-phish">—</span></div>
-        <div class="row"><span class="row-label">VirusTotal</span><span class="row-value" id="v-malware-vt">—</span></div>
-        <div class="row"><span class="row-label">Threat Level</span><span class="row-value" id="v-malware-threat">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: TLS Connection -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">🔏</span>
-        <span class="card-title">TLS Connection</span>
-        <span class="card-badge badge-ok" id="badge-tlsconn">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">TLS Version</span><span class="row-value" id="v-tlsconn-ver">—</span></div>
-        <div class="row"><span class="row-label">Cipher Suite</span><span class="row-value" id="v-tlsconn-cipher">—</span></div>
-        <div class="row"><span class="row-label">Key Exchange</span><span class="row-value" id="v-tlsconn-key">—</span></div>
-        <div class="row"><span class="row-label">Protocol</span><span class="row-value" id="v-tlsconn-proto">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: TLS Security Audit -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">✅</span>
-        <span class="card-title">TLS Audit</span>
-        <span class="card-badge badge-ok" id="badge-tlsaudit">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">Grade</span><span class="row-value accent" id="v-tlsaudit-grade">—</span></div>
-        <div class="row"><span class="row-label">Weak Ciphers</span><span class="row-value" id="v-tlsaudit-weak">—</span></div>
-        <div class="row"><span class="row-label">POODLE</span><span class="row-value" id="v-tlsaudit-poodle">—</span></div>
-        <div class="row"><span class="row-label">BEAST</span><span class="row-value" id="v-tlsaudit-beast">—</span></div>
-        <div class="row"><span class="row-label">CRIME</span><span class="row-value" id="v-tlsaudit-crime">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: TLS Client Compatibility -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-icon">👥</span>
-        <span class="card-title">TLS Compatibility</span>
-        <span class="card-badge badge-info" id="badge-tlscompat">—</span>
-      </div>
-      <div class="card-body">
-        <div class="row"><span class="row-label">Chrome</span><span class="row-value" id="v-tlscompat-chrome">—</span></div>
-        <div class="row"><span class="row-label">Firefox</span><span class="row-value" id="v-tlscompat-firefox">—</span></div>
-        <div class="row"><span class="row-label">Safari</span><span class="row-value" id="v-tlscompat-safari">—</span></div>
-        <div class="row"><span class="row-label">Edge</span><span class="row-value" id="v-tlscompat-edge">—</span></div>
-        <div class="row"><span class="row-label">IE</span><span class="row-value" id="v-tlscompat-ie">—</span></div>
-      </div>
-    </div>
-
-    <!-- Card: Log de Diagnóstico -->
-    <div class="card" style="grid-column: 1 / -1;">
-      <div class="card-head">
-        <span class="card-icon">🔬</span>
-        <span class="card-title">Log de Diagnóstico</span>
-        <span class="card-badge badge-info" id="badge-log">aguardando</span>
-      </div>
-      <div class="card-body">
-        <pre id="log" style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--label);line-height:1.8;max-height:220px;overflow-y:auto;white-space:pre-wrap;"></pre>
-      </div>
-    </div>
-
-  </div><!-- /grid -->
+  <div class="grid" id="cards-container"></div>
 </main>
 
 <footer>
@@ -1106,6 +386,693 @@
 </footer>
 
 <script>
+/* ─────────── Card Factory ─────────── */
+const CARDS_CONFIG = [
+  {
+    id: 'isp',
+    icon: '🏢',
+    title: 'ISP &amp; ASN',
+    bodyId: 'body-isp',
+    badge: { id: 'badge-isp', text: '—', class: 'badge-info' },
+    fields: [
+      { label: 'Provedor', id: 'v-isp', defaultValue: '<span class="spin"></span>' },
+      { label: 'Organização', id: 'v-org' },
+      { label: 'ASN', id: 'v-asn', class: 'accent' },
+      { label: 'Domínio', id: 'v-domain' },
+      { label: 'Tipo de rede', id: 'v-nettype' },
+    ]
+  },
+  {
+    id: 'location',
+    icon: '📍',
+    title: 'Localização',
+    badge: { id: 'badge-loc', text: '—', class: 'badge-info' },
+    appendHtml: '<iframe id="map-frame" style="display:none" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>',
+    fields: [
+      { label: 'País', id: 'v-country' },
+      { label: 'Região', id: 'v-region' },
+      { label: 'Cidade', id: 'v-city' },
+      { label: 'CEP / Postal', id: 'v-postal' },
+      { label: 'Fuso horário', id: 'v-tz' },
+      { label: 'Coordenadas', id: 'v-coords', class: 'accent' },
+    ]
+  },
+  {
+    id: 'ip',
+    icon: '🌐',
+    title: 'Endereços IP',
+    badge: { id: 'badge-ip', text: 'IPv4', class: 'badge-info' },
+    appendHtml: '<p class="webrtc-note">⚠ IPs locais via WebRTC. Se aparecer o IPv4 público aqui, pode indicar vazamento de VPN.</p>',
+    fields: [
+      { label: 'IPv4 público', id: 'v-ipv4', class: 'accent' },
+      { label: 'IPv6 público', id: 'v-ipv6', class: 'accent', defaultValue: '<span class="spin"></span>' },
+      { label: 'IP local (LAN)', id: 'v-local' },
+      { label: 'IPv6 local', id: 'v-local6' },
+      { label: 'WebRTC leak', id: 'v-webrtc', defaultValue: 'testando…' },
+    ]
+  },
+  {
+    id: 'latency',
+    icon: '⚡',
+    title: 'Latência &amp; DNS',
+    badge: { id: 'badge-ping', text: '—' },
+    latencyBar: true,
+    fields: [
+      { label: 'Ping HTTP', id: 'v-ping', defaultValue: 'medindo…' },
+      { label: 'Servidor DNS', id: 'v-dns', rowStyle: 'margin-top:12px' },
+      { label: 'DNS lookup', id: 'v-dnslookup' },
+      { label: 'HTTPS suporte', class: 'ok', defaultValue: '✓ Sim' },
+      { label: 'HTTP/2', id: 'v-h2', defaultValue: 'verificando…' },
+    ]
+  },
+  {
+    id: 'browser',
+    icon: '💻',
+    title: 'Navegador &amp; Dispositivo',
+    bodyId: 'body-ua',
+    fields: [
+      { label: 'User-Agent', id: 'v-ua', style: 'font-size:.65rem' },
+      { label: 'Plataforma', id: 'v-platform' },
+      { label: 'Idioma', id: 'v-lang' },
+      { label: 'Cores suporte', id: 'v-colors' },
+      { label: 'Cookies', id: 'v-cookies' },
+      { label: 'JavaScript', class: 'ok', defaultValue: '✓ Ativo' },
+      { label: 'WebRTC', id: 'v-wrtc-support' },
+      { label: 'Tela (px)', id: 'v-screen' },
+      { label: 'Mem. RAM (est.)', id: 'v-mem' },
+      { label: 'CPUs lógicos', id: 'v-cpu' },
+    ]
+  },
+  {
+    id: 'security',
+    icon: '🔒',
+    title: 'Segurança &amp; Privacidade',
+    badge: { id: 'badge-sec', text: '—' },
+    fields: [
+      { label: 'VPN / Proxy', id: 'v-proxy', defaultValue: 'verificando…' },
+      { label: 'Tor detectado', id: 'v-tor' },
+      { label: 'Tipo de conexão', id: 'v-conntype' },
+      { label: 'DoH/DoT (DNS cifrado)', id: 'v-doh' },
+      { label: 'Modo incógnito', id: 'v-incognito' },
+      { label: 'Cabeçalhos CORS', class: 'ok', defaultValue: 'Permitido' },
+      { label: 'TLS versão', id: 'v-tls', defaultValue: 'TLS 1.2/1.3 ✓' },
+    ]
+  },
+  {
+    id: 'connectivity',
+    icon: '📡',
+    title: 'Conectividade',
+    badge: { id: 'badge-conn', text: 'Online', class: 'badge-ok' },
+    fields: [
+      { label: 'Status', id: 'v-online', class: 'ok', defaultValue: '🟢 Online' },
+      { label: 'Velocidade estimada', id: 'v-speed' },
+      { label: 'Tipo de acesso', id: 'v-eff-type' },
+      { label: 'Economia de dados', id: 'v-datasaver' },
+      { label: 'RTT estimado', id: 'v-rtt' },
+      { label: 'Downlink', id: 'v-downlink' },
+    ]
+  },
+  {
+    id: 'domain-scan',
+    icon: '🔍',
+    title: 'Análise de Domínio',
+    fullWidth: true,
+    customHtml: `<div style="display:flex;gap:10px;margin-bottom:12px;">
+          <input type="text" id="domain-input" placeholder="Digite um domínio (ex: example.com)" 
+                 style="flex:1;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:.85rem;">
+          <button id="domain-scan-btn" onclick="scanDomain()" 
+                  style="background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:8px;padding:10px 20px;font-family:'JetBrains Mono',monospace;font-size:.82rem;font-weight:600;cursor:pointer;">
+            🔍 Analisar
+          </button>
+        </div>
+        <p style="font-size:.7rem;color:var(--muted);">Digite um domínio para análise completa de segurança, DNS, SSL e infraestrutura.</p>`,
+  },
+  {
+    id: 'ipinfo',
+    icon: '📡',
+    title: 'IP Info',
+    badge: { id: 'badge-ipinfo', text: '—', class: 'badge-info' },
+    fields: [
+      { label: 'IP Address', id: 'v-ipinfo-ip', class: 'accent' },
+      { label: 'Hostname', id: 'v-ipinfo-host' },
+      { label: 'City', id: 'v-ipinfo-city' },
+      { label: 'Region', id: 'v-ipinfo-region' },
+      { label: 'Country', id: 'v-ipinfo-country' },
+      { label: 'Loc', id: 'v-ipinfo-loc' },
+      { label: 'Org', id: 'v-ipinfo-org' },
+      { label: 'Postal', id: 'v-ipinfo-postal' },
+      { label: 'Timezone', id: 'v-ipinfo-tz' },
+    ]
+  },
+  {
+    id: 'ssl-chain',
+    icon: '🔐',
+    title: 'SSL Chain',
+    badge: { id: 'badge-ssl', text: '—', class: 'badge-ok' },
+    fields: [
+      { label: 'Valid', id: 'v-ssl-valid' },
+      { label: 'Issuer', id: 'v-ssl-issuer' },
+      { label: 'Subject', id: 'v-ssl-subject' },
+      { label: 'Expires', id: 'v-ssl-expires' },
+      { label: 'Days Left', id: 'v-ssl-days' },
+      { label: 'Protocol', id: 'v-ssl-proto' },
+      { label: 'Cipher', id: 'v-ssl-cipher' },
+    ]
+  },
+  {
+    id: 'dns-records',
+    icon: '📋',
+    title: 'DNS Records',
+    badge: { id: 'badge-dns', text: '—', class: 'badge-info' },
+    fields: [
+      { label: 'A Records', id: 'v-dns-a' },
+      { label: 'AAAA Records', id: 'v-dns-aaaa' },
+      { label: 'MX Records', id: 'v-dns-mx' },
+      { label: 'NS Records', id: 'v-dns-ns' },
+      { label: 'CNAME', id: 'v-dns-cname' },
+    ]
+  },
+  {
+    id: 'cookies',
+    icon: '🍪',
+    title: 'Cookies',
+    badge: { id: 'badge-cookies', text: '—', class: 'badge-info' },
+    fields: [
+      { label: 'Total Cookies', id: 'v-cookies-total' },
+      { label: 'Secure', id: 'v-cookies-secure' },
+      { label: 'HttpOnly', id: 'v-cookies-httponly' },
+      { label: 'SameSite', id: 'v-cookies-samesite' },
+      { label: 'Session', id: 'v-cookies-session' },
+    ]
+  },
+  {
+    id: 'crawl-rules',
+    icon: '🤖',
+    title: 'Crawl Rules',
+    badge: { id: 'badge-crawl', text: '—', class: 'badge-info' },
+    fields: [
+      { label: 'Robots.txt', id: 'v-crawl-robots' },
+      { label: 'Sitemap', id: 'v-crawl-sitemap' },
+      { label: 'Disallow Count', id: 'v-crawl-disallow' },
+      { label: 'Allow Count', id: 'v-crawl-allow' },
+    ]
+  },
+  {
+    id: 'headers',
+    icon: '📝',
+    title: 'Headers',
+    badge: { id: 'badge-headers', text: '—', class: 'badge-info' },
+    fields: [
+      { label: 'Server', id: 'v-headers-server' },
+      { label: 'Content-Type', id: 'v-headers-content' },
+      { label: 'X-Frame-Options', id: 'v-headers-xframe' },
+      { label: 'X-XSS-Protection', id: 'v-headers-xss' },
+      { label: 'Content-Security-Policy', id: 'v-headers-csp' },
+    ]
+  },
+  {
+    id: 'quality-metrics',
+    icon: '⭐',
+    title: 'Quality Metrics',
+    badge: { id: 'badge-quality', text: '—', class: 'badge-ok' },
+    fields: [
+      { label: 'Performance', id: 'v-quality-perf' },
+      { label: 'Accessibility', id: 'v-quality-access' },
+      { label: 'Best Practices', id: 'v-quality-best' },
+      { label: 'SEO Score', id: 'v-quality-seo' },
+      { label: 'Overall', id: 'v-quality-overall', class: 'accent' },
+    ]
+  },
+  {
+    id: 'server-location',
+    icon: '🗺️',
+    title: 'Server Location',
+    badge: { id: 'badge-srvloc', text: '—', class: 'badge-info' },
+    fields: [
+      { label: 'Continent', id: 'v-srvloc-cont' },
+      { label: 'Country', id: 'v-srvloc-country' },
+      { label: 'City', id: 'v-srvloc-city' },
+      { label: 'Latitude', id: 'v-srvloc-lat' },
+      { label: 'Longitude', id: 'v-srvloc-lon' },
+      { label: 'Accuracy Radius', id: 'v-srvloc-radius' },
+    ]
+  },
+  {
+    id: 'associated-hosts',
+    icon: '🔗',
+    title: 'Associated Hosts',
+    badge: { id: 'badge-assoc', text: '—', class: 'badge-info' },
+    fields: [
+      { label: 'Total Hosts', id: 'v-assoc-total' },
+      { label: 'IPv4 Hosts', id: 'v-assoc-ipv4' },
+      { label: 'IPv6 Hosts', id: 'v-assoc-ipv6' },
+      { label: 'Sample', id: 'v-assoc-sample' },
+    ]
+  },
+  {
+    id: 'redirect-chain',
+    icon: '➡️',
+    title: 'Redirect Chain',
+    badge: { id: 'badge-redirect', text: '—', class: 'badge-info' },
+    fields: [
+      { label: 'Total Redirects', id: 'v-redirect-count' },
+      { label: 'Final URL', id: 'v-redirect-final' },
+      { label: 'Chain', id: 'v-redirect-chain' },
+    ]
+  },
+  {
+    id: 'txt-records',
+    icon: '📜',
+    title: 'TXT Records',
+    badge: { id: 'badge-txt', text: '—', class: 'badge-info' },
+    fields: [
+      { label: 'SPF Record', id: 'v-txt-spf' },
+      { label: 'DMARC', id: 'v-txt-dmarc' },
+      { label: 'DKIM', id: 'v-txt-dkim' },
+      { label: 'Verification', id: 'v-txt-verify' },
+    ]
+  },
+  {
+    id: 'server-status',
+    icon: '💚',
+    title: 'Server Status',
+    badge: { id: 'badge-status', text: '—', class: 'badge-ok' },
+    fields: [
+      { label: 'HTTP Status', id: 'v-status-code' },
+      { label: 'Status Text', id: 'v-status-text' },
+      { label: 'Response Time', id: 'v-status-time' },
+      { label: 'Uptime', id: 'v-status-uptime' },
+    ]
+  },
+  {
+    id: 'open-ports',
+    icon: '🚪',
+    title: 'Open Ports',
+    badge: { id: 'badge-ports', text: '—', class: 'badge-warn' },
+    fields: [
+      { label: 'Port 80 (HTTP)', id: 'v-ports-80' },
+      { label: 'Port 443 (HTTPS)', id: 'v-ports-443' },
+      { label: 'Port 21 (FTP)', id: 'v-ports-21' },
+      { label: 'Port 22 (SSH)', id: 'v-ports-22' },
+      { label: 'Port 25 (SMTP)', id: 'v-ports-25' },
+      { label: 'Other Open', id: 'v-ports-other' },
+    ]
+  },
+  {
+    id: 'traceroute',
+    icon: '🛣️',
+    title: 'Traceroute',
+    badge: { id: 'badge-trace', text: '—', class: 'badge-info' },
+    fields: [
+      { label: 'Hops', id: 'v-trace-hops' },
+      { label: 'Route', id: 'v-trace-route' },
+      { label: 'Avg Latency', id: 'v-trace-latency' },
+    ]
+  },
+  {
+    id: 'carbon-footprint',
+    icon: '🌱',
+    title: 'Carbon Footprint',
+    badge: { id: 'badge-carbon', text: '—', class: 'badge-ok' },
+    fields: [
+      { label: 'Page Size', id: 'v-carbon-size' },
+      { label: 'CO2 per Visit', id: 'v-carbon-co2' },
+      { label: 'Annual CO2', id: 'v-carbon-annual' },
+      { label: 'Rating', id: 'v-carbon-rating' },
+    ]
+  },
+  {
+    id: 'server-info',
+    icon: '🖥️',
+    title: 'Server Info',
+    badge: { id: 'badge-srvinfo', text: '—', class: 'badge-info' },
+    fields: [
+      { label: 'Server Type', id: 'v-srvinfo-type' },
+      { label: 'Powered By', id: 'v-srvinfo-powered' },
+      { label: 'OS', id: 'v-srvinfo-os' },
+      { label: 'Hosting Provider', id: 'v-srvinfo-hosting' },
+      { label: 'Datacenter', id: 'v-srvinfo-dc' },
+    ]
+  },
+  {
+    id: 'whois-lookup',
+    icon: '📇',
+    title: 'Whois Lookup',
+    badge: { id: 'badge-whois', text: '—', class: 'badge-info' },
+    fields: [
+      { label: 'Registrar', id: 'v-whois-registrar' },
+      { label: 'Created', id: 'v-whois-created' },
+      { label: 'Expires', id: 'v-whois-expires' },
+      { label: 'Updated', id: 'v-whois-updated' },
+      { label: 'Status', id: 'v-whois-status' },
+    ]
+  },
+  {
+    id: 'domain-info',
+    icon: '🏷️',
+    title: 'Domain Info',
+    badge: { id: 'badge-domaininfo', text: '—', class: 'badge-info' },
+    fields: [
+      { label: 'Domain Age', id: 'v-domaininfo-age' },
+      { label: 'TLD', id: 'v-domaininfo-tld' },
+      { label: 'Is Subdomain', id: 'v-domaininfo-sub' },
+      { label: 'IDN', id: 'v-domaininfo-idn' },
+      { label: 'Length', id: 'v-domaininfo-length' },
+    ]
+  },
+  {
+    id: 'dnssec',
+    icon: '🛡️',
+    title: 'DNSSEC',
+    badge: { id: 'badge-dnssec', text: '—', class: 'badge-ok' },
+    fields: [
+      { label: 'DNSSEC Enabled', id: 'v-dnssec-enabled' },
+      { label: 'DS Record', id: 'v-dnssec-ds' },
+      { label: 'Algorithm', id: 'v-dnssec-algo' },
+      { label: 'Key Tag', id: 'v-dnssec-keytag' },
+    ]
+  },
+  {
+    id: 'hsts',
+    icon: '🔒',
+    title: 'HSTS',
+    badge: { id: 'badge-hsts', text: '—', class: 'badge-ok' },
+    fields: [
+      { label: 'HSTS Enabled', id: 'v-hsts-enabled' },
+      { label: 'Max-Age', id: 'v-hsts-age' },
+      { label: 'Include Subdomains', id: 'v-hsts-sub' },
+      { label: 'Preload', id: 'v-hsts-preload' },
+    ]
+  },
+  {
+    id: 'dns-server',
+    icon: '🖧',
+    title: 'DNS Server',
+    badge: { id: 'badge-dnsserver', text: '—', class: 'badge-info' },
+    fields: [
+      { label: 'Primary DNS', id: 'v-dnsserver-primary' },
+      { label: 'Secondary DNS', id: 'v-dnsserver-secondary' },
+      { label: 'Resolver', id: 'v-dnsserver-resolver' },
+      { label: 'Response Time', id: 'v-dnsserver-time' },
+    ]
+  },
+  {
+    id: 'tech-stack',
+    icon: '🧰',
+    title: 'Tech Stack',
+    badge: { id: 'badge-tech', text: '—', class: 'badge-info' },
+    fields: [
+      { label: 'Web Server', id: 'v-tech-server' },
+      { label: 'CMS', id: 'v-tech-cms' },
+      { label: 'Framework', id: 'v-tech-framework' },
+      { label: 'Language', id: 'v-tech-lang' },
+      { label: 'Analytics', id: 'v-tech-analytics' },
+    ]
+  },
+  {
+    id: 'listed-pages',
+    icon: '📄',
+    title: 'Listed Pages',
+    badge: { id: 'badge-pages', text: '—', class: 'badge-info' },
+    fields: [
+      { label: 'Indexed (Google)', id: 'v-pages-google' },
+      { label: 'Sitemap URLs', id: 'v-pages-sitemap' },
+      { label: 'Internal Links', id: 'v-pages-internal' },
+      { label: 'External Links', id: 'v-pages-external' },
+    ]
+  },
+  {
+    id: 'security-txt',
+    icon: '📯',
+    title: 'security.txt',
+    badge: { id: 'badge-sectxt', text: '—', class: 'badge-ok' },
+    fields: [
+      { label: 'Found', id: 'v-sectxt-found' },
+      { label: 'Contact', id: 'v-sectxt-contact' },
+      { label: 'Encryption', id: 'v-sectxt-encrypt' },
+      { label: 'Policy', id: 'v-sectxt-policy' },
+    ]
+  },
+  {
+    id: 'linked-pages',
+    icon: '🔗',
+    title: 'Linked Pages',
+    badge: { id: 'badge-linked', text: '—', class: 'badge-info' },
+    fields: [
+      { label: 'Total Links', id: 'v-linked-total' },
+      { label: 'Internal', id: 'v-linked-internal' },
+      { label: 'External', id: 'v-linked-external' },
+      { label: 'Broken', id: 'v-linked-broken' },
+    ]
+  },
+  {
+    id: 'social-tags',
+    icon: '📱',
+    title: 'Social Tags',
+    badge: { id: 'badge-social', text: '—', class: 'badge-info' },
+    fields: [
+      { label: 'OG Title', id: 'v-social-ogtitle' },
+      { label: 'OG Description', id: 'v-social-ogdesc' },
+      { label: 'OG Image', id: 'v-social-ogimg' },
+      { label: 'Twitter Card', id: 'v-social-twitter' },
+    ]
+  },
+  {
+    id: 'email-config',
+    icon: '📧',
+    title: 'Email Config',
+    badge: { id: 'badge-email', text: '—', class: 'badge-ok' },
+    fields: [
+      { label: 'MX Records', id: 'v-email-mx' },
+      { label: 'SPF Valid', id: 'v-email-spf' },
+      { label: 'DMARC Policy', id: 'v-email-dmarc' },
+      { label: 'Mail Server', id: 'v-email-server' },
+    ]
+  },
+  {
+    id: 'firewall',
+    icon: '🧱',
+    title: 'Firewall',
+    badge: { id: 'badge-firewall', text: '—', class: 'badge-warn' },
+    fields: [
+      { label: 'WAF Detected', id: 'v-firewall-waf' },
+      { label: 'WAF Type', id: 'v-firewall-type' },
+      { label: 'Cloudflare', id: 'v-firewall-cf' },
+      { label: 'Akamai', id: 'v-firewall-akamai' },
+    ]
+  },
+  {
+    id: 'http-security',
+    icon: '🔐',
+    title: 'HTTP Security',
+    badge: { id: 'badge-httpsec', text: '—', class: 'badge-ok' },
+    fields: [
+      { label: 'CSP', id: 'v-httpsec-csp' },
+      { label: 'X-Frame-Options', id: 'v-httpsec-frame' },
+      { label: 'X-Content-Type', id: 'v-httpsec-content' },
+      { label: 'Referrer-Policy', id: 'v-httpsec-referrer' },
+      { label: 'Permissions-Policy', id: 'v-httpsec-permissions' },
+    ]
+  },
+  {
+    id: 'archive-history',
+    icon: '📚',
+    title: 'Archive History',
+    badge: { id: 'badge-archive', text: '—', class: 'badge-info' },
+    fields: [
+      { label: 'First Capture', id: 'v-archive-first' },
+      { label: 'Last Capture', id: 'v-archive-last' },
+      { label: 'Total Captures', id: 'v-archive-total' },
+      { label: 'Years Archived', id: 'v-archive-years' },
+    ]
+  },
+  {
+    id: 'global-ranking',
+    icon: '📊',
+    title: 'Global Ranking',
+    badge: { id: 'badge-ranking', text: '—', class: 'badge-info' },
+    fields: [
+      { label: 'Alexa Rank', id: 'v-ranking-alexa' },
+      { label: 'Tranco Rank', id: 'v-ranking-tranco' },
+      { label: 'Country Rank', id: 'v-ranking-country' },
+      { label: 'Category Rank', id: 'v-ranking-category' },
+    ]
+  },
+  {
+    id: 'block-detection',
+    icon: '🚫',
+    title: 'Block Detection',
+    badge: { id: 'badge-block', text: '—', class: 'badge-warn' },
+    fields: [
+      { label: 'Blocked by Robots', id: 'v-block-robots' },
+      { label: 'Geo Blocked', id: 'v-block-geo' },
+      { label: 'IP Blocked', id: 'v-block-ip' },
+      { label: 'Captcha', id: 'v-block-captcha' },
+    ]
+  },
+  {
+    id: 'malware-check',
+    icon: '☣️',
+    title: 'Malware Check',
+    badge: { id: 'badge-malware', text: '—', class: 'badge-ok' },
+    fields: [
+      { label: 'Google Safe Browsing', id: 'v-malware-google' },
+      { label: 'PhishTank', id: 'v-malware-phish' },
+      { label: 'VirusTotal', id: 'v-malware-vt' },
+      { label: 'Threat Level', id: 'v-malware-threat' },
+    ]
+  },
+  {
+    id: 'tls-connection',
+    icon: '🔏',
+    title: 'TLS Connection',
+    badge: { id: 'badge-tlsconn', text: '—', class: 'badge-ok' },
+    fields: [
+      { label: 'TLS Version', id: 'v-tlsconn-ver' },
+      { label: 'Cipher Suite', id: 'v-tlsconn-cipher' },
+      { label: 'Key Exchange', id: 'v-tlsconn-key' },
+      { label: 'Protocol', id: 'v-tlsconn-proto' },
+    ]
+  },
+  {
+    id: 'tls-audit',
+    icon: '✅',
+    title: 'TLS Audit',
+    badge: { id: 'badge-tlsaudit', text: '—', class: 'badge-ok' },
+    fields: [
+      { label: 'Grade', id: 'v-tlsaudit-grade', class: 'accent' },
+      { label: 'Weak Ciphers', id: 'v-tlsaudit-weak' },
+      { label: 'POODLE', id: 'v-tlsaudit-poodle' },
+      { label: 'BEAST', id: 'v-tlsaudit-beast' },
+      { label: 'CRIME', id: 'v-tlsaudit-crime' },
+    ]
+  },
+  {
+    id: 'tls-compatibility',
+    icon: '👥',
+    title: 'TLS Compatibility',
+    badge: { id: 'badge-tlscompat', text: '—', class: 'badge-info' },
+    fields: [
+      { label: 'Chrome', id: 'v-tlscompat-chrome' },
+      { label: 'Firefox', id: 'v-tlscompat-firefox' },
+      { label: 'Safari', id: 'v-tlscompat-safari' },
+      { label: 'Edge', id: 'v-tlscompat-edge' },
+      { label: 'IE', id: 'v-tlscompat-ie' },
+    ]
+  },
+  {
+    id: 'diagnostic-log',
+    icon: '🔬',
+    title: 'Log de Diagnóstico',
+    fullWidth: true,
+    badge: { id: 'badge-log', text: 'aguardando', class: 'badge-info' },
+    customHtml: `<pre id="log" style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--label);line-height:1.8;max-height:220px;overflow-y:auto;white-space:pre-wrap;"></pre>`,
+  }
+];
+
+/**
+ * Cria o elemento DOM de um card com base na sua configuração
+ * @param {Object} config Configuração do card
+ * @returns {HTMLElement} Elemento div.card
+ */
+function createCard(config) {
+  const card = document.createElement('div');
+  card.className = 'card';
+  if (config.fullWidth) {
+    card.style.gridColumn = '1 / -1';
+  }
+
+  // Cabeçalho do Card
+  const head = document.createElement('div');
+  head.className = 'card-head';
+
+  const iconSpan = document.createElement('span');
+  iconSpan.className = 'card-icon';
+  iconSpan.textContent = config.icon || '';
+  head.appendChild(iconSpan);
+
+  const titleSpan = document.createElement('span');
+  titleSpan.className = 'card-title';
+  titleSpan.innerHTML = config.title || '';
+  head.appendChild(titleSpan);
+
+  if (config.badge) {
+    const badgeSpan = document.createElement('span');
+    badgeSpan.className = 'card-badge' + (config.badge.class ? ' ' + config.badge.class : '');
+    badgeSpan.id = config.badge.id;
+    badgeSpan.textContent = config.badge.text;
+    head.appendChild(badgeSpan);
+  }
+  card.appendChild(head);
+
+  // Corpo do Card
+  const body = document.createElement('div');
+  body.className = 'card-body';
+  if (config.bodyId) {
+    body.id = config.bodyId;
+  }
+
+  if (config.customHtml) {
+    body.innerHTML = config.customHtml;
+  } else {
+    if (config.fields) {
+      config.fields.forEach(field => {
+        const row = document.createElement('div');
+        row.className = 'row';
+        if (field.rowStyle) {
+          row.style.cssText = field.rowStyle;
+        }
+
+        const lbl = document.createElement('span');
+        lbl.className = 'row-label';
+        lbl.textContent = field.label;
+        row.appendChild(lbl);
+
+        const val = document.createElement('span');
+        val.className = 'row-value' + (field.class ? ' ' + field.class : '');
+        if (field.id) val.id = field.id;
+        if (field.style) val.style.cssText = field.style;
+        val.innerHTML = field.defaultValue !== undefined ? field.defaultValue : '—';
+        row.appendChild(val);
+
+        body.appendChild(row);
+
+        // Barra de qualidade de latência após a linha de ping
+        if (config.latencyBar && field.id === 'v-ping') {
+          const latWrap = document.createElement('div');
+          latWrap.className = 'latency-bar-wrap';
+          latWrap.innerHTML = '<div style="font-size:.7rem;color:var(--muted)">Qualidade</div><div class="latency-bar-bg"><div class="latency-bar-fill" id="ping-bar"></div></div>';
+          body.appendChild(latWrap);
+        }
+      });
+    }
+
+    if (config.appendHtml) {
+      const temp = document.createElement('div');
+      temp.innerHTML = config.appendHtml;
+      while (temp.firstChild) {
+        body.appendChild(temp.firstChild);
+      }
+    }
+  }
+
+  card.appendChild(body);
+  return card;
+}
+
+/**
+ * Renderiza todos os cards configurados no container do grid
+ */
+function renderCards() {
+  const container = document.getElementById('cards-container');
+  if (!container) return;
+  const fragment = document.createDocumentFragment();
+  CARDS_CONFIG.forEach(cfg => {
+    fragment.appendChild(createCard(cfg));
+  });
+  container.appendChild(fragment);
+}
+
 /* ─────────── Utilitários ─────────── */
 const $  = id => document.getElementById(id);
 const set = (id, val, cls) => {
@@ -2179,6 +2146,7 @@ async function scanTLSCompatibility(domain) {
 }
 
 /* ─────────── Auto-start ─────────── */
+renderCards();
 startTimer();
 runAll();
 </script>
