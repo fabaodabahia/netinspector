@@ -1109,7 +1109,8 @@ async function fetchIPv4Info() {
     set('v-postal', d.postal || '—', '');
     set('v-tz', `${d.timezone || '—'} (UTC${d.utc_offset ? d.utc_offset.slice(0, 3) + ':' + d.utc_offset.slice(3) : ''})`, '');
     set('v-coords', (d.latitude && d.longitude) ? `${d.latitude}, ${d.longitude}` : '—', 'accent');
-    $('badge-loc').textContent = `${d.city || d.region || d.country_name || '—'}`;
+    const badgeLoc = $('badge-loc');
+    if (badgeLoc) badgeLoc.textContent = `${d.city || d.region || d.country_name || '—'}`;
 
     // Mapa OpenStreetMap
     if (d.latitude && d.longitude) {
@@ -1122,20 +1123,25 @@ async function fetchIPv4Info() {
 
     // IPv4
     set('v-ipv4', d.ip, 'accent');
-    $('badge-ip').textContent = 'IPv4 ✓';
+    const badgeIp = $('badge-ip');
+    if (badgeIp) badgeIp.textContent = 'IPv4 ✓';
 
     // Segurança
     const isProxy = d.proxy;
     const isTor   = d.tor;
     set('v-proxy', isProxy ? '⚠ Detectado' : '✓ Não detectado', isProxy ? 'warn' : 'ok');
     set('v-tor',   isTor   ? '⚠ Detectado' : '✓ Não detectado', isTor   ? 'warn' : 'ok');
-    $('badge-sec').textContent = (isProxy || isTor) ? 'Proxy/VPN' : 'Limpo';
-    $('badge-sec').className   = 'card-badge ' + ((isProxy || isTor) ? 'badge-warn' : 'badge-ok');
+    const badgeSec = $('badge-sec');
+    if (badgeSec) {
+      badgeSec.textContent = (isProxy || isTor) ? 'Proxy/VPN' : 'Limpo';
+      badgeSec.className   = 'card-badge ' + ((isProxy || isTor) ? 'badge-warn' : 'badge-ok');
+    }
 
     return d;
   } catch(e) {
     log('Erro ao buscar IPv4: ' + e.message);
-    $('hero-ip').innerHTML = '<span style="color:var(--err)">Falha ao obter IP</span>';
+    const heroIp = $('hero-ip');
+    if (heroIp) heroIp.innerHTML = '<span style="color:var(--err)">Falha ao obter IP</span>';
     set('v-isp', 'Erro de conexão', 'err');
     set('v-org', '—', '');
     set('v-asn', '—', '');
@@ -1150,8 +1156,10 @@ async function fetchIPv4Info() {
     set('v-coords', '—', '');
     set('v-proxy', 'Não verificado', 'warn');
     set('v-tor', 'Não verificado', 'warn');
-    $('badge-isp').textContent = '—';
-    $('badge-loc').textContent = '—';
+    const bIsp = $('badge-isp');
+    if (bIsp) bIsp.textContent = '—';
+    const bLoc = $('badge-loc');
+    if (bLoc) bLoc.textContent = '—';
     return null;
   }
 }
@@ -1161,7 +1169,8 @@ async function fetchIPv6() {
   try {
     const d = await ApiManager.getJson('https://api6.ipify.org?format=json', {}, 5000);
     set('v-ipv6', d.ip, 'accent');
-    $('badge-ip').textContent = 'IPv4 + IPv6 ✓';
+    const badgeIp = $('badge-ip');
+    if (badgeIp) badgeIp.textContent = 'IPv4 + IPv6 ✓';
     log(`IPv6: ${d.ip}`);
     return d.ip;
   } catch {
@@ -1215,11 +1224,17 @@ async function runPing() {
   if (ms > 150) { cls = 'err'; label = 'Alto'; }
   else if (ms > 60) { cls = 'warn'; label = 'Moderado'; }
   set('v-ping', `${ms} ms`, cls);
-  $('badge-ping').textContent = label;
-  $('badge-ping').className = `card-badge badge-${cls}`;
+  const badgePing = $('badge-ping');
+  if (badgePing) {
+    badgePing.textContent = label;
+    badgePing.className = `card-badge badge-${cls}`;
+  }
   // Barra: 0ms = 100%, >=300ms = 0%
-  const pct = Math.max(0, Math.min(100, 100 - (ms / 300 * 100)));
-  $('ping-bar').style.width = pct + '%';
+  const pingBar = $('ping-bar');
+  if (pingBar) {
+    const pct = Math.max(0, Math.min(100, 100 - (ms / 300 * 100)));
+    pingBar.style.width = pct + '%';
+  }
   log(`Ping médio: ${ms}ms (${label})`);
 }
 
@@ -1229,24 +1244,37 @@ function startTimer() {
   setInterval(() => {
     const s = Math.floor((Date.now() - start) / 1000);
     const m = Math.floor(s / 60), sec = s % 60;
-    $('badge-log').textContent = `${m}m ${sec}s no ar`;
+    const badgeLog = $('badge-log');
+    if (badgeLog) badgeLog.textContent = `${m}m ${sec}s no ar`;
   }, 1000);
 }
 
 /* ─────────── Online/Offline listener ─────────── */
-window.addEventListener('online',  () => { set('v-online','🟢 Online', 'ok');  $('badge-conn').textContent='Online';  $('badge-conn').className='card-badge badge-ok'; });
-window.addEventListener('offline', () => { set('v-online','🔴 Offline','err'); $('badge-conn').textContent='Offline'; $('badge-conn').className='card-badge badge-err'; });
+window.addEventListener('online',  () => {
+  set('v-online','🟢 Online', 'ok');
+  const b = $('badge-conn');
+  if (b) { b.textContent = 'Online'; b.className = 'card-badge badge-ok'; }
+});
+window.addEventListener('offline', () => {
+  set('v-online','🔴 Offline','err');
+  const b = $('badge-conn');
+  if (b) { b.textContent = 'Offline'; b.className = 'card-badge badge-err'; }
+});
 
 /* ─────────── Orquestrador ─────────── */
 async function runAll() {
   const btn = $('scan-btn');
-  btn.disabled = true;
-  btn.textContent = '⏳ Analisando…';
-  $('log').textContent = '';
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = '⏳ Analisando…';
+  }
+  const logEl = $('log');
+  if (logEl) logEl.textContent = '';
   log('Iniciando diagnóstico completo…');
 
   // Reset spinners
-  $('hero-ip').innerHTML = '<span class="spin"></span>';
+  const heroEl = $('hero-ip');
+  if (heroEl) heroEl.innerHTML = '<span class="spin"></span>';
   set('v-ipv6', '<span class="spin"></span>', '');
   set('v-isp',  '<span class="spin"></span>', '');
 
@@ -1262,8 +1290,10 @@ async function runAll() {
   ]);
 
   log('✅ Diagnóstico concluído.');
-  btn.disabled = false;
-  btn.textContent = '↺ Reanalisar';
+  if (btn) {
+    btn.disabled = false;
+    btn.textContent = '↺ Reanalisar';
+  }
 }
 
 /* ─────────── Domain Scanner Functions ─────────── */
