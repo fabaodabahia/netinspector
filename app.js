@@ -33,10 +33,10 @@ const CARDS_CONFIG = [
     id: 'ip',
     icon: '🌐',
     title: 'Endereços IP',
-    badge: { id: 'badge-ip', text: 'IPv4', class: 'badge-info' },
+    badge: { id: 'badge-ip', text: '—', class: 'badge-info' },
     appendHtml: '<p class="webrtc-note">⚠ IPs locais via WebRTC. Se aparecer o IPv4 público aqui, pode indicar vazamento de VPN.</p>',
     fields: [
-      { label: 'IPv4 público', id: 'v-ipv4', class: 'accent' },
+      { label: 'IPv4 público', id: 'v-ipv4', class: 'accent', defaultValue: '<span class="spin"></span>' },
       { label: 'IPv6 público', id: 'v-ipv6', class: 'accent', defaultValue: '<span class="spin"></span>' },
       { label: 'IP local (LAN)', id: 'v-local' },
       { label: 'IPv6 local', id: 'v-local6' },
@@ -880,55 +880,131 @@ const ApiManager = {
   },
 
   /**
-   * Obtenção de IP e Geo com fallback transparente e Shape Matching estrito
+   * Obtenção exclusiva do IPv4 público via endpoints IPv4-only
    */
-  async getClientIpInfo() {
-    const key = 'client:ipinfo';
+  async getIpv4() {
+    const key = 'client:ipv4';
     return this._execute(key, async () => {
-      // Provedor Primário: ipapi.co
+      // 1. api4.ipify.org
       try {
-        const resp = await this.request(
-          'https://ipapi.co/json/?fields=ip,version,city,region,country_name,country_code,postal,latitude,longitude,timezone,utc_offset,org,asn,network,currency,in_eu,proxy,tor,language,connection_type',
-          { cache: 'no-store' },
-          6000
-        );
+        const resp = await this.request('https://api4.ipify.org?format=json', { cache: 'no-store' }, 4000);
         if (resp.ok) {
           const d = await resp.json();
-          if (d && d.ip) return d;
+          if (d && d.ip && !d.ip.includes(':')) return d.ip.trim();
         }
       } catch (e) {}
 
-      // Fallback 1: ip-api.com
+      // 2. ipv4.icanhazip.com
       try {
-        const resp2 = await this.request(
-          'https://ip-api.com/json/?fields=status,message,country,countryCode,region,regionName,city,zip,lat,lon,timezone,offset,isp,org,as,query',
-          { cache: 'no-store' },
-          6000
-        );
+        const resp2 = await this.request('https://ipv4.icanhazip.com', { cache: 'no-store' }, 4000);
+        if (resp2.ok) {
+          const text = (await resp2.text()).trim();
+          if (text && !text.includes(':')) return text;
+        }
+      } catch (e2) {}
+
+      // 3. api.ipify.org (fallback)
+      try {
+        const resp3 = await this.request('https://api.ipify.org?format=json', { cache: 'no-store' }, 4000);
+        if (resp3.ok) {
+          const d3 = await resp3.json();
+          if (d3 && d3.ip && !d3.ip.includes(':')) return d3.ip.trim();
+        }
+      } catch (e3) {}
+
+      return null;
+    });
+  },
+
+  /**
+   * Obtenção exclusiva do IPv6 público via endpoints IPv6-only
+   */
+  async getIpv6() {
+    const key = 'client:ipv6';
+    return this._execute(key, async () => {
+      // 1. api6.ipify.org
+      try {
+        const resp = await this.request('https://api6.ipify.org?format=json', { cache: 'no-store' }, 4000);
+        if (resp.ok) {
+          const d = await resp.json();
+          if (d && d.ip && d.ip.includes(':')) return d.ip.trim();
+        }
+      } catch (e) {}
+
+      // 2. ipv6.icanhazip.com
+      try {
+        const resp2 = await this.request('https://ipv6.icanhazip.com', { cache: 'no-store' }, 4000);
+        if (resp2.ok) {
+          const text = (await resp2.text()).trim();
+          if (text && text.includes(':')) return text;
+        }
+      } catch (e2) {}
+
+      return null;
+    });
+  },
+
+  /**
+   * Busca dados de Geo / ISP / ASN para um IP específico
+   */
+  async getGeoForIp(ip = '') {
+    const key = 'geo:' + (ip || 'self');
+    return this._execute(key, async () => {
+      const urlSuffix = ip ? encodeURIComponent(ip) : '';
+
+      // Provedor 1: ipwho.is (suporta IPv4 e IPv6 sem bloqueio CORS)
+      try {
+        const resp = await this.request(`https://ipwho.is/${urlSuffix}`, { cache: 'no-store' }, 5000);
+        if (resp.ok) {
+          const d = await resp.json();
+          if (d && d.success) {
+            return {
+              ip: d.ip,
+              version: d.type || (d.ip && d.ip.includes(':') ? 'IPv6' : 'IPv4'),
+              city: d.city || '',
+              region: d.region || '',
+              country_name: d.country || '',
+              country_code: d.country_code || '',
+              postal: d.postal || '',
+              latitude: d.latitude || 0,
+              longitude: d.longitude || 0,
+              timezone: d.timezone?.id || '',
+              utc_offset: d.timezone?.utc ? d.timezone.utc.replace(':', '') : '',
+              org: d.connection?.org || d.connection?.isp || '',
+              asn: d.connection?.asn ? `AS${d.connection.asn}` : '',
+              network: d.connection?.domain || d.connection?.isp || '',
+              in_eu: !!d.is_eu,
+              proxy: false,
+              tor: false,
+              connection_type: 'Banda Larga / Provedor'
+            };
+          }
+        }
+      } catch (e) {}
+
+      // Provedor 2: freeipapi.com
+      try {
+        const resp2 = await this.request(`https://freeipapi.com/api/json/${urlSuffix}`, { cache: 'no-store' }, 5000);
         if (resp2.ok) {
           const d2 = await resp2.json();
-          if (d2 && d2.status === 'success') {
-            const offsetHours = d2.offset ? Math.floor(d2.offset / 3600) : 0;
-            const utcSign = offsetHours >= 0 ? '+' : '-';
-            const utcStr = `${utcSign}${String(Math.abs(offsetHours)).padStart(2, '0')}00`;
-            const asnMatch = (d2.as || '').match(/^(AS\d+)/);
+          if (d2 && d2.ipAddress) {
             return {
-              ip: d2.query,
-              version: 'IPv4',
-              city: d2.city || '',
-              region: d2.regionName || d2.region || '',
-              country_name: d2.country || '',
+              ip: d2.ipAddress,
+              version: d2.ipVersion === 6 ? 'IPv6' : 'IPv4',
+              city: d2.cityName || '',
+              region: d2.regionName || '',
+              country_name: d2.countryName || '',
               country_code: d2.countryCode || '',
-              postal: d2.zip || '',
-              latitude: d2.lat || 0,
-              longitude: d2.lon || 0,
-              timezone: d2.timezone || '',
-              utc_offset: utcStr,
-              org: d2.org || d2.isp || '',
-              asn: asnMatch ? asnMatch[1] : (d2.as || ''),
-              network: d2.isp || '',
+              postal: d2.zipCode || '',
+              latitude: d2.latitude || 0,
+              longitude: d2.longitude || 0,
+              timezone: Array.isArray(d2.timeZones) ? d2.timeZones[0] || '' : '',
+              utc_offset: '',
+              org: d2.asnOrganization || '',
+              asn: d2.asn ? `AS${d2.asn}` : '',
+              network: d2.asnOrganization || '',
               in_eu: false,
-              proxy: false,
+              proxy: !!d2.isProxy,
               tor: false,
               connection_type: 'Banda Larga / Provedor'
             };
@@ -936,35 +1012,83 @@ const ApiManager = {
         }
       } catch (e2) {}
 
-      // Fallback 2: api.ipify.org
+      // Provedor 3: ipapi.co
       try {
-        const resp3 = await this.request('https://api.ipify.org?format=json', { cache: 'no-store' }, 4000);
+        const endpoint = ip ? `https://ipapi.co/${encodeURIComponent(ip)}/json/` : 'https://ipapi.co/json/';
+        const resp3 = await this.request(endpoint, { cache: 'no-store' }, 5000);
         if (resp3.ok) {
           const d3 = await resp3.json();
-          if (d3 && d3.ip) {
-            return {
-              ip: d3.ip,
-              version: 'IPv4',
-              city: '—',
-              region: '—',
-              country_name: 'Não determinado',
-              country_code: '',
-              postal: '—',
-              latitude: null,
-              longitude: null,
-              timezone: '—',
-              utc_offset: '',
-              org: '—',
-              asn: '—',
-              network: '—',
-              in_eu: false,
-              proxy: false,
-              tor: false,
-              connection_type: '—'
-            };
-          }
+          if (d3 && d3.ip && !d3.error) return d3;
         }
       } catch (e3) {}
+
+      return null;
+    });
+  },
+
+  /**
+   * Obtenção de IP e Geo com suporte híbrido IPv4/IPv6
+   */
+  async getClientIpInfo() {
+    const key = 'client:ipinfo';
+    return this._execute(key, async () => {
+      // 1. Tenta obter IPv4 primeiro
+      const ipv4 = await this.getIpv4();
+      if (ipv4) {
+        const geo = await this.getGeoForIp(ipv4);
+        if (geo) return { ...geo, ip: ipv4, version: 'IPv4' };
+        return {
+          ip: ipv4,
+          version: 'IPv4',
+          city: '—',
+          region: '—',
+          country_name: 'Não determinado',
+          country_code: '',
+          postal: '—',
+          latitude: null,
+          longitude: null,
+          timezone: '—',
+          utc_offset: '',
+          org: '—',
+          asn: '—',
+          network: '—',
+          in_eu: false,
+          proxy: false,
+          tor: false,
+          connection_type: '—'
+        };
+      }
+
+      // 2. Se não tem IPv4 (ex: rede IPv6 pura), tenta geo direto
+      const geoDirect = await this.getGeoForIp();
+      if (geoDirect && geoDirect.ip) return geoDirect;
+
+      // 3. Tenta IPv6 direto
+      const ipv6 = await this.getIpv6();
+      if (ipv6) {
+        const geo6 = await this.getGeoForIp(ipv6);
+        if (geo6) return { ...geo6, ip: ipv6, version: 'IPv6' };
+        return {
+          ip: ipv6,
+          version: 'IPv6',
+          city: '—',
+          region: '—',
+          country_name: 'Não determinado',
+          country_code: '',
+          postal: '—',
+          latitude: null,
+          longitude: null,
+          timezone: '—',
+          utc_offset: '',
+          org: '—',
+          asn: '—',
+          network: '—',
+          in_eu: false,
+          proxy: false,
+          tor: false,
+          connection_type: '—'
+        };
+      }
 
       throw new Error('Todos os provedores de IP falharam');
     }, false);
@@ -1084,98 +1208,152 @@ async function measurePing() {
   return avg;
 }
 
+// Estado global dos IPs detectados
+let detectedIpv4 = null;
+let detectedIpv6 = null;
+
+function updateIpBadgesAndHero() {
+  const badgeIp = $('badge-ip');
+  if (badgeIp) {
+    if (detectedIpv4 && detectedIpv6) {
+      badgeIp.textContent = 'IPv4 + IPv6 ✓';
+      badgeIp.className = 'card-badge badge-ok';
+    } else if (detectedIpv4) {
+      badgeIp.textContent = 'IPv4 ✓';
+      badgeIp.className = 'card-badge badge-ok';
+    } else if (detectedIpv6) {
+      badgeIp.textContent = 'IPv6 ✓';
+      badgeIp.className = 'card-badge badge-ok';
+    } else {
+      badgeIp.textContent = '—';
+      badgeIp.className = 'card-badge badge-warn';
+    }
+  }
+
+  // Atualiza hero se ainda não estiver preenchido ou se prioritário
+  const heroIp = $('hero-ip');
+  const heroLabel = $('hero-label');
+  if (heroIp) {
+    const primaryIp = detectedIpv4 || detectedIpv6;
+    if (primaryIp) {
+      heroIp.innerHTML = `<span class="pulse"></span>${primaryIp}`;
+      if (heroLabel) {
+        const isV6 = primaryIp.includes(':');
+        heroLabel.textContent = isV6 ? 'Seu IP público (IPv6)' : 'Seu IP público (IPv4)';
+      }
+    }
+  }
+}
+
 /* ─────────── IP público IPv4 via ApiManager ─────────── */
 async function fetchIPv4Info() {
   try {
-    const d = await ApiManager.getClientIpInfo();
-    log(`IPv4: ${d.ip}  ASN: ${d.asn}  ISP: ${d.org}`);
+    const ipv4 = await ApiManager.getIpv4();
+    if (ipv4) {
+      detectedIpv4 = ipv4;
+      log(`IPv4 público detectado: ${ipv4}`);
+      set('v-ipv4', ipv4, 'accent');
+      updateIpBadgesAndHero();
 
-    // Hero
-    $('hero-ip').innerHTML = `<span class="pulse"></span>${d.ip}`;
+      // Busca dados de Geo/ISP para o IPv4
+      const geo = await ApiManager.getGeoForIp(ipv4);
+      if (geo) {
+        populateGeoAndIsp(geo);
+        return geo;
+      }
+    } else {
+      detectedIpv4 = null;
+      set('v-ipv4', 'Não detectado (sem IPv4)', 'warn');
+      log('IPv4 não detectado nesta conexão.');
+      updateIpBadgesAndHero();
 
-    // ISP
-    const isp = d.org || '—';
-    set('v-isp', isp.replace(/^AS\d+\s+/, ''), '');
-    set('v-org', d.org || '—', '');
-    set('v-asn', d.asn || '—', 'accent');
-    set('v-domain', d.network || '—', '');
-    set('v-nettype', d.connection_type || 'Não disponível', '');
-    $('badge-isp').textContent = d.asn || '—';
-
-    // Localização
-    set('v-country', `${d.country_name || '—'} (${d.country_code || '—'}) ${d.in_eu ? '🇪🇺' : ''}`, '');
-    set('v-region', d.region || '—', '');
-    set('v-city', d.city || '—', '');
-    set('v-postal', d.postal || '—', '');
-    set('v-tz', `${d.timezone || '—'} (UTC${d.utc_offset ? d.utc_offset.slice(0, 3) + ':' + d.utc_offset.slice(3) : ''})`, '');
-    set('v-coords', (d.latitude && d.longitude) ? `${d.latitude}, ${d.longitude}` : '—', 'accent');
-    const badgeLoc = $('badge-loc');
-    if (badgeLoc) badgeLoc.textContent = `${d.city || d.region || d.country_name || '—'}`;
-
-    // Mapa OpenStreetMap
-    if (d.latitude && d.longitude) {
-      const f = $('map-frame');
-      if (f) {
-        f.src = `https://www.openstreetmap.org/export/embed.html?bbox=${d.longitude - .15},${d.latitude - .1},${d.longitude + .15},${d.latitude + .1}&layer=mapnik&marker=${d.latitude},${d.longitude}`;
-        f.style.display = 'block';
+      // Se não há IPv4, busca Geo via conexão padrão ou IPv6
+      const geoFallback = await ApiManager.getClientIpInfo().catch(() => null);
+      if (geoFallback) {
+        populateGeoAndIsp(geoFallback);
+        return geoFallback;
       }
     }
-
-    // IPv4
-    set('v-ipv4', d.ip, 'accent');
-    const badgeIp = $('badge-ip');
-    if (badgeIp) badgeIp.textContent = 'IPv4 ✓';
-
-    // Segurança
-    const isProxy = d.proxy;
-    const isTor   = d.tor;
-    set('v-proxy', isProxy ? '⚠ Detectado' : '✓ Não detectado', isProxy ? 'warn' : 'ok');
-    set('v-tor',   isTor   ? '⚠ Detectado' : '✓ Não detectado', isTor   ? 'warn' : 'ok');
-    const badgeSec = $('badge-sec');
-    if (badgeSec) {
-      badgeSec.textContent = (isProxy || isTor) ? 'Proxy/VPN' : 'Limpo';
-      badgeSec.className   = 'card-badge ' + ((isProxy || isTor) ? 'badge-warn' : 'badge-ok');
-    }
-
-    return d;
+    return null;
   } catch(e) {
     log('Erro ao buscar IPv4: ' + e.message);
-    const heroIp = $('hero-ip');
-    if (heroIp) heroIp.innerHTML = '<span style="color:var(--err)">Falha ao obter IP</span>';
-    set('v-isp', 'Erro de conexão', 'err');
-    set('v-org', '—', '');
-    set('v-asn', '—', '');
-    set('v-domain', '—', '');
-    set('v-nettype', '—', '');
-    set('v-ipv4', 'Não obtido', 'err');
-    set('v-country', '—', '');
-    set('v-region', '—', '');
-    set('v-city', '—', '');
-    set('v-postal', '—', '');
-    set('v-tz', '—', '');
-    set('v-coords', '—', '');
-    set('v-proxy', 'Não verificado', 'warn');
-    set('v-tor', 'Não verificado', 'warn');
-    const bIsp = $('badge-isp');
-    if (bIsp) bIsp.textContent = '—';
-    const bLoc = $('badge-loc');
-    if (bLoc) bLoc.textContent = '—';
+    set('v-ipv4', 'Erro ao obter IPv4', 'err');
+    updateIpBadgesAndHero();
     return null;
+  }
+}
+
+/* ─────────── Preenche campos de ISP e Localização ─────────── */
+function populateGeoAndIsp(d) {
+  if (!d) return;
+  const isp = d.org || '—';
+  set('v-isp', isp.replace(/^AS\d+\s+/, ''), '');
+  set('v-org', d.org || '—', '');
+  set('v-asn', d.asn || '—', 'accent');
+  set('v-domain', d.network || '—', '');
+  set('v-nettype', d.connection_type || 'Não disponível', '');
+  const bIsp = $('badge-isp');
+  if (bIsp) bIsp.textContent = d.asn || '—';
+
+  // Localização
+  set('v-country', `${d.country_name || '—'} (${d.country_code || '—'}) ${d.in_eu ? '🇪🇺' : ''}`, '');
+  set('v-region', d.region || '—', '');
+  set('v-city', d.city || '—', '');
+  set('v-postal', d.postal || '—', '');
+  set('v-tz', `${d.timezone || '—'} (UTC${d.utc_offset ? (d.utc_offset.includes(':') ? d.utc_offset : d.utc_offset.slice(0, 3) + ':' + d.utc_offset.slice(3)) : ''})`, '');
+  set('v-coords', (d.latitude && d.longitude) ? `${d.latitude}, ${d.longitude}` : '—', 'accent');
+  const badgeLoc = $('badge-loc');
+  if (badgeLoc) badgeLoc.textContent = `${d.city || d.region || d.country_name || '—'}`;
+
+  // Mapa OpenStreetMap
+  if (d.latitude && d.longitude) {
+    const f = $('map-frame');
+    if (f) {
+      f.src = `https://www.openstreetmap.org/export/embed.html?bbox=${d.longitude - .15},${d.latitude - .1},${d.longitude + .15},${d.latitude + .1}&layer=mapnik&marker=${d.latitude},${d.longitude}`;
+      f.style.display = 'block';
+    }
+  }
+
+  // Segurança
+  const isProxy = d.proxy;
+  const isTor   = d.tor;
+  set('v-proxy', isProxy ? '⚠ Detectado' : '✓ Não detectado', isProxy ? 'warn' : 'ok');
+  set('v-tor',   isTor   ? '⚠ Detectado' : '✓ Não detectado', isTor   ? 'warn' : 'ok');
+  const badgeSec = $('badge-sec');
+  if (badgeSec) {
+    badgeSec.textContent = (isProxy || isTor) ? 'Proxy/VPN' : 'Limpo';
+    badgeSec.className   = 'card-badge ' + ((isProxy || isTor) ? 'badge-warn' : 'badge-ok');
   }
 }
 
 /* ─────────── IPv6 via ApiManager ─────────── */
 async function fetchIPv6() {
   try {
-    const d = await ApiManager.getJson('https://api6.ipify.org?format=json', {}, 5000);
-    set('v-ipv6', d.ip, 'accent');
-    const badgeIp = $('badge-ip');
-    if (badgeIp) badgeIp.textContent = 'IPv4 + IPv6 ✓';
-    log(`IPv6: ${d.ip}`);
-    return d.ip;
+    const ipv6 = await ApiManager.getIpv6();
+    if (ipv6) {
+      detectedIpv6 = ipv6;
+      set('v-ipv6', ipv6, 'accent');
+      log(`IPv6 público detectado: ${ipv6}`);
+      updateIpBadgesAndHero();
+
+      // Se IPv4 não existiu, preenche dados do ISP/Geo usando o IPv6
+      if (!detectedIpv4) {
+        const geo6 = await ApiManager.getGeoForIp(ipv6);
+        if (geo6) populateGeoAndIsp(geo6);
+      }
+      return ipv6;
+    } else {
+      detectedIpv6 = null;
+      set('v-ipv6', 'Não disponível (sem IPv6)', 'warn');
+      log('IPv6 não disponível nesta conexão.');
+      updateIpBadgesAndHero();
+      return null;
+    }
   } catch {
+    detectedIpv6 = null;
     set('v-ipv6', 'Não disponível (sem IPv6)', 'warn');
     log('IPv6 não disponível nesta conexão.');
+    updateIpBadgesAndHero();
     return null;
   }
 }
@@ -1272,11 +1450,21 @@ async function runAll() {
   if (logEl) logEl.textContent = '';
   log('Iniciando diagnóstico completo…');
 
-  // Reset spinners
+  // Reset state & spinners
+  detectedIpv4 = null;
+  detectedIpv6 = null;
   const heroEl = $('hero-ip');
   if (heroEl) heroEl.innerHTML = '<span class="spin"></span>';
+  const heroLabel = $('hero-label');
+  if (heroLabel) heroLabel.textContent = 'Seu IP público';
+  set('v-ipv4', '<span class="spin"></span>', '');
   set('v-ipv6', '<span class="spin"></span>', '');
   set('v-isp',  '<span class="spin"></span>', '');
+  const badgeIp = $('badge-ip');
+  if (badgeIp) {
+    badgeIp.textContent = 'Verificando…';
+    badgeIp.className = 'card-badge badge-info';
+  }
 
   fillBrowserInfo();
 
