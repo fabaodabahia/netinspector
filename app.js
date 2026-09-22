@@ -2781,41 +2781,104 @@ function fillBrowserInfo() {
   log('Informações do navegador coletadas.');
 }
 
-/* ─────────── WebRTC → IPs locais ─────────── */
 function getWebRTCIPs() {
   return new Promise(resolve => {
     if (typeof RTCPeerConnection === 'undefined') {
       set('v-local', 'WebRTC indisponível', 'warn');
       set('v-local6', '—', '');
-      set('v-webrtc', '—', '');
+      set('v-webrtc', 'Navegador sem suporte', 'warn');
       resolve({ local4: null, local6: null });
       return;
     }
-    const ips = new Set();
-    const pc = new RTCPeerConnection({ iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] });
-    pc.createDataChannel('');
-    pc.createOffer().then(o => pc.setLocalDescription(o)).catch(() => {});
 
-    const done = setTimeout(() => {
-      pc.close();
+    const ips = new Set();
+    let isFinished = false;
+
+    let pc;
+    try {
+      pc = new RTCPeerConnection({
+        iceServers: [
+          { urls: 'stun:stun.l.google.com:19302' },
+          { urls: 'stun:stun1.l.google.com:19302' },
+          { urls: 'stun:stun.cloudflare.com:3478' }
+        ]
+      });
+    } catch (e) {
+      set('v-local', '—', '');
+      set('v-local6', '—', '');
+      set('v-webrtc', 'Protegido / Desabilitado', 'ok');
+      resolve({ local4: null, local6: null });
+      return;
+    }
+
+    function finish() {
+      if (isFinished) return;
+      isFinished = true;
+      try {
+        pc.close();
+      } catch (e) {}
+
       const arr = [...ips];
       const v4 = arr.filter(ip => !ip.includes(':') && !ip.startsWith('169'));
       const v6 = arr.filter(ip => ip.includes(':'));
+
       set('v-local', v4.join(', ') || '—', '');
       set('v-local6', v6.join(', ') || '—', '');
-      set('v-webrtc', arr.length ? arr.join(', ') : 'Nenhum vazamento detectado', arr.length ? 'warn' : 'ok');
-      log(`WebRTC IPs encontrados: ${arr.join(', ') || 'nenhum'}`);
-      resolve({ local4: v4[0], local6: v6[0] });
-    }, 3000);
+
+      // Verifica se houve vazamento (IP público visível ou IPs locais expostos)
+      if (arr.length > 0) {
+        set('v-webrtc', arr.join(', '), 'warn');
+      } else {
+        set('v-webrtc', '✓ Nenhum vazamento detectado', 'ok');
+      }
+
+      log(`WebRTC IPs encontrados: ${arr.join(', ') || 'nenhum (protegido)'}`);
+      resolve({ local4: v4[0] || null, local6: v6[0] || null });
+    }
+
+    // Timeout de segurança reduzido para 2.5s
+    const timer = setTimeout(finish, 2500);
 
     pc.onicecandidate = e => {
-      if (!e.candidate) return;
-      const m = e.candidate.candidate.match(/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|[0-9a-f:]+::[0-9a-f:]*)/gi);
-      if (m) m.forEach(ip => { if (!ip.startsWith('0.') && ip !== '0.0.0.0') ips.add(ip); });
+      if (!e.candidate) {
+        // null candidate indica fim da coleta de ICE
+        clearTimeout(timer);
+        finish();
+        return;
+      }
+      const candidateStr = e.candidate.candidate || '';
+      const m = candidateStr.match(/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|[0-9a-f:]{3,})/gi);
+      if (m) {
+        m.forEach(ip => {
+          if (!ip.startsWith('0.') && ip !== '0.0.0.0' && !ip.endsWith('.local')) {
+            // Validação simples de formato IP
+            if (ip.includes('.') && ip.split('.').length === 4) {
+              ips.add(ip);
+            } else if (ip.includes(':') && ip.length >= 3) {
+              ips.add(ip);
+            }
+          }
+        });
+      }
     };
+
     pc.onicegatheringstatechange = () => {
-      if (pc.iceGatheringState === 'complete') { clearTimeout(done); pc.close(); }
+      if (pc.iceGatheringState === 'complete') {
+        clearTimeout(timer);
+        finish();
+      }
     };
+
+    try {
+      pc.createDataChannel('');
+      pc.createOffer().then(o => pc.setLocalDescription(o)).catch(() => {
+        clearTimeout(timer);
+        finish();
+      });
+    } catch (e) {
+      clearTimeout(timer);
+      finish();
+    }
   });
 }
 
@@ -3090,6 +3153,9 @@ async function runAll() {
   set('v-ipv4', '<span class="spin"></span>', '');
   set('v-ipv6', '<span class="spin"></span>', '');
   set('v-isp',  '<span class="spin"></span>', '');
+  set('v-webrtc', 'testando…', '');
+  set('v-local',  'verificando…', '');
+  set('v-local6', 'verificando…', '');
   const badgeIp = $('badge-ip');
   if (badgeIp) {
     badgeIp.textContent = 'Verificando…';
