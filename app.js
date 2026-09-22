@@ -126,7 +126,8 @@ const TRANSLATIONS = {
     dfaq_q4: 'Por que alguns campos aparecem como "Indisponível (CORS)"?',
     dfaq_a4: 'Por ser uma ferramenta 100% client-side, algumas consultas HTTP diretas são restringidas pela política de CORS dos navegadores para evitar requisições não autorizadas entre origens.',
     dfaq_q5: 'O que significam os headers de segurança HTTP?',
-    dfaq_a5: 'Cabeçalhos HTTP como HSTS, CSP, X-Frame-Options e X-Content-Type-Option    // DNS Leak & Privacy
+    dfaq_a5: 'Cabeçalhos HTTP como HSTS, CSP, X-Frame-Options e X-Content-Type-Options instruem o navegador sobre como proteger os visitantes contra ataques como clickjacking, injeção de scripts (XSS) e downgrade de conexão.',
+    // DNS Leak & Privacy
     nav_dnsleak: '🛡️ Teste de Vazamento DNS',
     btn_dnsleak: '🛡️ Teste de Vazamento ↗',
     leak_hero_badge: 'Privacidade &amp; Auditoria de VPN',
