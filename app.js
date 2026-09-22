@@ -4007,7 +4007,7 @@ function renderHeader() {
 
   // Configuração das rotas (Estrutura: Home / Meu IP + Teste Vazamento DNS + Analisador de Domínio)
   const navItems = [
-    { id: 'home',    key: 'nav_home',    label: t('nav_home'),    href: 'meu-ip.html',   title: t('nav_home') },
+    { id: 'home',    key: 'nav_home',    label: t('nav_home'),    href: 'index.html',    title: t('nav_home') },
     { id: 'dnsleak', key: 'nav_dnsleak', label: t('nav_dnsleak'), href: 'dns-leak.html', title: t('nav_dnsleak') },
     { id: 'domain',  key: 'nav_domain',  label: t('nav_domain'),  href: 'domain.html',   title: t('nav_domain') }
   ];
@@ -4019,9 +4019,9 @@ function renderHeader() {
   } else if (page === 'dnsleak') {
     actionBtnHtml = `<a href="domain.html" class="action-btn" data-i18n="btn_domain">${t('btn_domain')}</a>`;
   } else if (page === 'domain') {
-    actionBtnHtml = `<a href="meu-ip.html" class="action-btn" data-i18n="btn_home">${t('btn_home')}</a>`;
+    actionBtnHtml = `<a href="index.html" class="action-btn" data-i18n="btn_home">${t('btn_home')}</a>`;
   } else {
-    actionBtnHtml = `<a href="meu-ip.html" class="action-btn" data-i18n="btn_home">${t('btn_home')}</a>`;
+    actionBtnHtml = `<a href="index.html" class="action-btn" data-i18n="btn_home">${t('btn_home')}</a>`;
   }
 
   // Links de navegação desktop
@@ -4062,7 +4062,7 @@ function renderHeader() {
 
   // Breadcrumb Schema.org dinâmico
   const currentItem = navItems.find(item => item.id === page || (page === 'ip' && item.id === 'home')) || navItems[0];
-  const canonicalUrl = `https://netinspector.net/${currentItem.href}`;
+  const canonicalUrl = `https://netinspector.net/${currentItem.href === 'index.html' ? '' : currentItem.href}`;
 
   const breadcrumbJson = {
     "@context": "https://schema.org",
@@ -4086,7 +4086,7 @@ function renderHeader() {
   // Montagem do Header
   header.innerHTML = `
     <div class="header-container">
-      <a href="meu-ip.html" class="logo">
+      <a href="index.html" class="logo">
         <div class="logo-icon">🛰️</div>
         <div class="logo-text">
           <h1>NET INSPECTOR</h1>

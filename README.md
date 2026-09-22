@@ -46,8 +46,7 @@ O repositório é composto por 8 arquivos essenciais, perfeitamente desacoplados
 
 ```
 netinspector/
-├── index.html       # Redirecionamento canônico e inteligente para /meu-ip.html
-├── meu-ip.html      # Página Principal (Home: IP / ISP / Localização / Log, data-page="home")
+├── index.html       # Página Principal (Home: IP / ISP / Localização / Log, data-page="home")
 ├── dns-leak.html    # Auditoria de Privacidade VPN / Teste de Vazamento DNS & WebRTC (data-page="dnsleak")
 ├── domain.html      # Analisador de Domínio com 36 scanners (data-page="domain")
 ├── style.css        # Design System centralizado (CSS variables, seletor i18n e responsividade)
@@ -61,14 +60,8 @@ netinspector/
 
 ## ⚡ Funcionalidades e Páginas
 
-### 1. Redirecionamento Inteligente (`index.html`)
-Página de entrada de transição limpa:
-- Redirecionamento instantâneo via `<meta http-equiv="refresh">` e `window.location.replace` para `/meu-ip.html`.
-- Preservação integral de parâmetros de busca (query strings como `?lang=en` ou `?skipgc=on`).
-- Contagem canônica de acessos via GoatCounter.
-
-### 2. Página Principal / Meu IP (`meu-ip.html`) — `data-page="home"`
-Nova página inicial focada na identificação imediata de identidade de rede e conectividade:
+### 1. Página Principal / Qual é o Meu IP (`index.html`) — `data-page="home"`
+Página inicial nativa focada na identificação imediata de identidade de rede e conectividade:
 - **Hero IP Section**: Exibição em destaque do endereço público com detecção de protocolo e animação pulsante.
 - **Cards Essenciais**:
   - **ISP & ASN**: Identificação do provedor de acesso, organização titular, número de sistema autônomo (ASN) e rota BGP.
@@ -77,7 +70,7 @@ Nova página inicial focada na identificação imediata de identidade de rede e 
   - **Log de Diagnóstico**: Terminal em tempo real registrando o andamento das requisições assíncronas.
 - **Conteúdo Didático e SEO**: Artigos aprofundados explicando blocos de endereçamento, geolocalização e diferenças práticas entre IPv4 e IPv6.
 
-### 3. Teste de Vazamento DNS e WebRTC (`dns-leak.html`) — `data-page="dnsleak"`
+### 2. Teste de Vazamento DNS e WebRTC (`dns-leak.html`) — `data-page="dnsleak"`
 Landing page voltada para auditoria de conexões VPN, Proxy e proteção da privacidade:
 - **Hero Audit Section**: Indicador de integridade e auditoria de privacidade de navegação.
 - **Cards Focados em Privacidade**:
@@ -87,7 +80,7 @@ Landing page voltada para auditoria de conexões VPN, Proxy e proteção da priv
   - **Log de Diagnóstico**: Acompanhamento passo a passo dos testes de segurança.
 - **Conteúdo Didático e FAQ**: Explicação de vazamentos de DNS (DNS Leak), riscos de WebRTC STUN bypass, protocolos DoH/DoT e guia de correção.
 
-### 4. Analisador de Domínio (`domain.html`) — `data-page="domain"`
+### 3. Analisador de Domínio (`domain.html`) — `data-page="domain"`
 Ferramenta para auditoria completa de qualquer site ou domínio da web:
 - **36 Scanners Concorrentes**:
   - Registros DNS completos (`A`, `AAAA`, `MX`, `NS`, `TXT`, `CNAME`, `SOA`, `CAA`, `PTR`).
@@ -152,7 +145,7 @@ Camada de rede que encapsula 31 chamadas externas com recursos avançados:
 - **Responsividade Fluida**: Breakpoints mobile-first cobrindo desde telas estreitas (320px) até monitores ultra-wide (1024px+).
 
 ### 4. Controle via Atributo `data-page`
-O elemento `<body>` de cada página declara seu contexto de visualização (`data-page="home"` em `meu-ip.html`, `data-page="domain"` em `domain.html`). O script adapta o comportamento de inicialização, a exibição de cards e os botões de ação contextuais com base nessa propriedade.
+O elemento `<body>` de cada página declara seu contexto de visualização (`data-page="home"` em `index.html`, `data-page="dnsleak"` em `dns-leak.html`, `data-page="domain"` em `domain.html`). O script adapta o comportamento de inicialização, a exibição de cards e os botões de ação contextuais com base nessa propriedade.
 
 ### 5. Navegação Unificada via `renderHeader()`
 O cabeçalho e menu de navegação responsivo são construídos dinamicamente pela função `renderHeader()`:
@@ -193,7 +186,7 @@ O **NET INSPECTOR** adota o [GoatCounter](https://www.goatcounter.com/), uma sol
 - ✅ **Mecanismo de Opt-Out simples**: Qualquer usuário pode desativar o rastreamento clicando no botão **"Desativar Analytics"** presente no rodapé de todas as páginas (o sistema adiciona o parâmetro `?skipgc=on` na URL).
 
 **Dados métricos computados (totalmente agregados):**
-- Páginas visitadas (ex: `/meu-ip.html`, `/domain.html`)
+- Páginas visitadas (ex: `/index.html`, `/dns-leak.html`, `/domain.html`)
 - Referrer (origem da visita)
 - Navegador e sistema operacional (genéricos, não identificáveis)
 - Faixa geral de resolução de tela
