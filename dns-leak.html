@@ -7,7 +7,7 @@
   <!-- SEO Meta Tags -->
   <title>Teste de Vazamento DNS e WebRTC | Auditoria de VPN | NET INSPECTOR</title>
   <meta name="description" content="Verifique se sua VPN ou Proxy está vazando requisições DNS, IP real ou WebRTC. Teste gratuito, instantâneo e 100% client-side sem registro de dados.">
-  <meta name="keywords" content="dns leak test, teste de vazamento dns, webrtc leak, verificar privacidade vpn, ip leak test, vpn leak, dns seguro, doh, dot">
+  <meta name="keywords" content="dns leak test, teste de vazamento dns, webrtc leak, verificar privacidade vpn, ip leak test, vpn leak, dns seguro, doh, dot, desabilitar webrtc, webrtc consequences, webrtc privacy impact, vazamento webrtc vpn">
   <meta name="author" content="NET INSPECTOR">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://netinspector.net/dns-leak.html">
@@ -105,6 +105,14 @@
               "@type": "Answer",
               "text": "Ative o recurso Kill Switch e a proteção contra vazamento DNS no aplicativo da sua VPN, ou configure manualmente DNS seguros como Cloudflare (1.1.1.1)."
             }
+          },
+          {
+            "@type": "Question",
+            "name": "Devo desabilitar o WebRTC completamente?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Desativá-lo por completo quebra videochamadas no navegador (Meet, Zoom, WhatsApp Web). Em vez disso, use extensões como o uBlock Origin que ativam a proteção contra vazamento sem interromper seus serviços."
+            }
           }
         ]
       }
@@ -158,7 +166,42 @@
       O NET INSPECTOR analisa os candidatos ICE gerados pelo seu navegador em tempo real. Se o seu IPv4 público ou local estiver visível no card de IP, você será alertado imediatamente para desativar o WebRTC ou ajustar seu cliente VPN.
     </p>
 
-    <h2 style="font-size:1.4rem;color:var(--color-text-primary);margin-bottom:var(--spacing-md);display:flex;align-items:center;gap:var(--spacing-sm);">
+    <!-- Seção Educativa WebRTC Integrada -->
+    <section class="webrtc-education" aria-labelledby="webrtc-impact-heading">
+      <h2 id="webrtc-impact-heading" data-i18n="webrtc_edu_title">
+        O que acontece se eu desabilitar o WebRTC?
+      </h2>
+      
+      <p class="edu-summary" data-i18n="webrtc_edu_summary">
+        Desabilitar o WebRTC aumenta sua privacidade ao evitar vazamentos do IP real, mas serviços de áudio/vídeo em tempo real podem parar de funcionar.
+      </p>
+      
+      <div class="edu-columns">
+        <div class="edu-column warning">
+          <h3>⚠️ <span data-i18n="webrtc_edu_stops_title">O que vai parar de funcionar</span></h3>
+          <ul>
+            <li>📹 <span data-i18n="webrtc_edu_stops_voip">Videochamadas no navegador (Google Meet, Zoom Web, Discord Web, WhatsApp Web)</span></li>
+            <li>📤 <span data-i18n="webrtc_edu_stops_p2p">Compartilhamento de arquivos P2P web (Snapdrop, ShareDrop, WebTorrent)</span></li>
+            <li>🎮 <span data-i18n="webrtc_edu_stops_gaming">Jogos em nuvem e streaming interativo via navegador</span></li>
+          </ul>
+        </div>
+        
+        <div class="edu-column safe">
+          <h3>✅ <span data-i18n="webrtc_edu_safe_title">O que NÃO será afetado</span></h3>
+          <ul>
+            <li>💻 <span data-i18n="webrtc_edu_safe_apps">Aplicativos dedicados instalados (Zoom, Discord, Teams, WhatsApp)</span></li>
+            <li>📺 <span data-i18n="webrtc_edu_safe_streaming">Streaming de vídeo comum (YouTube, Netflix, Twitch)</span></li>
+            <li>🌐 <span data-i18n="webrtc_edu_safe_browsing">Navegação geral (sites, redes sociais, lojas virtuais)</span></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="edu-tip">
+        <p>💡 <span data-i18n="webrtc_edu_tip">Recomendação: em vez de desabilitar completamente, use uma extensão anti-leak (como uBlock Origin) que mantém o WebRTC funcional sem expor seu IP real.</span></p>
+      </div>
+    </section>
+
+    <h2 style="font-size:1.4rem;color:var(--color-text-primary);margin-bottom:var(--spacing-md);display:flex;align-items:center;gap:var(--spacing-sm);margin-top:var(--spacing-2xl);">
       <span>🔒</span> <span data-i18n="leak_art_doh_title">Como o DNS-over-HTTPS (DoH) e DoT Protegem sua Navegação?</span>
     </h2>
     <p style="margin-bottom:var(--spacing-md);" data-i18n="leak_art_doh_p1">
@@ -188,6 +231,11 @@
       <div style="padding:var(--spacing-md);background:var(--color-bg-primary);border:1px solid var(--color-border);border-radius:var(--radius-md);">
         <strong style="color:var(--color-text-primary);display:block;margin-bottom:var(--spacing-xs);" data-i18n="leak_faq_q4">Como solucionar um vazamento de DNS detectado?</strong>
         <p style="font-size:0.9rem;margin:0;" data-i18n="leak_faq_a4">Ative a função Kill Switch nas opções do seu app de VPN, marque a opção 'Prevenir Vazamentos de DNS', ou configure os DNS seguros da Cloudflare (1.1.1.1) ou Google (8.8.8.8).</p>
+      </div>
+
+      <div style="padding:var(--spacing-md);background:var(--color-bg-primary);border:1px solid var(--color-border);border-radius:var(--radius-md);">
+        <strong style="color:var(--color-text-primary);display:block;margin-bottom:var(--spacing-xs);" data-i18n="leak_faq_q5">Devo desabilitar o WebRTC completamente?</strong>
+        <p style="font-size:0.9rem;margin:0;" data-i18n="leak_faq_a5">Desativá-lo por completo quebra reuniões online no navegador (Meet, Zoom, WhatsApp Web). Em vez disso, utilize extensões como o uBlock Origin que ativam a proteção contra vazamento sem interromper seus serviços.</p>
       </div>
     </div>
 

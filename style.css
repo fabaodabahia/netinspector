@@ -944,3 +944,176 @@ footer {
   font-weight: 600;
 }
 
+/* ─────────── WebRTC Educational Content ─────────── */
+
+.webrtc-details,
+.finding-details {
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-sm);
+  background: rgba(0, 212, 255, 0.03);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.webrtc-details summary,
+.finding-details summary {
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--color-accent);
+  padding: var(--spacing-xs);
+  user-select: none;
+  transition: color var(--transition-base);
+}
+
+.webrtc-details summary:hover,
+.finding-details summary:hover {
+  color: var(--color-text-primary);
+}
+
+.webrtc-details[open] summary,
+.finding-details[open] summary {
+  margin-bottom: var(--spacing-sm);
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: var(--spacing-sm);
+}
+
+.webrtc-edu-content,
+.finding-edu-content {
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: var(--color-text-primary);
+}
+
+.webrtc-edu-content h5,
+.finding-edu-content h5 {
+  margin-top: var(--spacing-md);
+  margin-bottom: var(--spacing-xs);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-label);
+}
+
+.webrtc-edu-content ul,
+.finding-edu-content ul {
+  list-style: none;
+  padding-left: 0;
+  margin: var(--spacing-xs) 0;
+}
+
+.webrtc-edu-content li,
+.finding-edu-content li {
+  padding: var(--spacing-xs) 0;
+  padding-left: var(--spacing-sm);
+  border-left: 2px solid var(--color-border);
+}
+
+.webrtc-summary {
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.webrtc-tip {
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-sm);
+  background: rgba(34, 197, 94, 0.08);
+  border-left: 3px solid var(--color-status-ok);
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+/* Layout da seção educativa na página dns-leak.html */
+.webrtc-education {
+  margin-top: var(--spacing-3xl);
+  padding: var(--spacing-xl);
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.webrtc-education h2 {
+  font-family: var(--font-mono);
+  font-size: 1.3rem;
+  color: var(--color-accent);
+  margin-bottom: var(--spacing-md);
+}
+
+.edu-summary {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: var(--spacing-xl);
+  color: var(--color-text-primary);
+}
+
+.edu-columns {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+}
+
+@media (min-width: 768px) {
+  .edu-columns {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.edu-column {
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.edu-column.warning {
+  background: rgba(245, 158, 11, 0.05);
+  border-left: 4px solid var(--color-status-warn);
+}
+
+.edu-column.safe {
+  background: rgba(34, 197, 94, 0.05);
+  border-left: 4px solid var(--color-status-ok);
+}
+
+.edu-column h3 {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-text-primary);
+}
+
+.edu-column ul {
+  list-style: none;
+  padding: 0;
+}
+
+.edu-column li {
+  padding: var(--spacing-xs) 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.edu-column li:last-child {
+  border-bottom: none;
+}
+
+.edu-tip {
+  padding: var(--spacing-md);
+  background: rgba(0, 212, 255, 0.08);
+  border-left: 4px solid var(--color-accent);
+  border-radius: var(--radius-md);
+}
+
+.edu-tip p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--color-text-primary);
+}
+
+

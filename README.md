@@ -239,6 +239,7 @@ O projeto implementa as melhores práticas recomendadas de SEO técnico e semân
 - **100% Client-Side**: O código fonte roda exclusivamente na sua máquina. Não mantemos servidores coletando logs ou armazenando tráfego.
 - **Código Auditável**: Todo o projeto é transparente e distribuído abertamente sob a licença MIT.
 - **Sem Dependências Ocultas**: Nenhum framework externo de terceiros ou script invasivo de anúncios.
+- **Diagnóstico + Conteúdo Educativo Integrado**: Além de detectar vulnerabilidades e vazamentos em tempo real (como vazamentos WebRTC ou DNS Leak), o NET INSPECTOR educa o usuário com explicações práticas e transparentes sobre o impacto de desabilitar recursos do navegador, orientando o uso de contramedidas inteligentes (como extensões anti-leak) em vez de soluções drásticas que quebram ferramentas essenciais de trabalho.
 
 ---
 

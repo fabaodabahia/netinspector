@@ -162,7 +162,23 @@ const TRANSLATIONS = {
     footer_stats: 'Ver estatísticas públicas ↗',
     btn_optout_off: 'Desativar Analytics',
     btn_optout_on: 'Ativar Analytics',
-    // ─── Security AI (pt-br) ───
+        // ─── WebRTC Education (pt-br) ───
+    webrtc_edu_title: 'O que acontece se eu desabilitar o WebRTC?',
+    webrtc_edu_summary: 'Desabilitar o WebRTC aumenta sua privacidade ao evitar vazamentos do IP real, mas serviços de áudio/vídeo em tempo real podem parar de funcionar.',
+    webrtc_edu_stops_title: 'O que vai parar de funcionar',
+    webrtc_edu_stops_voip: 'Videochamadas no navegador (Google Meet, Zoom Web, Discord Web, WhatsApp Web)',
+    webrtc_edu_stops_p2p: 'Compartilhamento de arquivos P2P web (Snapdrop, ShareDrop, WebTorrent)',
+    webrtc_edu_stops_gaming: 'Jogos em nuvem e streaming interativo via navegador',
+    webrtc_edu_safe_title: 'O que NÃO será afetado',
+    webrtc_edu_safe_apps: 'Aplicativos dedicados instalados (Zoom, Discord, Teams, WhatsApp)',
+    webrtc_edu_safe_streaming: 'Streaming de vídeo comum (YouTube, Netflix, Twitch)',
+    webrtc_edu_safe_browsing: 'Navegação geral (sites, redes sociais, lojas virtuais)',
+    webrtc_edu_tip: 'Recomendação: em vez de desabilitar completamente, use uma extensão anti-leak (como uBlock Origin) que mantém o WebRTC funcional sem expor seu IP real.',
+    webrtc_edu_learn_more: 'Saiba mais',
+    webrtc_edu_collapse: 'Ocultar detalhes',
+    leak_faq_q5: 'Devo desabilitar o WebRTC completamente?',
+    leak_faq_a5: 'Desativá-lo por completo quebra reuniões online no navegador (Meet, Zoom, WhatsApp Web). Em vez disso, utilize extensões como o uBlock Origin que ativam a proteção contra vazamento sem interromper seus serviços.',
+// ─── Security AI (pt-br) ───
     ai_security_title: '🤖 Análise de Segurança IA',
     ai_analyzing: 'Analisando...',
     ai_awaiting: 'Aguardando dados...',
@@ -376,7 +392,23 @@ const TRANSLATIONS = {
     footer_stats: 'View public stats ↗',
     btn_optout_off: 'Disable Analytics',
     btn_optout_on: 'Enable Analytics',
-    // ─── Security AI (en) ───
+        // ─── WebRTC Education (en) ───
+    webrtc_edu_title: 'What happens if I disable WebRTC?',
+    webrtc_edu_summary: 'Disabling WebRTC increases privacy by preventing real IP leaks, but real-time audio/video services may stop working.',
+    webrtc_edu_stops_title: 'What will stop working',
+    webrtc_edu_stops_voip: 'Browser video calls (Google Meet, Zoom Web, Discord Web, WhatsApp Web)',
+    webrtc_edu_stops_p2p: 'Web P2P file sharing (Snapdrop, ShareDrop, WebTorrent)',
+    webrtc_edu_stops_gaming: 'Cloud gaming and interactive browser streaming',
+    webrtc_edu_safe_title: 'What will NOT be affected',
+    webrtc_edu_safe_apps: 'Dedicated desktop/mobile apps (Zoom, Discord, Teams, WhatsApp)',
+    webrtc_edu_safe_streaming: 'Standard video streaming (YouTube, Netflix, Twitch)',
+    webrtc_edu_safe_browsing: 'General web browsing (websites, social media, online stores)',
+    webrtc_edu_tip: 'Recommendation: instead of disabling completely, use an anti-leak extension (such as uBlock Origin) that keeps WebRTC functional without exposing your real IP.',
+    webrtc_edu_learn_more: 'Learn more',
+    webrtc_edu_collapse: 'Hide details',
+    leak_faq_q5: 'Should I completely disable WebRTC?',
+    leak_faq_a5: 'Disabling it completely breaks browser meetings (Meet, Zoom, WhatsApp Web). Instead, use extensions like uBlock Origin that prevent IP leaks without disrupting services.',
+// ─── Security AI (en) ───
     ai_security_title: '🤖 AI Security Analysis',
     ai_analyzing: 'Analyzing...',
     ai_awaiting: 'Waiting for data...',
@@ -590,7 +622,23 @@ const TRANSLATIONS = {
     footer_stats: 'Ver estadísticas públicas ↗',
     btn_optout_off: 'Desactivar Analítica',
     btn_optout_on: 'Activar Analítica',
-    // ─── Security AI (es) ───
+        // ─── WebRTC Education (es) ───
+    webrtc_edu_title: '¿Qué sucede si desactivo WebRTC?',
+    webrtc_edu_summary: 'Desactivar WebRTC aumenta su privacidad al evitar fugas de la IP real, pero los servicios de audio/video en tiempo real pueden dejar de funcionar.',
+    webrtc_edu_stops_title: 'Qué dejará de funcionar',
+    webrtc_edu_stops_voip: 'Videollamadas en navegador (Google Meet, Zoom Web, Discord Web, WhatsApp Web)',
+    webrtc_edu_stops_p2p: 'Transferencia de archivos P2P web (Snapdrop, ShareDrop, WebTorrent)',
+    webrtc_edu_stops_gaming: 'Juegos en la nube y streaming interactivo en navegador',
+    webrtc_edu_safe_title: 'Qué NO se verá afectado',
+    webrtc_edu_safe_apps: 'Aplicaciones dedicadas instaladas (Zoom, Discord, Teams, WhatsApp)',
+    webrtc_edu_safe_streaming: 'Streaming de video convencional (YouTube, Netflix, Twitch)',
+    webrtc_edu_safe_browsing: 'Navegación general (sitios web, redes sociales, tiendas online)',
+    webrtc_edu_tip: 'Recomendación: en lugar de deshabilitarlo por completo, use una extensión anti-fugas (como uBlock Origin) que mantiene WebRTC funcional sin exponer su IP real.',
+    webrtc_edu_learn_more: 'Más información',
+    webrtc_edu_collapse: 'Ocultar detalles',
+    leak_faq_q5: '¿Debería desactivar WebRTC por completo?',
+    leak_faq_a5: 'Desactivarlo por completo interrumpe reuniones en el navegador (Meet, Zoom, WhatsApp Web). En su lugar, use extensiones como uBlock Origin que evitan fugas sin romper servicios.',
+// ─── Security AI (es) ───
     ai_security_title: '🤖 Análisis de Seguridad IA',
     ai_analyzing: 'Analizando...',
     ai_awaiting: 'Esperando datos...',
@@ -801,7 +849,23 @@ const TRANSLATIONS = {
     footer_stats: 'Statistiques publiques ↗',
     btn_optout_off: 'Désactiver les statistiques',
     btn_optout_on: 'Activer les statistiques',
-    // ─── Security AI (fr) ───
+        // ─── WebRTC Education (fr) ───
+    webrtc_edu_title: 'Que se passe-t-il si je désactive WebRTC ?',
+    webrtc_edu_summary: 'La désactivation de WebRTC renforce votre confidentialité en évitant les fuites d’IP réelle, mais les services audio/vidéo en temps réel peuvent cesser de fonctionner.',
+    webrtc_edu_stops_title: 'Ce qui cessera de fonctionner',
+    webrtc_edu_stops_voip: 'Appels vidéo dans le navigateur (Google Meet, Zoom Web, Discord Web, WhatsApp Web)',
+    webrtc_edu_stops_p2p: 'Partage de fichiers P2P web (Snapdrop, ShareDrop, WebTorrent)',
+    webrtc_edu_stops_gaming: 'Cloud gaming et streaming interactif via le navigateur',
+    webrtc_edu_safe_title: 'Ce qui ne sera PAS affecté',
+    webrtc_edu_safe_apps: 'Applications dédiées installées (Zoom, Discord, Teams, WhatsApp)',
+    webrtc_edu_safe_streaming: 'Streaming vidéo standard (YouTube, Netflix, Twitch)',
+    webrtc_edu_safe_browsing: 'Navigation générale (sites web, réseaux sociaux, boutiques en ligne)',
+    webrtc_edu_tip: 'Recommandation : au lieu de le désactiver complètement, utilisez une extension anti-fuite (comme uBlock Origin) préservant WebRTC sans exposer votre véritable IP.',
+    webrtc_edu_learn_more: 'En savoir plus',
+    webrtc_edu_collapse: 'Masquer les détails',
+    leak_faq_q5: 'Dois-je désactiver complètement WebRTC ?',
+    leak_faq_a5: 'Le désactiver totalement perturbe les réunions web (Meet, Zoom, WhatsApp Web). Utilisez plutôt une extension comme uBlock Origin prévenant les fuites sans bloquer les flux.',
+// ─── Security AI (fr) ───
     ai_security_title: '🤖 Analyse de Sécurité IA',
     ai_analyzing: 'Analyse en cours...',
     ai_awaiting: 'En attente de données...',
@@ -1015,7 +1079,23 @@ const TRANSLATIONS = {
     footer_stats: 'Öffentliche Statistiken ↗',
     btn_optout_off: 'Analytics deaktivieren',
     btn_optout_on: 'Analytics aktivieren',
-    // ─── Security AI (de) ───
+        // ─── WebRTC Education (de) ───
+    webrtc_edu_title: 'Was passiert, wenn ich WebRTC deaktiviere?',
+    webrtc_edu_summary: 'Das Deaktivieren von WebRTC erhöht den Datenschutz, indem echte IP-Leaks verhindert werden, jedoch können Echtzeit-Audio/Video-Dienste beeinträchtigt werden.',
+    webrtc_edu_stops_title: 'Was nicht mehr funktioniert',
+    webrtc_edu_stops_voip: 'Videoanrufe im Browser (Google Meet, Zoom Web, Discord Web, WhatsApp Web)',
+    webrtc_edu_stops_p2p: 'Web-P2P-Dateifreigabe (Snapdrop, ShareDrop, WebTorrent)',
+    webrtc_edu_stops_gaming: 'Cloud-Gaming und interaktives Streaming im Browser',
+    webrtc_edu_safe_title: 'Was NICHT beeinträchtigt wird',
+    webrtc_edu_safe_apps: 'Installierte eigenständige Apps (Zoom, Discord, Teams, WhatsApp)',
+    webrtc_edu_safe_streaming: 'Normales Video-Streaming (YouTube, Netflix, Twitch)',
+    webrtc_edu_safe_browsing: 'Allgemeines Surfen (Websites, soziale Medien, Online-Shops)',
+    webrtc_edu_tip: 'Empfehlung: Statt es vollständig abzuschalten, nutzen Sie eine Anti-Leak-Erweiterung (z. B. uBlock Origin), die WebRTC schützt, ohne Ihre echte IP zu verraten.',
+    webrtc_edu_learn_more: 'Mehr erfahren',
+    webrtc_edu_collapse: 'Details ausblenden',
+    leak_faq_q5: 'Sollte ich WebRTC vollständig deaktivieren?',
+    leak_faq_a5: 'Eine vollständige Abschaltung verhindert Browser-Meetings (Meet, Zoom, WhatsApp Web). Nutzen Sie stattdessen uBlock Origin für Leak-Schutz ohne Funktionsverlust.',
+// ─── Security AI (de) ───
     ai_security_title: '🤖 KI-Sicherheitsanalyse',
     ai_analyzing: 'Analysiere...',
     ai_awaiting: 'Warte auf Daten...',
@@ -1229,7 +1309,23 @@ const TRANSLATIONS = {
     footer_stats: 'Visualizza statistiche pubbliche ↗',
     btn_optout_off: 'Disattiva Statistiche',
     btn_optout_on: 'Attiva Statistiche',
-    // ─── Security AI (it) ───
+        // ─── WebRTC Education (it) ───
+    webrtc_edu_title: 'Cosa succede se disabilito WebRTC?',
+    webrtc_edu_summary: 'Disabilitare WebRTC aumenta la privacy prevenendo la fuga dell’IP reale, ma i servizi audio/video in tempo reale nel browser potrebbero smettere di funzionare.',
+    webrtc_edu_stops_title: 'Cosa smetterà di funzionare',
+    webrtc_edu_stops_voip: 'Videochiamate nel browser (Google Meet, Zoom Web, Discord Web, WhatsApp Web)',
+    webrtc_edu_stops_p2p: 'Condivisione file P2P via web (Snapdrop, ShareDrop, WebTorrent)',
+    webrtc_edu_stops_gaming: 'Cloud gaming e streaming interattivo nel browser',
+    webrtc_edu_safe_title: 'Cosa NON sarà influenzato',
+    webrtc_edu_safe_apps: 'Applicazioni dedicate installate (Zoom, Discord, Teams, WhatsApp)',
+    webrtc_edu_safe_streaming: 'Streaming video tradizionale (YouTube, Netflix, Twitch)',
+    webrtc_edu_safe_browsing: 'Navigazione web generale (siti, social media, shopping online)',
+    webrtc_edu_tip: 'Raccomandazione: invece di disabilitarlo del tutto, usa un’estensione anti-leak (come uBlock Origin) che mantiene WebRTC attivo senza esporre il tuo vero IP.',
+    webrtc_edu_learn_more: 'Scopri di più',
+    webrtc_edu_collapse: 'Nascondi dettagli',
+    leak_faq_q5: 'Dovrei disabilitare WebRTC completamente?',
+    leak_faq_a5: 'Disattivarlo del tutto impedisce le riunioni online su browser (Meet, Zoom, WhatsApp Web). Consigliamo estensioni come uBlock Origin per bloccare le fughe senza disservizi.',
+// ─── Security AI (it) ───
     ai_security_title: '🤖 Analisi di Sicurezza IA',
     ai_analyzing: 'Analisi in corso...',
     ai_awaiting: 'In attesa dei dati...',
@@ -1443,7 +1539,23 @@ const TRANSLATIONS = {
     footer_stats: '公開統計を見る ↗',
     btn_optout_off: '解析を無効化',
     btn_optout_on: '解析を有効化',
-    // ─── Security AI (ja) ───
+        // ─── WebRTC Education (ja) ───
+    webrtc_edu_title: 'WebRTCを無効化すると何が起こりますか？',
+    webrtc_edu_summary: 'WebRTCを無効にすると本物のIP漏洩を防ぎプライバシーが向上しますが、ブラウザ上のリアルタイム音声・ビデオ通信が動作しなくなる恐れがあります。',
+    webrtc_edu_stops_title: '動作しなくなる機能',
+    webrtc_edu_stops_voip: 'ブラウザ版ビデオ通話（Google Meet、Zoom Web、Discord Web、WhatsApp Web）',
+    webrtc_edu_stops_p2p: 'Web P2Pファイル共有（Snapdrop、ShareDrop、WebTorrentなど）',
+    webrtc_edu_stops_gaming: 'ブラウザ経由のクラウドゲーミングやインタラクティブ配信',
+    webrtc_edu_safe_title: '影響を受けない機能',
+    webrtc_edu_safe_apps: 'インストール済みの専用アプリ（Zoom、Discord、Teams、WhatsApp）',
+    webrtc_edu_safe_streaming: '通常の動画ストリーミング（YouTube、Netflix、Twitchなど）',
+    webrtc_edu_safe_browsing: '一般的なウェブ閲覧（ニュースサイト、SNS、オンラインショップ）',
+    webrtc_edu_tip: '推奨事項：完全に無効化するのではなく、uBlock Originなどの漏洩防止拡張機能を利用して、実IPを露出させずにWebRTCを利用することを推奨します。',
+    webrtc_edu_learn_more: '詳細を見る',
+    webrtc_edu_collapse: '折りたたむ',
+    leak_faq_q5: 'WebRTCを完全に無効化すべきですか？',
+    leak_faq_a5: '完全無効化はブラウザでのオンライン通話を破損します。uBlock Origin等の拡張機能を活用して、サービスを止めずにIP漏洩を防ぐ手法が最適です。',
+// ─── Security AI (ja) ───
     ai_security_title: '🤖 AI セキュリティ診断',
     ai_analyzing: '分析中...',
     ai_awaiting: 'データ待機中...',
@@ -1657,7 +1769,23 @@ const TRANSLATIONS = {
     footer_stats: '查看公开统计 ↗',
     btn_optout_off: '停用访问统计',
     btn_optout_on: '启用访问统计',
-    // ─── Security AI (zh) ───
+        // ─── WebRTC Education (zh) ───
+    webrtc_edu_title: '如果我禁用 WebRTC 会发生什么？',
+    webrtc_edu_summary: '禁用 WebRTC 可以防止真实 IP 泄露并提升隐私保护，但浏览器内的实时音视频与直连通信功能可能无法正常使用。',
+    webrtc_edu_stops_title: '将停止工作的功能',
+    webrtc_edu_stops_voip: '网页端视频会议与通话（Google Meet、Zoom Web、Discord Web、WhatsApp Web）',
+    webrtc_edu_stops_p2p: '网页 P2P 文件传输（Snapdrop、ShareDrop、WebTorrent 等）',
+    webrtc_edu_stops_gaming: '基于浏览器的云游戏与低延迟互动串流',
+    webrtc_edu_safe_title: '不受影响的功能',
+    webrtc_edu_safe_apps: '已安装的独立客户端应用（Zoom、Discord、Teams、WhatsApp）',
+    webrtc_edu_safe_streaming: '常规视频流媒体（YouTube、Bilibili、Netflix、Twitch）',
+    webrtc_edu_safe_browsing: '日常网页浏览（新闻资讯、社交网络、在线商城）',
+    webrtc_edu_tip: '实用建议：与其在浏览器中完全禁用，不如使用防泄露扩展（如 uBlock Origin），既能保持 WebRTC 正常通信，又不会泄露真实公网 IP。',
+    webrtc_edu_learn_more: '了解更多',
+    webrtc_edu_collapse: '收起详情',
+    leak_faq_q5: '我应该完全禁用 WebRTC 吗？',
+    leak_faq_a5: '完全禁用会导致网页端会议通话无法连接。推荐配合 uBlock Origin 等防泄漏扩展，在保证业务可用的同时阻断公网 IP 泄露。',
+// ─── Security AI (zh) ───
     ai_security_title: '🤖 AI 安全分析',
     ai_analyzing: '分析中...',
     ai_awaiting: '等待数据...',
@@ -1871,7 +1999,23 @@ const TRANSLATIONS = {
     footer_stats: 'Открыть публичную статистику ↗',
     btn_optout_off: 'Отключить аналитику',
     btn_optout_on: 'Включить аналитику',
-    // ─── Security AI (ru) ───
+        // ─── WebRTC Education (ru) ───
+    webrtc_edu_title: 'Что произойдет, если отключить WebRTC?',
+    webrtc_edu_summary: 'Отключение WebRTC повышает конфиденциальность, предотвращая утечку реального IP, но аудио- и видеосвязь в реальном времени в браузере может перестать работать.',
+    webrtc_edu_stops_title: 'Что перестанет работать',
+    webrtc_edu_stops_voip: 'Видеозвонки в браузере (Google Meet, Zoom Web, Discord Web, WhatsApp Web)',
+    webrtc_edu_stops_p2p: 'Веб-обмен файлами P2P (Snapdrop, ShareDrop, WebTorrent)',
+    webrtc_edu_stops_gaming: 'Облачный гейминг и интерактивный стриминг в браузере',
+    webrtc_edu_safe_title: 'На что это НЕ повлияет',
+    webrtc_edu_safe_apps: 'Установленные приложения на ПК/телефоне (Zoom, Discord, Teams, WhatsApp)',
+    webrtc_edu_safe_streaming: 'Обычный просмотр видео (YouTube, Netflix, Twitch)',
+    webrtc_edu_safe_browsing: 'Обычный веб-серфинг (новости, соцсети, интернет-магазины)',
+    webrtc_edu_tip: 'Рекомендация: вместо полного отключения используйте расширение для защиты от утечек (например, uBlock Origin), сохраняющее функции WebRTC без раскрытия IP.',
+    webrtc_edu_learn_more: 'Подробнее',
+    webrtc_edu_collapse: 'Скрыть подробности',
+    leak_faq_q5: 'Стоит ли полностью отключать WebRTC?',
+    leak_faq_a5: 'Полное отключение ломает звонки в веб-версиях сервисов. Лучше использовать расширения вроде uBlock Origin, блокирующие утечку без потери связи.',
+// ─── Security AI (ru) ───
     ai_security_title: '🤖 ИИ-анализ безопасности',
     ai_analyzing: 'Анализ...',
     ai_awaiting: 'Ожидание данных...',
@@ -2085,7 +2229,23 @@ const TRANSLATIONS = {
     footer_stats: 'عرض الإحصائيات العامة ↗',
     btn_optout_off: 'تعطيل الإحصائيات',
     btn_optout_on: 'تفعيل الإحصائيات',
-    // ─── Security AI (ar) ───
+        // ─── WebRTC Education (ar) ───
+    webrtc_edu_title: 'ماذا يحدث إذا قمت بتعطيل WebRTC؟',
+    webrtc_edu_summary: 'يؤدي تعطيل WebRTC إلى تعزيز خصوصيتك بمنع تسريب عنوان IP الحقيقي، ولكن خدمات الصوت والفيديو المباشرة في المتصفح قد تتوقف عن العمل.',
+    webrtc_edu_stops_title: 'ما الذي سيتوقف عن العمل',
+    webrtc_edu_stops_voip: 'مكالمات الفيديو عبر المتصفح (Google Meet، Zoom Web، Discord Web، WhatsApp Web)',
+    webrtc_edu_stops_p2p: 'مشاركة الملفات P2P عبر الويب (Snapdrop، ShareDrop، WebTorrent)',
+    webrtc_edu_stops_gaming: 'ألعاب السحاب والبث التفاعلي المباشر عبر المتصفح',
+    webrtc_edu_safe_title: 'ما الذي لن يتأثر',
+    webrtc_edu_safe_apps: 'التطبيقات المثبتة المستقلة (Zoom، Discord، Teams، WhatsApp)',
+    webrtc_edu_safe_streaming: 'بث الفيديو التقليدي (YouTube، Netflix، Twitch)',
+    webrtc_edu_safe_browsing: 'التصفح العام (المواقع الإخبارية، منصات التواصل، المتاجر الإلكترونية)',
+    webrtc_edu_tip: 'نصيحة عملية: بدلاً من التعطيل الكامل، استخدم إضافة مانعة للتسريب (مثل uBlock Origin) تحافظ على عمل WebRTC دون كشف عنوان IP الحقيقي خارج الـ VPN.',
+    webrtc_edu_learn_more: 'معرفة المزيد',
+    webrtc_edu_collapse: 'إخفاء التفاصيل',
+    leak_faq_q5: 'هل يجب أن أعطل WebRTC بالكامل؟',
+    leak_faq_a5: 'التعطيل الكامل يعطل اجتماعات المتصفح (Meet و Zoom و WhatsApp Web). البديل الأفضل استخدام إضافات مثل uBlock Origin لمنع التسريب دون انقطاع الخدمات.',
+// ─── Security AI (ar) ───
     ai_security_title: '🤖 تحليل الأمان بالذكاء الاصطناعي',
     ai_analyzing: 'جارٍ التحليل...',
     ai_awaiting: 'في انتظار البيانات...',
@@ -2358,6 +2518,23 @@ const CARDS_CONFIG = [
       { labelKey: 'lbl_ip_local', label: 'IP local (LAN)', id: 'v-local' },
       { labelKey: 'lbl_ipv6_local', label: 'IPv6 local', id: 'v-local6' },
       { labelKey: 'lbl_webrtc_leak', label: 'WebRTC leak', id: 'v-webrtc', defaultValue: 'testando…' },
+      {
+        type: 'details',
+        id: 'webrtc-details',
+        summaryKey: 'webrtc_edu_learn_more',
+        contentKeys: [
+          'webrtc_edu_summary',
+          'webrtc_edu_stops_title',
+          'webrtc_edu_stops_voip',
+          'webrtc_edu_stops_p2p',
+          'webrtc_edu_stops_gaming',
+          'webrtc_edu_safe_title',
+          'webrtc_edu_safe_apps',
+          'webrtc_edu_safe_streaming',
+          'webrtc_edu_safe_browsing',
+          'webrtc_edu_tip'
+        ]
+      }
     ]
   },
   {
@@ -2968,6 +3145,43 @@ function createCard(config) {
           ph.setAttribute('data-i18n', 'ai_awaiting');
           ph.textContent = t('ai_awaiting') || 'Aguardando dados...';
           body.appendChild(ph);
+          return;
+        }
+
+        if (field.type === 'details') {
+          const details = document.createElement('details');
+          details.className = 'webrtc-details';
+          if (field.id) details.id = field.id;
+
+          const summary = document.createElement('summary');
+          const sumKey = field.summaryKey || 'webrtc_edu_learn_more';
+          summary.setAttribute('data-i18n', sumKey);
+          summary.innerHTML = `ℹ️ ${t(sumKey)}`;
+          details.appendChild(summary);
+
+          const content = document.createElement('div');
+          content.className = 'webrtc-edu-content';
+          content.innerHTML = `
+            <p class="webrtc-summary" data-i18n="webrtc_edu_summary">${t('webrtc_edu_summary')}</p>
+            
+            <h5 data-i18n="webrtc_edu_stops_title">⚠️ ${t('webrtc_edu_stops_title')}</h5>
+            <ul>
+              <li data-i18n="webrtc_edu_stops_voip">📹 ${t('webrtc_edu_stops_voip')}</li>
+              <li data-i18n="webrtc_edu_stops_p2p">📤 ${t('webrtc_edu_stops_p2p')}</li>
+              <li data-i18n="webrtc_edu_stops_gaming">🎮 ${t('webrtc_edu_stops_gaming')}</li>
+            </ul>
+            
+            <h5 data-i18n="webrtc_edu_safe_title">✅ ${t('webrtc_edu_safe_title')}</h5>
+            <ul>
+              <li data-i18n="webrtc_edu_safe_apps">💻 ${t('webrtc_edu_safe_apps')}</li>
+              <li data-i18n="webrtc_edu_safe_streaming">📺 ${t('webrtc_edu_safe_streaming')}</li>
+              <li data-i18n="webrtc_edu_safe_browsing">🌐 ${t('webrtc_edu_safe_browsing')}</li>
+            </ul>
+            
+            <p class="webrtc-tip" data-i18n="webrtc_edu_tip">💡 ${t('webrtc_edu_tip')}</p>
+          `;
+          details.appendChild(content);
+          body.appendChild(details);
           return;
         }
 
@@ -4915,7 +5129,12 @@ const SecurityAnalyzer = {
     // WebRTC Leak
     if (data.webrtcLeak) {
       score -= 20;
-      findings.push({ id: 'risk_webrtc_leak', severity: 'critical', points: -20 });
+      findings.push({
+        id: 'risk_webrtc_leak',
+        severity: 'critical',
+        points: -20,
+        hasDetails: true
+      });
     }
 
     // IPv6 disponível mas desprotegido (se estiver em VPN no IPv4 mas IPv6 vazando)
@@ -5252,7 +5471,30 @@ const SecurityAnalyzer = {
         <div class="findings-section critical">
           <h4>🔴 ${t('risks_critical')} (${criticalList.length})</h4>
           <ul>
-            ${criticalList.map(item => `<li><strong>${item.points} pts:</strong> ${t(item.id)} ${item.owasp ? `<span style="opacity:0.75">[OWASP ${item.owasp}]</span>` : ''}</li>`).join('')}
+            ${criticalList.map(item => `
+              <li>
+                <div><strong>${item.points} pts:</strong> ${t(item.id)} ${item.owasp ? `<span style="opacity:0.75">[OWASP ${item.owasp}]</span>` : ''}</div>
+                ${item.hasDetails ? `
+                  <details class="finding-details">
+                    <summary>ℹ️ ${t('webrtc_edu_learn_more')}</summary>
+                    <div class="finding-edu-content">
+                      <p class="webrtc-summary">${t('webrtc_edu_summary')}</p>
+                      <h5>⚠️ ${t('webrtc_edu_stops_title')}</h5>
+                      <ul>
+                        <li>📹 ${t('webrtc_edu_stops_voip')}</li>
+                        <li>📤 ${t('webrtc_edu_stops_p2p')}</li>
+                      </ul>
+                      <h5>✅ ${t('webrtc_edu_safe_title')}</h5>
+                      <ul>
+                        <li>💻 ${t('webrtc_edu_safe_apps')}</li>
+                        <li>📺 ${t('webrtc_edu_safe_streaming')}</li>
+                      </ul>
+                      <p class="webrtc-tip">💡 ${t('webrtc_edu_tip')}</p>
+                    </div>
+                  </details>
+                ` : ''}
+              </li>
+            `).join('')}
           </ul>
         </div>
       `;
