@@ -163,6 +163,15 @@ const TRANSLATIONS = {
     btn_optout_off: 'Desativar Analytics',
     btn_optout_on: 'Ativar Analytics',
                 // ─── Machine Learning ONNX (pt-br) ───
+        ml_prob_safe: 'IA: {p}% de chance de ser seguro',
+        ml_prob_hint: 'Toque para entender este número',
+        ml_anomaly_alert: 'Anomalia detectada pela IA',
+        ml_anomaly_explain: 'O modelo estatístico e o motor de regras divergem fortemente. Isso pode indicar padrões suspeitos não cobertos pelas regras padrão, ou uma configuração atípica do servidor. Recomenda-se revisão manual.',
+        ml_edu_title: 'O que significa esta probabilidade?',
+        ml_edu_summary: 'É a estimativa do modelo de Machine Learning (XGBoost rodando localmente via WebAssembly) de que este domínio é seguro. 100% = muito provável seguro; 0% = muito provável vulnerável.',
+        ml_edu_how: 'Como é calculada: 24 indicadores extraídos dos scanners (SSL, headers, DNS, cookies) são convertidos em um vetor numérico e processados por um modelo treinado, tudo dentro do seu navegador.',
+        ml_edu_caveat: 'Importante: o modelo foi treinado com dados simulados. Use este número como indicador relativo, não como medição absoluta.',
+        ml_edu_divergence: 'Por que pode diferir do Score: o motor de regras soma penalidades lineares; o modelo aprende combinações não-lineares. Divergências grandes geram o alerta de anomalia acima.',
         ml_loading: 'Carregando motor de IA (WebAssembly)...',
         ml_confidence_high: 'Alta Confiança (Regras + IA)',
         ml_anomaly_detected: 'Anomalia detectada pela IA: Padrões suspeitos não cobertos pelas regras padrão.',
@@ -398,6 +407,15 @@ const TRANSLATIONS = {
     btn_optout_off: 'Disable Analytics',
     btn_optout_on: 'Enable Analytics',
                 // ─── Machine Learning ONNX (en) ───
+        ml_prob_safe: 'AI: {p}% chance of being safe',
+        ml_prob_hint: 'Tap to understand this number',
+        ml_anomaly_alert: 'Anomaly detected by AI',
+        ml_anomaly_explain: 'The statistical model and rule engine diverge significantly. This may indicate suspicious patterns not covered by default rules or an atypical server configuration. Manual review recommended.',
+        ml_edu_title: 'What does this probability mean?',
+        ml_edu_summary: 'It is the estimate from our Machine Learning model (XGBoost running locally via WebAssembly) that this domain is safe. 100% = very likely safe; 0% = very likely vulnerable.',
+        ml_edu_how: 'How it is calculated: 24 indicators extracted from scanners (SSL, headers, DNS, cookies) are vectorized and processed by a trained model, all inside your browser.',
+        ml_edu_caveat: 'Important: the model was trained on simulated data. Use this number as a relative indicator, not an absolute measurement.',
+        ml_edu_divergence: 'Why it may differ from the Score: the rule engine sums linear penalties; the model learns non-linear combinations. Large divergences trigger the anomaly alert above.',
         ml_loading: 'Loading AI engine (WebAssembly)...',
         ml_confidence_high: 'High Confidence (Rules + AI)',
         ml_anomaly_detected: 'Anomaly detected by AI: Suspicious patterns not covered by default rules.',
@@ -633,6 +651,15 @@ const TRANSLATIONS = {
     btn_optout_off: 'Desactivar Analítica',
     btn_optout_on: 'Activar Analítica',
                 // ─── Machine Learning ONNX (es) ───
+        ml_prob_safe: 'IA: {p}% de probabilidad de ser seguro',
+        ml_prob_hint: 'Toca para entender este número',
+        ml_anomaly_alert: 'Anomalía detectada por la IA',
+        ml_anomaly_explain: 'El modelo estadístico y el motor de reglas divergen fuertemente. Esto puede indicar patrones sospechosos no cubiertos por las reglas estándar o una configuración atípica del servidor. Se recomienda revisión manual.',
+        ml_edu_title: '¿Qué significa esta probabilidad?',
+        ml_edu_summary: 'Es la estimación del modelo de Machine Learning (XGBoost ejecutado localmente mediante WebAssembly) de que este dominio es seguro. 100% = muy probablemente seguro; 0% = muy probablemente vulnerable.',
+        ml_edu_how: 'Cómo se calcula: 24 indicadores extraídos de los escáneres (SSL, cabeceras, DNS, cookies) se convierten en un vector numérico y son procesados por un modelo entrenado, todo dentro de su navegador.',
+        ml_edu_caveat: 'Importante: el modelo fue entrenado con datos simulados. Utilice este número como indicador relativo, no como medición absoluta.',
+        ml_edu_divergence: '¿Por qué puede diferir de la Puntuación?: el motor de reglas suma penalizaciones lineales; el modelo aprende combinaciones no lineales. Grandes divergencias generan la alerta de anomalía anterior.',
         ml_loading: 'Cargando motor de IA (WebAssembly)...',
         ml_confidence_high: 'Alta Confianza (Reglas + IA)',
         ml_anomaly_detected: 'Anomalía detectada por la IA: Patrones sospechosos no cubiertos por las reglas estándar.',
@@ -865,6 +892,15 @@ const TRANSLATIONS = {
     btn_optout_off: 'Désactiver les statistiques',
     btn_optout_on: 'Activer les statistiques',
                 // ─── Machine Learning ONNX (fr) ───
+        ml_prob_safe: 'IA : {p}% de chances d\'être sécurisé',
+        ml_prob_hint: 'Appuyez pour comprendre ce chiffre',
+        ml_anomaly_alert: 'Anomalie détectée par l\'IA',
+        ml_anomaly_explain: 'Le modèle statistique et le moteur de règles divergent fortement. Cela peut indiquer des motifs suspects non couverts par les règles standard ou une configuration serveur atypique. Vérification manuelle recommandée.',
+        ml_edu_title: 'Que signifie cette probabilité ?',
+        ml_edu_summary: 'C\'est l\'estimation de notre modèle de Machine Learning (XGBoost s\'exécutant localement via WebAssembly) que ce domaine est sécurisé. 100% = très probablement sécurisé ; 0% = très probablement vulnérable.',
+        ml_edu_how: 'Comment elle est calculée : 24 indicateurs extraits des scanners (SSL, en-têtes, DNS, cookies) sont vectorisés et traités par un modèle entraîné, entièrement dans votre navigateur.',
+        ml_edu_caveat: 'Important : le modèle a été entraîné sur des données simulées. Utilisez ce chiffre comme indicateur relatif et non comme mesure absolue.',
+        ml_edu_divergence: 'Pourquoi cela peut différer du Score : le moteur de règles additionne des pénalités linéaires ; le modèle apprend des combinaisons non linéaires. De grandes divergences déclenchent l\'alerte d\'anomalie ci-dessus.',
         ml_loading: 'Chargement du moteur IA (WebAssembly)...',
         ml_confidence_high: 'Haute Confiance (Règles + IA)',
         ml_anomaly_detected: 'Anomalie détectée par l\'IA : Motifs suspects non couverts par les règles par défaut.',
@@ -1100,6 +1136,15 @@ const TRANSLATIONS = {
     btn_optout_off: 'Analytics deaktivieren',
     btn_optout_on: 'Analytics aktivieren',
                 // ─── Machine Learning ONNX (de) ───
+        ml_prob_safe: 'KI: {p}% Chance, sicher zu sein',
+        ml_prob_hint: 'Tippen, um diese Zahl zu verstehen',
+        ml_anomaly_alert: 'Von KI erkannte Anomalie',
+        ml_anomaly_explain: 'Das statistische Modell und die Regel-Engine weichen stark voneinander ab. Dies kann auf verdächtige Muster hinweisen, die nicht von den Standardregeln abgedeckt werden, oder auf eine atypische Serverkonfiguration. Manuelle Überprüfung empfohlen.',
+        ml_edu_title: 'Was bedeutet diese Wahrscheinlichkeit?',
+        ml_edu_summary: 'Es ist die Schätzung unseres Machine-Learning-Modells (XGBoost lokal über WebAssembly ausgeführt), dass diese Domain sicher ist. 100% = sehr wahrscheinlich sicher; 0% = sehr wahrscheinlich verwundbar.',
+        ml_edu_how: 'Wie sie berechnet wird: 24 aus den Scannern extrahierte Indikatoren (SSL, Header, DNS, Cookies) werden vektorisiert und von einem trainierten Modell direkt in Ihrem Browser verarbeitet.',
+        ml_edu_caveat: 'Wichtig: Das Modell wurde mit simulierten Daten trainiert. Nutzen Sie diesen Wert als relativen Indikator, nicht als absolute Messung.',
+        ml_edu_divergence: 'Warum sie vom Score abweichen kann: Die Regel-Engine summiert lineare Abzüge; das Modell lernt nicht-lineare Kombinationen. Große Abweichungen lösen die obige Anomaliewarnung aus.',
         ml_loading: 'KI-Engine wird geladen (WebAssembly)...',
         ml_confidence_high: 'Hohe Konfidenz (Regeln + KI)',
         ml_anomaly_detected: 'Von KI erkannte Anomalie: Verdächtige Muster, die nicht von den Standardregeln abgedeckt werden.',
@@ -1335,6 +1380,15 @@ const TRANSLATIONS = {
     btn_optout_off: 'Disattiva Statistiche',
     btn_optout_on: 'Attiva Statistiche',
                 // ─── Machine Learning ONNX (it) ───
+        ml_prob_safe: 'IA: {p}% di probabilità di essere sicuro',
+        ml_prob_hint: 'Tocca per capire questo numero',
+        ml_anomaly_alert: 'Anomalia rilevata dall\'IA',
+        ml_anomaly_explain: 'Il modello statistico e il motore di regole divergono fortemente. Ciò può indicare schemi sospetti non coperti dalle regole standard o una configurazione del server atipica. Si raccomanda una revisione manuale.',
+        ml_edu_title: 'Cosa significa questa probabilità?',
+        ml_edu_summary: 'È la stima del nostro modello di Machine Learning (XGBoost eseguito localmente tramite WebAssembly) che questo dominio sia sicuro. 100% = molto probabilmente sicuro; 0% = molto probabilmente vulnerabile.',
+        ml_edu_how: 'Come viene calcolata: 24 indicatori estratti dagli scanner (SSL, header, DNS, cookie) vengono vettorizzati ed elaborati da un modello addestrato, interamente nel tuo browser.',
+        ml_edu_caveat: 'Importante: il modello è stato addestrato su dati simulati. Usa questo numero come indicatore relativo, non come misurazione assoluta.',
+        ml_edu_divergence: 'Perché può differire dal Punteggio: il motore di regole somma penalità lineari; il modello apprende combinazioni non lineari. Grandi divergenze generano l\'avviso di anomalia sopra indicato.',
         ml_loading: 'Caricamento del motore IA (WebAssembly)...',
         ml_confidence_high: 'Alta Confidenza (Regole + IA)',
         ml_anomaly_detected: 'Anomalia rilevata dall\'IA: Modelli sospetti non coperti dalle regole standard.',
@@ -1570,6 +1624,15 @@ const TRANSLATIONS = {
     btn_optout_off: '解析を無効化',
     btn_optout_on: '解析を有効化',
                 // ─── Machine Learning ONNX (ja) ───
+        ml_prob_safe: 'AI: 安全である確率 {p}%',
+        ml_prob_hint: 'タップしてこの数値を理解する',
+        ml_anomaly_alert: 'AIによる異常検知',
+        ml_anomaly_explain: '統計モデルとルールエンジンが大幅に乖離しています。これは標準ルールでカバーされていない不審なパターン、または非典型的なサーバー構成を示している可能性があります。手動確認をお勧めします。',
+        ml_edu_title: 'この確率の意味は？',
+        ml_edu_summary: 'WebAssemblyを介してローカルで動作する機械学習モデル（XGBoost）による、このドメインが安全であるという推定値です。100% = 極めて安全、0% = 極めて脆弱。',
+        ml_edu_how: '計算方法：スキャナーから抽出された24の指標（SSL、ヘッダー、DNS、Cookie）を数値ベクトルに変換し、ブラウザ内で完結して学習済みモデルで処理します。',
+        ml_edu_caveat: '重要事項：このモデルはシミュレーションデータで訓練されています。この数値は絶対的な測定値ではなく、相対的な指標としてご活用ください。',
+        ml_edu_divergence: 'スコアと乖離する理由：ルールエンジンは線形な減点を行いますが、モデルは非線形な組み合わせを学習します。大きな乖離がある場合、上記の異常アラートが表示されます。',
         ml_loading: 'AIエンジンを読み込み中 (WebAssembly)...',
         ml_confidence_high: '高い信頼度 (ルール + AI)',
         ml_anomaly_detected: 'AIによる異常検知: 標準ルールでカバーされていない不審なパターン。',
@@ -1805,6 +1868,15 @@ const TRANSLATIONS = {
     btn_optout_off: '停用访问统计',
     btn_optout_on: '启用访问统计',
                 // ─── Machine Learning ONNX (zh) ───
+        ml_prob_safe: 'AI：{p}% 概率安全',
+        ml_prob_hint: '点击了解此数值含义',
+        ml_anomaly_alert: 'AI检测到异常',
+        ml_anomaly_explain: '统计模型与规则引擎存在较大分歧。这可能表明存在标准规则未涵盖的可疑模式，或服务器配置异常。建议进行人工复核。',
+        ml_edu_title: '这个概率代表什么？',
+        ml_edu_summary: '这是通过WebAssembly在本地运行的机器学习模型（XGBoost）对该域名为安全的估算值。100% = 极可能安全；0% = 极可能存在漏洞。',
+        ml_edu_how: '计算方式：从扫描器中提取的24项指标（SSL、标头、DNS、Cookie）被转换为数值向量，完全在您的浏览器内部由训练好的模型进行处理。',
+        ml_edu_caveat: '重要说明：该模型基于模拟数据训练。请将此数值作为相对参考指标，而非绝对判定。',
+        ml_edu_divergence: '为何可能与规则评分不一致：规则引擎采用线性扣分；而模型学习的是非线性组合特征。当分歧较大时，会触发上方的异常告警。',
         ml_loading: '正在加载AI引擎 (WebAssembly)...',
         ml_confidence_high: '高置信度 (规则 + AI)',
         ml_anomaly_detected: 'AI检测到异常：标准规则未涵盖的可疑模式。',
@@ -2040,6 +2112,15 @@ const TRANSLATIONS = {
     btn_optout_off: 'Отключить аналитику',
     btn_optout_on: 'Включить аналитику',
                 // ─── Machine Learning ONNX (ru) ───
+        ml_prob_safe: 'ИИ: {p}% вероятность безопасности',
+        ml_prob_hint: 'Нажмите, чтобы понять это значение',
+        ml_anomaly_alert: 'ИИ обнаружил аномалию',
+        ml_anomaly_explain: 'Статистическая модель и экспертные правила сильно расходятся. Это может указывать на подозрительные паттерны, не охваченные стандартными правилами, или нетипичную конфигурацию сервера. Рекомендуется ручная проверка.',
+        ml_edu_title: 'Что означает эта вероятность?',
+        ml_edu_summary: 'Это оценка модели машинного обучения (XGBoost, работающей локально через WebAssembly) того, что этот домен безопасен. 100% = высокая вероятность безопасности; 0% = высокая вероятность уязвимости.',
+        ml_edu_how: 'Как рассчитывается: 24 показателя, извлеченных из сканеров (SSL, заголовки, DNS, cookies), векторизуются и обрабатываются обученной моделью прямо в вашем браузере.',
+        ml_edu_caveat: 'Важно: модель обучена на смоделированных данных. Используйте это число как относительный индикатор, а не абсолютное измерение.',
+        ml_edu_divergence: 'Почему может отличаться от оценки: механизм правил суммирует линейные штрафы; модель изучает нелинейные комбинации. Большие расхождения вызывают предупреждение об аномалии выше.',
         ml_loading: 'Загрузка движка ИИ (WebAssembly)...',
         ml_confidence_high: 'Высокая уверенность (Правила + ИИ)',
         ml_anomaly_detected: 'ИИ обнаружил аномалию: подозрительные паттерны, не охваченные стандартными правилами.',
@@ -2275,6 +2356,15 @@ const TRANSLATIONS = {
     btn_optout_off: 'تعطيل الإحصائيات',
     btn_optout_on: 'تفعيل الإحصائيات',
                 // ─── Machine Learning ONNX (ar) ───
+        ml_prob_safe: 'الذكاء الاصطناعي: احتمال {p}٪ أن يكون آمنًا',
+        ml_prob_hint: 'المس لفهم هذا الرقم',
+        ml_anomaly_alert: 'تم اكتشاف شذوذ بواسطة الذكاء الاصطناعي',
+        ml_anomaly_explain: 'يختلف النموذج الإحصائي ومحرك القواعد بشكل كبير. قد يشير هذا إلى أنماط مشبوهة لا تغطيها القواعد القياسية، أو إعدادات خادم غير نمطية. يوصى بالمراجعة اليدوية.',
+        ml_edu_title: 'ماذا يعني هذا الاحتمال؟',
+        ml_edu_summary: 'إنه تقدير من نموذج التعلم الآلي (XGBoost يعمل محليًا عبر WebAssembly) بأن هذا النطاق آمن. 100٪ = احتمال كبير جدًا أن يكون آمنًا؛ 0٪ = احتمال كبير جدًا أن يكون معرضًا للخطر.',
+        ml_edu_how: 'كيف يتم حسابه: يتم تحويل 24 مؤشرًا مستخرجًا من الفاحصات (SSL، الترويسات، DNS، ملفات تعريف الارتباط) إلى متجه رقمي ومعالجتها بواسطة نموذج مدرب، كل ذلك داخل متصفحك.',
+        ml_edu_caveat: 'مهم: تم تدريب النموذج على بيانات محاكاة. استخدم هذا الرقم كمؤشر نسبي وليس كقياس مطلق.',
+        ml_edu_divergence: 'لماذا قد يختلف عن النتيجة: محرك القواعد يجمع العقوبات الخطية؛ بينما يتعلم النموذج تركيبات غير خطية. الاختلافات الكبيرة تولد تنبيه الشذوذ أعلاه.',
         ml_loading: 'جارٍ تحميل محرك الذكاء الاصطناعي (WebAssembly)...',
         ml_confidence_high: 'ثقة عالية (القواعد + الذكاء الاصطناعي)',
         ml_anomaly_detected: 'تم اكتشاف شذوذ بواسطة الذكاء الاصطناعي: أنماط مشبوهة لا تغطيها القواعد القياسية.',
@@ -5162,11 +5252,30 @@ function prepareTensorForONNX(data) {
   return feat;
 }
 
-/* ─────────── ML Inference (ONNX WebAssembly) ─────────── */
+/* ─────────── ML Inference (ONNX WebAssembly + Platt Calibration) ─────────── */
 const MLInference = {
   _session: null,
   _loadingPromise: null,
   _isReady: false,
+  _calibration: null,
+
+  /**
+   * Carrega os coeficientes do Platt Scaling (a e b) de ./models/calibration.json
+   */
+  async getCalibration() {
+    if (this._calibration) return this._calibration;
+    try {
+      const resp = await fetch('./models/calibration.json');
+      if (resp.ok) {
+        this._calibration = await resp.json();
+        return this._calibration;
+      }
+    } catch (e) {
+      console.warn('MLInference: fallback para calibração padrão', e);
+    }
+    this._calibration = { a: 1.0, b: 0.0 };
+    return this._calibration;
+  },
 
   /**
    * 1. Lazy Loading do WASM:
@@ -5278,10 +5387,23 @@ const MLInference = {
         }
       }
 
-      const clampedProb = Math.max(0.0, Math.min(1.0, Number(probSafe)));
+      const clampedRawProb = Math.max(0.001, Math.min(0.999, Number(probSafe)));
+      
+      // Calibração de Platt (JS-side):
+      // logit = ln(p / (1 - p))
+      // p_cal = 1 / (1 + exp(-(a * logit + b)))
+      const calib = await this.getCalibration();
+      const a = (calib && typeof calib.a === 'number') ? calib.a : 1.0;
+      const b = (calib && typeof calib.b === 'number') ? calib.b : 0.0;
+      
+      const logit = Math.log(clampedRawProb / (1.0 - clampedRawProb));
+      const pCalibrated = 1.0 / (1.0 + Math.exp(-(a * logit + b)));
+      const finalProb = Math.max(0.0, Math.min(1.0, pCalibrated));
+
       return {
-        probSafe: clampedProb,
-        percent: Math.round(clampedProb * 100)
+        rawProb: clampedRawProb,
+        probSafe: finalProb,
+        percent: Math.round(finalProb * 100)
       };
     } catch (err) {
       console.warn('MLInference runInference falhou:', err);
@@ -5754,21 +5876,42 @@ const SecurityAnalyzer = {
         <div class="score-bar">
           <div class="score-fill" id="ai-score-fill" style="width: 0%;"></div>
         </div>
+
+        ${analysis.mlAnomaly ? `
+          <div class="anomaly-alert" role="alert">
+            <div class="anomaly-alert-header">
+              <span>⚠️</span>
+              <strong>${t('ml_anomaly_alert')}</strong>
+            </div>
+            <p class="anomaly-alert-text">${t('ml_anomaly_explain')}</p>
+          </div>
+        ` : ''}
+
         ${analysis.ml ? `
           <div class="ml-badge-container">
-            <span class="badge-ml">
-              🧠 ${t('ml_score_label')}: ${analysis.ml.percent}%
-            </span>
-            ${analysis.mlConsensus === 'high' ? `
-              <span class="badge-consensus">
-                ✓ ${t('ml_confidence_high')}
-              </span>
-            ` : ''}
-            ${analysis.mlAnomaly ? `
-              <span class="badge-anomaly">
-                ⚠️ ${t('ml_anomaly_detected')}
-              </span>
-            ` : ''}
+            <details class="ml-details">
+              <summary class="ml-summary">
+                <span class="badge-ml ${analysis.ml.probSafe >= 0.70 ? 'badge-ml-ok' : (analysis.ml.probSafe >= 0.40 ? 'badge-ml-warn' : 'badge-ml-err')}">
+                  🧠 ${t('ml_prob_safe').replace('{p}', analysis.ml.percent)}
+                  <span class="ml-hint">ℹ️</span>
+                </span>
+                ${analysis.mlConsensus === 'high' ? `
+                  <span class="badge-consensus" style="margin-left: 6px;">
+                    ✓ ${t('ml_confidence_high')}
+                  </span>
+                ` : ''}
+              </summary>
+              <div class="ml-details-content">
+                <h5>📊 ${t('ml_edu_title')}</h5>
+                <p>${t('ml_edu_summary')}</p>
+
+                <h5>⚙️ ${t('ml_edu_how')}</h5>
+
+                <h5>⚖️ ${t('ml_edu_divergence')}</h5>
+
+                <p class="ml-edu-caveat">⚠️ ${t('ml_edu_caveat')}</p>
+              </div>
+            </details>
           </div>
         ` : ''}
       </div>
@@ -5914,24 +6057,27 @@ const SecurityAnalyzer = {
           if (mlResult) {
             analysis.ml = mlResult;
 
-            // Lógica de Ensemble (Consenso Regras + ML)
-            const rulesSafe = analysis.score >= 70;
-            const mlSafe = mlResult.probSafe >= 0.6;
-            const rulesVerySafe = analysis.score > 80;
-            const mlVerySafe = mlResult.probSafe > 0.8;
+            // Lógica de Ensemble e Divergência (Fase 16)
+            const mlScorePercent = Math.round(mlResult.probSafe * 100);
+            const ruleScore = analysis.score;
+            const divergence = Math.abs(ruleScore - mlScorePercent);
 
-            if (rulesVerySafe && mlVerySafe) {
+            analysis.ml = {
+              probSafe: mlResult.probSafe,
+              percent: mlScorePercent,
+              divergence: divergence
+            };
+
+            // 1. Alta Confiança (Consenso Positivo)
+            const rulesVerySafe = ruleScore > 80;
+            const mlVerySafe = mlResult.probSafe > 0.8;
+            if (rulesVerySafe && mlVerySafe && divergence <= 20) {
               analysis.mlConsensus = 'high';
-            } else if (rulesSafe !== mlSafe) {
+            }
+
+            // 2. Anomalia Visível (Divergência Severa entre Regras e Estatística)
+            if (divergence > 30) {
               analysis.mlAnomaly = true;
-              const alreadyHas = analysis.findings.some(f => f.id === 'ml_anomaly_detected');
-              if (!alreadyHas) {
-                analysis.findings.unshift({
-                  id: 'ml_anomaly_detected',
-                  severity: 'warning',
-                  points: 0
-                });
-              }
             }
 
             // Re-renderiza com as informações do ML integradas

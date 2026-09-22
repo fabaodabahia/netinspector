@@ -7,6 +7,7 @@ Saída: models/security-model.onnx (< 500 KB)
 
 import os
 import sys
+import json
 
 # Configure UTF-8 stdout for Windows consoles
 if hasattr(sys.stdout, 'reconfigure'):
@@ -14,7 +15,8 @@ if hasattr(sys.stdout, 'reconfigure'):
 
 import numpy as np
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
+from sklearn.metrics import accuracy_score, f1_score, roc_auc_score, brier_score_loss
+from sklearn.linear_model import LogisticRegression
 import xgboost as xgb
 import onnxmltools
 from onnxmltools.convert.common.data_types import FloatTensorType
@@ -156,6 +158,46 @@ def generate_synthetic_security_dataset(n_samples=10000, random_state=42):
     
     return X, y
 
+
+def calibrate_platt(model, X_val, y_val):
+    """
+    Ajusta Platt Scaling sobre probabilidades do validation set:
+    logit = ln(p / (1 - p))
+    p_cal = sigmoid(a * logit + b)
+    """
+    probs_raw = model.predict_proba(X_val)[:, 1]
+    
+    # Prevenção de divisão por zero e log(0)
+    probs_clamped = np.clip(probs_raw, 1e-4, 1.0 - 1e-4)
+    logits = np.log(probs_clamped / (1.0 - probs_clamped)).reshape(-1, 1)
+    
+    # Regressão logística univariada sobre o logit
+    calibrator = LogisticRegression(C=1.0, solver='lbfgs')
+    calibrator.fit(logits, y_val)
+    
+    a = float(calibrator.coef_[0][0])
+    b = float(calibrator.intercept_[0])
+    
+    # Avaliação de calibração
+    logits_all = np.log(probs_clamped / (1.0 - probs_clamped))
+    probs_cal = 1.0 / (1.0 + np.exp(-(a * logits_all + b)))
+    brier_before = brier_score_loss(y_val, probs_raw)
+    brier_after = brier_score_loss(y_val, probs_cal)
+    
+    calib_data = {"a": round(a, 4), "b": round(b, 4)}
+    os.makedirs('models', exist_ok=True)
+    calib_path = os.path.join('models', 'calibration.json')
+    with open(calib_path, 'w', encoding='utf-8') as f:
+        json.dump(calib_data, f, indent=2)
+        
+    print("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+    print(f"📊 ML_CALIBRATION = {{ a: {a:.4f}, b: {b:.4f} }}")
+    print(f"📉 Brier Score: {brier_before:.5f} ➔ {brier_after:.5f}")
+    print(f"✅ Calibração salva com sucesso em: {calib_path}")
+    print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+    return a, b
+
+
 def main():
     print("🚀 NET INSPECTOR — Gerando Dataset Sintético (10.000 amostras)...")
     X, y = generate_synthetic_security_dataset(10000)
@@ -163,7 +205,9 @@ def main():
     print(f"✅ Dataset gerado: {X.shape[0]} amostras, {X.shape[1]} features.")
     print(f"📊 Distribuição de classes: Seguro (1) = {np.sum(y == 1)}, Vulnerável (0) = {np.sum(y == 0)}")
     
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
+    # 70% treino, 15% validação (para Platt Scaling), 15% teste final
+    X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.3, random_state=42, stratify=y)
+    X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, random_state=42, stratify=y_temp)
     
     print("\n🧠 Treinando classificador XGBoost leve...")
     model = xgb.XGBClassifier(
@@ -192,24 +236,31 @@ def main():
     print(f"🎯 ROC-AUC:           {roc_auc:.4f}")
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     
-    # Exportação para ONNX
-    print("\n📦 Exportando modelo para formato ONNX (FloatTensorType [None, 24])...")
+    # Calibração de Platt
+    calibrate_platt(model, X_val, y_val)
+    
+    # Exportação para ONNX (apenas se ainda não existir, preservando o arquivo existente)
     os.makedirs('models', exist_ok=True)
     onnx_path = os.path.join('models', 'security-model.onnx')
     
-    initial_type = [('input', FloatTensorType([None, 24]))]
-    onnx_model = onnxmltools.convert_xgboost(
-        model,
-        initial_types=initial_type,
-        target_opset=13
-    )
-    
-    with open(onnx_path, 'wb') as f:
-        f.write(onnx_model.SerializeToString())
+    if not os.path.exists(onnx_path):
+        print("\n📦 Exportando modelo para formato ONNX (FloatTensorType [None, 24])...")
+        initial_type = [('input', FloatTensorType([None, 24]))]
+        onnx_model = onnxmltools.convert_xgboost(
+            model,
+            initial_types=initial_type,
+            target_opset=13
+        )
         
-    size_kb = os.path.getsize(onnx_path) / 1024.0
-    print(f"✅ Modelo ONNX salvo com sucesso em: {onnx_path}")
-    print(f"📊 Tamanho do arquivo: {size_kb:.2f} KB (Meta: < 2048 KB)")
+        with open(onnx_path, 'wb') as f:
+            f.write(onnx_model.SerializeToString())
+            
+        size_kb = os.path.getsize(onnx_path) / 1024.0
+        print(f"✅ Modelo ONNX salvo com sucesso em: {onnx_path} ({size_kb:.2f} KB)")
+    else:
+        size_kb = os.path.getsize(onnx_path) / 1024.0
+        print(f"🔒 Modelo ONNX existente mantido intacto em: {onnx_path} ({size_kb:.2f} KB)")
+
 
 if __name__ == '__main__':
     main()

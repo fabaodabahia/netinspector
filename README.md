@@ -92,15 +92,29 @@ Ferramenta para auditoria completa de qualquer site ou domínio da web:
 
 ---
 
-## 🤖 Análise de Segurança IA
+## 🤖 Análise de Segurança IA (Regras Especialistas + Machine Learning ONNX)
 
-O NET INSPECTOR inclui um **Sistema Especialista de Análise de Segurança** que roda 100% no seu navegador, sem enviar dados para servidores externos.
+O NET INSPECTOR inclui uma arquitetura híbrida de segurança que roda 100% no seu navegador via WebAssembly, sem enviar nenhum dado para servidores externos:
 
-### Como funciona
+### 1. Sistema Especialista (Regras Heurísticas)
 - Analisa os dados já coletados pelos cards (IP, SSL, headers, DNS, cookies, etc.)
 - Calcula um **Security Score de 0 a 100** com classificação visual
 - Identifica vulnerabilidades por severidade (Crítico, Atenção, Info)
 - Gera recomendações personalizadas e acionáveis
+
+### 2. Machine Learning Client-Side (XGBoost + ONNX WebAssembly)
+- **Modelo Ultra Leve**: Classificador XGBoost exportado para ONNX (`models/security-model.onnx`, 68 KB) executado em WebAssembly via `onnxruntime-web`.
+- **24 Indicadores Vetorizados**: Processamento de atributos de rede (SSL, dias para expiração, TLS 1.3, ciphers, HSTS, CSP, nosniff, DNSSEC, DMARC, cookies, WAF, etc.).
+- **Lazy Loading**: O runtime de IA só é carregado sob demanda quando o usuário aciona a análise de domínio.
+
+### 3. Calibração de Platt e Experiência do Usuário (Fase 16)
+- **Calibração de Probabilidades**: Aplicação de Platt Scaling no JavaScript (`models/calibration.json`), mitigando o excesso de confiança das árvores de decisão.
+- **Badge Autoexplicativo com Semáforo**: Exibe `"🧠 IA: X% de chance de ser seguro"` nas cores:
+  - 🟢 **Verde (`>= 70%`)**: Alta chance de ser seguro.
+  - 🟡 **Amarelo (`40% - 69%`)**: Risco moderado.
+  - 🔴 **Vermelho (`< 40%`)**: Alta chance de ser vulnerável.
+- **Alerta de Anomalia**: Quando o score das regras e a probabilidade de ML divergem significativamente (`|score - mlPercent| > 30`), um alerta visual `.anomaly-alert` é renderizado no topo do card alertando sobre padrões atípicos.
+- **Conteúdo Didático Integrado**: Badge expansível (`<details>`) explicando o cálculo, metodologia e limites do modelo em 10 idiomas.
 
 ### Categorias OWASP Cobertas
 - **A01:2021** - Broken Access Control (parcial — SameSite cookies, CORS)
