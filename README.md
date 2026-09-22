@@ -46,12 +46,12 @@ O repositório é composto por 8 arquivos essenciais, perfeitamente desacoplados
 
 ```
 netinspector/
-├── index.html       # Hub Principal (Diagnóstico Completo, 45 cards, data-page="all")
-├── meu-ip.html      # Landing Page especializada em IP / ISP / Localização (data-page="ip")
-├── domain.html      # Landing Page com 36 scanners para análise de domínios (data-page="domain")
-├── style.css        # Design System centralizado (CSS variables, tokens, temas e responsividade)
-├── app.js           # Núcleo reativo (ApiManager, Card Factory, Scanners e renderHeader)
-├── sitemap.xml      # Mapa de URLs canônicas para indexação por motores de busca
+├── index.html       # Redirecionamento canônico e inteligente para /meu-ip.html
+├── meu-ip.html      # Página Principal (Home: IP / ISP / Localização / Log, data-page="home")
+├── domain.html      # Analisador de Domínio com 36 scanners (data-page="domain")
+├── style.css        # Design System centralizado (CSS variables, seletor i18n e responsividade)
+├── app.js           # Núcleo reativo (i18n com 10 idiomas, ApiManager, Card Factory, Scanners)
+├── sitemap.xml      # Mapa de URLs canônicas e hreflang para indexação por motores de busca
 ├── robots.txt       # Diretivas de rastreamento para web crawlers
 └── LICENSE          # Termos da Licença MIT
 ```
@@ -60,21 +60,21 @@ netinspector/
 
 ## ⚡ Funcionalidades e Páginas
 
-### 1. Hub Principal (`index.html`) — `data-page="all"`
-Painel abrangente composto por **45 cards modulares** de inspeção em tempo real:
-- **Hero IP Section**: Exibição em destaque do endereço público com identificação de protocolo (`IPv4` ou `IPv6`) e animação pulsante.
-- **ISP & ASN**: Identificação do provedor de acesso, organização titular, número de sistema autônomo (ASN) e rota BGP.
-- **Localização Geográfica**: País, estado, município, código postal, coordenadas e mapa interativo OpenStreetMap incorporado.
-- **Endereços IP & WebRTC**: Detecção independente de IPv4 público, IPv6 público, IP local LAN e auditoria de vazamento de WebRTC (*WebRTC leak* para usuários de VPN).
-- **Latência & DNS**: Medição de ping HTTP em milissegundos com barra de qualidade visual, servidores DNS ativos, tempo de resposta de lookup e suporte a HTTP/2.
-- **Dispositivo & Navegador**: User-Agent, arquitetura de hardware, threads de CPU, memória RAM estimada e suporte a recursos modernos.
-- **Segurança de Conexão**: Verificação de proxies abertos, saída da rede Tor e tipo de conexão.
+### 1. Redirecionamento Inteligente (`index.html`)
+Página de entrada de transição limpa:
+- Redirecionamento instantâneo via `<meta http-equiv="refresh">` e `window.location.replace` para `/meu-ip.html`.
+- Preservação integral de parâmetros de busca (query strings como `?lang=en` ou `?skipgc=on`).
+- Contagem canônica de acessos via GoatCounter.
 
-### 2. Meu IP (`meu-ip.html`) — `data-page="ip"`
-Landing page focada na identificação imediata de identidade de rede:
-- Hero section focado no IP público ativo.
-- Cards essenciais filtrados (ISP, Localização, Endereços IP e Log).
-- Conteúdo didático aprofundado para SEO explicando blocos de endereçamento, geolocalização e diferenças práticas entre IPv4 e IPv6.
+### 2. Página Principal / Meu IP (`meu-ip.html`) — `data-page="home"`
+Nova página inicial focada na identificação imediata de identidade de rede e conectividade:
+- **Hero IP Section**: Exibição em destaque do endereço público com detecção de protocolo e animação pulsante.
+- **Cards Essenciais**:
+  - **ISP & ASN**: Identificação do provedor de acesso, organização titular, número de sistema autônomo (ASN) e rota BGP.
+  - **Localização Geográfica**: País, estado, município, código postal, coordenadas e mapa interativo OpenStreetMap incorporado.
+  - **Endereços IP & WebRTC**: Detecção independente de IPv4 público, IPv6 público, IP local LAN e auditoria de vazamento de WebRTC (*WebRTC leak* para usuários de VPN).
+  - **Log de Diagnóstico**: Terminal em tempo real registrando o andamento das requisições assíncronas.
+- **Conteúdo Didático e SEO**: Artigos aprofundados explicando blocos de endereçamento, geolocalização e diferenças práticas entre IPv4 e IPv6.
 
 ### 3. Analisador de Domínio (`domain.html`) — `data-page="domain"`
 Ferramenta para auditoria completa de qualquer site ou domínio da web:
@@ -88,14 +88,41 @@ Ferramenta para auditoria completa de qualquer site ou domínio da web:
 
 ---
 
+## 🌍 Sistema de Internacionalização (i18n)
+
+O **NET INSPECTOR** possui um motor de internacionalização nativo (Vanilla JS) com suporte a 10 idiomas:
+
+| Idioma | Código | Direção do Texto | Bandeira |
+|---|---|---|---|
+| Português (Brasil) | `pt-br` *(Padrão)* | LTR | 🇧🇷 |
+| English | `en` | LTR | 🇺🇸 |
+| Español | `es` | LTR | 🇪🇸 |
+| Français | `fr` | LTR | 🇫🇷 |
+| Deutsch | `de` | LTR | 🇩🇪 |
+| Italiano | `it` | LTR | 🇮🇹 |
+| 日本語 (Japanese) | `ja` | LTR | 🇯🇵 |
+| 中文 (Chinese) | `zh` | LTR | 🇨🇳 |
+| Русский (Russian) | `ru` | LTR | 🇷🇺 |
+| العربية (Arabic) | `ar` | RTL (`dir="rtl"`) | 🇸🇦 |
+
+### Recursos do Sistema i18n:
+1. **Detecção Automática Hierárquica**: Prioriza parâmetro de URL (`?lang=es`), em seguida preferência salva no `localStorage`, e por fim o idioma do navegador (`navigator.language`).
+2. **Seletor Visual no Header**: Menu suspenso estilizado com código, nome e bandeira do país.
+3. **Suporte Nativo a RTL**: Alternância automática de `dir="rtl"` para árabe (`ar`).
+4. **Tradução Completa**: Cobre cards, rótulos de rede, artigos explicativos, FAQs e rodapé.
+5. **Como Adicionar um Novo Idioma**:
+   Basta registrar a chave correspondente no objeto `SUPPORTED_LANGS` e adicionar as chaves equivalentes no dicionário `TRANSLATIONS` dentro de `app.js`.
+
+---
+
 ## 🏗️ Arquitetura Técnica
 
 O projeto utiliza padrões arquiteturais modernos sem frameworks pesados:
 
 ### 1. Card Factory Reativo
 Todos os cards da interface são gerados e orquestrados por uma configuração centralizada (`CARDS_CONFIG` em `app.js`). Cada definição de card suporta:
-- Filtragem inteligente por página (`pages: ['all', 'ip']` ou `pages: ['domain']`).
-- Estrutura de campos (`fields`), badges informativos dinâmicos e slots para injeção HTML customizada.
+- Filtragem inteligente por página (`pages: ['home']` ou `pages: ['domain']`).
+- Estrutura de campos com chaves i18n (`labelKey`, `titleKey`), badges informativos dinâmicos e slots para injeção HTML customizada.
 - Renderização limpa via `renderCards()`.
 
 ### 2. ApiManager Centralizado
@@ -114,11 +141,12 @@ Camada de rede que encapsula 31 chamadas externas com recursos avançados:
 - **Responsividade Fluida**: Breakpoints mobile-first cobrindo desde telas estreitas (320px) até monitores ultra-wide (1024px+).
 
 ### 4. Controle via Atributo `data-page`
-O elemento `<body>` de cada página declara seu contexto de visualização (`data-page="all"`, `data-page="ip"`, `data-page="domain"`). O script adapta o comportamento de inicialização, a exibição de cards e os botões de ação com base nessa propriedade.
+O elemento `<body>` de cada página declara seu contexto de visualização (`data-page="home"` em `meu-ip.html`, `data-page="domain"` em `domain.html`). O script adapta o comportamento de inicialização, a exibição de cards e os botões de ação contextuais com base nessa propriedade.
 
 ### 5. Navegação Unificada via `renderHeader()`
 O cabeçalho e menu de navegação responsivo são construídos dinamicamente pela função `renderHeader()`:
 - Destaca visualmente a página corrente (`nav-active`).
+- Integração do seletor dropdown internacional de idiomas (`pt-br`, `en`, `es`, `fr`, `de`, `it`, `ja`, `zh`, `ru`, `ar`).
 - Menu hambúrguer acessível para dispositivos móveis com fechamento automático ao clicar fora ou redimensionar.
 
 ---

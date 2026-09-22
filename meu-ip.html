@@ -12,6 +12,19 @@
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://netinspector.net/meu-ip.html">
 
+  <!-- Hreflang Tags para SEO Internacional -->
+  <link rel="alternate" hreflang="x-default" href="https://netinspector.net/meu-ip.html">
+  <link rel="alternate" hreflang="pt" href="https://netinspector.net/meu-ip.html?lang=pt-br">
+  <link rel="alternate" hreflang="en" href="https://netinspector.net/meu-ip.html?lang=en">
+  <link rel="alternate" hreflang="es" href="https://netinspector.net/meu-ip.html?lang=es">
+  <link rel="alternate" hreflang="fr" href="https://netinspector.net/meu-ip.html?lang=fr">
+  <link rel="alternate" hreflang="de" href="https://netinspector.net/meu-ip.html?lang=de">
+  <link rel="alternate" hreflang="it" href="https://netinspector.net/meu-ip.html?lang=it">
+  <link rel="alternate" hreflang="ja" href="https://netinspector.net/meu-ip.html?lang=ja">
+  <link rel="alternate" hreflang="zh" href="https://netinspector.net/meu-ip.html?lang=zh">
+  <link rel="alternate" hreflang="ru" href="https://netinspector.net/meu-ip.html?lang=ru">
+  <link rel="alternate" hreflang="ar" href="https://netinspector.net/meu-ip.html?lang=ar">
+
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://netinspector.net/meu-ip.html">
@@ -114,14 +127,14 @@
   <!-- Script da Aplicação compartilhado -->
   <script src="./app.js" defer></script>
 </head>
-<body data-page="ip">
+<body data-page="home">
 
 <header id="main-header"></header>
 
 <main>
   <!-- Hero Section -->
   <div class="hero">
-    <div class="hero-label" id="hero-label">Seu Endereço de IP Público</div>
+    <div class="hero-label" id="hero-label" data-i18n="hero_ip_label">Seu Endereço de IP Público</div>
     <div id="hero-ip"><span class="spin"></span></div>
   </div>
 
@@ -131,81 +144,81 @@
   <!-- Artigo Rico e Otimizado para SEO -->
   <article style="max-width:960px;margin:var(--spacing-2xl) auto 0;padding:var(--spacing-xl);background:var(--color-bg-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);line-height:1.75;color:var(--color-text-secondary);">
     <h2 style="font-size:1.4rem;color:var(--color-text-primary);margin-bottom:var(--spacing-md);display:flex;align-items:center;gap:var(--spacing-sm);">
-      <span>🌐</span> O que é um Endereço IP Público?
+      <span>🌐</span> <span data-i18n="art_ip_title">O que é um Endereço IP Público?</span>
     </h2>
-    <p style="margin-bottom:var(--spacing-md);">
-      O <strong>endereço IP (Internet Protocol)</strong> é o endereço numérico global que identifica seu ponto de acesso à rede mundial de computadores. Assim como o endereço postal identifica sua residência para a entrega de cartas, o IP público permite que servidores web, plataformas de streaming, sites e aplicativos enviem pacotes de dados de volta para você de maneira exata e segura.
+    <p style="margin-bottom:var(--spacing-md);" data-i18n="art_ip_p1">
+      O endereço IP (Internet Protocol) é o endereço numérico global que identifica seu ponto de acesso à rede mundial de computadores. Assim como o endereço postal identifica sua residência para a entrega de cartas, o IP público permite que servidores web, plataformas de streaming, sites e aplicativos enviem pacotes de dados de volta para você de maneira exata e segura.
     </p>
-    <p style="margin-bottom:var(--spacing-xl);">
-      Existem duas versões em operação na internet contemporânea: o <strong>IPv4</strong>, formato tradicional composto por 4 números separados por pontos (ex: <code>177.136.244.12</code>), e o <strong>IPv6</strong>, padrão moderno de 128 bits representado por caracteres hexadecimais (ex: <code>2804:14d:5483::1</code>). O NET INSPECTOR realiza a checagem de ambos instantaneamente.
+    <p style="margin-bottom:var(--spacing-xl);" data-i18n="art_ip_p2">
+      Existem duas versões em operação na internet contemporânea: o IPv4, formato tradicional composto por 4 números separados por pontos (ex: 177.136.244.12), e o IPv6, padrão moderno de 128 bits representado por caracteres hexadecimais (ex: 2804:14d:5483::1). O NET INSPECTOR realiza a checagem de ambos instantaneamente.
     </p>
 
     <h2 style="font-size:1.4rem;color:var(--color-text-primary);margin-bottom:var(--spacing-md);display:flex;align-items:center;gap:var(--spacing-sm);">
-      <span>🏢</span> Como o NET INSPECTOR identifica seu Provedor (ISP)?
+      <span>🏢</span> <span data-i18n="art_isp_title">Como o NET INSPECTOR identifica seu Provedor (ISP)?</span>
     </h2>
-    <p style="margin-bottom:var(--spacing-md);">
-      Todos os blocos de endereços IP globais são distribuídos por entidades regionais de registro (como o <em>Registro.br</em> / LACNIC na América Latina, ARIN na América do Norte e RIPE NCC na Europa). Esses blocos são concedidos a operadoras de telecomunicações e corporações chamadas de <strong>Sistemas Autônomos (Autonomous Systems)</strong>.
+    <p style="margin-bottom:var(--spacing-md);" data-i18n="art_isp_p1">
+      Todos os blocos de endereços IP globais são distribuídos por entidades regionais de registro (como o Registro.br / LACNIC na América Latina, ARIN na América do Norte e RIPE NCC na Europa). Esses blocos são concedidos a operadoras de telecomunicações e corporações chamadas de Sistemas Autônomos (Autonomous Systems).
     </p>
-    <p style="margin-bottom:var(--spacing-xl);">
-      Ao inspecionar seu IP público, o NET INSPECTOR consulta as bases públicas de <strong>ASN (Autonomous System Number)</strong> e tabelas BGP, revelando com precisão o nome fantasia da sua operadora (como Claro, Vivo, TIM, Starlink ou provedores regionais de fibra óptica) e o número de registro do seu sistema autônomo.
+    <p style="margin-bottom:var(--spacing-xl);" data-i18n="art_isp_p2">
+      Ao inspecionar seu IP público, o NET INSPECTOR consulta as bases públicas de ASN (Autonomous System Number) e tabelas BGP, revelando com precisão o nome fantasia da sua operadora (como Claro, Vivo, TIM, Starlink ou provedores regionais de fibra óptica) e o número de registro do seu sistema autônomo.
     </p>
 
     <h2 style="font-size:1.4rem;color:var(--color-text-primary);margin-bottom:var(--spacing-md);display:flex;align-items:center;gap:var(--spacing-sm);">
-      <span>📍</span> Por que a Geolocalização por IP pode ser Imprecisa?
+      <span>📍</span> <span data-i18n="art_geo_title">Por que a Geolocalização por IP pode ser Imprecisa?</span>
     </h2>
-    <p style="margin-bottom:var(--spacing-md);">
-      Muitos usuários se surpreendem quando a cidade indicada no teste não corresponde ao seu endereço físico exato. Isso acontece porque a <strong>geolocalização por IP não utiliza GPS</strong>. O método mapeia o endereço IP para o ponto de presença (PoP), central de roteamento ou datacenter mais próximo instalado pela sua operadora.
+    <p style="margin-bottom:var(--spacing-md);" data-i18n="art_geo_p1">
+      Muitos usuários se surpreendem quando a cidade indicada no teste não corresponde ao seu endereço físico exato. Isso acontece porque a geolocalização por IP não utiliza GPS. O método mapeia o endereço IP para o ponto de presença (PoP), central de roteamento ou datacenter mais próximo instalado pela sua operadora.
     </p>
-    <p style="margin-bottom:var(--spacing-xl);">
+    <p style="margin-bottom:var(--spacing-xl);" data-i18n="art_geo_p2">
       Por conta dessa arquitetura, conexões via rede móvel (4G/5G) ou provedores que compartilham rotas estaduais podem indicar uma capital próxima ou município vizinho. Além disso, o uso de CGNAT (Carrier-Grade NAT) agrupa dezenas de residências sob uma mesma faixa de saída.
     </p>
 
     <h2 style="font-size:1.4rem;color:var(--color-text-primary);margin-bottom:var(--spacing-md);display:flex;align-items:center;gap:var(--spacing-sm);">
-      <span>❓</span> Perguntas Frequentes sobre IP e Privacidade (FAQ)
+      <span>❓</span> <span data-i18n="art_faq_title">Perguntas Frequentes sobre IP e Privacidade (FAQ)</span>
     </h2>
 
     <div style="display:flex;flex-direction:column;gap:var(--spacing-md);">
       <div style="padding:var(--spacing-md);background:var(--color-bg-primary);border:1px solid var(--color-border);border-radius:var(--radius-md);">
-        <strong style="color:var(--color-text-primary);display:block;margin-bottom:var(--spacing-xs);">Meu IP é estático ou dinâmico?</strong>
-        <p style="font-size:0.9rem;margin:0;">Na imensa maioria das assinaturas residenciais, o IP é dinâmico, alternando periodicamente ou sempre que seu modem é desligado da tomada. IPs fixos (estáticos) costumam ser contratados separadamente para empresas e hospedagem de servidores.</p>
+        <strong style="color:var(--color-text-primary);display:block;margin-bottom:var(--spacing-xs);" data-i18n="faq_q1">Meu IP é estático ou dinâmico?</strong>
+        <p style="font-size:0.9rem;margin:0;" data-i18n="faq_a1">Na imensa maioria das assinaturas residenciais, o IP é dinâmico, alternando periodicamente ou sempre que seu modem é desligado da tomada. IPs fixos (estáticos) costumam ser contratados separadamente para empresas e hospedagem de servidores.</p>
       </div>
 
       <div style="padding:var(--spacing-md);background:var(--color-bg-primary);border:1px solid var(--color-border);border-radius:var(--radius-md);">
-        <strong style="color:var(--color-text-primary);display:block;margin-bottom:var(--spacing-xs);">Qual é a real diferença entre IPv4 e IPv6?</strong>
-        <p style="font-size:0.9rem;margin:0;">O IPv4 suporta aproximadamente 4,3 bilhões de endereços, quantidade que se esgotou com a explosão de smartphones e dispositivos IoT. O IPv6 foi criado com 128 bits, gerando sextilhões de combinações e eliminando a dependência de tecnologias de tradução de endereços (NAT).</p>
+        <strong style="color:var(--color-text-primary);display:block;margin-bottom:var(--spacing-xs);" data-i18n="faq_q2">Qual é a real diferença entre IPv4 e IPv6?</strong>
+        <p style="font-size:0.9rem;margin:0;" data-i18n="faq_a2">O IPv4 suporta aproximadamente 4,3 bilhões de endereços, quantidade que se esgotou com a explosão de smartphones e dispositivos IoT. O IPv6 foi criado com 128 bits, gerando sextilhões de combinações e eliminando a dependência de tecnologias de tradução de endereços (NAT).</p>
       </div>
 
       <div style="padding:var(--spacing-md);background:var(--color-bg-primary);border:1px solid var(--color-border);border-radius:var(--radius-md);">
-        <strong style="color:var(--color-text-primary);display:block;margin-bottom:var(--spacing-xs);">Como posso esconder meu IP público?</strong>
-        <p style="font-size:0.9rem;margin:0;">Você pode utilizar uma VPN de boa reputação, a rede Tor ou proxies criptografados. Ao navegar com uma VPN ativa, os sites passam a enxergar o IP do servidor remoto. Nosso card de IP inclui verificação de <em>WebRTC Leak</em> para alertar caso sua VPN esteja deixando vazar seu IP real.</p>
+        <strong style="color:var(--color-text-primary);display:block;margin-bottom:var(--spacing-xs);" data-i18n="faq_q3">Como posso esconder meu IP público?</strong>
+        <p style="font-size:0.9rem;margin:0;" data-i18n="faq_a3">Você pode utilizar uma VPN de boa reputação, a rede Tor ou proxies criptografados. Ao navegar com uma VPN ativa, os sites passam a enxergar o IP do servidor remoto. Nosso card de IP inclui verificação de WebRTC Leak para alertar caso sua VPN esteja deixando vazar seu IP real.</p>
       </div>
 
       <div style="padding:var(--spacing-md);background:var(--color-bg-primary);border:1px solid var(--color-border);border-radius:var(--radius-md);">
-        <strong style="color:var(--color-text-primary);display:block;margin-bottom:var(--spacing-xs);">Alguém pode descobrir meu endereço físico pelo IP?</strong>
-        <p style="font-size:0.9rem;margin:0;">Não diretamente. Terceiros só conseguem ver estimativas regionais (cidade, estado e provedor). Apenas o seu provedor de internet possui os registros contratuais associando o IP ao endereço residencial, informação protegida por lei e fornecida unicamente sob ordem judicial.</p>
+        <strong style="color:var(--color-text-primary);display:block;margin-bottom:var(--spacing-xs);" data-i18n="faq_q4">Alguém pode descobrir meu endereço físico pelo IP?</strong>
+        <p style="font-size:0.9rem;margin:0;" data-i18n="faq_a4">Não diretamente. Terceiros só conseguem ver estimativas regionais (cidade, estado e provedor). Apenas o seu provedor de internet possui os registros contratuais associando o IP ao endereço residencial, informação protegida por lei e fornecida unicamente sob ordem judicial.</p>
       </div>
     </div>
 
-    <!-- CTA para o Hub Principal -->
+    <!-- CTA para o Analisador de Domínio -->
     <div style="margin-top:var(--spacing-2xl);padding:var(--spacing-lg);background:linear-gradient(135deg, rgba(0,212,255,0.08), rgba(124,58,237,0.08));border:1px solid var(--color-border-hover);border-radius:var(--radius-md);text-align:center;">
-      <h3 style="color:var(--color-text-primary);margin-bottom:var(--spacing-xs);font-size:1.1rem;">Quer uma análise completa da sua conexão e DNS?</h3>
-      <p style="font-size:0.9rem;margin-bottom:var(--spacing-md);color:var(--color-text-secondary);">O NET INSPECTOR possui mais de 45 ferramentas de análise: latência com ping em milissegundos, teste de vazamento DNS, portas abertas, inspeção SSL/TLS e muito mais.</p>
-      <a href="./index.html" class="btn" style="display:inline-block;text-decoration:none;padding:10px 22px;background:var(--gradient-accent);color:var(--color-bg-primary);border-radius:var(--radius-md);font-weight:700;font-size:0.9rem;box-shadow:var(--shadow-glow);">Abrir Diagnóstico Completo de Rede 🚀</a>
+      <h3 style="color:var(--color-text-primary);margin-bottom:var(--spacing-xs);font-size:1.1rem;" data-i18n="cta_domain_title">Quer analisar um domínio ou site completo?</h3>
+      <p style="font-size:0.9rem;margin-bottom:var(--spacing-md);color:var(--color-text-secondary);" data-i18n="cta_domain_desc">O NET INSPECTOR possui um analisador de domínio dedicado com 36 scanners: registros DNS, certificado SSL/TLS, dados Whois, segurança HTTP e muito mais.</p>
+      <a href="./domain.html" class="btn" style="display:inline-block;text-decoration:none;padding:10px 22px;background:var(--gradient-accent);color:var(--color-bg-primary);border-radius:var(--radius-md);font-weight:700;font-size:0.9rem;box-shadow:var(--shadow-glow);" data-i18n="cta_domain_btn">Abrir Analisador de Domínio 🔍</a>
     </div>
   </article>
 </main>
 
 <footer>
-  <p>NET INSPECTOR · Diagnóstico de IP e Conexão 100% Client-Side · Nenhum dado é registrado</p>
+  <p data-i18n="footer_desc">NET INSPECTOR · Diagnóstico de IP e Conexão 100% Client-Side · Nenhum dado é registrado</p>
   <p style="margin-top:4px">
-    <a href="./index.html" style="color:var(--color-accent);text-decoration:none;">Diagnóstico Completo (45+ Scanners)</a> · 
-    <a href="./domain.html" style="color:var(--color-accent);text-decoration:none;">Análise de Domínio</a> · 
+    <a href="./meu-ip.html" style="color:var(--color-accent);text-decoration:none;" data-i18n="footer_link_ip">Qual é o Meu IP?</a> · 
+    <a href="./domain.html" style="color:var(--color-accent);text-decoration:none;" data-i18n="footer_link_domain">Análise de Domínio</a> · 
     Fontes: ipapi.co · ipify.org · WebRTC API · Navigator API
   </p>
   <p style="margin-top:6px;font-size:0.7rem;color:var(--color-text-muted);">
-    📊 Analytics privacy-first via GoatCounter (sem cookies) — 
-    <a href="https://netinspector.goatcounter.com/" target="_blank" rel="noopener" style="color:var(--color-accent);text-decoration:none;">Ver estatísticas públicas ↗</a> · 
-    <button id="analytics-optout-btn" onclick="toggleAnalytics()" class="optout-btn">Desativar Analytics</button>
+    <span data-i18n="footer_analytics">📊 Analytics privacy-first via GoatCounter (sem cookies) —</span> 
+    <a href="https://netinspector.goatcounter.com/" target="_blank" rel="noopener" style="color:var(--color-accent);text-decoration:none;" data-i18n="footer_stats">Ver estatísticas públicas ↗</a> · 
+    <button id="analytics-optout-btn" onclick="toggleAnalytics()" class="optout-btn" data-i18n="btn_optout_off">Desativar Analytics</button>
   </p>
 </footer>
 

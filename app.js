@@ -1,76 +1,1417 @@
+/* ─────────── Internationalization (i18n) ─────────── */
+const SUPPORTED_LANGS = {
+  'pt-br': { name: 'Português (Brasil)', flag: '🇧🇷', dir: 'ltr' },
+  'en':    { name: 'English',             flag: '🇺🇸', dir: 'ltr' },
+  'es':    { name: 'Español',             flag: '🇪🇸', dir: 'ltr' },
+  'fr':    { name: 'Français',            flag: '🇫🇷', dir: 'ltr' },
+  'de':    { name: 'Deutsch',             flag: '🇩🇪', dir: 'ltr' },
+  'it':    { name: 'Italiano',            flag: '🇮🇹', dir: 'ltr' },
+  'ja':    { name: '日本語',              flag: '🇯🇵', dir: 'ltr' },
+  'zh':    { name: '中文',                flag: '🇨🇳', dir: 'ltr' },
+  'ru':    { name: 'Русский',             flag: '🇷🇺', dir: 'ltr' },
+  'ar':    { name: 'العربية',             flag: '🇸🇦', dir: 'rtl' }
+};
+
+const TRANSLATIONS = {
+  'pt-br': {
+    // Nav & Header
+    logo_subtitle: 'Diagnóstico completo de conexão &amp; ISP',
+    nav_home: '🌐 Qual Meu IP?',
+    nav_domain: '🔍 Analisar Domínio',
+    btn_scan: '▶ Analisar',
+    btn_domain: '🔍 Analisar Domínio ↗',
+    btn_home: '← Qual Meu IP',
+    // Hero meu-ip
+    hero_ip_label: 'Seu Endereço de IP Público',
+    // Hero domain
+    hero_domain_label: 'Diagnóstico de Segurança, DNS e SSL',
+    hero_domain_title: 'Analisador de Domínio Online Gratuito',
+    hero_domain_desc: 'Inspecione a infraestrutura completa de qualquer site: registros DNS, certificado SSL/TLS, dados Whois, cabeçalhos de segurança HTTP, portas e tecnologias em tempo real.',
+    domain_input_placeholder: 'Digite um domínio (ex: example.com)',
+    domain_btn_scan: '🔍 Analisar',
+    domain_input_hint: 'Digite um domínio para análise completa de segurança, DNS, SSL e infraestrutura.',
+    // Cards Titles
+    card_isp: 'ISP &amp; ASN',
+    card_location: 'Localização',
+    card_ip: 'Endereços IP',
+    card_latency: 'Latência &amp; DNS',
+    card_browser: 'Navegador &amp; Dispositivo',
+    card_security: 'Segurança &amp; Privacidade',
+    card_connectivity: 'Conectividade',
+    card_domain_scan: 'Análise de Domínio',
+    card_ipinfo: 'IP Info',
+    card_ssl_chain: 'SSL Chain',
+    card_dns_records: 'DNS Records',
+    card_cookies: 'Cookies',
+    card_crawl_rules: 'Crawl Rules',
+    card_headers: 'Headers',
+    card_quality_metrics: 'Quality Metrics',
+    card_server_location: 'Server Location',
+    card_associated_hosts: 'Associated Hosts',
+    card_redirect_chain: 'Redirect Chain',
+    card_diagnostic_log: 'Log de Diagnóstico',
+    card_tls_audit: 'TLS Audit',
+    card_tls_compat: 'TLS Compatibility',
+    // Card field labels
+    lbl_provider: 'Provedor',
+    lbl_org: 'Organização',
+    lbl_asn: 'ASN',
+    lbl_domain: 'Domínio',
+    lbl_nettype: 'Tipo de rede',
+    lbl_country: 'País',
+    lbl_region: 'Região',
+    lbl_city: 'Cidade',
+    lbl_postal: 'CEP / Postal',
+    lbl_tz: 'Fuso horário',
+    lbl_coords: 'Coordenadas',
+    lbl_ipv4_public: 'IPv4 público',
+    lbl_ipv6_public: 'IPv6 público',
+    lbl_ip_local: 'IP local (LAN)',
+    lbl_ipv6_local: 'IPv6 local',
+    lbl_webrtc_leak: 'WebRTC leak',
+    lbl_webrtc_note: '⚠ IPs locais via WebRTC. Se aparecer o IPv4 público aqui, pode indicar vazamento de VPN.',
+    lbl_ping: 'Ping HTTP',
+    lbl_dns_server: 'Servidor DNS',
+    lbl_dns_lookup: 'DNS lookup',
+    lbl_https_support: 'HTTPS suporte',
+    lbl_http2: 'HTTP/2',
+    lbl_platform: 'Plataforma',
+    lbl_language: 'Idioma',
+    lbl_screen: 'Tela (px)',
+    lbl_vpn_proxy: 'VPN / Proxy',
+    lbl_tor: 'Tor detectado',
+    lbl_incognito: 'Modo incógnito',
+    lbl_speed: 'Velocidade estimada',
+    lbl_online: 'Status',
+    // Quality bar
+    lbl_quality: 'Qualidade',
+    // Articles & FAQ - meu-ip
+    art_ip_title: 'O que é um Endereço IP Público?',
+    art_ip_p1: 'O endereço IP (Internet Protocol) é o identificador numérico global que identifica seu ponto de acesso à rede mundial de computadores. Assim como o endereço postal identifica sua residência para a entrega de cartas, o IP público permite que servidores web, plataformas de streaming, sites e aplicativos enviem pacotes de dados de volta para você de maneira exata e segura.',
+    art_ip_p2: 'Existem duas versões em operação na internet contemporânea: o IPv4, formato tradicional composto por 4 números separados por pontos (ex: 177.136.244.12), e o IPv6, padrão moderno de 128 bits representado por caracteres hexadecimais (ex: 2804:14d:5483::1). O NET INSPECTOR realiza a checagem de ambos instantaneamente.',
+    art_isp_title: 'Como o NET INSPECTOR identifica seu Provedor (ISP)?',
+    art_isp_p1: 'Todos os blocos de endereços IP globais são distribuídos por entidades regionais de registro (como o Registro.br / LACNIC na América Latina, ARIN na América do Norte e RIPE NCC na Europa). Esses blocos são concedidos a operadoras de telecomunicações e corporações chamadas de Sistemas Autônomos (Autonomous Systems).',
+    art_isp_p2: 'Ao inspecionar seu IP público, o NET INSPECTOR consulta as bases públicas de ASN (Autonomous System Number) e tabelas BGP, revelando com precisão o nome fantasia da sua operadora (como Claro, Vivo, TIM, Starlink ou provedores regionais de fibra óptica) e o número de registro do seu sistema autônomo.',
+    art_geo_title: 'Por que a Geolocalização por IP pode ser Imprecisa?',
+    art_geo_p1: 'Muitos usuários se surpreendem quando a cidade indicada no teste não corresponde ao seu endereço físico exato. Isso acontece porque a geolocalização por IP não utiliza GPS. O método mapeia o endereço IP para o ponto de presença (PoP), central de roteamento ou datacenter mais próximo instalado pela sua operadora.',
+    art_geo_p2: 'Por conta dessa arquitetura, conexões via rede móvel (4G/5G) ou provedores que compartilham rotas estaduais podem indicar uma capital próxima ou município vizinho. Além disso, o uso de CGNAT (Carrier-Grade NAT) agrupa dezenas de residências sob uma mesma faixa de saída.',
+    art_faq_title: 'Perguntas Frequentes sobre IP e Privacidade (FAQ)',
+    faq_q1: 'Meu IP é estático ou dinâmico?',
+    faq_a1: 'Na imensa maioria das assinaturas residenciais, o IP é dinâmico, alternando periodicamente ou sempre que seu modem é desligado da tomada. IPs fixos (estáticos) costumam ser contratados separadamente para empresas e hospedagem de servidores.',
+    faq_q2: 'Qual é a real diferença entre IPv4 e IPv6?',
+    faq_a2: 'O IPv4 suporta aproximadamente 4,3 bilhões de endereços, quantidade que se esgotou com a explosão de smartphones e dispositivos IoT. O IPv6 foi criado com 128 bits, gerando sextilhões de combinações e eliminando a dependência de tecnologias de tradução de endereços (NAT).',
+    faq_q3: 'Como posso esconder meu IP público?',
+    faq_a3: 'Você pode utilizar uma VPN de boa reputação, a rede Tor ou proxies criptografados. Ao navegar com uma VPN ativa, os sites passam a enxergar o IP do servidor remoto. Nosso card de IP inclui verificação de WebRTC Leak para alertar caso sua VPN esteja deixando vazar seu IP real.',
+    faq_q4: 'Alguém pode descobrir meu endereço físico pelo IP?',
+    faq_a4: 'Não diretamente. Terceiros só conseguem ver estimativas regionais (cidade, estado e provedor). Apenas o seu provedor de internet possui os registros contratuais associando o IP ao endereço residencial, informação protegida por lei e fornecida unicamente sob ordem judicial.',
+    cta_domain_title: 'Quer analisar um domínio ou site completo?',
+    cta_domain_desc: 'O NET INSPECTOR possui um analisador de domínio dedicado com 36 scanners: registros DNS, certificado SSL/TLS, dados Whois, segurança HTTP e muito mais.',
+    cta_domain_btn: 'Abrir Analisador de Domínio 🔍',
+    // Domain Page Articles & FAQs
+    art_domain_title: 'O que é uma Análise de Domínio?',
+    art_domain_p1: 'A análise de domínio é um procedimento técnico de auditoria que investiga todos os aspectos públicos da presença digital de um site ou servidor na internet. Ela abrange desde o roteamento básico de tráfego (DNS) até camadas críticas de criptografia (SSL/TLS), políticas de correio eletrônico (SPF, DKIM, DMARC) e cabeçalhos de segurança que protegem os visitantes contra ataques virtuais.',
+    art_domain_p2: 'Seja para desenvolvedores depurando configurações de servidores, analistas de cibersegurança auditando vulnerabilidades ou proprietários de sites verificando a integridade de seus serviços, o NET INSPECTOR executa mais de 36 testes em paralelo diretamente pelo navegador.',
+    art_dns_title: 'Como verificar os registros DNS de um site?',
+    art_dns_p1: 'O Domain Name System (DNS) é a agenda telefônica da internet, convertendo nomes de domínios memorizáveis em endereços numéricos IP legíveis por máquinas. Nossa ferramenta consulta resoluções autoritativas via DNS-over-HTTPS (DoH) para examinar múltiplos tipos de registros essenciais (A, AAAA, MX, NS, TXT, CNAME).',
+    art_ssl_title: 'Por que verificar o certificado SSL/TLS de um domínio?',
+    art_ssl_p1: 'O protocolo HTTPS garante que toda a comunicação entre o navegador do usuário e o servidor web permaneça criptografada, impedindo interceptações por terceiros. Auditar o certificado SSL/TLS permite atestar validade temporal, cadeia de confiança e suporte a versões criptográficas modernas como TLS 1.2 e TLS 1.3.',
+    art_whois_title: 'O que é Whois e para que serve?',
+    art_whois_p1: 'O Whois é um protocolo padronizado que permite consultar os bancos de dados públicos dos registradores de domínios. Através dele, é possível descobrir a data em que o domínio foi registrado pela primeira vez, sua última renovação e sua data de expiração.',
+    dfaq_q1: 'Quantas informações a ferramenta analisa de um domínio?',
+    dfaq_a1: 'O NET INSPECTOR executa mais de 36 verificações em paralelo, incluindo resolução DNS profunda, cadeias de certificação SSL, dados Whois, cabeçalhos de segurança HTTP, portas comuns, firewall (WAF) e histórico de arquivamento.',
+    dfaq_q2: 'A análise é gratuita e sem limites?',
+    dfaq_a2: 'Sim! A ferramenta é 100% gratuita, sem limite diário de consultas e não requer cadastro ou fornecimento de e-mail.',
+    dfaq_q3: 'Os dados do domínio analisado são armazenados?',
+    dfaq_a3: 'Não. Todas as requisições são processadas diretamente pelo navegador do cliente (client-side) utilizando APIs públicas e DoH. Nenhum histórico ou busca é gravado em servidores próprios.',
+    dfaq_q4: 'Por que alguns campos aparecem como "Indisponível (CORS)"?',
+    dfaq_a4: 'Por ser uma ferramenta 100% client-side, algumas consultas HTTP diretas são restringidas pela política de CORS dos navegadores para evitar requisições não autorizadas entre origens.',
+    dfaq_q5: 'O que significam os headers de segurança HTTP?',
+    dfaq_a5: 'Cabeçalhos HTTP como HSTS, CSP, X-Frame-Options e X-Content-Type-Options instruem o navegador sobre como proteger os visitantes contra ataques como clickjacking, injeção de scripts (XSS) e downgrade de conexão.',
+    cta_home_title: 'Quer testar a sua própria conexão de internet?',
+    cta_home_desc: 'Descubra instantaneamente seu IP público, ISP, geolocalização e teste de vazamento WebRTC.',
+    cta_home_btn: 'Descobrir Meu IP 📍',
+    // Footer & Common
+    footer_desc: 'NET INSPECTOR · Diagnóstico de IP e Conexão 100% Client-Side · Nenhum dado é registrado',
+    footer_link_ip: 'Qual é o Meu IP?',
+    footer_link_domain: 'Análise de Domínio',
+    footer_analytics: '📊 Analytics privacy-first via GoatCounter (sem cookies) —',
+    footer_stats: 'Ver estatísticas públicas ↗',
+    btn_optout_off: 'Desativar Analytics',
+    btn_optout_on: 'Ativar Analytics'
+  },
+  'en': {
+    logo_subtitle: 'Full connection &amp; ISP diagnostics',
+    nav_home: '🌐 What is My IP?',
+    nav_domain: '🔍 Domain Analyzer',
+    btn_scan: '▶ Analyze',
+    btn_domain: '🔍 Domain Analyzer ↗',
+    btn_home: '← What is My IP',
+    hero_ip_label: 'Your Public IP Address',
+    hero_domain_label: 'Security, DNS & SSL Diagnostics',
+    hero_domain_title: 'Free Online Domain Analyzer',
+    hero_domain_desc: 'Inspect the complete infrastructure of any website: DNS records, SSL/TLS certificate, Whois data, HTTP security headers, ports, and real-time technologies.',
+    domain_input_placeholder: 'Enter a domain (e.g. example.com)',
+    domain_btn_scan: '🔍 Analyze',
+    domain_input_hint: 'Enter a domain name for full security, DNS, SSL, and infrastructure analysis.',
+    card_isp: 'ISP &amp; ASN',
+    card_location: 'Location',
+    card_ip: 'IP Addresses',
+    card_latency: 'Latency &amp; DNS',
+    card_browser: 'Browser &amp; Device',
+    card_security: 'Security &amp; Privacy',
+    card_connectivity: 'Connectivity',
+    card_domain_scan: 'Domain Analysis',
+    card_ipinfo: 'IP Info',
+    card_ssl_chain: 'SSL Chain',
+    card_dns_records: 'DNS Records',
+    card_cookies: 'Cookies',
+    card_crawl_rules: 'Crawl Rules',
+    card_headers: 'Headers',
+    card_quality_metrics: 'Quality Metrics',
+    card_server_location: 'Server Location',
+    card_associated_hosts: 'Associated Hosts',
+    card_redirect_chain: 'Redirect Chain',
+    card_diagnostic_log: 'Diagnostic Log',
+    card_tls_audit: 'TLS Audit',
+    card_tls_compat: 'TLS Compatibility',
+    lbl_provider: 'ISP Provider',
+    lbl_org: 'Organization',
+    lbl_asn: 'ASN',
+    lbl_domain: 'Domain',
+    lbl_nettype: 'Network Type',
+    lbl_country: 'Country',
+    lbl_region: 'Region',
+    lbl_city: 'City',
+    lbl_postal: 'Postal Code',
+    lbl_tz: 'Timezone',
+    lbl_coords: 'Coordinates',
+    lbl_ipv4_public: 'Public IPv4',
+    lbl_ipv6_public: 'Public IPv6',
+    lbl_ip_local: 'Local IP (LAN)',
+    lbl_ipv6_local: 'Local IPv6',
+    lbl_webrtc_leak: 'WebRTC leak',
+    lbl_webrtc_note: '⚠ Local IPs via WebRTC. If your public IPv4 appears here, it may indicate a VPN leak.',
+    lbl_ping: 'HTTP Ping',
+    lbl_dns_server: 'DNS Server',
+    lbl_dns_lookup: 'DNS lookup',
+    lbl_https_support: 'HTTPS Support',
+    lbl_http2: 'HTTP/2',
+    lbl_platform: 'Platform',
+    lbl_language: 'Language',
+    lbl_screen: 'Screen (px)',
+    lbl_vpn_proxy: 'VPN / Proxy',
+    lbl_tor: 'Tor Detected',
+    lbl_incognito: 'Incognito Mode',
+    lbl_speed: 'Estimated Speed',
+    lbl_online: 'Status',
+    lbl_quality: 'Quality',
+    art_ip_title: 'What is a Public IP Address?',
+    art_ip_p1: 'The IP (Internet Protocol) address is the global numerical identifier that specifies your gateway to the world wide web. Just like a physical postal address allows mail delivery to your home, a public IP address enables servers, streaming platforms, and apps to deliver data packets back to you accurately and safely.',
+    art_ip_p2: 'Two versions coexist on the modern Internet: IPv4, composed of 4 dot-separated numbers (e.g., 177.136.244.12), and IPv6, a 128-bit hexadecimal standard (e.g., 2804:14d:5483::1). NET INSPECTOR checks both instantaneously.',
+    art_isp_title: 'How does NET INSPECTOR detect your ISP?',
+    art_isp_p1: 'Global IP address blocks are allocated by regional registries (such as ARIN, RIPE NCC, and LACNIC) to telecommunications carriers and corporations known as Autonomous Systems.',
+    art_isp_p2: 'When inspecting your public IP, NET INSPECTOR queries public ASN databases and BGP tables, accurately showing your provider name and Autonomous System Number.',
+    art_geo_title: 'Why can IP Geolocation be Inaccurate?',
+    art_geo_p1: 'Users are often surprised when the reported city does not match their exact home. IP geolocation does not use GPS; it maps your IP to your ISP nearest routing center or Point of Presence (PoP).',
+    art_geo_p2: 'Mobile cellular connections (4G/5G) or CGNAT networks frequently pool residential customers across broader regional hubs.',
+    art_faq_title: 'Frequently Asked Questions (FAQ)',
+    faq_q1: 'Is my IP address static or dynamic?',
+    faq_a1: 'Most residential broadband connections use dynamic IP addresses that cycle periodically or upon modem reboot. Fixed static IPs are usually reserved for business subscriptions and dedicated servers.',
+    faq_q2: 'What is the real difference between IPv4 and IPv6?',
+    faq_a2: 'IPv4 supports about 4.3 billion unique addresses, which have been exhausted globally. IPv6 features 128-bit addresses, offering practically unlimited addresses without NAT overhead.',
+    faq_q3: 'How can I hide or mask my public IP address?',
+    faq_a3: 'You can use a trusted VPN, the Tor network, or encrypted proxies. Our IP inspection card also runs a WebRTC leak check to make sure your VPN is not leaking your true IP.',
+    faq_q4: 'Can anyone find my home address from my IP?',
+    faq_a4: 'No. Third parties can only see regional estimates (city and ISP). Only your Internet service provider maintains legal subscription records matching IPs to physical addresses.',
+    cta_domain_title: 'Looking for a full domain audit?',
+    cta_domain_desc: 'NET INSPECTOR provides a dedicated domain analyzer with 36 real-time scanners: DNS records, SSL/TLS certificate, Whois data, HTTP security headers, and more.',
+    cta_domain_btn: 'Open Domain Analyzer 🔍',
+    art_domain_title: 'What is Domain Analysis?',
+    art_domain_p1: 'Domain analysis is a technical audit examining all public facets of a website or server. It ranges from DNS routing to SSL/TLS encryption, mail exchange records, and HTTP security headers.',
+    art_domain_p2: 'Whether you are a developer troubleshooting configurations or a security analyst assessing threats, NET INSPECTOR runs 36+ parallel checks right inside your browser.',
+    art_dns_title: 'How to check website DNS records?',
+    art_dns_p1: 'The Domain Name System (DNS) translates human-friendly hostnames into machine-readable IP addresses. Our tool uses DNS-over-HTTPS (DoH) to inspect essential records (A, AAAA, MX, NS, TXT, CNAME).',
+    art_ssl_title: 'Why verify SSL/TLS certificates?',
+    art_ssl_p1: 'HTTPS encrypts data between user browsers and web servers. Auditing certificates confirms validity dates, certificate authority chains, and modern protocol support (TLS 1.2 / TLS 1.3).',
+    art_whois_title: 'What is Whois and why is it useful?',
+    art_whois_p1: 'Whois queries public domain registrar databases to reveal registration dates, renewal timestamps, and expiration deadlines.',
+    dfaq_q1: 'How many data points does this tool analyze?',
+    dfaq_a1: 'NET INSPECTOR runs over 36 tests in parallel covering DNS, SSL certificates, Whois, security headers, open ports, and historical web archives.',
+    dfaq_q2: 'Is this analysis free and unlimited?',
+    dfaq_a2: 'Yes! 100% free, unlimited queries, with no registration or email needed.',
+    dfaq_q3: 'Are tested domain searches stored or logged?',
+    dfaq_a3: 'No. All queries run client-side in your browser using public APIs. We never record queries on our servers.',
+    dfaq_q4: 'Why do some fields show "Unavailable (CORS)"?',
+    dfaq_a4: 'As a client-side tool, certain direct HTTP queries are restricted by browser CORS security policies.',
+    dfaq_q5: 'What do HTTP security headers do?',
+    dfaq_a5: 'Headers like HSTS, CSP, and X-Frame-Options instruct browsers how to safeguard users against clickjacking, XSS, and downgrade attacks.',
+    cta_home_title: 'Want to test your own internet connection?',
+    cta_home_desc: 'Instantly find your public IP address, ISP, geolocation, and WebRTC leak test.',
+    cta_home_btn: 'Find My IP 📍',
+    footer_desc: 'NET INSPECTOR · 100% Client-Side Network & IP Diagnostics · Zero data stored',
+    footer_link_ip: 'What is My IP?',
+    footer_link_domain: 'Domain Analysis',
+    footer_analytics: '📊 Privacy-first analytics via GoatCounter (no cookies) —',
+    footer_stats: 'View public stats ↗',
+    btn_optout_off: 'Disable Analytics',
+    btn_optout_on: 'Enable Analytics'
+  },
+  'es': {
+    logo_subtitle: 'Diagnóstico completo de conexión e ISP',
+    nav_home: '🌐 ¿Cuál es Mi IP?',
+    nav_domain: '🔍 Analizar Dominio',
+    btn_scan: '▶ Analizar',
+    btn_domain: '🔍 Analizar Dominio ↗',
+    btn_home: '← ¿Cuál es Mi IP?',
+    hero_ip_label: 'Su Dirección IP Pública',
+    hero_domain_label: 'Diagnóstico de Seguridad, DNS y SSL',
+    hero_domain_title: 'Analizador de Dominio Online Gratuito',
+    hero_domain_desc: 'Inspeccione la infraestructura completa de cualquier sitio web: registros DNS, certificado SSL/TLS, datos Whois, encabezados HTTP, puertos y tecnologías en tiempo real.',
+    domain_input_placeholder: 'Ingrese un dominio (ej: example.com)',
+    domain_btn_scan: '🔍 Analizar',
+    domain_input_hint: 'Ingrese un nombre de dominio para un análisis exhaustivo de seguridad, DNS, SSL e infraestructura.',
+    card_isp: 'ISP &amp; ASN',
+    card_location: 'Ubicación',
+    card_ip: 'Direcciones IP',
+    card_latency: 'Latencia &amp; DNS',
+    card_browser: 'Navegador &amp; Dispositivo',
+    card_security: 'Seguridad &amp; Privacidad',
+    card_connectivity: 'Conectividad',
+    card_domain_scan: 'Análisis de Dominio',
+    card_ipinfo: 'Info IP',
+    card_ssl_chain: 'Cadena SSL',
+    card_dns_records: 'Registros DNS',
+    card_cookies: 'Cookies',
+    card_crawl_rules: 'Reglas de Rastreo',
+    card_headers: 'Encabezados',
+    card_quality_metrics: 'Métricas de Calidad',
+    card_server_location: 'Ubicación del Servidor',
+    card_associated_hosts: 'Hosts Asociados',
+    card_redirect_chain: 'Cadena de Redirección',
+    card_diagnostic_log: 'Registro de Diagnóstico',
+    card_tls_audit: 'Auditoría TLS',
+    card_tls_compat: 'Compatibilidad TLS',
+    lbl_provider: 'Proveedor',
+    lbl_org: 'Organización',
+    lbl_asn: 'ASN',
+    lbl_domain: 'Dominio',
+    lbl_nettype: 'Tipo de red',
+    lbl_country: 'País',
+    lbl_region: 'Región',
+    lbl_city: 'Ciudad',
+    lbl_postal: 'Código Postal',
+    lbl_tz: 'Zona horaria',
+    lbl_coords: 'Coordenadas',
+    lbl_ipv4_public: 'IPv4 público',
+    lbl_ipv6_public: 'IPv6 público',
+    lbl_ip_local: 'IP local (LAN)',
+    lbl_ipv6_local: 'IPv6 local',
+    lbl_webrtc_leak: 'Fuga WebRTC',
+    lbl_webrtc_note: '⚠ IPs locales vía WebRTC. Si aparece su IPv4 público aquí, puede indicar fuga de VPN.',
+    lbl_ping: 'Ping HTTP',
+    lbl_dns_server: 'Servidor DNS',
+    lbl_dns_lookup: 'Búsqueda DNS',
+    lbl_https_support: 'Soporte HTTPS',
+    lbl_http2: 'HTTP/2',
+    lbl_platform: 'Plataforma',
+    lbl_language: 'Idioma',
+    lbl_screen: 'Pantalla (px)',
+    lbl_vpn_proxy: 'VPN / Proxy',
+    lbl_tor: 'Tor detectado',
+    lbl_incognito: 'Modo incógnito',
+    lbl_speed: 'Velocidad estimada',
+    lbl_online: 'Estado',
+    lbl_quality: 'Calidad',
+    art_ip_title: '¿Qué es una Dirección IP Pública?',
+    art_ip_p1: 'La dirección IP es el identificador numérico que define su punto de conexión a Internet, permitiendo el intercambio seguro de datos con servidores web y aplicaciones.',
+    art_ip_p2: 'Existen dos versiones principales: IPv4 (cuatro números separados por puntos) e IPv6 (128 bits hexadecimales). NET INSPECTOR detecta ambos protocolos.',
+    art_isp_title: '¿Cómo identifica NET INSPECTOR a su ISP?',
+    art_isp_p1: 'Los bloques de IP se delegan a operadores a través de Sistemas Autónomos (ASN). NET INSPECTOR consulta tablas de enrutamiento BGP públicas para identificar a su operador.',
+    art_isp_p2: 'Al consultar su IP, mostramos con precisión el nombre de su proveedor de Internet y el número ASN asignado.',
+    art_geo_title: '¿Por qué la Geolocalización IP puede ser Imprecisa?',
+    art_geo_p1: 'La geolocalización por IP no utiliza GPS satelital; apunta al centro de datos o nodo de distribución más próximo de su proveedor.',
+    art_geo_p2: 'Las redes celulares móviles (4G/5G) y CGNAT suelen concentrar usuarios en capitales o regiones vecinas.',
+    art_faq_title: 'Preguntas Frecuentes sobre IP y Privacidad (FAQ)',
+    faq_q1: '¿Mi dirección IP es estática o dinámica?',
+    faq_a1: 'En la mayoría de hogares es dinámica y cambia periódicamente. Las IPs estáticas suelen ser para empresas y servidores.',
+    faq_q2: '¿Cuál es la diferencia entre IPv4 e IPv6?',
+    faq_a2: 'IPv4 tiene 4.300 millones de direcciones agotadas en el mundo. IPv6 ofrece direcciones prácticamente infinitas.',
+    faq_q3: '¿Cómo puedo ocultar mi dirección IP pública?',
+    faq_a3: 'Usando una VPN confiable, proxies cifrados o la red Tor. Nuestro verificador de WebRTC detecta posibles fugas.',
+    faq_q4: '¿Pueden saber mi dirección física mediante mi IP?',
+    faq_a4: 'No directamente. Los terceros solo ven datos regionales (ciudad y proveedor). Solo su ISP tiene registros legales de abonados.',
+    cta_domain_title: '¿Desea auditar un dominio web completo?',
+    cta_domain_desc: 'Analice registros DNS, certificados SSL/TLS, datos Whois y encabezados de seguridad.',
+    cta_domain_btn: 'Abrir Analizador de Dominio 🔍',
+    art_domain_title: '¿Qué es un Análisis de Dominio?',
+    art_domain_p1: 'Es una auditoría técnica que examina el enrutamiento DNS, cifrado SSL, certificados y encabezados de seguridad de cualquier sitio.',
+    art_domain_p2: 'NET INSPECTOR ejecuta más de 36 pruebas en paralelo desde el navegador, sin necesidad de comandos de terminal.',
+    art_dns_title: '¿Cómo verificar registros DNS?',
+    art_dns_p1: 'El sistema DNS traduce nombres en IPs. Consultamos DoH para verificar registros A, AAAA, MX, NS, TXT y CNAME.',
+    art_ssl_title: '¿Por qué verificar certificados SSL/TLS?',
+    art_ssl_p1: 'Permite confirmar la validez del certificado, la entidad emisora y el soporte de protocolos modernos (TLS 1.2 / TLS 1.3).',
+    art_whois_title: '¿Qué es Whois y para qué sirve?',
+    art_whois_p1: 'Whois consulta registros públicos de dominios revelando fechas de alta, renovación y vencimiento.',
+    dfaq_q1: '¿Cuánta información analiza la herramienta?',
+    dfaq_a1: 'Ejecuta más de 36 verificaciones simultáneas cubriendo DNS, SSL, Whois, cabeceras HTTP y puertos.',
+    dfaq_q2: '¿El análisis es gratuito e ilimitado?',
+    dfaq_a2: '¡Sí! Totalmente gratuito, sin límites ni registros.',
+    dfaq_q3: '¿Se almacenan las búsquedas realizadas?',
+    dfaq_a3: 'No. Toda la ejecución es 100% client-side en su navegador.',
+    dfaq_q4: '¿Por qué algunos campos dicen "No disponible (CORS)"?',
+    dfaq_a4: 'Por políticas de seguridad de los navegadores que impiden peticiones entre orígenes sin cabecera CORS.',
+    dfaq_q5: '¿Para qué sirven las cabeceras de seguridad HTTP?',
+    dfaq_a5: 'Protegen a los usuarios contra ataques de clickjacking, robo de sesión e inyección XSS.',
+    cta_home_title: '¿Desea comprobar su propia conexión?',
+    cta_home_desc: 'Descubra al instante su IP pública, ISP, geolocalización y prueba de fugas WebRTC.',
+    cta_home_btn: 'Descubrir Mi IP 📍',
+    footer_desc: 'NET INSPECTOR · Diagnóstico de red e IP 100% Client-Side · Sin registro de datos',
+    footer_link_ip: '¿Cuál es Mi IP?',
+    footer_link_domain: 'Análisis de Dominio',
+    footer_analytics: '📊 Analítica privacy-first con GoatCounter (sin cookies) —',
+    footer_stats: 'Ver estadísticas públicas ↗',
+    btn_optout_off: 'Desactivar Analítica',
+    btn_optout_on: 'Activar Analítica'
+  },
+  'fr': {
+    logo_subtitle: 'Diagnostic complet de connexion &amp; FAI',
+    nav_home: '🌐 Mon IP Publique',
+    nav_domain: '🔍 Analyseur de Domaine',
+    btn_scan: '▶ Analyser',
+    btn_domain: '🔍 Analyseur de Domaine ↗',
+    btn_home: '← Mon IP Publique',
+    hero_ip_label: 'Votre Adresse IP Publique',
+    hero_domain_label: 'Sécurité, DNS et Certificats SSL',
+    hero_domain_title: 'Analyseur de Domaine en Ligne Gratuit',
+    hero_domain_desc: 'Inspectez l’infrastructure complète de n’importe quel site web : enregistrements DNS, certificat SSL/TLS, données Whois, en-têtes de sécurité HTTP et technologies.',
+    domain_input_placeholder: 'Entrez un domaine (ex : example.com)',
+    domain_btn_scan: '🔍 Analyser',
+    domain_input_hint: 'Saisissez un domaine pour un audit complet de sécurité, DNS, SSL et infrastructure.',
+    card_isp: 'FAI &amp; ASN',
+    card_location: 'Localisation',
+    card_ip: 'Adresses IP',
+    card_latency: 'Latence &amp; DNS',
+    card_browser: 'Navigateur &amp; Appareil',
+    card_security: 'Sécurité &amp; Confidentialité',
+    card_connectivity: 'Connectivité',
+    card_domain_scan: 'Analyse de Domaine',
+    card_ipinfo: 'Infos IP',
+    card_ssl_chain: 'Chaîne SSL',
+    card_dns_records: 'Enregistrements DNS',
+    card_cookies: 'Cookies',
+    card_crawl_rules: 'Règles d’indexation',
+    card_headers: 'En-têtes',
+    card_quality_metrics: 'Métriques Qualité',
+    card_server_location: 'Emplacement Serveur',
+    card_associated_hosts: 'Hôtes Associés',
+    card_redirect_chain: 'Redirections',
+    card_diagnostic_log: 'Journal de Diagnostic',
+    card_tls_audit: 'Audit TLS',
+    card_tls_compat: 'Compatibilité TLS',
+    lbl_provider: 'Fournisseur (FAI)',
+    lbl_org: 'Organisation',
+    lbl_asn: 'ASN',
+    lbl_domain: 'Domaine',
+    lbl_nettype: 'Type de réseau',
+    lbl_country: 'Pays',
+    lbl_region: 'Région',
+    lbl_city: 'Ville',
+    lbl_postal: 'Code postal',
+    lbl_tz: 'Fuseau horaire',
+    lbl_coords: 'Coordonnées',
+    lbl_ipv4_public: 'IPv4 publique',
+    lbl_ipv6_public: 'IPv6 publique',
+    lbl_ip_local: 'IP locale (LAN)',
+    lbl_ipv6_local: 'IPv6 locale',
+    lbl_webrtc_leak: 'Fuite WebRTC',
+    lbl_webrtc_note: '⚠ IPs locales via WebRTC. Si votre IPv4 publique apparaît ici, cela peut indiquer une fuite VPN.',
+    lbl_ping: 'Ping HTTP',
+    lbl_dns_server: 'Serveur DNS',
+    lbl_dns_lookup: 'Résolution DNS',
+    lbl_https_support: 'Support HTTPS',
+    lbl_http2: 'HTTP/2',
+    lbl_platform: 'Plateforme',
+    lbl_language: 'Langue',
+    lbl_screen: 'Écran (px)',
+    lbl_vpn_proxy: 'VPN / Proxy',
+    lbl_tor: 'Tor détecté',
+    lbl_incognito: 'Navigation privée',
+    lbl_speed: 'Débit estimé',
+    lbl_online: 'Statut',
+    lbl_quality: 'Qualité',
+    art_ip_title: 'Qu’est-ce qu’une Adresse IP Publique ?',
+    art_ip_p1: 'L’adresse IP est l’identifiant numérique unique attribué à votre passerelle Internet, permettant l’échange sécurisé de paquets de données avec les serveurs distants.',
+    art_ip_p2: 'Deux protocoles coexistent : IPv4 (format à 4 nombres) et IPv6 (128 bits hexadécimaux). NET INSPECTOR détecte les deux instantanément.',
+    art_isp_title: 'Comment NET INSPECTOR identifie votre FAI ?',
+    art_isp_p1: 'Les blocs d’adresses IP sont alloués aux opérateurs au sein de Systèmes Autonomes (ASN). Notre outil consulte les tables BGP publiques.',
+    art_isp_p2: 'Nous identifions fidèlement votre opérateur commercial et le numéro ASN associé.',
+    art_geo_title: 'Pourquoi la Géolocalisation IP peut être Imprécise ?',
+    art_geo_p1: 'La géolocalisation par IP n’utilise aucun signal GPS : elle cible le centre de routage ou PoP le plus proche de votre opérateur.',
+    art_geo_p2: 'Les réseaux mobiles (4G/5G) et le CGNAT regroupent souvent les abonnés dans une grande métropole régionale.',
+    art_faq_title: 'Questions Fréquentes (FAQ)',
+    faq_q1: 'Mon adresse IP est-elle fixe ou dynamique ?',
+    faq_a1: 'La plupart des offres grand public utilisent des adresses IP dynamiques qui changent régulièrement ou au redémarrage du boîtier.',
+    faq_q2: 'Quelle est la différence entre IPv4 et IPv6 ?',
+    faq_a2: 'L’IPv4 est limité à 4,3 milliards d’adresses aujourd’hui épuisées. L’IPv6 propose un nombre quasi infini de combinaisons.',
+    faq_q3: 'Comment masquer mon adresse IP publique ?',
+    faq_a3: 'En utilisant un VPN éprouvé, le réseau Tor ou des proxys chiffrés. Notre test WebRTC vérifie l’absence de fuites.',
+    faq_q4: 'Une tierce personne peut-elle trouver mon domicile avec mon IP ?',
+    faq_a4: 'Non. Seules des estimations régionales sont visibles. Seul votre FAI dispose du registre liant l’IP à votre contrat.',
+    cta_domain_title: 'Besoin d’analyser un domaine complet ?',
+    cta_domain_desc: 'Vérifiez les enregistrements DNS, le certificat SSL/TLS, le Whois et les en-têtes HTTP de sécurité.',
+    cta_domain_btn: 'Ouvrir l’Analyseur de Domaine 🔍',
+    art_domain_title: 'Qu’est-ce que l’Analyse de Domaine ?',
+    art_domain_p1: 'C’est un audit technique complet inspectant le routage DNS, le chiffrement SSL et la conformité de sécurité.',
+    art_domain_p2: 'NET INSPECTOR lance plus de 36 vérifications en parallèle directement depuis votre navigateur.',
+    art_dns_title: 'Comment vérifier le DNS d’un site ?',
+    art_dns_p1: 'Le DNS convertit les noms de domaine en adresses IP. Nous interrogeons DoH pour lire les entrées A, AAAA, MX, NS, TXT et CNAME.',
+    art_ssl_title: 'Pourquoi vérifier un certificat SSL/TLS ?',
+    art_ssl_p1: 'Cela permet de vérifier la validité temporelle, l’autorité de certification et la compatibilité avec TLS 1.2 / TLS 1.3.',
+    art_whois_title: 'Qu’est-ce que le Whois ?',
+    art_whois_p1: 'Le protocole Whois interroge les registres de noms de domaine pour connaître la date d’enregistrement et d’expiration.',
+    dfaq_q1: 'Combien d’éléments sont audités ?',
+    dfaq_a1: 'Plus de 36 contrôles simultanés sur le DNS, les certificats SSL, le Whois et les en-têtes HTTP.',
+    dfaq_q2: 'Est-ce gratuit et sans limite ?',
+    dfaq_a2: 'Oui, totalement gratuit, illimité et sans création de compte.',
+    dfaq_q3: 'Les recherches sont-elles conservées ?',
+    dfaq_a3: 'Non. Tout s’exécute côté client (client-side) dans votre navigateur.',
+    dfaq_q4: 'Pourquoi certains champs affichent "Indisponible (CORS)" ?',
+    dfaq_a4: 'Les règles de sécurité du navigateur restreignent certaines requêtes directes sans autorisation CORS.',
+    dfaq_q5: 'À quoi servent les en-têtes de sécurité HTTP ?',
+    dfaq_a5: 'Ils protègent les internautes contre le détournement de clic (clickjacking), le vol de session et les failles XSS.',
+    cta_home_title: 'Tester votre propre connexion Internet ?',
+    cta_home_desc: 'Découvrez instantanément votre IP publique, FAI, localisation et fuite WebRTC.',
+    cta_home_btn: 'Voir Mon IP 📍',
+    footer_desc: 'NET INSPECTOR · Diagnostic réseau et IP 100% Client-Side · Aucune donnée conservée',
+    footer_link_ip: 'Mon IP Publique',
+    footer_link_domain: 'Analyse de Domaine',
+    footer_analytics: '📊 Statistiques respectueuses de la vie privée via GoatCounter (sans cookies) —',
+    footer_stats: 'Statistiques publiques ↗',
+    btn_optout_off: 'Désactiver les statistiques',
+    btn_optout_on: 'Activer les statistiques'
+  },
+  'de': {
+    logo_subtitle: 'Vollständige Verbindungs- &amp; ISP-Diagnose',
+    nav_home: '🌐 Wie ist meine IP?',
+    nav_domain: '🔍 Domain analysieren',
+    btn_scan: '▶ Analysieren',
+    btn_domain: '🔍 Domain analysieren ↗',
+    btn_home: '← Wie ist meine IP',
+    hero_ip_label: 'Ihre öffentliche IP-Adresse',
+    hero_domain_label: 'Sicherheits-, DNS- und SSL-Diagnose',
+    hero_domain_title: 'Kostenloser Online-Domain-Analyzer',
+    hero_domain_desc: 'Untersuchen Sie die gesamte Infrastruktur einer Website: DNS-Einträge, SSL/TLS-Zertifikate, Whois-Daten, HTTP-Sicherheits-Header und Technologien in Echtzeit.',
+    domain_input_placeholder: 'Domain eingeben (z. B. example.com)',
+    domain_btn_scan: '🔍 Analysieren',
+    domain_input_hint: 'Geben Sie eine Domain für eine umfassende Sicherheits-, DNS-, SSL- und Infrastrukturanalyse ein.',
+    card_isp: 'ISP &amp; ASN',
+    card_location: 'Standort',
+    card_ip: 'IP-Adressen',
+    card_latency: 'Latenz &amp; DNS',
+    card_browser: 'Browser &amp; Gerät',
+    card_security: 'Sicherheit &amp; Datenschutz',
+    card_connectivity: 'Konnektivität',
+    card_domain_scan: 'Domain-Analyse',
+    card_ipinfo: 'IP-Info',
+    card_ssl_chain: 'SSL-Kette',
+    card_dns_records: 'DNS-Einträge',
+    card_cookies: 'Cookies',
+    card_crawl_rules: 'Crawl-Regeln',
+    card_headers: 'Header',
+    card_quality_metrics: 'Qualitätsmetriken',
+    card_server_location: 'Serverstandort',
+    card_associated_hosts: 'Verbundene Hosts',
+    card_redirect_chain: 'Weiterleitungskette',
+    card_diagnostic_log: 'Diagnoseprotokoll',
+    card_tls_audit: 'TLS-Audit',
+    card_tls_compat: 'TLS-Kompatibilität',
+    lbl_provider: 'Internetanbieter (ISP)',
+    lbl_org: 'Organisation',
+    lbl_asn: 'ASN',
+    lbl_domain: 'Domain',
+    lbl_nettype: 'Netzwerktyp',
+    lbl_country: 'Land',
+    lbl_region: 'Region',
+    lbl_city: 'Stadt',
+    lbl_postal: 'Postleitzahl',
+    lbl_tz: 'Zeitzone',
+    lbl_coords: 'Koordinaten',
+    lbl_ipv4_public: 'Öffentliche IPv4',
+    lbl_ipv6_public: 'Öffentliche IPv6',
+    lbl_ip_local: 'Lokale IP (LAN)',
+    lbl_ipv6_local: 'Lokale IPv6',
+    lbl_webrtc_leak: 'WebRTC-Leak',
+    lbl_webrtc_note: '⚠ Lokale IPs via WebRTC. Falls hier Ihre öffentliche IP erscheint, kann dies auf ein VPN-Leck hinweisen.',
+    lbl_ping: 'HTTP-Ping',
+    lbl_dns_server: 'DNS-Server',
+    lbl_dns_lookup: 'DNS-Auflösung',
+    lbl_https_support: 'HTTPS-Unterstützung',
+    lbl_http2: 'HTTP/2',
+    lbl_platform: 'Plattform',
+    lbl_language: 'Sprache',
+    lbl_screen: 'Bildschirm (px)',
+    lbl_vpn_proxy: 'VPN / Proxy',
+    lbl_tor: 'Tor erkannt',
+    lbl_incognito: 'Inkognito-Modus',
+    lbl_speed: 'Geschätzte Geschwindigkeit',
+    lbl_online: 'Status',
+    lbl_quality: 'Qualität',
+    art_ip_title: 'Was ist eine öffentliche IP-Adresse?',
+    art_ip_p1: 'Die IP-Adresse identifiziert Ihren Internetanschluss eindeutig im weltweiten Netz und ermöglicht die fehlerfreie Übertragung von Datenpaketen.',
+    art_ip_p2: 'Es gibt zwei Standards: das klassische IPv4 (vier Zahlenblöcke) und das moderne 128-Bit-IPv6. NET INSPECTOR prüft beide Adressen.',
+    art_isp_title: 'Wie erkennt NET INSPECTOR Ihren ISP?',
+    art_isp_p1: 'IP-Blöcke werden Autonomen Systemen (ASN) zugewiesen. NET INSPECTOR fragt öffentliche BGP-Routingtabellen ab.',
+    art_isp_p2: 'So ermitteln wir Ihren Netzanbieter und Ihre ASN-Nummer präzise und zuverlässig.',
+    art_geo_title: 'Warum kann IP-Geolokalisierung ungenau sein?',
+    art_geo_p1: 'IP-Geolokalisierung verwendet kein GPS, sondern verweist auf das nächste Rechenzentrum oder den Verteilerknoten Ihres Anbieters.',
+    art_geo_p2: 'Mobilfunknetze (4G/5G) oder CGNAT bündeln Anschlüsse oft über überregionale Knotenpunkte.',
+    art_faq_title: 'Häufig gestellte Fragen (FAQ)',
+    faq_q1: 'Ist meine IP statisch oder dynamisch?',
+    faq_a1: 'Bei den meisten Privatkundenanschlüssen ist die IP dynamisch und wechselt periodisch. Feste IPs werden meist von Geschäftskunden gebucht.',
+    faq_q2: 'Was ist der Unterschied zwischen IPv4 und IPv6?',
+    faq_a2: 'IPv4 bietet ca. 4,3 Milliarden Adressen, die weltweit aufgebraucht sind. IPv6 bietet einen quasi unerschöpflichen Adressraum.',
+    faq_q3: 'Wie kann ich meine öffentliche IP verbergen?',
+    faq_a3: 'Mit einem zuverlässigen VPN, dem Tor-Netzwerk oder Proxys. Unser Tool prüft zusätzlich auf WebRTC-Lecks.',
+    faq_q4: 'Kann jemand anhand meiner IP meine Adresse ermitteln?',
+    faq_a4: 'Nein. Dritte sehen nur regionale Näherungswerte. Nur Ihr Provider kennt die Vertragsdaten hinter einer IP.',
+    cta_domain_title: 'Möchten Sie eine vollständige Domain prüfen?',
+    cta_domain_desc: 'Prüfen Sie DNS-Einträge, SSL/TLS-Zertifikate, Whois-Daten und Sicherheits-Header.',
+    cta_domain_btn: 'Domain-Analyzer öffnen 🔍',
+    art_domain_title: 'Was ist eine Domain-Analyse?',
+    art_domain_p1: 'Eine technische Prüfung von DNS-Routing, SSL-Verschlüsselung und HTTP-Sicherheits-Headern einer Website.',
+    art_domain_p2: 'NET INSPECTOR führt über 36 parallele Tests direkt im Browser aus – ganz ohne Terminalbefehle.',
+    art_dns_title: 'Wie prüft man DNS-Einträge?',
+    art_dns_p1: 'DNS wandelt Domainnamen in IP-Adressen um. Wir nutzen DNS-over-HTTPS zur Abfrage von A, AAAA, MX, NS, TXT und CNAME.',
+    art_ssl_title: 'Warum SSL/TLS-Zertifikate prüfen?',
+    art_ssl_p1: 'Um Gültigkeitszeiträume, Ausstellerzertifikate und moderne Protokolle wie TLS 1.2 und TLS 1.3 zu kontrollieren.',
+    art_whois_title: 'Was ist Whois?',
+    art_whois_p1: 'Whois fragt öffentliche Vergabedatenbanken ab, um Registrierungs- und Ablaufdaten von Domains zu ermitteln.',
+    dfaq_q1: 'Wie viele Daten werden analysiert?',
+    dfaq_a1: 'Über 36 Prüfungen gleichzeitig zu DNS, SSL, Whois, Server-Headern und Ports.',
+    dfaq_q2: 'Ist die Analyse kostenlos?',
+    dfaq_a2: 'Ja, 100 % kostenlos, unbegrenzt und ohne Registrierung.',
+    dfaq_q3: 'Werden geprüfte Domains gespeichert?',
+    dfaq_a3: 'Nein. Alle Anfragen laufen vollständig clientseitig in Ihrem Browser ab.',
+    dfaq_q4: 'Warum steht bei manchen Feldern "Nicht verfügbar (CORS)"?',
+    dfaq_a4: 'Browser-Sicherheitsrichtlinien blockieren bestimmte Cross-Origin-Anfragen ohne passende CORS-Header.',
+    dfaq_q5: 'Welche Funktion haben HTTP-Sicherheits-Header?',
+    dfaq_a5: 'Sie schützen Besucher vor Clickjacking-, XSS- und Downgrade-Angriffen.',
+    cta_home_title: 'Eigene Internetverbindung testen?',
+    cta_home_desc: 'Ermitteln Sie sofort Ihre öffentliche IP, ISP, Standort und WebRTC-Sicherheit.',
+    cta_home_btn: 'Meine IP anzeigen 📍',
+    footer_desc: 'NET INSPECTOR · 100% Client-Side Netzwerk- und IP-Diagnose · Keine Datenspeicherung',
+    footer_link_ip: 'Wie ist meine IP?',
+    footer_link_domain: 'Domain-Analyse',
+    footer_analytics: '📊 Datenschutzfreundliche Analyse mit GoatCounter (keine Cookies) —',
+    footer_stats: 'Öffentliche Statistiken ↗',
+    btn_optout_off: 'Analytics deaktivieren',
+    btn_optout_on: 'Analytics aktivieren'
+  },
+  'it': {
+    logo_subtitle: 'Diagnostica completa di connessione &amp; ISP',
+    nav_home: '🌐 Qual è il Mio IP?',
+    nav_domain: '🔍 Analisi Dominio',
+    btn_scan: '▶ Analizza',
+    btn_domain: '🔍 Analisi Dominio ↗',
+    btn_home: '← Qual è il Mio IP',
+    hero_ip_label: 'Il Tuo Indirizzo IP Pubblico',
+    hero_domain_label: 'Diagnostica di Sicurezza, DNS e SSL',
+    hero_domain_title: 'Analizzatore di Dominio Online Gratuito',
+    hero_domain_desc: 'Ispeziona l’infrastruttura completa di qualsiasi sito web: record DNS, certificato SSL/TLS, dati Whois, intestazioni di sicurezza HTTP e porte.',
+    domain_input_placeholder: 'Inserisci un dominio (es: example.com)',
+    domain_btn_scan: '🔍 Analizza',
+    domain_input_hint: 'Digita un dominio per un’analisi completa di sicurezza, DNS, SSL e infrastruttura.',
+    card_isp: 'ISP &amp; ASN',
+    card_location: 'Posizione',
+    card_ip: 'Indirizzi IP',
+    card_latency: 'Latenza &amp; DNS',
+    card_browser: 'Browser &amp; Dispositivo',
+    card_security: 'Sicurezza &amp; Privacy',
+    card_connectivity: 'Connettività',
+    card_domain_scan: 'Analisi Dominio',
+    card_ipinfo: 'Info IP',
+    card_ssl_chain: 'Catena SSL',
+    card_dns_records: 'Record DNS',
+    card_cookies: 'Cookie',
+    card_crawl_rules: 'Regole di Crawling',
+    card_headers: 'Intestazioni',
+    card_quality_metrics: 'Metriche di Qualità',
+    card_server_location: 'Posizione Server',
+    card_associated_hosts: 'Host Associati',
+    card_redirect_chain: 'Reindirizzamenti',
+    card_diagnostic_log: 'Log Diagnostico',
+    card_tls_audit: 'Audit TLS',
+    card_tls_compat: 'Compatibilità TLS',
+    lbl_provider: 'Fornitore (ISP)',
+    lbl_org: 'Organizzazione',
+    lbl_asn: 'ASN',
+    lbl_domain: 'Dominio',
+    lbl_nettype: 'Tipo di rete',
+    lbl_country: 'Paese',
+    lbl_region: 'Regione',
+    lbl_city: 'Città',
+    lbl_postal: 'CAP / Codice Postale',
+    lbl_tz: 'Fuso orario',
+    lbl_coords: 'Coordinate',
+    lbl_ipv4_public: 'IPv4 pubblico',
+    lbl_ipv6_public: 'IPv6 pubblico',
+    lbl_ip_local: 'IP locale (LAN)',
+    lbl_ipv6_local: 'IPv6 locale',
+    lbl_webrtc_leak: 'Perdita WebRTC',
+    lbl_webrtc_note: '⚠ IP locali via WebRTC. Se qui appare il tuo IPv4 pubblico, potrebbe indicare una perdita VPN.',
+    lbl_ping: 'Ping HTTP',
+    lbl_dns_server: 'Server DNS',
+    lbl_dns_lookup: 'Risoluzione DNS',
+    lbl_https_support: 'Supporto HTTPS',
+    lbl_http2: 'HTTP/2',
+    lbl_platform: 'Piattaforma',
+    lbl_language: 'Lingua',
+    lbl_screen: 'Schermo (px)',
+    lbl_vpn_proxy: 'VPN / Proxy',
+    lbl_tor: 'Tor rilevato',
+    lbl_incognito: 'Modalità anonima',
+    lbl_speed: 'Velocità stimata',
+    lbl_online: 'Stato',
+    lbl_quality: 'Qualità',
+    art_ip_title: 'Cos’è un Indirizzo IP Pubblico?',
+    art_ip_p1: 'L’indirizzo IP è l’identificativo numerico globale che individua la tua connessione su Internet, consentendo lo scambio sicuro di dati con server e app.',
+    art_ip_p2: 'Sono attive due versioni: IPv4 a 32 bit e IPv6 a 128 bit. NET INSPECTOR controlla entrambi istantaneamente.',
+    art_isp_title: 'Come identifica NET INSPECTOR il tuo operatore?',
+    art_isp_p1: 'I blocchi IP sono assegnati ai provider attraverso Sistemi Autonomi (ASN). Consultiamo tabelle BGP pubbliche.',
+    art_isp_p2: 'Mostriamo fedelmente il nome commerciale dell’operatore e il codice ASN relativo.',
+    art_geo_title: 'Perché la geolocalizzazione IP può essere imprecisa?',
+    art_geo_p1: 'Non si basa su coordinate GPS, ma mappa l’IP al nodo di smistamento o datacenter dell’operatore più vicino.',
+    art_geo_p2: 'Le reti mobili (4G/5G) e il CGNAT raggruppano spesso gli utenti verso nodi regionali.',
+    art_faq_title: 'Domande Frequenti (FAQ)',
+    faq_q1: 'Il mio indirizzo IP è statico o dinamico?',
+    faq_a1: 'Nelle normali utenze domestiche è dinamico e varia a ogni riavvio del modem. Gli IP fissi sono tipici di server aziendali.',
+    faq_q2: 'Qual è la differenza tra IPv4 e IPv6?',
+    faq_a2: 'L’IPv4 ha circa 4,3 miliardi di indirizzi ormai esauriti. L’IPv6 ne offre una disponibilità praticamente illimitata.',
+    faq_q3: 'Come posso nascondere il mio IP?',
+    faq_a3: 'Usando una VPN affidabile, la rete Tor o proxy crittografati. Verifichiamo anche eventuali perdite WebRTC.',
+    faq_q4: 'Qualcuno può risalire alla mia abitazione tramite IP?',
+    faq_a4: 'No. Terzi vedono solo stime a livello di città o provincia. Solo il tuo ISP detiene l’associazione con l’indirizzo fisico.',
+    cta_domain_title: 'Vuoi analizzare un dominio o sito web?',
+    cta_domain_desc: 'Ispeziona record DNS, certificati SSL/TLS, Whois e intestazioni di sicurezza HTTP.',
+    cta_domain_btn: 'Apri Analizzatore di Dominio 🔍',
+    art_domain_title: 'Cos’è l’Analisi di Dominio?',
+    art_domain_p1: 'Un controllo tecnico approfondito di routing DNS, crittografia SSL e policy di sicurezza.',
+    art_domain_p2: 'NET INSPECTOR esegue oltre 36 test in parallelo direttamente all’interno del browser.',
+    art_dns_title: 'Come controllare i record DNS?',
+    art_dns_p1: 'Il DNS mappa i nomi host in indirizzi IP. Interroghiamo DoH per verificare record A, AAAA, MX, NS, TXT e CNAME.',
+    art_ssl_title: 'Perché verificare i certificati SSL/TLS?',
+    art_ssl_p1: 'Per accertare scadenza, autorità emittente e pieno supporto a TLS 1.2 e TLS 1.3.',
+    art_whois_title: 'Cos’è il Whois?',
+    art_whois_p1: 'Whois interroga i registri ufficiali dei domini mostrando data di creazione, rinnovo e scadenza.',
+    dfaq_q1: 'Quanti parametri analizza lo strumento?',
+    dfaq_a1: 'Oltre 36 controlli in tempo reale su DNS, SSL, Whois e porte aperte.',
+    dfaq_q2: 'L’analisi è gratuita e senza limiti?',
+    dfaq_a2: 'Sì! 100% gratuita, senza limiti di utilizzo e senza registrazione.',
+    dfaq_q3: 'I dati dei domini testati vengono salvati?',
+    dfaq_a3: 'No. Tutte le richieste sono elaborate dal tuo browser in modalità client-side.',
+    dfaq_q4: 'Perché alcuni campi indicano "Non disponibile (CORS)"?',
+    dfaq_a4: 'I browser bloccano alcune chiamate dirette tra origini diverse per motivi di sicurezza.',
+    dfaq_q5: 'A cosa servono le intestazioni di sicurezza HTTP?',
+    dfaq_a5: 'Proteggono i navigatori da attacchi come clickjacking, furto di sessione e vulnerabilità XSS.',
+    cta_home_title: 'Vuoi testare la tua connessione?',
+    cta_home_desc: 'Trova subito il tuo IP pubblico, ISP, coordinate e sicurezza WebRTC.',
+    cta_home_btn: 'Scopri il Mio IP 📍',
+    footer_desc: 'NET INSPECTOR · Diagnostica di rete e IP 100% Client-Side · Nessun dato registrato',
+    footer_link_ip: 'Qual è il Mio IP?',
+    footer_link_domain: 'Analisi di Dominio',
+    footer_analytics: '📊 Statistiche privacy-first via GoatCounter (senza cookie) —',
+    footer_stats: 'Visualizza statistiche pubbliche ↗',
+    btn_optout_off: 'Disattiva Statistiche',
+    btn_optout_on: 'Attiva Statistiche'
+  },
+  'ja': {
+    logo_subtitle: '完全な接続とISPのリアルタイム診断',
+    nav_home: '🌐 私のIPアドレスは？',
+    nav_domain: '🔍 ドメイン分析',
+    btn_scan: '▶ 診断開始',
+    btn_domain: '🔍 ドメイン分析 ↗',
+    btn_home: '← 私のIPアドレス',
+    hero_ip_label: 'お客様のパブリックIPアドレス',
+    hero_domain_label: 'セキュリティ・DNS・SSL診断',
+    hero_domain_title: '無料オンラインドメインアナライザー',
+    hero_domain_desc: 'DNSレコード、SSL/TLS証明書、Whoisデータ、HTTPセキュリティヘッダー、ポートなど、Webサイトのインフラ全体を即座に検査します。',
+    domain_input_placeholder: 'ドメインを入力 (例: example.com)',
+    domain_btn_scan: '🔍 分析する',
+    domain_input_hint: 'ドメイン名を入力すると、セキュリティ、DNS、SSL、インフラを総合的に分析します。',
+    card_isp: 'ISP &amp; ASN',
+    card_location: '位置情報',
+    card_ip: 'IPアドレス',
+    card_latency: 'レイテンシ &amp; DNS',
+    card_browser: 'ブラウザ &amp; デバイス',
+    card_security: 'セキュリティ &amp; プライバシー',
+    card_connectivity: '接続状況',
+    card_domain_scan: 'ドメイン分析',
+    card_ipinfo: 'IP詳細',
+    card_ssl_chain: 'SSLチェーン',
+    card_dns_records: 'DNSレコード',
+    card_cookies: 'Cookie',
+    card_crawl_rules: 'クロール規則',
+    card_headers: 'HTTPヘッダー',
+    card_quality_metrics: '品質メトリクス',
+    card_server_location: 'サーバー位置',
+    card_associated_hosts: '関連ホスト',
+    card_redirect_chain: 'リダイレクト追跡',
+    card_diagnostic_log: '診断ログ',
+    card_tls_audit: 'TLS監査',
+    card_tls_compat: 'TLS互換性',
+    lbl_provider: 'プロバイダ (ISP)',
+    lbl_org: '組織',
+    lbl_asn: 'ASN',
+    lbl_domain: 'ドメイン',
+    lbl_nettype: 'ネットワーク種別',
+    lbl_country: '国',
+    lbl_region: '地域/都道府県',
+    lbl_city: '市区町村',
+    lbl_postal: '郵便番号',
+    lbl_tz: 'タイムゾーン',
+    lbl_coords: '緯度経度',
+    lbl_ipv4_public: 'パブリック IPv4',
+    lbl_ipv6_public: 'パブリック IPv6',
+    lbl_ip_local: 'ローカルIP (LAN)',
+    lbl_ipv6_local: 'ローカルIPv6',
+    lbl_webrtc_leak: 'WebRTC漏洩',
+    lbl_webrtc_note: '⚠ WebRTC経由のローカルIP。ここにパブリックIPv4が表示される場合、VPN漏洩の可能性があります。',
+    lbl_ping: 'HTTP Ping',
+    lbl_dns_server: 'DNSサーバー',
+    lbl_dns_lookup: 'DNSルックアップ',
+    lbl_https_support: 'HTTPS対応',
+    lbl_http2: 'HTTP/2',
+    lbl_platform: 'OSプラットフォーム',
+    lbl_language: '言語設定',
+    lbl_screen: '解像度 (px)',
+    lbl_vpn_proxy: 'VPN / プロキシ',
+    lbl_tor: 'Tor検出',
+    lbl_incognito: 'シークレットモード',
+    lbl_speed: '推定通信速度',
+    lbl_online: '状態',
+    lbl_quality: '品質',
+    art_ip_title: 'パブリックIPアドレスとは？',
+    art_ip_p1: 'IPアドレスはインターネット上の通信相手を特定する識別番号であり、Webサーバーやアプリが安全にデータを送受信するためのデジタル住所です。',
+    art_ip_p2: 'IPv4（4つの数字の羅列）と現代標準のIPv6（128ビット英数字）の両方をNET INSPECTORは瞬時に判定します。',
+    art_isp_title: 'NET INSPECTORはどのようにISPを判定しますか？',
+    art_isp_p1: '全世界のIPアドレスは自律システム（ASN）を通じて事業者に割り当てられます。当ツールは公開BGPルートを参照します。',
+    art_isp_p2: 'お客様のインターネットプロバイダ事業者名とASN番号を高精度に特定します。',
+    art_geo_title: 'IP位置情報が実際の住所と異なる理由',
+    art_geo_p1: 'IP位置情報はGPSを使用せず、プロバイダの最寄りのルーティングセンターやデータセンターを示します。',
+    art_geo_p2: '携帯電話ネットワーク（4G/5G）やCGNAT環境では、近隣の大都市に集約されて表示されるのが一般的です。',
+    art_faq_title: 'よくあるご質問 (FAQ)',
+    faq_q1: '私のIPアドレスは固定ですか？動的ですか？',
+    faq_a1: '一般的な家庭用回線では定期的に変動する動的IPが採用されています。固定IPは法人契約向けが主流です。',
+    faq_q2: 'IPv4とIPv6の違いは何ですか？',
+    faq_a2: 'IPv4は約43億個で枯渇しています。IPv6はほぼ無制限のアドレス数を持ち、NAT変換なしで直接通信できます。',
+    faq_q3: 'IPアドレスを隠す方法はありますか？',
+    faq_a3: '信頼できるVPNやTorネットワークを利用します。当ツールのWebRTCチェックでVPN漏洩も検証可能です。',
+    faq_q4: 'IPから自宅の番地まで特定されますか？',
+    faq_a4: 'いいえ。第三者には市区町村やプロバイダ名しか分かりません。契約者住所は警察の令状がない限り開示されません。',
+    cta_domain_title: 'ドメイン全体のセキュリティを診断しますか？',
+    cta_domain_desc: 'DNSレコード、SSL/TLS証明書、Whois情報、HTTPセキュリティヘッダーを詳細診断。',
+    cta_domain_btn: 'ドメインアナライザーを開く 🔍',
+    art_domain_title: 'ドメイン分析とは？',
+    art_domain_p1: 'WebサイトのDNS設定、SSL暗号化、メール認証、セキュリティヘッダーを網羅的に監査する技術です。',
+    art_domain_p2: 'コマンド不要で、ブラウザ上から直接36種類以上のテストを並行実行します。',
+    art_dns_title: 'DNSレコードの確認方法',
+    art_dns_p1: 'DNS-over-HTTPS (DoH) を使用して、A、AAAA、MX、NS、TXT、CNAMEなどの主要レコードを検査します。',
+    art_ssl_title: 'SSL/TLS証明書を確認する重要性',
+    art_ssl_p1: '証明書の有効期限切れ防止、認証局の信頼性、TLS 1.2/1.3の対応状況を確認できます。',
+    art_whois_title: 'Whoisとは何ですか？',
+    art_whois_p1: 'ドメインの初回登録日、最終更新日、次回更新期限などの登録者情報を照会するプロトコルです。',
+    dfaq_q1: 'いくつの項目を診断できますか？',
+    dfaq_a1: 'DNS、SSL、Whois、セキュリティヘッダー、ポートなど36以上の項目を並行テストします。',
+    dfaq_q2: '完全無料で無制限に使えますか？',
+    dfaq_a2: 'はい！登録不要で誰でも何度でも完全無料で利用できます。',
+    dfaq_q3: '検索したドメイン履歴は記録されますか？',
+    dfaq_a3: 'いいえ。すべてお客様のブラウザ内で完結（クライアントサイド）するためサーバーに記録されません。',
+    dfaq_q4: '一部の項目が「利用不可（CORS）」になる理由は？',
+    dfaq_a4: 'ブラウザの同一生成元ポリシー（CORS）により、直接通信が制限されるAPIがあるためです。',
+    dfaq_q5: 'HTTPセキュリティヘッダーとは？',
+    dfaq_a5: 'HSTSやCSPなどのヘッダーは、クリックジャッキングやスクリプト注入攻撃から利用者を保護します。',
+    cta_home_title: 'ご自身のネットワーク接続を診断しますか？',
+    cta_home_desc: 'パブリックIP、プロバイダ名、位置情報、WebRTC漏洩を今すぐチェック。',
+    cta_home_btn: '私のIPを調べる 📍',
+    footer_desc: 'NET INSPECTOR · 100% クライアントサイド ネットワーク診断 · データ保存なし',
+    footer_link_ip: '私のIPアドレス',
+    footer_link_domain: 'ドメイン分析',
+    footer_analytics: '📊 GoatCounterによるプライバシー重視のアクセス解析（Cookie不使用） —',
+    footer_stats: '公開統計を見る ↗',
+    btn_optout_off: '解析を無効化',
+    btn_optout_on: '解析を有効化'
+  },
+  'zh': {
+    logo_subtitle: '完整的网络连接与ISP实时诊断',
+    nav_home: '🌐 我的公网IP',
+    nav_domain: '🔍 域名深度分析',
+    btn_scan: '▶ 开始分析',
+    btn_domain: '🔍 域名深度分析 ↗',
+    btn_home: '← 我的公网IP',
+    hero_ip_label: '您的公网 IP 地址',
+    hero_domain_label: '安全、DNS 与 SSL 诊断',
+    hero_domain_title: '免费在线域名分析工具',
+    hero_domain_desc: '全面检查任何网站的基础设施：DNS 记录、SSL/TLS 证书有效性、Whois 数据、HTTP 安全响应头和开放端口。',
+    domain_input_placeholder: '输入域名 (例如: example.com)',
+    domain_btn_scan: '🔍 分析',
+    domain_input_hint: '输入域名以进行全面的安全性、DNS、SSL 和网络基础设施分析。',
+    card_isp: 'ISP 与 ASN',
+    card_location: '地理位置',
+    card_ip: 'IP 地址',
+    card_latency: '延迟与 DNS',
+    card_browser: '浏览器与设备',
+    card_security: '安全与隐私',
+    card_connectivity: '连通性',
+    card_domain_scan: '域名分析',
+    card_ipinfo: 'IP 详细信息',
+    card_ssl_chain: 'SSL 证书链',
+    card_dns_records: 'DNS 记录',
+    card_cookies: 'Cookie 检查',
+    card_crawl_rules: '抓取规则',
+    card_headers: 'HTTP 标头',
+    card_quality_metrics: '质量指标',
+    card_server_location: '服务器位置',
+    card_associated_hosts: '关联主机',
+    card_redirect_chain: '重定向链',
+    card_diagnostic_log: '诊断日志',
+    card_tls_audit: 'TLS 审计',
+    card_tls_compat: 'TLS 兼容性',
+    lbl_provider: '宽带运营商 (ISP)',
+    lbl_org: '组织机构',
+    lbl_asn: '自治系统号 (ASN)',
+    lbl_domain: '域名',
+    lbl_nettype: '网络类型',
+    lbl_country: '国家',
+    lbl_region: '省份 / 地区',
+    lbl_city: '城市',
+    lbl_postal: '邮政编码',
+    lbl_tz: '时区',
+    lbl_coords: '经纬度坐标',
+    lbl_ipv4_public: '公网 IPv4',
+    lbl_ipv6_public: '公网 IPv6',
+    lbl_ip_local: '局域网 IP (LAN)',
+    lbl_ipv6_local: '本地 IPv6',
+    lbl_webrtc_leak: 'WebRTC 泄漏',
+    lbl_webrtc_note: '⚠ WebRTC 本地地址。如果在此处看到公网 IPv4，则可能存在 VPN 泄漏。',
+    lbl_ping: 'HTTP 延迟 (Ping)',
+    lbl_dns_server: 'DNS 服务器',
+    lbl_dns_lookup: 'DNS 查询耗时',
+    lbl_https_support: 'HTTPS 支持',
+    lbl_http2: 'HTTP/2 支持',
+    lbl_platform: '系统平台',
+    lbl_language: '语言环境',
+    lbl_screen: '屏幕分辨率 (px)',
+    lbl_vpn_proxy: 'VPN / 代理检测',
+    lbl_tor: 'Tor 网络检测',
+    lbl_incognito: '无痕隐身模式',
+    lbl_speed: '估计下行速率',
+    lbl_online: '连接状态',
+    lbl_quality: '质量评级',
+    art_ip_title: '什么是公网 IP 地址？',
+    art_ip_p1: '公网 IP 地址是您在互联网世界的数字门牌号，使各大网络服务器和流媒体服务能够准确、安全地将数据包回传给您的设备。',
+    art_ip_p2: '现行体系包含 IPv4（由点分隔的四组数字）和新一代 128 位十六进制 IPv6。NET INSPECTOR 支持瞬间并行检测这两项地址。',
+    art_isp_title: 'NET INSPECTOR 如何识别您的运营商？',
+    art_isp_p1: '全球 IP 地址段由各大区域注册机构分发给拥有自治系统编号（ASN）的电信运营商。',
+    art_isp_p2: '我们通过查询公开的 BGP 路由表，准确展示您的运营商名称及对应的 ASN 编号。',
+    art_geo_title: '为什么 IP 定位可能与实际物理位置存在偏差？',
+    art_geo_p1: 'IP 地理定位并不使用卫星 GPS，而是将 IP 地址映射到所属运营商最近的汇聚节点或数据中心。',
+    art_geo_p2: '移动蜂窝网络（4G/5G）或多户宽带 CGNAT 通常会将附近区域的用户聚合至省级或区域骨干网中心。',
+    art_faq_title: '常见问题解答 (FAQ)',
+    faq_q1: '我的公网 IP 是静态的还是动态的？',
+    faq_a1: '绝大多数家庭宽带均分配动态 IP，每次重启路由器或断开连接时会自动变更。固定静态 IP 通常需单独向企业级专线申请。',
+    faq_q2: 'IPv4 和 IPv6 有什么本质区别？',
+    faq_a2: 'IPv4 总量约 43 亿个，已在世界范围内耗尽；IPv6 采用 128 位架构，提供海量地址空间，无需复杂的 NAT 端口转发。',
+    faq_q3: '如何隐藏我的真实公网 IP？',
+    faq_a3: '您可以使用合规的 VPN、Tor 网络或加密代理。我们的 IP 检测卡片内置 WebRTC 泄露检测，帮您确认真实 IP 是否被外露。',
+    faq_q4: '他人能否通过公网 IP 查到我的家庭住址？',
+    faq_a4: '不能。公开接口仅能查询到大致的省市及运营商级别。只有在公安等司法机关出具法定调证手续时，运营商才会调取装机地址。',
+    cta_domain_title: '想要全面检测某个网站或域名的安全性吗？',
+    cta_domain_desc: 'NET INSPECTOR 提供专业的域名分析工具，包含 36 项检测：DNS 记录、SSL/TLS 证书、Whois、HTTP 安全标头等。',
+    cta_domain_btn: '打开域名分析器 🔍',
+    art_domain_title: '什么是域名分析？',
+    art_domain_p1: '域名分析是对网站公网表现的综合性技术审查，涵盖 DNS 路由、SSL 证书链、SPF 防垃圾邮件策略及安全防护头。',
+    art_domain_p2: '无需安装任何终端命令工具，NET INSPECTOR 直接在您的浏览器中并行执行 36 项以上的安全核查。',
+    art_dns_title: '如何检查网站的 DNS 记录？',
+    art_dns_p1: 'DNS 负责将人类易读的域名解析为服务器 IP。我们利用 DNS-over-HTTPS (DoH) 读取 A、AAAA、MX、NS、TXT 和 CNAME 记录。',
+    art_ssl_title: '为什么要验证 SSL/TLS 证书？',
+    art_ssl_p1: '验证证书有效期限、根证书签发信任链，并确保服务器已开启对 TLS 1.2 及 TLS 1.3 现代加密协议的支持。',
+    art_whois_title: '什么是 Whois 协议？',
+    art_whois_p1: 'Whois 查询域名注册数据库，获取域名的首次注册日期、最后更新时间以及到期续费节点。',
+    dfaq_q1: '该工具总共分析多少项指标？',
+    dfaq_a1: '可同时并发检测 36 项以上指标，涵盖 DNS 解析、SSL 证书、Whois 档案、HTTP 响应标头和端口扫描。',
+    dfaq_q2: '分析服务是否完全免费且不限次数？',
+    dfaq_a2: '是的！100% 永久免费，无需登录注册，无查询频率限制。',
+    dfaq_q3: '我所查询的域名数据会被服务器保存吗？',
+    dfaq_a3: '不会。所有网络请求均由您的客户端浏览器（client-side）直接发起，没有任何中心化服务器记录查询历史。',
+    dfaq_q4: '为什么部分指标提示“不可用 (CORS)”？',
+    dfaq_a4: '受现代浏览器跨域安全策略（CORS）限制，部分目标服务器未开放跨域标头时将无法直接读取明文响应。',
+    dfaq_q5: 'HTTP 安全响应头的作用是什么？',
+    dfaq_a5: '例如 HSTS、CSP、X-Frame-Options 等标头，可防止网站遭受点击劫持、会话冒领及跨站脚本（XSS）攻击。',
+    cta_home_title: '想要测试您当前的互联网连接状态吗？',
+    cta_home_desc: '一键快速获知您的公网 IP、宽带运营商、地理位置以及 WebRTC 安全状态。',
+    cta_home_btn: '检测我的公网 IP 📍',
+    footer_desc: 'NET INSPECTOR · 100% 纯客户端网络与 IP 诊断 · 无任何数据被记录',
+    footer_link_ip: '我的公网 IP',
+    footer_link_domain: '域名综合分析',
+    footer_analytics: '📊 基于 GoatCounter 的无 Cookie 隐私友好统计 —',
+    footer_stats: '查看公开统计 ↗',
+    btn_optout_off: '停用访问统计',
+    btn_optout_on: '启用访问统计'
+  },
+  'ru': {
+    logo_subtitle: 'Полная диагностика сетевого соединения и провайдера',
+    nav_home: '🌐 Узнать мой IP',
+    nav_domain: '🔍 Анализ домена',
+    btn_scan: '▶ Анализировать',
+    btn_domain: '🔍 Анализ домена ↗',
+    btn_home: '← Узнать мой IP',
+    hero_ip_label: 'Ваш публичный IP-адрес',
+    hero_domain_label: 'Диагностика безопасности, DNS и SSL',
+    hero_domain_title: 'Бесплатный онлайн-анализатор доменов',
+    hero_domain_desc: 'Полная проверка инфраструктуры любого сайта: записи DNS, валидность SSL/TLS, данные Whois, заголовки безопасности HTTP и порты.',
+    domain_input_placeholder: 'Введите домен (например: example.com)',
+    domain_btn_scan: '🔍 Анализировать',
+    domain_input_hint: 'Введите домен для комплексного аудита безопасности, DNS, SSL и сетевой инфраструктуры.',
+    card_isp: 'Провайдер &amp; ASN',
+    card_location: 'Местоположение',
+    card_ip: 'IP-адреса',
+    card_latency: 'Задержка &amp; DNS',
+    card_browser: 'Браузер &amp; Устройство',
+    card_security: 'Безопасность &amp; Приватность',
+    card_connectivity: 'Связь',
+    card_domain_scan: 'Анализ домена',
+    card_ipinfo: 'Инфо об IP',
+    card_ssl_chain: 'Цепочка SSL',
+    card_dns_records: 'Записи DNS',
+    card_cookies: 'Файлы Cookie',
+    card_crawl_rules: 'Правила индексации',
+    card_headers: 'Заголовки HTTP',
+    card_quality_metrics: 'Метрики качества',
+    card_server_location: 'Локация сервера',
+    card_associated_hosts: 'Связанные хосты',
+    card_redirect_chain: 'Редиректы',
+    card_diagnostic_log: 'Журнал диагностики',
+    card_tls_audit: 'Аудит TLS',
+    card_tls_compat: 'Совместимость TLS',
+    lbl_provider: 'Провайдер (ISP)',
+    lbl_org: 'Организация',
+    lbl_asn: 'Номер ASN',
+    lbl_domain: 'Домен',
+    lbl_nettype: 'Тип сети',
+    lbl_country: 'Страна',
+    lbl_region: 'Регион / Область',
+    lbl_city: 'Город',
+    lbl_postal: 'Почтовый индекс',
+    lbl_tz: 'Часовой пояс',
+    lbl_coords: 'Координаты',
+    lbl_ipv4_public: 'Публичный IPv4',
+    lbl_ipv6_public: 'Публичный IPv6',
+    lbl_ip_local: 'Локальный IP (LAN)',
+    lbl_ipv6_local: 'Локальный IPv6',
+    lbl_webrtc_leak: 'Утечка WebRTC',
+    lbl_webrtc_note: '⚠ Локальные IP через WebRTC. Появление публичного IP может свидетельствовать об утечке VPN.',
+    lbl_ping: 'Пинг HTTP',
+    lbl_dns_server: 'DNS-сервер',
+    lbl_dns_lookup: 'Поиск DNS',
+    lbl_https_support: 'Поддержка HTTPS',
+    lbl_http2: 'Поддержка HTTP/2',
+    lbl_platform: 'Платформа ОС',
+    lbl_language: 'Язык системы',
+    lbl_screen: 'Разрешение (px)',
+    lbl_vpn_proxy: 'VPN / Прокси',
+    lbl_tor: 'Сеть Tor',
+    lbl_incognito: 'Режим инкогнито',
+    lbl_speed: 'Примерная скорость',
+    lbl_online: 'Статус сети',
+    lbl_quality: 'Качество',
+    art_ip_title: 'Что такое публичный IP-адрес?',
+    art_ip_p1: 'Публичный IP-адрес — это глобальный цифровой идентификатор вашей точки выхода в Интернет, позволяющий серверам передавать данные на ваше устройство.',
+    art_ip_p2: 'Сегодня используются два протокола: IPv4 (четыре числа через точку) и 128-битный IPv6. NET INSPECTOR мгновенно определяет оба.',
+    art_isp_title: 'Как NET INSPECTOR определяет вашего провайдера?',
+    art_isp_p1: 'Диапазоны IP-адресов распределяются операторам связи через Автономные Системы (ASN). Мы запрашиваем публичные таблицы маршрутизации BGP.',
+    art_isp_p2: 'Сервис точно отображает торговое наименование вашего интернет-провайдера и закрепленный номер ASN.',
+    art_geo_title: 'Почему геолокация по IP может быть неточной?',
+    art_geo_p1: 'Геолокация по IP не использует спутниковый GPS, а указывает на ближайший дата-центр или узел связи вашего провайдера.',
+    art_geo_p2: 'Мобильные сети (4G/5G) или технология CGNAT часто агрегируют абонентов на уровне областного центра.',
+    art_faq_title: 'Часто задаваемые вопросы (FAQ)',
+    faq_q1: 'Мой IP-адрес статичный или динамический?',
+    faq_a1: 'У большинства домашних абонентов IP динамический и меняется при перезагрузке роутера. Статические IP заказываются отдельно.',
+    faq_q2: 'В чем ключевая разница между IPv4 и IPv6?',
+    faq_a2: 'Адреса IPv4 исчерпаны во всем мире. IPv6 обеспечивает практически бесконечный запас адресов без необходимости NAT.',
+    faq_q3: 'Как можно скрыть свой реальный IP-адрес?',
+    faq_a3: 'С помощью надежного VPN, сети Tor или прокси. Наша проверка WebRTC покажет, не происходит ли утечка адреса.',
+    faq_q4: 'Может ли посторонний узнать мой точный домашний адрес по IP?',
+    faq_a4: 'Нет. Доступны только приблизительные сведения о городе и провайдере. Точный адрес есть только у провайдера по договору.',
+    cta_domain_title: 'Хотите проверить безопасность веб-сайта или домена?',
+    cta_domain_desc: 'Запустите детальный аудит: записи DNS, сертификат SSL/TLS, данные Whois и заголовки HTTP.',
+    cta_domain_btn: 'Открыть анализатор домена 🔍',
+    art_domain_title: 'Что такое анализ домена?',
+    art_domain_p1: 'Это комплексный аудит сетевых настроек сайта: DNS-маршрутизации, шифрования SSL и заголовков защиты.',
+    art_domain_p2: 'NET INSPECTOR проводит более 36 проверок параллельно прямо в вашем браузере без установки утилит.',
+    art_dns_title: 'Как проверить записи DNS?',
+    art_dns_p1: 'DNS преобразует имена сайтов в IP. С помощью DNS-over-HTTPS (DoH) мы опрашиваем записи A, AAAA, MX, NS, TXT и CNAME.',
+    art_ssl_title: 'Зачем проверять сертификаты SSL/TLS?',
+    art_ssl_p1: 'Для предотвращения сбоев из-за истечения срока, проверки доверия к Удостоверяющему Центру и поддержки TLS 1.2 / TLS 1.3.',
+    art_whois_title: 'Что такое сервис Whois?',
+    art_whois_p1: 'Протокол Whois запрашивает базы данных регистраторов и показывает даты создания, продления и окончания срока домена.',
+    dfaq_q1: 'Сколько параметров проверяет сервис?',
+    dfaq_a1: 'Более 36 показателей одновременно: DNS, цепочки SSL, Whois, заголовки безопасности и порты.',
+    dfaq_q2: 'Анализ бесплатен и не имеет ограничений?',
+    dfaq_a2: 'Да! 100% бесплатно, без регистрации и без ограничений по количеству запросов.',
+    dfaq_q3: 'Сохраняются ли проверяемые домены на сервере?',
+    dfaq_a3: 'Нет. Все запросы выполняются исключительно на клиенте (client-side) в вашем браузере.',
+    dfaq_q4: 'Почему некоторые строки показывают "Недоступно (CORS)"?',
+    dfaq_a4: 'Политика безопасности браузеров блокирует некоторые прямые запросы без соответствующих заголовков CORS.',
+    dfaq_q5: 'Для чего служат заголовки безопасности HTTP?',
+    dfaq_a5: 'Они предотвращают атаки типа Clickjacking, кражу сессий и внедрение вредоносных скриптов (XSS).',
+    cta_home_title: 'Хотите проверить собственное интернет-подключение?',
+    cta_home_desc: 'Мгновенно узнайте свой публичный IP, провайдера, геолокацию и наличие утечек WebRTC.',
+    cta_home_btn: 'Узнать мой IP 📍',
+    footer_desc: 'NET INSPECTOR · Диагностика сети и IP 100% Client-Side · Никакие данные не сохраняются',
+    footer_link_ip: 'Узнать мой IP',
+    footer_link_domain: 'Анализ домена',
+    footer_analytics: '📊 Приватная аналитика через GoatCounter (без файлов cookie) —',
+    footer_stats: 'Открыть публичную статистику ↗',
+    btn_optout_off: 'Отключить аналитику',
+    btn_optout_on: 'Включить аналитику'
+  },
+  'ar': {
+    logo_subtitle: 'تشخيص شامل للاتصال ومزود خدمة الإنترنت',
+    nav_home: '🌐 ما هو عنوان IP الخاص بي؟',
+    nav_domain: '🔍 فحص النطاقات',
+    btn_scan: '▶ بدء التحليل',
+    btn_domain: '🔍 فحص النطاقات ↗',
+    btn_home: '← ما هو عنوان IP الخاص بي',
+    hero_ip_label: 'عنوان IP العام الخاص بك',
+    hero_domain_label: 'تشخيص الأمان و DNS وشهادات SSL',
+    hero_domain_title: 'أداة مجانية لتحليل النطاقات عبر الإنترنت',
+    hero_domain_desc: 'افحص البنية التحتية الكاملة لأي موقع ويب: سجلات DNS، صلاحية شهادة SSL/TLS، بيانات Whois، ترويسات أمان HTTP والمنافذ في الوقت الفعلي.',
+    domain_input_placeholder: 'أدخل اسم النطاق (مثال: example.com)',
+    domain_btn_scan: '🔍 تحليل',
+    domain_input_hint: 'أدخل اسم نطاق لإجراء تدقيق شامل للأمان و DNS و SSL والبنية التحتية.',
+    card_isp: 'مزود الخدمة &amp; ASN',
+    card_location: 'الموقع الجغرافي',
+    card_ip: 'عناوين IP',
+    card_latency: 'زمن الاستجابة &amp; DNS',
+    card_browser: 'المتصفح &amp; الجهاز',
+    card_security: 'الأمان &amp; الخصوصية',
+    card_connectivity: 'حالة الاتصال',
+    card_domain_scan: 'تحليل النطاق',
+    card_ipinfo: 'معلومات IP',
+    card_ssl_chain: 'سلسلة SSL',
+    card_dns_records: 'سجلات DNS',
+    card_cookies: 'ملفات تعريف الارتباط',
+    card_crawl_rules: 'قواعد الزحف',
+    card_headers: 'ترويسات HTTP',
+    card_quality_metrics: 'مقاييس الجودة',
+    card_server_location: 'موقع الخادم',
+    card_associated_hosts: 'المضيفون المرتبطون',
+    card_redirect_chain: 'سلسلة التوجيه',
+    card_diagnostic_log: 'سجل التشخيص',
+    card_tls_audit: 'تدقيق TLS',
+    card_tls_compat: 'توافقية TLS',
+    lbl_provider: 'مزود الإنترنت (ISP)',
+    lbl_org: 'المؤسسة',
+    lbl_asn: 'رقم النظام المستقل (ASN)',
+    lbl_domain: 'النطاق',
+    lbl_nettype: 'نوع الشبكة',
+    lbl_country: 'الدولة',
+    lbl_region: 'المنطقة / المحافظة',
+    lbl_city: 'المدينة',
+    lbl_postal: 'الرمز البريدي',
+    lbl_tz: 'المنطقة الزمنية',
+    lbl_coords: 'الإحداثيات',
+    lbl_ipv4_public: 'عنوان IPv4 العام',
+    lbl_ipv6_public: 'عنوان IPv6 العام',
+    lbl_ip_local: 'عنوان IP المحلي (LAN)',
+    lbl_ipv6_local: 'عنوان IPv6 المحلي',
+    lbl_webrtc_leak: 'تسريب WebRTC',
+    lbl_webrtc_note: '⚠ عناوين محلية عبر WebRTC. إذا ظهر عنوان IPv4 العام هنا، فهذا يشير لتسريب VPN.',
+    lbl_ping: 'اختبار الاتصال (Ping)',
+    lbl_dns_server: 'خادم DNS',
+    lbl_dns_lookup: 'استعلام DNS',
+    lbl_https_support: 'دعم HTTPS',
+    lbl_http2: 'دعم HTTP/2',
+    lbl_platform: 'منصة التشغيل',
+    lbl_language: 'لغة النظام',
+    lbl_screen: 'أبعاد الشاشة (px)',
+    lbl_vpn_proxy: 'شبكة VPN / بروكسي',
+    lbl_tor: 'شبكة Tor',
+    lbl_incognito: 'التصفح المتخفي',
+    lbl_speed: 'السرعة المقدرة',
+    lbl_online: 'حالة الاتصال',
+    lbl_quality: 'الجودة',
+    art_ip_title: 'ما هو عنوان IP العام؟',
+    art_ip_p1: 'عنوان IP هو المعرف الرقمي العالمي لنقطة اتصالك بالإنترنت، مما يسمح للخوادم والتطبيقات بتبادل حزم البيانات مع جهازك بأمان.',
+    art_ip_p2: 'يوجد بروتوكولان قيد التشغيل: IPv4 التقليدي و IPv6 الحديث المكون من 128 بت. يقوم NET INSPECTOR بفحصهما فوراً.',
+    art_isp_title: 'كيف يحدد NET INSPECTOR مزود الإنترنت الخاص بك؟',
+    art_isp_p1: 'توزع عناوين IP للشركات المشغلة عبر أنظمة مستقلة (ASN). نقوم باستعلام جداول توجيه BGP العامة.',
+    art_isp_p2: 'نعرض بدقة اسم مزود الخدمة التجاري ورقم النظام المستقل المسجل.',
+    art_geo_title: 'لماذا قد يكون تحديد الموقع الجغرافي لـ IP غير دقيق؟',
+    art_geo_p1: 'تحديد الموقع الجغرافي لا يعتمد على نظام GPS، بل يشير إلى أقرب مركز بيانات أو نقطة توزيع تابعة لمزودك.',
+    art_geo_p2: 'غالباً ما تجمع شبكات الهواتف المحمولة (4G/5G) أو تقنية CGNAT المستخدمين في مركز المحافظة أو العاصمة.',
+    art_faq_title: 'الأسئلة الشائعة (FAQ)',
+    faq_q1: 'هل عنوان IP الخاص بي ثابت أم ديناميكي؟',
+    faq_a1: 'في معظم الاشتراكات المنزلية يكون ديناميكياً ويتغير دورياً. العناوين الثابتة مخصصة عادة للشركات والخوادم.',
+    faq_q2: 'ما الفرق الحقيقي بين IPv4 و IPv6؟',
+    faq_a2: 'يوفر IPv4 حوالي 4.3 مليار عنوان نفدت بالكامل عالمياً، بينما يمنح IPv6 مليارات لا تنتهي دون الحاجة لتقنيات NAT.',
+    faq_q3: 'كيف يمكنني إخفاء عنوان IP العام الخاص بي؟',
+    faq_a3: 'عبر استخدام خدمة VPN موثوقة أو متصفح Tor. تقوم بطاقتنا بفحص تسريبات WebRTC للتأكد من حماية خصوصيتك.',
+    faq_q4: 'هل يستطيع أي شخص معرفة عنوان منزلي الدقيق من الـ IP؟',
+    faq_a4: 'كلا، تظهر فقط تقديرات عامة للمدينة ومزود الخدمة. عنوانك السكني مسجل لدى مزودك فقط ولا يمنح إلا بأمر قضائي.',
+    cta_domain_title: 'هل ترغب في فحص نطاق أو موقع ويب بالكامل؟',
+    cta_domain_desc: 'يقدم NET INSPECTOR فاحص نطاقات متخصص يضم 36 أداة تدقيق لسجلات DNS وشهادات SSL وترويسات الأمان.',
+    cta_domain_btn: 'فتح محلل النطاقات 🔍',
+    art_domain_title: 'ما هو تحليل النطاق؟',
+    art_domain_p1: 'هو فحص تقني شامل لجميع الواجهات العامة لأي موقع: توجيه DNS، تشفير SSL، ترويسات الأمان وحماية البريد.',
+    art_domain_p2: 'يقوم NET INSPECTOR بتشغيل أكثر من 36 اختباراً بالتوازي مباشرة من متصفحك دون الحاجة لأي برامج خارجية.',
+    art_dns_title: 'كيفية فحص سجلات DNS لأي موقع؟',
+    art_dns_p1: 'يقوم نظام DNS بتحويل أسماء النطاقات إلى عناوين IP. نستخدم DoH المشفر لفحص سجلات A و AAAA و MX و NS و TXT و CNAME.',
+    art_ssl_title: 'لماذا يجب التحقق من شهادة SSL/TLS؟',
+    art_ssl_p1: 'للتأكد من تاريخ صلاحية الشهادة، موثوقية الجهة المصدرة، ودعم بروتوكولات التشفير الحديثة TLS 1.2 و TLS 1.3.',
+    art_whois_title: 'ما هو بروتوكول Whois؟',
+    art_whois_p1: 'يستعلم Whois قواعد بيانات مسجلي النطاقات لعرض تاريخ التسجيل الأول وتاريخ التجديد والانتهاء.',
+    dfaq_q1: 'كم عدد الفحوصات التي تجريها الأداة؟',
+    dfaq_a1: 'أكثر من 36 فحصاً متزامناً يشمل سجلات DNS، شهادات SSL، ترويسات الأمان وفحص المنافذ.',
+    dfaq_q2: 'هل الفحص مجاني وغير محدود؟',
+    dfaq_a2: 'نعم! مجاني 100% وبدون أي حدود أو اشتراط لتسجيل الدخول.',
+    dfaq_q3: 'هل يتم تسجيل أو حفظ النطاقات المفحوصة؟',
+    dfaq_a3: 'كلا، تتم جميع الاستعلامات داخل متصفح المستخدم (client-side) مباشرة دون تخزين أي سجلات على خوادمنا.',
+    dfaq_q4: 'لماذا تظهر بعض الحقول عبارة "غير متاح (CORS)"؟',
+    dfaq_a4: 'بسبب سياسات أمان المتصفحات التي تقيد بعض الطلبات المباشرة بين النطاقات غير المصرح بها.',
+    dfaq_q5: 'ما فائدة ترويسات أمان HTTP؟',
+    dfaq_a5: 'تحمي المستخدمين من هجمات الاختطاف وتزوير الجلسات وحقن البرمجيات الخبيثة (XSS).',
+    cta_home_title: 'هل تريد فحص اتصالك الحالي بالإنترنت؟',
+    cta_home_desc: 'اكتشف فوراً عنوان IP العام، مزود الخدمة، موقعك الجغرافي وفحص تسريب WebRTC.',
+    cta_home_btn: 'كشف عنوان IP الخاص بي 📍',
+    footer_desc: 'NET INSPECTOR · تشخيص شبكة و IP بنسبة 100% من جانب العميل · لا يتم تخزين أي بيانات',
+    footer_link_ip: 'ما هو عنوان IP؟',
+    footer_link_domain: 'تحليل النطاقات',
+    footer_analytics: '📊 إحصائيات تحترم الخصوصية عبر GoatCounter (بدون ملفات تعريف ارتباط) —',
+    footer_stats: 'عرض الإحصائيات العامة ↗',
+    btn_optout_off: 'تعطيل الإحصائيات',
+    btn_optout_on: 'تفعيل الإحصائيات'
+  }
+};
+
+/**
+ * Detecta o idioma preferencial:
+ * 1. URL search param ?lang=xx
+ * 2. localStorage['preferred_language']
+ * 3. navigator.language (extrai prefixo)
+ * Fallback: 'pt-br'
+ */
+function detectLanguage() {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const paramLang = params.get('lang');
+    if (paramLang && SUPPORTED_LANGS[paramLang.toLowerCase()]) {
+      return paramLang.toLowerCase();
+    }
+  } catch (e) {}
+
+  try {
+    const saved = localStorage.getItem('preferred_language');
+    if (saved && SUPPORTED_LANGS[saved.toLowerCase()]) {
+      return saved.toLowerCase();
+    }
+  } catch (e) {}
+
+  try {
+    const navLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
+    if (SUPPORTED_LANGS[navLang]) return navLang;
+    const prefix = navLang.split('-')[0];
+    if (prefix === 'pt') return 'pt-br';
+    if (SUPPORTED_LANGS[prefix]) return prefix;
+  } catch (e) {}
+
+  return 'pt-br';
+}
+
+let currentLang = detectLanguage();
+
+/**
+ * Traduz uma chave para o idioma corrente
+ */
+function t(key) {
+  if (!key) return '';
+  const langDict = TRANSLATIONS[currentLang] || TRANSLATIONS['pt-br'];
+  if (langDict && langDict[key] !== undefined) {
+    return langDict[key];
+  }
+  const fallbackDict = TRANSLATIONS['pt-br'];
+  if (fallbackDict && fallbackDict[key] !== undefined) {
+    return fallbackDict[key];
+  }
+  return key;
+}
+
+/**
+ * Altera o idioma ativo, grava no localStorage, atualiza html lang e dir e reaplica
+ */
+function setLanguage(langCode) {
+  const code = langCode ? langCode.toLowerCase() : 'pt-br';
+  if (!SUPPORTED_LANGS[code]) return;
+  currentLang = code;
+  try {
+    localStorage.setItem('preferred_language', code);
+  } catch (e) {}
+
+  // Atualiza atributo lang e dir do html
+  document.documentElement.lang = code === 'pt-br' ? 'pt-BR' : code;
+  document.documentElement.dir = SUPPORTED_LANGS[code].dir || 'ltr';
+
+  // Atualiza o dropdown e botões
+  updateLangDropdownUi();
+  applyTranslations();
+
+  // Fechar dropdown
+  const dropdown = document.getElementById('lang-dropdown');
+  if (dropdown) dropdown.classList.add('hidden');
+}
+
+/**
+ * Alterna a visibilidade do dropdown de idiomas
+ */
+function toggleLangDropdown(e) {
+  if (e) e.stopPropagation();
+  const dropdown = document.getElementById('lang-dropdown');
+  if (!dropdown) return;
+  dropdown.classList.toggle('hidden');
+}
+
+/**
+ * Atualiza o seletor visual de idioma no header
+ */
+function updateLangDropdownUi() {
+  const flagEl = document.getElementById('lang-current-flag');
+  const codeEl = document.getElementById('lang-current-code');
+  if (flagEl && codeEl && SUPPORTED_LANGS[currentLang]) {
+    flagEl.textContent = SUPPORTED_LANGS[currentLang].flag;
+    codeEl.textContent = currentLang.toUpperCase();
+  }
+  document.querySelectorAll('.lang-opt').forEach(opt => {
+    if (opt.dataset.lang === currentLang) {
+      opt.classList.add('active');
+    } else {
+      opt.classList.remove('active');
+    }
+  });
+}
+
+/**
+ * Aplica traduções a todos os elementos com data-i18n, data-i18n-placeholder, etc.
+ */
+function applyTranslations() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    const val = t(key);
+    if (val) el.innerHTML = val;
+  });
+
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    const val = t(key);
+    if (val) el.setAttribute('placeholder', val);
+  });
+
+  document.querySelectorAll('[data-i18n-title]').forEach(el => {
+    const key = el.getAttribute('data-i18n-title');
+    const val = t(key);
+    if (val) el.setAttribute('title', val);
+  });
+
+  // Atualiza botões de ação e opt-out
+  updateOptOutButtons();
+}
+
+// Fechar menu de idioma ao clicar fora
+document.addEventListener('click', e => {
+  const wrap = document.querySelector('.lang-selector-wrap');
+  const dropdown = document.getElementById('lang-dropdown');
+  if (dropdown && !dropdown.classList.contains('hidden') && wrap && !wrap.contains(e.target)) {
+    dropdown.classList.add('hidden');
+  }
+});
+
 /* ─────────── Card Factory ─────────── */
 const CARDS_CONFIG = [
   {
     id: 'isp',
     icon: '🏢',
+    titleKey: 'card_isp',
     title: 'ISP &amp; ASN',
     bodyId: 'body-isp',
     badge: { id: 'badge-isp', text: '—', class: 'badge-info' },
     fields: [
-      { label: 'Provedor', id: 'v-isp', defaultValue: '<span class="spin"></span>' },
-      { label: 'Organização', id: 'v-org' },
-      { label: 'ASN', id: 'v-asn', class: 'accent' },
-      { label: 'Domínio', id: 'v-domain' },
-      { label: 'Tipo de rede', id: 'v-nettype' },
+      { labelKey: 'lbl_provider', label: 'Provedor', id: 'v-isp', defaultValue: '<span class="spin"></span>' },
+      { labelKey: 'lbl_org', label: 'Organização', id: 'v-org' },
+      { labelKey: 'lbl_asn', label: 'ASN', id: 'v-asn', class: 'accent' },
+      { labelKey: 'lbl_domain', label: 'Domínio', id: 'v-domain' },
+      { labelKey: 'lbl_nettype', label: 'Tipo de rede', id: 'v-nettype' },
     ]
   },
   {
     id: 'location',
     icon: '📍',
+    titleKey: 'card_location',
     title: 'Localização',
     badge: { id: 'badge-loc', text: '—', class: 'badge-info' },
     appendHtml: '<iframe id="map-frame" style="display:none" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>',
     fields: [
-      { label: 'País', id: 'v-country' },
-      { label: 'Região', id: 'v-region' },
-      { label: 'Cidade', id: 'v-city' },
-      { label: 'CEP / Postal', id: 'v-postal' },
-      { label: 'Fuso horário', id: 'v-tz' },
-      { label: 'Coordenadas', id: 'v-coords', class: 'accent' },
+      { labelKey: 'lbl_country', label: 'País', id: 'v-country' },
+      { labelKey: 'lbl_region', label: 'Região', id: 'v-region' },
+      { labelKey: 'lbl_city', label: 'Cidade', id: 'v-city' },
+      { labelKey: 'lbl_postal', label: 'CEP / Postal', id: 'v-postal' },
+      { labelKey: 'lbl_tz', label: 'Fuso horário', id: 'v-tz' },
+      { labelKey: 'lbl_coords', label: 'Coordenadas', id: 'v-coords', class: 'accent' },
     ]
   },
   {
     id: 'ip',
     icon: '🌐',
+    titleKey: 'card_ip',
     title: 'Endereços IP',
     badge: { id: 'badge-ip', text: '—', class: 'badge-info' },
-    appendHtml: '<p class="webrtc-note">⚠ IPs locais via WebRTC. Se aparecer o IPv4 público aqui, pode indicar vazamento de VPN.</p>',
+    appendHtml: '<p class="webrtc-note" data-i18n="lbl_webrtc_note">⚠ IPs locais via WebRTC. Se aparecer o IPv4 público aqui, pode indicar vazamento de VPN.</p>',
     fields: [
-      { label: 'IPv4 público', id: 'v-ipv4', class: 'accent', defaultValue: '<span class="spin"></span>' },
-      { label: 'IPv6 público', id: 'v-ipv6', class: 'accent', defaultValue: '<span class="spin"></span>' },
-      { label: 'IP local (LAN)', id: 'v-local' },
-      { label: 'IPv6 local', id: 'v-local6' },
-      { label: 'WebRTC leak', id: 'v-webrtc', defaultValue: 'testando…' },
+      { labelKey: 'lbl_ipv4_public', label: 'IPv4 público', id: 'v-ipv4', class: 'accent', defaultValue: '<span class="spin"></span>' },
+      { labelKey: 'lbl_ipv6_public', label: 'IPv6 público', id: 'v-ipv6', class: 'accent', defaultValue: '<span class="spin"></span>' },
+      { labelKey: 'lbl_ip_local', label: 'IP local (LAN)', id: 'v-local' },
+      { labelKey: 'lbl_ipv6_local', label: 'IPv6 local', id: 'v-local6' },
+      { labelKey: 'lbl_webrtc_leak', label: 'WebRTC leak', id: 'v-webrtc', defaultValue: 'testando…' },
     ]
   },
   {
     id: 'latency',
     icon: '⚡',
+    titleKey: 'card_latency',
     title: 'Latência &amp; DNS',
     badge: { id: 'badge-ping', text: '—' },
     latencyBar: true,
     fields: [
-      { label: 'Ping HTTP', id: 'v-ping', defaultValue: 'medindo…' },
-      { label: 'Servidor DNS', id: 'v-dns', rowStyle: 'margin-top:12px' },
-      { label: 'DNS lookup', id: 'v-dnslookup' },
-      { label: 'HTTPS suporte', class: 'ok', defaultValue: '✓ Sim' },
-      { label: 'HTTP/2', id: 'v-h2', defaultValue: 'verificando…' },
+      { labelKey: 'lbl_ping', label: 'Ping HTTP', id: 'v-ping', defaultValue: 'medindo…' },
+      { labelKey: 'lbl_dns_server', label: 'Servidor DNS', id: 'v-dns', rowStyle: 'margin-top:12px' },
+      { labelKey: 'lbl_dns_lookup', label: 'DNS lookup', id: 'v-dnslookup' },
+      { labelKey: 'lbl_https_support', label: 'HTTPS suporte', class: 'ok', defaultValue: '✓ Sim' },
+      { labelKey: 'lbl_http2', label: 'HTTP/2', id: 'v-h2', defaultValue: 'verificando…' },
     ]
   },
   {
     id: 'browser',
     icon: '💻',
+    titleKey: 'card_browser',
     title: 'Navegador &amp; Dispositivo',
     bodyId: 'body-ua',
     fields: [
       { label: 'User-Agent', id: 'v-ua', style: 'font-size:.65rem' },
-      { label: 'Plataforma', id: 'v-platform' },
-      { label: 'Idioma', id: 'v-lang' },
+      { labelKey: 'lbl_platform', label: 'Plataforma', id: 'v-platform' },
+      { labelKey: 'lbl_language', label: 'Idioma', id: 'v-lang' },
       { label: 'Cores suporte', id: 'v-colors' },
       { label: 'Cookies', id: 'v-cookies' },
       { label: 'JavaScript', class: 'ok', defaultValue: '✓ Ativo' },
       { label: 'WebRTC', id: 'v-wrtc-support' },
-      { label: 'Tela (px)', id: 'v-screen' },
+      { labelKey: 'lbl_screen', label: 'Tela (px)', id: 'v-screen' },
       { label: 'Mem. RAM (est.)', id: 'v-mem' },
       { label: 'CPUs lógicos', id: 'v-cpu' },
     ]
@@ -78,14 +1419,15 @@ const CARDS_CONFIG = [
   {
     id: 'security',
     icon: '🔒',
+    titleKey: 'card_security',
     title: 'Segurança &amp; Privacidade',
     badge: { id: 'badge-sec', text: '—' },
     fields: [
-      { label: 'VPN / Proxy', id: 'v-proxy', defaultValue: 'verificando…' },
-      { label: 'Tor detectado', id: 'v-tor' },
+      { labelKey: 'lbl_vpn_proxy', label: 'VPN / Proxy', id: 'v-proxy', defaultValue: 'verificando…' },
+      { labelKey: 'lbl_tor', label: 'Tor detectado', id: 'v-tor' },
       { label: 'Tipo de conexão', id: 'v-conntype' },
       { label: 'DoH/DoT (DNS cifrado)', id: 'v-doh' },
-      { label: 'Modo incógnito', id: 'v-incognito' },
+      { labelKey: 'lbl_incognito', label: 'Modo incógnito', id: 'v-incognito' },
       { label: 'Cabeçalhos CORS', class: 'ok', defaultValue: 'Permitido' },
       { label: 'TLS versão', id: 'v-tls', defaultValue: 'TLS 1.2/1.3 ✓' },
     ]
@@ -93,11 +1435,12 @@ const CARDS_CONFIG = [
   {
     id: 'connectivity',
     icon: '📡',
+    titleKey: 'card_connectivity',
     title: 'Conectividade',
     badge: { id: 'badge-conn', text: 'Online', class: 'badge-ok' },
     fields: [
-      { label: 'Status', id: 'v-online', class: 'ok', defaultValue: '🟢 Online' },
-      { label: 'Velocidade estimada', id: 'v-speed' },
+      { labelKey: 'lbl_online', label: 'Status', id: 'v-online', class: 'ok', defaultValue: '🟢 Online' },
+      { labelKey: 'lbl_speed', label: 'Velocidade estimada', id: 'v-speed' },
       { label: 'Tipo de acesso', id: 'v-eff-type' },
       { label: 'Economia de dados', id: 'v-datasaver' },
       { label: 'RTT estimado', id: 'v-rtt' },
@@ -107,17 +1450,18 @@ const CARDS_CONFIG = [
   {
     id: 'domain-scan',
     icon: '🔍',
+    titleKey: 'card_domain_scan',
     title: 'Análise de Domínio',
     fullWidth: true,
     customHtml: `<div style="display:flex;gap:10px;margin-bottom:12px;">
-          <input type="text" id="domain-input" placeholder="Digite um domínio (ex: example.com)" 
+          <input type="text" id="domain-input" data-i18n-placeholder="domain_input_placeholder" placeholder="Digite um domínio (ex: example.com)" 
                  style="flex:1;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:.85rem;">
-          <button id="domain-scan-btn" onclick="scanDomain()" 
+          <button id="domain-scan-btn" onclick="scanDomain()" data-i18n="domain_btn_scan"
                   style="background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:8px;padding:10px 20px;font-family:'JetBrains Mono',monospace;font-size:.82rem;font-weight:600;cursor:pointer;">
             🔍 Analisar
           </button>
         </div>
-        <p style="font-size:.7rem;color:var(--muted);">Digite um domínio para análise completa de segurança, DNS, SSL e infraestrutura.</p>`,
+        <p data-i18n="domain_input_hint" style="font-size:.7rem;color:var(--muted);">Digite um domínio para análise completa de segurança, DNS, SSL e infraestrutura.</p>`,
   },
   {
     id: 'ipinfo',
@@ -605,7 +1949,12 @@ function createCard(config) {
 
   const titleSpan = document.createElement('span');
   titleSpan.className = 'card-title';
-  titleSpan.innerHTML = config.title || '';
+  if (config.titleKey) {
+    titleSpan.setAttribute('data-i18n', config.titleKey);
+    titleSpan.innerHTML = t(config.titleKey);
+  } else {
+    titleSpan.innerHTML = config.title || '';
+  }
   head.appendChild(titleSpan);
 
   if (config.badge) {
@@ -637,7 +1986,12 @@ function createCard(config) {
 
         const lbl = document.createElement('span');
         lbl.className = 'row-label';
-        lbl.textContent = field.label;
+        if (field.labelKey) {
+          lbl.setAttribute('data-i18n', field.labelKey);
+          lbl.textContent = t(field.labelKey);
+        } else {
+          lbl.textContent = field.label;
+        }
         row.appendChild(lbl);
 
         const val = document.createElement('span');
@@ -653,7 +2007,7 @@ function createCard(config) {
         if (config.latencyBar && field.id === 'v-ping') {
           const latWrap = document.createElement('div');
           latWrap.className = 'latency-bar-wrap';
-          latWrap.innerHTML = '<div style="font-size:.7rem;color:var(--muted)">Qualidade</div><div class="latency-bar-bg"><div class="latency-bar-fill" id="ping-bar"></div></div>';
+          latWrap.innerHTML = `<div style="font-size:.7rem;color:var(--muted)" data-i18n="lbl_quality">${t('lbl_quality')}</div><div class="latency-bar-bg"><div class="latency-bar-fill" id="ping-bar"></div></div>`;
           body.appendChild(latWrap);
         }
       });
@@ -684,7 +2038,7 @@ function renderCards() {
   const page = (document.body && document.body.dataset && document.body.dataset.page) ? document.body.dataset.page : 'all';
   let cardsToRender = CARDS_CONFIG;
 
-  if (page === 'ip') {
+  if (page === 'home' || page === 'ip') {
     const allowedCards = ['isp', 'location', 'ip', 'diagnostic-log'];
     cardsToRender = CARDS_CONFIG.filter(cfg => allowedCards.includes(cfg.id));
   } else if (page === 'domain') {
@@ -2374,40 +3728,63 @@ function renderHeader() {
   const header = document.getElementById('main-header');
   if (!header) return;
 
-  const page = (document.body && document.body.dataset && document.body.dataset.page) ? document.body.dataset.page : 'all';
+  const page = (document.body && document.body.dataset && document.body.dataset.page) ? document.body.dataset.page : 'home';
 
-  // Configuração das rotas
+  // Configuração das rotas (Estrutura restrita: Home / Qual Meu IP + Analisador de Domínio)
   const navItems = [
-    { id: 'all',    label: '🏠 Diagnóstico Completo', href: 'index.html', title: 'Diagnóstico Completo' },
-    { id: 'ip',     label: '🌐 Qual Meu IP?',        href: 'meu-ip.html', title: 'Qual é o Meu IP?' },
-    { id: 'domain', label: '🔍 Analisar Domínio',     href: 'domain.html', title: 'Análise de Domínio' }
+    { id: 'home',   key: 'nav_home',   label: t('nav_home'),   href: 'meu-ip.html', title: t('nav_home') },
+    { id: 'domain', key: 'nav_domain', label: t('nav_domain'), href: 'domain.html', title: t('nav_domain') }
   ];
 
   // Configuração do botão de ação contextual
   let actionBtnHtml = '';
-  if (page === 'all') {
-    actionBtnHtml = `<button id="scan-btn" class="action-btn" onclick="runAll()">▶ Analisar</button>`;
-  } else if (page === 'ip') {
-    actionBtnHtml = `<a href="index.html" class="action-btn">Ver Diagnóstico Completo ↗</a>`;
+  if (page === 'home' || page === 'ip') {
+    actionBtnHtml = `<a href="domain.html" class="action-btn" data-i18n="btn_domain">${t('btn_domain')}</a>`;
   } else if (page === 'domain') {
-    actionBtnHtml = `<a href="index.html" class="action-btn">← Diagnóstico de Rede</a>`;
+    actionBtnHtml = `<a href="meu-ip.html" class="action-btn" data-i18n="btn_home">${t('btn_home')}</a>`;
+  } else {
+    actionBtnHtml = `<a href="meu-ip.html" class="action-btn" data-i18n="btn_home">${t('btn_home')}</a>`;
   }
 
   // Links de navegação desktop
   const desktopLinksHtml = navItems.map(item => {
-    const isActive = page === item.id;
-    return `<a href="${item.href}" class="nav-link ${isActive ? 'nav-active' : ''}">${item.label}</a>`;
+    const isActive = page === item.id || (page === 'ip' && item.id === 'home');
+    return `<a href="${item.href}" class="nav-link ${isActive ? 'nav-active' : ''}" data-i18n="${item.key}">${item.label}</a>`;
   }).join('');
 
   // Links de navegação mobile
   const mobileLinksHtml = navItems.map(item => {
-    const isActive = page === item.id;
-    return `<a href="${item.href}" class="nav-link-mobile ${isActive ? 'nav-active' : ''}">${item.label}</a>`;
+    const isActive = page === item.id || (page === 'ip' && item.id === 'home');
+    return `<a href="${item.href}" class="nav-link-mobile ${isActive ? 'nav-active' : ''}" data-i18n="${item.key}">${item.label}</a>`;
   }).join('');
 
+  // Seletor de Idioma Dropdown
+  const activeLangConfig = SUPPORTED_LANGS[currentLang] || SUPPORTED_LANGS['pt-br'];
+  const langOptionsHtml = Object.keys(SUPPORTED_LANGS).map(code => {
+    const item = SUPPORTED_LANGS[code];
+    const isSel = code === currentLang;
+    return `<button type="button" class="lang-opt ${isSel ? 'active' : ''}" data-lang="${code}" onclick="setLanguage('${code}')">
+      <span class="lang-flag">${item.flag}</span>
+      <span>${item.name}</span>
+    </button>`;
+  }).join('');
+
+  const langSelectorHtml = `
+    <div class="lang-selector-wrap">
+      <button type="button" class="lang-btn" onclick="toggleLangDropdown(event)" aria-label="Select Language" aria-expanded="false">
+        <span class="lang-flag" id="lang-current-flag">${activeLangConfig.flag}</span>
+        <span class="lang-code" id="lang-current-code">${currentLang.toUpperCase()}</span>
+        <span class="lang-arrow">▾</span>
+      </button>
+      <div id="lang-dropdown" class="lang-dropdown hidden">
+        ${langOptionsHtml}
+      </div>
+    </div>
+  `;
+
   // Breadcrumb Schema.org dinâmico
-  const currentItem = navItems.find(item => item.id === page) || navItems[0];
-  const canonicalUrl = page === 'all' ? 'https://netinspector.net/' : `https://netinspector.net/${currentItem.href}`;
+  const currentItem = navItems.find(item => item.id === page || (page === 'ip' && item.id === 'home')) || navItems[0];
+  const canonicalUrl = `https://netinspector.net/${currentItem.href}`;
 
   const breadcrumbJson = {
     "@context": "https://schema.org",
@@ -2418,27 +3795,24 @@ function renderHeader() {
         "position": 1,
         "name": "Home",
         "item": "https://netinspector.net/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": currentItem.title,
+        "item": canonicalUrl
       }
     ]
   };
 
-  if (page !== 'all') {
-    breadcrumbJson.itemListElement.push({
-      "@type": "ListItem",
-      "position": 2,
-      "name": currentItem.title,
-      "item": canonicalUrl
-    });
-  }
-
   // Montagem do Header
   header.innerHTML = `
     <div class="header-container">
-      <a href="index.html" class="logo">
+      <a href="meu-ip.html" class="logo">
         <div class="logo-icon">🛰️</div>
         <div class="logo-text">
           <h1>NET INSPECTOR</h1>
-          <p>Diagnóstico completo de conexão &amp; ISP</p>
+          <p data-i18n="logo_subtitle">${t('logo_subtitle')}</p>
         </div>
       </a>
 
@@ -2446,7 +3820,10 @@ function renderHeader() {
         ${desktopLinksHtml}
       </nav>
 
-      ${actionBtnHtml}
+      <div style="display:flex;align-items:center;gap:10px;">
+        ${langSelectorHtml}
+        ${actionBtnHtml}
+      </div>
 
       <button id="mobile-menu-toggle" class="mobile-menu-toggle" aria-label="Abrir Menu de Navegação" aria-expanded="false">
         ☰
@@ -2518,24 +3895,35 @@ function updateOptOutButtons() {
   const isOptedOut = urlParams.get('skipgc') === 'on';
   const buttons = document.querySelectorAll('.optout-btn, #analytics-optout-btn');
   buttons.forEach(btn => {
-    btn.textContent = isOptedOut ? 'Ativar Analytics' : 'Desativar Analytics';
+    btn.textContent = isOptedOut ? t('btn_optout_on') : t('btn_optout_off');
   });
 }
 
 /* ─────────── Auto-start ─────────── */
+document.documentElement.lang = currentLang === 'pt-br' ? 'pt-BR' : currentLang;
+if (SUPPORTED_LANGS[currentLang]?.dir) {
+  document.documentElement.dir = SUPPORTED_LANGS[currentLang].dir;
+}
+
 renderHeader();
 renderCards();
+applyTranslations();
 startTimer();
 updateOptOutButtons();
 
-const currentPage = (document.body && document.body.dataset && document.body.dataset.page) ? document.body.dataset.page : 'all';
+const currentPage = (document.body && document.body.dataset && document.body.dataset.page) ? document.body.dataset.page : 'home';
 if (currentPage !== 'domain') {
   runAll();
 }
 
-// Global window exposure for inline onclick handlers
+// Global window exposure for inline onclick handlers & i18n
 window.runAll = runAll;
 window.scanDomain = scanDomain;
 window.renderHeader = renderHeader;
 window.toggleAnalytics = toggleAnalytics;
 window.showToast = showToast;
+window.setLanguage = setLanguage;
+window.toggleLangDropdown = toggleLangDropdown;
+window.t = t;
+window.applyTranslations = applyTranslations;
+window.SUPPORTED_LANGS = SUPPORTED_LANGS;
