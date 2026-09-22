@@ -1,424 +1,246 @@
 # NET INSPECTOR 🔍
 
-**Diagnóstico completo de conexão & ISP**
+**Diagnóstico completo de conexão, IP & análise de domínio — 100% Client-Side**
 
-[![Status](https://img.shields.io/badge/status-pronto-success)](https://netinspector.net)
-[![Licença](https://img.shields.io/badge/licen%C3%A7a-MIT-blue)](LICENSE)
-[![Tecnologia](https://img.shields.io/badge/tech-HTML%20%2B%20JS%20puro-brightgreen)](https://netinspector.net)
+[![Status](https://img.shields.io/badge/status-produção-success)](https://netinspector.net)
+[![Licença](https://img.shields.io/badge/licença-MIT-blue)](LICENSE)
+[![Tecnologia](https://img.shields.io/badge/tech-Vanilla%20HTML%2FCSS%2FJS-brightgreen)](https://netinspector.net)
+[![Privacidade](https://img.shields.io/badge/privacidade-Zero%20Cookies-purple)](https://netinspector.goatcounter.com/)
 
-**🌐 Demo Online:** [https://netinspector.net/](https://netinspector.net)
+**🌐 Demo Online:** [https://netinspector.net/](https://netinspector.net/)
 
-Uma ferramenta web moderna e elegante para análise detalhada da sua conexão de rede, provedor de internet (ISP), localização, latência, DNS e segurança.
+O **NET INSPECTOR** é uma plataforma web moderna de arquitetura Multi-Page Application (MPA) para diagnóstico aprofundado de conexões de rede, provedores de internet (ISP), resolução DNS, segurança e infraestrutura completa de domínios. Tudo é processado localmente no navegador, sem backend proprietário e sem armazenamento de dados.
 
 ---
 
 ## 📋 Índice
 
-- [Visão Geral](#visão-geral)
-- [Funcionalidades](#funcionalidades)
-- [Como Usar](#como-usar)
-- [Demo Online](#demo-online)
-- [Estrutura do Projeto](#estrutura-do-projeto)
-- [APIs Utilizadas](#apis-utilizadas)
-- [Indicadores Visuais](#indicadores-visuais)
-- [Privacidade e Segurança](#privacidade-e-segurança)
-- [Compatibilidade](#compatibilidade)
-- [FAQ](#faq)
-- [Licença](#licença)
+- [Visão Geral](#-visão-geral)
+- [Estrutura do Projeto](#-estrutura-do-projeto)
+- [Funcionalidades e Páginas](#-funcionalidades-e-páginas)
+- [Arquitetura Técnica](#-arquitetura-técnica)
+- [APIs Utilizadas](#-apis-utilizadas)
+- [Analytics Privacy-First (GoatCounter)](#-analytics-privacy-first-goatcounter)
+- [Otimização para Mecanismos de Busca (SEO)](#-otimização-para-mecanismos-de-busca-seo)
+- [Privacidade e Segurança](#-privacidade-e-segurança)
+- [Como Usar](#-como-usar)
+- [Compatibilidade](#-compatibilidade)
+- [FAQ - Perguntas Frequentes](#-faq---perguntas-frequentes)
+- [Licença](#-licença)
 
 ---
 
 ## 🎯 Visão Geral
 
-O **NET INSPECTOR** é um utilitário de diagnóstico de rede que roda inteiramente no navegador, sem necessidade de instalação ou backend. Ele coleta informações sobre sua conexão de internet e exibe os resultados em uma interface moderna e responsiva.
+Diferente de ferramentas tradicionais que exigem instalação ou realizam rastreamento invasivo, o **NET INSPECTOR** foi concebido sob três pilares fundamentais:
 
-### Destaques
-
-- ✅ **Sem instalação** - Basta abrir o arquivo HTML no navegador
-- ✅ **100% client-side** - Nenhum dado é armazenado em servidores
-- ✅ **Interface moderna** - Design escuro com animações suaves
-- ✅ **Responsivo** - Funciona em desktop e mobile
-- ✅ **Tempo real** - Atualizações dinâmicas dos dados de rede
-- ✅ **SEO Otimizado** - Indexável por mecanismos de busca e IAs
-
----
-
-## ⚡ Funcionalidades
-
-### 1. **IP Público & Hero Section**
-- Exibe seu IP público IPv4 em destaque
-- Indicador de status pulsante (online/offline)
-
-### 2. **ISP & ASN** 🏢
-- Nome do provedor de internet
-- Organização responsável
-- Número ASN (Autonomous System Number)
-- Domínio da rede
-- Tipo de conexão
-
-### 3. **Localização Geográfica** 📍
-- País, região e cidade
-- CEP/Código postal
-- Fuso horário
-- Coordenadas (latitude/longitude)
-- Mapa interativo OpenStreetMap
-
-### 4. **Endereços IP** 🌐
-- IPv4 público
-- IPv6 público (se disponível)
-- IP local da LAN
-- IPv6 local
-- Detecção de vazamento WebRTC (útil para usuários de VPN)
-
-### 5. **Latência & DNS** ⚡
-- Ping HTTP medido em milissegundos
-- Barra visual de qualidade de conexão
-- Servidor DNS resolvido
-- Tempo de lookup DNS
-- Verificação de suporte HTTPS e HTTP/2
-
-### 6. **Navegador & Dispositivo** 💻
-- User-Agent completo
-- Plataforma/Sistema operacional
-- Idioma do navegador
-- Suporte a cores
-- Status de cookies
-- Status JavaScript
-- Suporte WebRTC
-- Resolução da tela
-- Memória RAM estimada
-- Número de CPUs lógicas
-
-### 7. **Segurança & Privacidade** 🔒
-- Detecção de VPN/Proxy
-- Detecção de rede Tor
-- Tipo de conexão
-- Suporte a DoH/DoT (DNS criptografado)
-- Detecção de modo incógnito
-- Cabeçalhos CORS
-- Versão TLS
-
-### 8. **Conectividade** 📡
-- Status online/offline
-- Velocidade estimada
-- Tipo de acesso efetivo
-- Economia de dados
-- RTT (Round-Trip Time) estimado
-- Downlink estimado
-
-### 9. **Log de Diagnóstico** 🔬
-- Registro em tempo real de todas as operações
-- Timestamp de sessão
-
----
-
-## 🚀 Como Usar
-
-### Demo Online
-
-Acesse diretamente a versão hospedada em: **[https://netinspector.net/](https://netinspector.net/)**
-
-### Método 1: Abrir Localmente (Recomendado)
-
-```bash
-# Navegue até a pasta do projeto
-cd /workspace
-
-# Abra o arquivo index.html no seu navegador
-# Linux:
-xdg-open index.html
-
-# macOS:
-open index.html
-
-# Windows (PowerShell):
-Start-Process index.html
-```
-
-Ou simplesmente:
-1. Localize o arquivo `index.html`
-2. Clique duas vezes para abrir no navegador padrão
-
-### Método 2: Servidor Local (Opcional)
-
-Para algumas funcionalidades avançadas, você pode usar um servidor local:
-
-```bash
-# Python 3
-python3 -m http.server 8000
-
-# Node.js (npx)
-npx serve .
-
-# PHP
-php -S localhost:8000
-```
-
-Depois acesse: `http://localhost:8000`
-
-### Método 3: Hospedagem Web
-
-Faça upload dos arquivos para qualquer hospedagem estática:
-- Cloudflare Pages
-- GitHub Pages
-- Netlify
-- Vercel
-- Servidor Apache/Nginx
+1. **Privacidade Absoluta**: Nenhum dado é salvo em bancos de dados. Não há cookies nem localStorage para tracking.
+2. **Performance Instantânea**: Arquitetura leve em Vanilla JavaScript e CSS puro com concorrência assíncrona.
+3. **Multi-Page Application (MPA)**: Páginas dedicadas e especializadas que compartilham a mesma base modular de regras de negócio e componentes de interface.
 
 ---
 
 ## 📁 Estrutura do Projeto
 
+O repositório é composto por 8 arquivos essenciais, perfeitamente desacoplados e organizados:
+
 ```
 netinspector/
-├── index.html       (Hub - Diagnóstico Completo)
-├── meu-ip.html      (Landing Page - Meu IP)
-├── domain.html      (Landing Page - Análise de Domínio)
-├── style.css        (Design System)
-├── app.js           (Lógica da Aplicação)
-├── sitemap.xml      (Sitemap para SEO)
-├── robots.txt       (Regras para Crawlers)
-├── LICENSE          (Licença MIT)
-└── README.md        (Documentação)
+├── index.html       # Hub Principal (Diagnóstico Completo, 45 cards, data-page="all")
+├── meu-ip.html      # Landing Page especializada em IP / ISP / Localização (data-page="ip")
+├── domain.html      # Landing Page com 36 scanners para análise de domínios (data-page="domain")
+├── style.css        # Design System centralizado (CSS variables, tokens, temas e responsividade)
+├── app.js           # Núcleo reativo (ApiManager, Card Factory, Scanners e renderHeader)
+├── sitemap.xml      # Mapa de URLs canônicas para indexação por motores de busca
+├── robots.txt       # Diretivas de rastreamento para web crawlers
+└── LICENSE          # Termos da Licença MIT
 ```
+
+---
+
+## ⚡ Funcionalidades e Páginas
+
+### 1. Hub Principal (`index.html`) — `data-page="all"`
+Painel abrangente composto por **45 cards modulares** de inspeção em tempo real:
+- **Hero IP Section**: Exibição em destaque do endereço público com identificação de protocolo (`IPv4` ou `IPv6`) e animação pulsante.
+- **ISP & ASN**: Identificação do provedor de acesso, organização titular, número de sistema autônomo (ASN) e rota BGP.
+- **Localização Geográfica**: País, estado, município, código postal, coordenadas e mapa interativo OpenStreetMap incorporado.
+- **Endereços IP & WebRTC**: Detecção independente de IPv4 público, IPv6 público, IP local LAN e auditoria de vazamento de WebRTC (*WebRTC leak* para usuários de VPN).
+- **Latência & DNS**: Medição de ping HTTP em milissegundos com barra de qualidade visual, servidores DNS ativos, tempo de resposta de lookup e suporte a HTTP/2.
+- **Dispositivo & Navegador**: User-Agent, arquitetura de hardware, threads de CPU, memória RAM estimada e suporte a recursos modernos.
+- **Segurança de Conexão**: Verificação de proxies abertos, saída da rede Tor e tipo de conexão.
+
+### 2. Meu IP (`meu-ip.html`) — `data-page="ip"`
+Landing page focada na identificação imediata de identidade de rede:
+- Hero section focado no IP público ativo.
+- Cards essenciais filtrados (ISP, Localização, Endereços IP e Log).
+- Conteúdo didático aprofundado para SEO explicando blocos de endereçamento, geolocalização e diferenças práticas entre IPv4 e IPv6.
+
+### 3. Analisador de Domínio (`domain.html`) — `data-page="domain"`
+Ferramenta para auditoria completa de qualquer site ou domínio da web:
+- **36 Scanners Concorrentes**:
+  - Registros DNS completos (`A`, `AAAA`, `MX`, `NS`, `TXT`, `CNAME`, `SOA`, `CAA`, `PTR`).
+  - Validação de certificados SSL/TLS, cadeia de confiança e dias restantes até expiração.
+  - Dados de registro Whois e entidades delegadas.
+  - Cabeçalhos de segurança HTTP (`HSTS`, `CSP`, `X-Frame-Options`, `X-Content-Type-Options`).
+  - Detecção de tecnologias web, robots.txt, sitemap XML e security.txt.
+  - Histórico de arquivos (Wayback Machine API).
+
+---
+
+## 🏗️ Arquitetura Técnica
+
+O projeto utiliza padrões arquiteturais modernos sem frameworks pesados:
+
+### 1. Card Factory Reativo
+Todos os cards da interface são gerados e orquestrados por uma configuração centralizada (`CARDS_CONFIG` em `app.js`). Cada definição de card suporta:
+- Filtragem inteligente por página (`pages: ['all', 'ip']` ou `pages: ['domain']`).
+- Estrutura de campos (`fields`), badges informativos dinâmicos e slots para injeção HTML customizada.
+- Renderização limpa via `renderCards()`.
+
+### 2. ApiManager Centralizado
+Camada de rede que encapsula 31 chamadas externas com recursos avançados:
+- **In-flight Promise Deduplication**: Requisições simultâneas para o mesmo recurso compartilham a mesma Promise, evitando tráfego redundante.
+- **Cache de Sessão em Memória com TTL**: Armazenamento temporário de respostas durante o ciclo de vida da página para respostas instantâneas.
+- **Resiliência com Fallback em Cascata**:
+  - Resolução DNS com alternância transparente (Google DNS over HTTPS → Cloudflare DoH).
+  - Obtenção isolada de IPv4 (`api4.ipify.org`, `ipv4.icanhazip.com`) e IPv6 (`api6.ipify.org`, `ipv6.icanhazip.com`).
+  - Detecção de geolocalização multi-provedor (`ipwho.is`, `freeipapi.com`, `ipapi.co`).
+- **Timeouts Automáticos via AbortController**: Evita que requisições lentas travem o fluxo da aplicação.
+
+### 3. Design System Modular (`style.css`)
+- **Tokens CSS Modernos**: Variáveis para paleta de cores (Tailored Dark Palette), espaçamentos, tipografia, bordas e sombras neon glow.
+- **Aliases Retrocompatíveis**: Compatibilidade total entre nomes clássicos (`--bg`, `--surface`, `--accent`, `--ok`, `--warn`, `--err`) e tokens de sistema (`--color-bg-primary`, `--color-status-ok`).
+- **Responsividade Fluida**: Breakpoints mobile-first cobrindo desde telas estreitas (320px) até monitores ultra-wide (1024px+).
+
+### 4. Controle via Atributo `data-page`
+O elemento `<body>` de cada página declara seu contexto de visualização (`data-page="all"`, `data-page="ip"`, `data-page="domain"`). O script adapta o comportamento de inicialização, a exibição de cards e os botões de ação com base nessa propriedade.
+
+### 5. Navegação Unificada via `renderHeader()`
+O cabeçalho e menu de navegação responsivo são construídos dinamicamente pela função `renderHeader()`:
+- Destaca visualmente a página corrente (`nav-active`).
+- Menu hambúrguer acessível para dispositivos móveis com fechamento automático ao clicar fora ou redimensionar.
 
 ---
 
 ## 🌐 APIs Utilizadas
 
-| API | Finalidade | Endpoint |
-|-----|-----------|----------|
-| **ipapi.co** | Informações IPv4, ISP, localização | `https://ipapi.co/json/` |
-| **ipify.org** | Obtenção de IPv6 | `https://api6.ipify.org` |
-| **Google DNS** | Resolução DNS | `https://dns.google/resolve` |
-| **Cloudflare DNS** | DNS-over-HTTPS (fallback) | `https://cloudflare-dns.com/dns-query` |
-| **OpenStreetMap** | Mapa de localização | `https://www.openstreetmap.org/export/embed.html` |
-| **WebRTC API** | Detecção de IPs locais | `RTCPeerConnection` |
-| **Navigator API** | Informações do navegador | `navigator.*` |
+| Serviço / Endpoint | Finalidade Técnica | Modo de Acesso |
+|---|---|---|
+| `https://api4.ipify.org` | Detecção estrita de endereço IPv4 público | JSON via HTTPS |
+| `https://api6.ipify.org` | Detecção estrita de endereço IPv6 público | JSON via HTTPS |
+| `https://ipv4.icanhazip.com` | Fallback de contingência para IPv4 | Texto puro via HTTPS |
+| `https://ipv6.icanhazip.com` | Fallback de contingência para IPv6 | Texto puro via HTTPS |
+| `https://ipwho.is/` | Dados geográficos, ASN, ISP e rota de rede | JSON via HTTPS (sem CORS lock) |
+| `https://freeipapi.com/` | Provedor secundário de geolocalização e proxy | JSON via HTTPS |
+| `https://dns.google/resolve` | Consulta primária a registros DNS via DoH | DNS-over-HTTPS |
+| `https://cloudflare-dns.com/dns-query` | Fallback de alta disponibilidade para DNS DoH | DNS-over-HTTPS |
+| `https://archive.org/wayback/available` | Histórico de capturas arquivadas de domínio | JSON via HTTPS |
+| `https://www.openstreetmap.org/` | Renderização do mapa cartográfico embed | Iframe local sem cookies |
+| `WebRTC API` (`RTCPeerConnection`) | Mapeamento de interfaces locais e detecção de vazamento | API Nativa do Navegador |
+| `Navigator API` | Extração de parâmetros de hardware e rede do cliente | API Nativa do Navegador |
 
 ---
 
-## 🎨 Indicadores Visuais
+## 📊 Analytics Privacy-First (GoatCounter)
 
-### Cores de Status
+O **NET INSPECTOR** adota o [GoatCounter](https://www.goatcounter.com/), uma solução de análise estatística de código aberto, estritamente ética e em conformidade com o GDPR e a LGPD:
 
-| Cor | Significado | Classe |
-|-----|-------------|--------|
-| 🟢 Verde | OK / Normal | `ok` |
-| 🟡 Amarelo | Atenção / Moderado | `warn` |
-| 🔴 Vermelho | Erro / Alto / Problema | `err` |
-| 🔵 Azul | Informação / Destaque | `accent` |
+- ✅ **Sem cookies**: Nenhum dado ou identificador persistente é armazenado no seu dispositivo.
+- ✅ **Sem tracking cross-site**: Não rastreamos a navegação do usuário em outros sites da internet.
+- ✅ **IP anonimizado**: Endereços IP são processados com hash criptográfico irreversível e salteamento diário.
+- ✅ **Sem popups de consentimento**: Como não há coleta de dados pessoais nem cookies, não incomodamos você com banners irritantes.
+- ✅ **Transparência total**: As estatísticas de acesso são públicas e auditáveis em tempo real por qualquer pessoa em: **[https://netinspector.goatcounter.com/](https://netinspector.goatcounter.com/)**
+- ✅ **Mecanismo de Opt-Out simples**: Qualquer usuário pode desativar o rastreamento clicando no botão **"Desativar Analytics"** presente no rodapé de todas as páginas (o sistema adiciona o parâmetro `?skipgc=on` na URL).
 
-### Badges
+**Dados métricos computados (totalmente agregados):**
+- Páginas visitadas (ex: `/meu-ip.html`, `/domain.html`)
+- Referrer (origem da visita)
+- Navegador e sistema operacional (genéricos, não identificáveis)
+- Faixa geral de resolução de tela
 
-- **IPv4 ✓** - IPv4 detectado com sucesso
-- **IPv4 + IPv6 ✓** - Ambos os protocolos disponíveis
-- **Online/Offline** - Status da conexão
-- **Limpo** - Sem VPN/Proxy/Tor detectados
-- **Proxy/VPN** - VPN ou Proxy detectado
+---
 
-### Barra de Latência
+## 🔍 Otimização para Mecanismos de Busca (SEO)
 
-A barra visual indica a qualidade do ping:
-- **100% → 0ms** (Excelente)
-- **0% → ≥300ms** (Muito alto)
-
-Classificação:
-- **Excelente**: ≤ 60ms
-- **Moderado**: 60-150ms
-- **Alto**: > 150ms
+O projeto implementa as melhores práticas recomendadas de SEO técnico e semântico:
+- **Schema.org Estruturado**: Injeção de metadados ricos em formato JSON-LD com marcações `@graph` de `WebApplication`, `FAQPage` e `BreadcrumbList`.
+- **Open Graph & Twitter Cards**: Tags canônicas completas com imagens pré-configuradas de preview em redes sociais.
+- **Sitemap Canônico (`sitemap.xml`)**: Mapeamento das 3 URLs fundamentais com prioridades balanceadas e frequência de rastreamento.
+- **Controle de Crawlers (`robots.txt`)**: Diretivas amigáveis para robôs de busca.
 
 ---
 
 ## 🔒 Privacidade e Segurança
 
-### Compromisso de Privacidade
+- **100% Client-Side**: O código fonte roda exclusivamente na sua máquina. Não mantemos servidores coletando logs ou armazenando tráfego.
+- **Código Auditável**: Todo o projeto é transparente e distribuído abertamente sob a licença MIT.
+- **Sem Dependências Ocultas**: Nenhum framework externo de terceiros ou script invasivo de anúncios.
 
-✅ **Nenhum dado é armazenado** - Todas as informações são processadas localmente no seu navegador  
-✅ **Sem cookies** - Nenhum dado de tracking ou sessão é persistido no seu dispositivo  
-✅ **Código aberto** - Todo o código é auditável e 100% client-side  
+---
 
-### 📊 Analytics Privacy-First
+## 🚀 Como Usar
 
-O NET INSPECTOR usa [GoatCounter](https://www.goatcounter.com/) para entender como a ferramenta é utilizada, sem comprometer sua privacidade:
+### Acesso Online
+Acesse a versão em produção hospedada globalmente na Cloudflare Pages:
+👉 **[https://netinspector.net/](https://netinspector.net/)**
 
-- ✅ **Sem cookies** - Nenhum dado é armazenado no seu navegador
-- ✅ **Sem tracking cross-site** - Não seguimos você em outros sites
-- ✅ **IP anonimizado** - Seu IP é hasheado e nunca armazenado em texto claro
-- ✅ **Sem banner de consentimento** - Não incomodamos você com popups
-- ✅ **Transparência total** - Você pode ver as estatísticas públicas em tempo real: **[https://netinspector.goatcounter.com/](https://netinspector.goatcounter.com/)**
-- ✅ **Opt-out fácil** - Use o botão "Desativar Analytics" no rodapé de qualquer página (adiciona `?skipgc=on`)
+### Execução em Ambiente Local
 
-**Dados coletados (totalmente anonimizados):**
-- Páginas visitadas (ex: `/meu-ip.html`, `/domain.html`)
-- Referrer (origem da navegação)
-- Navegador e sistema operacional (genéricos, não identificáveis)
-- Tamanho de tela (faixas amplas, não exato)
+Por ser construído em tecnologias nativas, você pode executar o projeto localmente com qualquer servidor estático:
 
-Nenhum dado pessoal é coletado, armazenado ou compartilhado com terceiros.
+```bash
+# Clone o repositório
+git clone https://github.com/fabaodabahia/netinspector.git
+cd netinspector
 
-### Dados Coletados pelas Ferramentas
+# Inicie um servidor HTTP local simples:
+# Opção 1: Python 3
+python -m http.server 8000
 
-As seguintes informações são temporariamente exibidas na tela (não são enviadas para nenhum servidor além das APIs necessárias):
+# Opção 2: Node.js (npx)
+npx serve .
 
-- Endereço IP público (via ipapi.co)
-- Informações do navegador (via Navigator API)
-- IPs locais (via WebRTC)
-
-### APIs de Terceiros
-
-O aplicativo faz requisições para:
-- `ipapi.co` - Para geolocalização por IP
-- `ipify.org` - Para detecção de IPv6
-- `dns.google` / `cloudflare-dns.com` - Para resolução DNS
-
-Essas APIs recebem apenas seu endereço IP como parte da requisição HTTP padrão.
+# Opção 3: PHP
+php -S localhost:8000
+```
+Em seguida, acesse `http://localhost:8000` em seu navegador web.
 
 ---
 
 ## 💻 Compatibilidade
 
-### Navegadores Suportados
-
-| Navegador | Versão Mínima |
-|-----------|--------------|
-| Chrome | 70+ |
-| Firefox | 65+ |
-| Safari | 12+ |
-| Edge | 79+ |
-| Opera | 60+ |
-
-### Requisitos
-
-- JavaScript habilitado
-- Suporte a Fetch API
-- Suporte a WebRTC (opcional, para detecção de IPs locais)
-- Conexão HTTPS (recomendado para algumas APIs)
-
-### Recursos Opcionais
-
-Algumas funcionalidades dependem de APIs específicas do navegador:
-- `navigator.connection` - Informações de rede efetiva
-- `navigator.deviceMemory` - Memória RAM estimada
-- `navigator.hardwareConcurrency` - Número de CPUs
-- WebRTC - Detecção de IPs locais
-
----
-
-## 🛠️ Personalização
-
-### Variáveis CSS (Tema)
-
-Edite as variáveis no `<style>` para personalizar o tema:
-
-```css
-:root {
-  --bg:        #0b0e14;    /* Fundo principal */
-  --surface:   #111620;    /* Fundo dos cards */
-  --border:    #1e2535;    /* Bordas */
-  --accent:    #00d4ff;    /* Cor de destaque primária */
-  --accent2:   #7c3aed;    /* Cor de destaque secundária */
-  --ok:        #22c55e;    /* Sucesso */
-  --warn:      #f59e0b;    /* Atenção */
-  --err:       #ef4444;    /* Erro */
-  --text:      #e2e8f0;    /* Texto principal */
-  --muted:     #64748b;    /* Texto secundário */
-  --label:     #94a3b8;    /* Labels */
-}
-```
-
-### Fontes
-
-O projeto usa:
-- **JetBrains Mono** - Para números, códigos e labels
-- **Inter** - Para texto geral
-
-Ambas são carregadas via Google Fonts.
-
----
-
-## 📝 Notas Técnicas
-
-### Limitações Conhecidas
-
-1. **WebRTC Leak Test** - Pode não funcionar em navegadores com WebRTC desabilitado
-2. **Detecção de VPN** - Baseada em heurísticas de banco de dados de IP, não é 100% precisa
-3. **Modo Incógnito** - A detecção pode não funcionar em todas as versões de navegadores
-4. **IPv6** - Requer que sua rede tenha conectividade IPv6 nativa
-
-### Solução de Problemas
-
-| Problema | Possível Causa | Solução |
-|----------|---------------|---------|
-| IP não carrega | Bloqueio de API | Verifique firewall/antivirus |
-| IPv6 não aparece | Rede sem IPv6 | Normal se seu ISP não oferece |
-| Mapa não mostra | Bloqueio de iframe | Permita iframes do OpenStreetMap |
-| Ping falha | CORS/Network | Tente recarregar a página |
-
----
-
-## 📄 Licença
-
-Este projeto está licenciado sob a **Licença MIT**. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
-### Permissões
-
-✅ Uso comercial  
-✅ Modificação  
-✅ Distribuição  
-✅ Uso privado  
-
-### Requisitos
-
-⚠️ Manter aviso de copyright e licença
-
----
-
-## 🤝 Contribuição
-
-Contribuições são bem-vindas! Sinta-se à vontade para:
-
-1. Reportar bugs
-2. Sugerir melhorias
-3. Enviar pull requests
-
----
-
-## 📞 Suporte
-
-Para dúvidas ou problemas:
-
-1. Verifique este README
-2. Inspecione o console do navegador (F12)
-3. Verifique sua conexão de internet
+O NET INSPECTOR é compatível com os principais navegadores modernos para Desktop e Mobile:
+- **Google Chrome / Chromium**: Versão 70+
+- **Mozilla Firefox**: Versão 68+
+- **Microsoft Edge**: Versão 79+
+- **Apple Safari**: Versão 12.1+
+- **Opera**: Versão 57+
+- **Brave / Vivaldi / Tor Browser**: Totalmente suportados
 
 ---
 
 ## ❓ FAQ - Perguntas Frequentes
 
 ### O que é o NET INSPECTOR?
-NET INSPECTOR é uma ferramenta gratuita de diagnóstico de rede que analisa sua conexão de internet, mostrando informações sobre IP público, ISP, localização, latência, configurações de DNS e possíveis vazamentos de privacidade.
+É um conjunto de ferramentas web gratuitas para diagnóstico completo de conectividade de rede, dados de provedor de internet (ISP), endereço IP público, latência com medição de ping, auditoria de DNS e inspeção de domínios.
 
-### Como funciona o teste de latência?
-O teste de latência mede o tempo de resposta (ping) entre seu dispositivo e servidores DNS públicos como Google (8.8.8.8), Cloudflare (1.1.1.1) e Quad9 (9.9.9.9), exibindo os resultados em milissegundos.
+### Como funciona o teste de latência e ping?
+O teste avalia o tempo de trânsito de ida e volta (Round-Trip Time) até nós globais de alta disponibilidade, computando o valor em milissegundos e classificando visualmente a qualidade da rota da sua conexão.
 
-### O que é um vazamento WebRTC?
-Um vazamento WebRTC ocorre quando seu navegador revela seu endereço IP local ou público mesmo quando você está usando uma VPN, comprometendo sua privacidade. O NET INSPECTOR detecta esses vazamentos.
+### O que é vazamento de WebRTC (WebRTC Leak)?
+Trata-se de uma vulnerabilidade presente em alguns navegadores onde requisições do protocolo de comunicação em tempo real (WebRTC) revelam seu verdadeiro endereço IP local ou público, mesmo com um túnel de VPN ativo. O NET INSPECTOR realiza a checagem e alerta o usuário imediatamente.
 
-### Preciso instalar algo para usar?
-Não! O NET INSPECTOR roda diretamente no seu navegador. Basta abrir a página e a análise começa automaticamente, sem necessidade de instalação ou cadastro.
-
-### Meus dados são armazenados?
-Não. Todas as análises são feitas localmente no seu navegador. Não armazenamos, registramos ou compartilhamos seus dados de conexão com terceiros.
-
-### O que é ISP?
-ISP (Internet Service Provider) é o provedor de serviços de internet, a empresa que fornece seu acesso à internet (ex: Vivo, Claro, Oi, etc.).
-
-### Por que meu IP aparece diferente em outros sites?
-Seu IP público pode variar dependendo da rede que você está usando, se há VPN/proxy ativo, ou se seu provedor usa NAT (CGNAT).
+### Algum dado meu é armazenado?
+Não. Todas as requisições ocorrem diretamente do seu navegador para as APIs de consulta técnica. Nenhum banco de dados ou backend armazena o que você pesquisa ou visualiza.
 
 ---
 
-**NET INSPECTOR** · Dados processados localmente · Nenhuma informação é armazenada
+## 📄 Licença
 
-*Fontes: ipapi.co · ipify.org · WebRTC API · Navigator API*
+Distribuído sob a licença **MIT**. Consulte o arquivo [LICENSE](LICENSE) para termos completos de uso e distribuição.
+
+---
+
+**NET INSPECTOR** · Dados processados localmente · Nenhuma informação pessoal é armazenada  
+*Projeto open source mantido com foco em segurança, transparência e privacidade.*

@@ -1,16 +1,9 @@
 # robots.txt para NET INSPECTOR
-# Permite indexação completa por todos os bots
-
+# https://netinspector.net
 User-agent: *
 Allow: /
-Allow: /?skipgc=
+Disallow: /admin/
+Disallow: /.git/
 
 # Sitemap
 Sitemap: https://netinspector.net/sitemap.xml
-
-# Crawl-delay (opcional, para evitar sobrecarga)
-Crawl-delay: 1
-
-# Bloquear apenas diretórios administrativos (se houver)
-Disallow: /admin/
-Disallow: /.git/
