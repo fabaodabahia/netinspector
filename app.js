@@ -162,7 +162,12 @@ const TRANSLATIONS = {
     footer_stats: 'Ver estatísticas públicas ↗',
     btn_optout_off: 'Desativar Analytics',
     btn_optout_on: 'Ativar Analytics',
-        // ─── WebRTC Education (pt-br) ───
+                // ─── Machine Learning ONNX (pt-br) ───
+        ml_loading: 'Carregando motor de IA (WebAssembly)...',
+        ml_confidence_high: 'Alta Confiança (Regras + IA)',
+        ml_anomaly_detected: 'Anomalia detectada pela IA: Padrões suspeitos não cobertos pelas regras padrão.',
+        ml_score_label: 'Probabilidade IA',
+// ─── WebRTC Education (pt-br) ───
     webrtc_edu_title: 'O que acontece se eu desabilitar o WebRTC?',
     webrtc_edu_summary: 'Desabilitar o WebRTC aumenta sua privacidade ao evitar vazamentos do IP real, mas serviços de áudio/vídeo em tempo real podem parar de funcionar.',
     webrtc_edu_stops_title: 'O que vai parar de funcionar',
@@ -392,7 +397,12 @@ const TRANSLATIONS = {
     footer_stats: 'View public stats ↗',
     btn_optout_off: 'Disable Analytics',
     btn_optout_on: 'Enable Analytics',
-        // ─── WebRTC Education (en) ───
+                // ─── Machine Learning ONNX (en) ───
+        ml_loading: 'Loading AI engine (WebAssembly)...',
+        ml_confidence_high: 'High Confidence (Rules + AI)',
+        ml_anomaly_detected: 'Anomaly detected by AI: Suspicious patterns not covered by default rules.',
+        ml_score_label: 'AI Probability',
+// ─── WebRTC Education (en) ───
     webrtc_edu_title: 'What happens if I disable WebRTC?',
     webrtc_edu_summary: 'Disabling WebRTC increases privacy by preventing real IP leaks, but real-time audio/video services may stop working.',
     webrtc_edu_stops_title: 'What will stop working',
@@ -622,7 +632,12 @@ const TRANSLATIONS = {
     footer_stats: 'Ver estadísticas públicas ↗',
     btn_optout_off: 'Desactivar Analítica',
     btn_optout_on: 'Activar Analítica',
-        // ─── WebRTC Education (es) ───
+                // ─── Machine Learning ONNX (es) ───
+        ml_loading: 'Cargando motor de IA (WebAssembly)...',
+        ml_confidence_high: 'Alta Confianza (Reglas + IA)',
+        ml_anomaly_detected: 'Anomalía detectada por la IA: Patrones sospechosos no cubiertos por las reglas estándar.',
+        ml_score_label: 'Probabilidad IA',
+// ─── WebRTC Education (es) ───
     webrtc_edu_title: '¿Qué sucede si desactivo WebRTC?',
     webrtc_edu_summary: 'Desactivar WebRTC aumenta su privacidad al evitar fugas de la IP real, pero los servicios de audio/video en tiempo real pueden dejar de funcionar.',
     webrtc_edu_stops_title: 'Qué dejará de funcionar',
@@ -849,7 +864,12 @@ const TRANSLATIONS = {
     footer_stats: 'Statistiques publiques ↗',
     btn_optout_off: 'Désactiver les statistiques',
     btn_optout_on: 'Activer les statistiques',
-        // ─── WebRTC Education (fr) ───
+                // ─── Machine Learning ONNX (fr) ───
+        ml_loading: 'Chargement du moteur IA (WebAssembly)...',
+        ml_confidence_high: 'Haute Confiance (Règles + IA)',
+        ml_anomaly_detected: 'Anomalie détectée par l\'IA : Motifs suspects non couverts par les règles par défaut.',
+        ml_score_label: 'Probabilité IA',
+// ─── WebRTC Education (fr) ───
     webrtc_edu_title: 'Que se passe-t-il si je désactive WebRTC ?',
     webrtc_edu_summary: 'La désactivation de WebRTC renforce votre confidentialité en évitant les fuites d’IP réelle, mais les services audio/vidéo en temps réel peuvent cesser de fonctionner.',
     webrtc_edu_stops_title: 'Ce qui cessera de fonctionner',
@@ -1079,7 +1099,12 @@ const TRANSLATIONS = {
     footer_stats: 'Öffentliche Statistiken ↗',
     btn_optout_off: 'Analytics deaktivieren',
     btn_optout_on: 'Analytics aktivieren',
-        // ─── WebRTC Education (de) ───
+                // ─── Machine Learning ONNX (de) ───
+        ml_loading: 'KI-Engine wird geladen (WebAssembly)...',
+        ml_confidence_high: 'Hohe Konfidenz (Regeln + KI)',
+        ml_anomaly_detected: 'Von KI erkannte Anomalie: Verdächtige Muster, die nicht von den Standardregeln abgedeckt werden.',
+        ml_score_label: 'KI-Wahrscheinlichkeit',
+// ─── WebRTC Education (de) ───
     webrtc_edu_title: 'Was passiert, wenn ich WebRTC deaktiviere?',
     webrtc_edu_summary: 'Das Deaktivieren von WebRTC erhöht den Datenschutz, indem echte IP-Leaks verhindert werden, jedoch können Echtzeit-Audio/Video-Dienste beeinträchtigt werden.',
     webrtc_edu_stops_title: 'Was nicht mehr funktioniert',
@@ -1309,7 +1334,12 @@ const TRANSLATIONS = {
     footer_stats: 'Visualizza statistiche pubbliche ↗',
     btn_optout_off: 'Disattiva Statistiche',
     btn_optout_on: 'Attiva Statistiche',
-        // ─── WebRTC Education (it) ───
+                // ─── Machine Learning ONNX (it) ───
+        ml_loading: 'Caricamento del motore IA (WebAssembly)...',
+        ml_confidence_high: 'Alta Confidenza (Regole + IA)',
+        ml_anomaly_detected: 'Anomalia rilevata dall\'IA: Modelli sospetti non coperti dalle regole standard.',
+        ml_score_label: 'Probabilità IA',
+// ─── WebRTC Education (it) ───
     webrtc_edu_title: 'Cosa succede se disabilito WebRTC?',
     webrtc_edu_summary: 'Disabilitare WebRTC aumenta la privacy prevenendo la fuga dell’IP reale, ma i servizi audio/video in tempo reale nel browser potrebbero smettere di funzionare.',
     webrtc_edu_stops_title: 'Cosa smetterà di funzionare',
@@ -1539,7 +1569,12 @@ const TRANSLATIONS = {
     footer_stats: '公開統計を見る ↗',
     btn_optout_off: '解析を無効化',
     btn_optout_on: '解析を有効化',
-        // ─── WebRTC Education (ja) ───
+                // ─── Machine Learning ONNX (ja) ───
+        ml_loading: 'AIエンジンを読み込み中 (WebAssembly)...',
+        ml_confidence_high: '高い信頼度 (ルール + AI)',
+        ml_anomaly_detected: 'AIによる異常検知: 標準ルールでカバーされていない不審なパターン。',
+        ml_score_label: 'AI確率',
+// ─── WebRTC Education (ja) ───
     webrtc_edu_title: 'WebRTCを無効化すると何が起こりますか？',
     webrtc_edu_summary: 'WebRTCを無効にすると本物のIP漏洩を防ぎプライバシーが向上しますが、ブラウザ上のリアルタイム音声・ビデオ通信が動作しなくなる恐れがあります。',
     webrtc_edu_stops_title: '動作しなくなる機能',
@@ -1769,7 +1804,12 @@ const TRANSLATIONS = {
     footer_stats: '查看公开统计 ↗',
     btn_optout_off: '停用访问统计',
     btn_optout_on: '启用访问统计',
-        // ─── WebRTC Education (zh) ───
+                // ─── Machine Learning ONNX (zh) ───
+        ml_loading: '正在加载AI引擎 (WebAssembly)...',
+        ml_confidence_high: '高置信度 (规则 + AI)',
+        ml_anomaly_detected: 'AI检测到异常：标准规则未涵盖的可疑模式。',
+        ml_score_label: 'AI概率',
+// ─── WebRTC Education (zh) ───
     webrtc_edu_title: '如果我禁用 WebRTC 会发生什么？',
     webrtc_edu_summary: '禁用 WebRTC 可以防止真实 IP 泄露并提升隐私保护，但浏览器内的实时音视频与直连通信功能可能无法正常使用。',
     webrtc_edu_stops_title: '将停止工作的功能',
@@ -1999,7 +2039,12 @@ const TRANSLATIONS = {
     footer_stats: 'Открыть публичную статистику ↗',
     btn_optout_off: 'Отключить аналитику',
     btn_optout_on: 'Включить аналитику',
-        // ─── WebRTC Education (ru) ───
+                // ─── Machine Learning ONNX (ru) ───
+        ml_loading: 'Загрузка движка ИИ (WebAssembly)...',
+        ml_confidence_high: 'Высокая уверенность (Правила + ИИ)',
+        ml_anomaly_detected: 'ИИ обнаружил аномалию: подозрительные паттерны, не охваченные стандартными правилами.',
+        ml_score_label: 'Вероятность ИИ',
+// ─── WebRTC Education (ru) ───
     webrtc_edu_title: 'Что произойдет, если отключить WebRTC?',
     webrtc_edu_summary: 'Отключение WebRTC повышает конфиденциальность, предотвращая утечку реального IP, но аудио- и видеосвязь в реальном времени в браузере может перестать работать.',
     webrtc_edu_stops_title: 'Что перестанет работать',
@@ -2229,7 +2274,12 @@ const TRANSLATIONS = {
     footer_stats: 'عرض الإحصائيات العامة ↗',
     btn_optout_off: 'تعطيل الإحصائيات',
     btn_optout_on: 'تفعيل الإحصائيات',
-        // ─── WebRTC Education (ar) ───
+                // ─── Machine Learning ONNX (ar) ───
+        ml_loading: 'جارٍ تحميل محرك الذكاء الاصطناعي (WebAssembly)...',
+        ml_confidence_high: 'ثقة عالية (القواعد + الذكاء الاصطناعي)',
+        ml_anomaly_detected: 'تم اكتشاف شذوذ بواسطة الذكاء الاصطناعي: أنماط مشبوهة لا تغطيها القواعد القياسية.',
+        ml_score_label: 'احتمالية الذكاء الاصطناعي',
+// ─── WebRTC Education (ar) ───
     webrtc_edu_title: 'ماذا يحدث إذا قمت بتعطيل WebRTC؟',
     webrtc_edu_summary: 'يؤدي تعطيل WebRTC إلى تعزيز خصوصيتك بمنع تسريب عنوان IP الحقيقي، ولكن خدمات الصوت والفيديو المباشرة في المتصفح قد تتوقف عن العمل.',
     webrtc_edu_stops_title: 'ما الذي سيتوقف عن العمل',
@@ -4149,6 +4199,11 @@ async function scanDomain() {
   btn.textContent = '⏳ Analisando...';
   log(`🔍 Iniciando análise do domínio: ${domain}`);
   
+  // Lazy load do runtime WebAssembly ONNX em segundo plano
+  if (typeof MLInference !== 'undefined' && typeof MLInference.loadONNXRuntime === 'function') {
+    MLInference.loadONNXRuntime().catch(() => {});
+  }
+  
   try {
     await Promise.all([
       scanIPInfo(domain),
@@ -4975,6 +5030,266 @@ async function scanTLSCompatibility(domain) {
   log('👥 TLS Compatibility: Modern browsers OK');
 }
 
+/* ─────────── 24 Features Vectorizer (Python ⟷ JS Aligned) ─────────── */
+/**
+ * Transforma dados brutos dos scanners em Float32Array de 24 posições
+ * exatamente na mesma ordem e escala do script Python train_model.py
+ * @param {Object} data 
+ * @returns {Float32Array}
+ */
+function prepareTensorForONNX(data) {
+  const feat = new Float32Array(24);
+  if (!data) return feat;
+
+  // 0: ssl_valid (1.0 se válido, 0.0 se inválido/ausente)
+  const isSslValid = data.sslValid && !data.sslValid.includes('Inválido') && !data.sslValid.includes('✗') && !data.sslValid.includes('Expirado');
+  feat[0] = isSslValid ? 1.0 : 0.0;
+
+  // 1: ssl_days_left (0 a 365 normalizado 0.0 - 1.0)
+  let daysNorm = 0.0;
+  if (data.sslDays) {
+    const m = data.sslDays.match(/(\d+)/);
+    if (m) {
+      const days = parseInt(m[1], 10);
+      daysNorm = Math.max(0, Math.min(days, 365)) / 365.0;
+    }
+  }
+  feat[1] = daysNorm;
+
+  // 2: ssl_proto_secure (TLS 1.2/1.3)
+  const isProtoSecure = data.sslProto && (data.sslProto.includes('1.2') || data.sslProto.includes('1.3'));
+  feat[2] = isProtoSecure ? 1.0 : 0.0;
+
+  // 3: ssl_weak_cipher (1.0 se vulnerável, 0.0 se seguro)
+  const isWeakCipher = (data.tlsAuditWeak && data.tlsAuditWeak !== '0' && !data.tlsAuditWeak.includes('Nenhum')) ||
+    (data.tlsAuditPoodle && data.tlsAuditPoodle.includes('Vulnerável')) ||
+    (data.tlsAuditBeast && data.tlsAuditBeast.includes('Vulnerável')) ||
+    (data.tlsAuditCrime && data.tlsAuditCrime.includes('Vulnerável'));
+  feat[3] = isWeakCipher ? 1.0 : 0.0;
+
+  // 4: hsts_enabled
+  const isHsts = data.hstsEnabled && !data.hstsEnabled.includes('Inativo') && !data.hstsEnabled.includes('✗') && !data.hstsEnabled.includes('Não');
+  feat[4] = isHsts ? 1.0 : 0.0;
+
+  // 5: hsts_preload
+  const isPreload = data.hstsPreload && (data.hstsPreload.includes('Sim') || data.hstsPreload.includes('✓'));
+  feat[5] = isPreload ? 1.0 : 0.0;
+
+  // 6: has_csp
+  const isCsp = data.csp && !data.csp.includes('Ausente') && !data.csp.includes('✗');
+  feat[6] = isCsp ? 1.0 : 0.0;
+
+  // 7: has_xframe
+  const isXFrame = data.xframe && !data.xframe.includes('Ausente') && !data.xframe.includes('✗');
+  feat[7] = isXFrame ? 1.0 : 0.0;
+
+  // 8: has_xcontent (nosniff)
+  const isXContent = data.xcontent && data.xcontent.includes('nosniff');
+  feat[8] = isXContent ? 1.0 : 0.0;
+
+  // 9: has_referrer_policy
+  const isRef = data.referrer && !data.referrer.includes('Ausente') && !data.referrer.includes('✗');
+  feat[9] = isRef ? 1.0 : 0.0;
+
+  // 10: has_permissions_policy
+  const isPerm = data.permissions && !data.permissions.includes('Ausente') && !data.permissions.includes('✗');
+  feat[10] = isPerm ? 1.0 : 0.0;
+
+  // 11: server_version_exposed
+  const isServerVer = data.serverHeader && /\d+\.\d+/.test(data.serverHeader);
+  feat[11] = isServerVer ? 1.0 : 0.0;
+
+  // 12: dnssec_enabled
+  const isDnssec = data.dnssec && (data.dnssec.includes('Ativo') || data.dnssec.includes('Sim') || data.dnssec.includes('✓'));
+  feat[12] = isDnssec ? 1.0 : 0.0;
+
+  // 13: has_spf
+  const isSpf = data.spf && !data.spf.includes('Não encontrado') && !data.spf.includes('Ausente') && !data.spf.includes('Inválido');
+  feat[13] = isSpf ? 1.0 : 0.0;
+
+  // 14: dmarc_configured
+  const isDmarc = data.dmarc && !data.dmarc.includes('Não encontrado') && !data.dmarc.includes('Ausente');
+  feat[14] = isDmarc ? 1.0 : 0.0;
+
+  // 15: dmarc_reject_policy
+  const isDmarcReject = data.dmarc && data.dmarc.includes('reject');
+  feat[15] = isDmarcReject ? 1.0 : 0.0;
+
+  // 16: cookies_secure
+  const isCookSec = data.cookiesSecure && !data.cookiesSecure.includes('Ausente');
+  feat[16] = isCookSec ? 1.0 : 0.0;
+
+  // 17: cookies_httponly
+  const isCookHttp = data.cookiesHttpOnly && !data.cookiesHttpOnly.includes('Ausente');
+  feat[17] = isCookHttp ? 1.0 : 0.0;
+
+  // 18: http_redirects_to_https
+  const isRedirectHttps = (data.redirectFinal && data.redirectFinal.startsWith('https://')) || (data.redirectChain && data.redirectChain.includes('https://'));
+  feat[18] = isRedirectHttps ? 1.0 : 0.0;
+
+  // 19: waf_detected
+  const isWaf = data.waf && (data.waf.includes('Detectado') || data.waf.includes('✓') || data.waf.includes('Sim'));
+  feat[19] = isWaf ? 1.0 : 0.0;
+
+  // 20: security_txt_found
+  const isSecTxt = data.securityTxt && (data.securityTxt.includes('Sim') || data.securityTxt.includes('✓') || data.securityTxt.includes('Encontrado'));
+  feat[20] = isSecTxt ? 1.0 : 0.0;
+
+  // 21: malware_detected
+  const isMalware = (data.malwareThreat && (data.malwareThreat.includes('Malicious') || data.malwareThreat.includes('Alto') || data.malwareThreat.includes('High'))) ||
+    (data.malwareGoogle && data.malwareGoogle.includes('Infectado'));
+  feat[21] = isMalware ? 1.0 : 0.0;
+
+  // 22: open_risky_ports
+  const isPortRisky = (data.port21 && (data.port21.includes('Aberto') || data.port21.includes('Open'))) ||
+    (data.port22 && (data.port22.includes('Aberto') || data.port22.includes('Open'))) ||
+    (data.port23 && (data.port23.includes('Aberto') || data.port23.includes('Open')));
+  feat[22] = isPortRisky ? 1.0 : 0.0;
+
+  // 23: domain_age_years (0 a 10 anos normalizado)
+  let ageNorm = 0.5;
+  if (data.whoisCreated) {
+    const yearMatch = data.whoisCreated.match(/(\d{4})/);
+    if (yearMatch) {
+      const year = parseInt(yearMatch[1], 10);
+      const curYear = new Date().getFullYear();
+      const diff = Math.max(0, curYear - year);
+      ageNorm = Math.min(diff, 10) / 10.0;
+    }
+  }
+  feat[23] = ageNorm;
+
+  return feat;
+}
+
+/* ─────────── ML Inference (ONNX WebAssembly) ─────────── */
+const MLInference = {
+  _session: null,
+  _loadingPromise: null,
+  _isReady: false,
+
+  /**
+   * 1. Lazy Loading do WASM:
+   * Injeta dinamicamente <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js">
+   * Apenas quando o usuário clicar em "Analisar Domínio".
+   */
+  async loadONNXRuntime() {
+    if (window.ort) return window.ort;
+    if (this._loadingPromise) return this._loadingPromise;
+
+    this._loadingPromise = new Promise((resolve, reject) => {
+      try {
+        if (typeof log === 'function') {
+          log('🧠 ' + (typeof t === 'function' ? t('ml_loading') : 'Carregando motor de IA (WebAssembly)...'));
+        }
+      } catch (_) {}
+
+      // Se já existir a tag no DOM
+      const existing = document.querySelector('script[src*="onnxruntime-web"]');
+      if (existing) {
+        existing.addEventListener('load', () => resolve(window.ort));
+        existing.addEventListener('error', err => reject(err));
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js';
+      script.async = true;
+      script.onload = () => {
+        if (typeof ort !== 'undefined') {
+          try {
+            ort.env.wasm.numThreads = 1;
+            ort.env.wasm.simd = true;
+          } catch (_) {}
+          resolve(ort);
+        } else {
+          reject(new Error('Objeto ort não disponível após carregar script'));
+        }
+      };
+      script.onerror = err => reject(err);
+      document.head.appendChild(script);
+    });
+
+    return this._loadingPromise;
+  },
+
+  /**
+   * 2. Carregamento do Modelo:
+   * Baixa ./models/security-model.onnx via fetch() e cria InferenceSession com cache em memória
+   */
+  async getSession() {
+    if (this._session) return this._session;
+
+    const ort = await this.loadONNXRuntime();
+
+    try {
+      const resp = await fetch('./models/security-model.onnx');
+      if (!resp.ok) throw new Error(`HTTP ${resp.status} ao carregar modelo ONNX`);
+      const buffer = await resp.arrayBuffer();
+      this._session = await ort.InferenceSession.create(buffer, {
+        executionProviders: ['wasm']
+      });
+      this._isReady = true;
+      return this._session;
+    } catch (fetchErr) {
+      console.warn('MLInference: fallback para carregamento direto via URL', fetchErr);
+      this._session = await ort.InferenceSession.create('./models/security-model.onnx', {
+        executionProviders: ['wasm']
+      });
+      this._isReady = true;
+      return this._session;
+    }
+  },
+
+  /**
+   * 3. Extração e Preparação de Features (Tensor):
+   * Converte array de 24 floats no tensor [1, 24]
+   */
+  prepareTensorForONNX(domainData) {
+    const rawArray = prepareTensorForONNX(domainData);
+    if (!window.ort) return null;
+    return new ort.Tensor('float32', rawArray, [1, 24]);
+  },
+
+  /**
+   * 4. Inferência e Ensemble:
+   * Executa a inferência no modelo ONNX e retorna a probabilidade de segurança
+   */
+  async runInference(domainData) {
+    try {
+      const session = await this.getSession();
+      const tensor = this.prepareTensorForONNX(domainData);
+      if (!tensor) return null;
+
+      const feeds = { input: tensor };
+      const output = await session.run(feeds);
+
+      let probSafe = 0.5;
+      if (output.probabilities && output.probabilities.data) {
+        // [prob_vulneravel, prob_seguro]
+        probSafe = output.probabilities.data[1];
+      } else if (output.label && output.label.data) {
+        const lbl = Number(output.label.data[0]);
+        probSafe = lbl === 1 ? 0.95 : 0.05;
+      } else {
+        const outKeys = Object.keys(output);
+        if (outKeys.length > 1 && output[outKeys[1]]?.data) {
+          probSafe = output[outKeys[1]].data[1];
+        }
+      }
+
+      const clampedProb = Math.max(0.0, Math.min(1.0, Number(probSafe)));
+      return {
+        probSafe: clampedProb,
+        percent: Math.round(clampedProb * 100)
+      };
+    } catch (err) {
+      console.warn('MLInference runInference falhou:', err);
+      return null;
+    }
+  }
+};
+
 /* ─────────── Local Security AI (Sistema Especialista de Regras) ─────────── */
 const SecurityAnalyzer = {
   _lastAnalysis: null,
@@ -5091,7 +5406,11 @@ const SecurityAnalyzer = {
       waf: clean('v-firewall-waf'),
       securityTxt: clean('v-sectxt-found'),
       malwareThreat: clean('v-malware-threat'),
-      malwareGoogle: clean('v-malware-google')
+      malwareGoogle: clean('v-malware-google'),
+      port21: clean('v-ports-21'),
+      port22: clean('v-ports-22'),
+      port23: clean('v-ports-23'),
+      whoisCreated: clean('v-whois-created')
     };
   },
 
@@ -5435,6 +5754,23 @@ const SecurityAnalyzer = {
         <div class="score-bar">
           <div class="score-fill" id="ai-score-fill" style="width: 0%;"></div>
         </div>
+        ${analysis.ml ? `
+          <div class="ml-badge-container">
+            <span class="badge-ml">
+              🧠 ${t('ml_score_label')}: ${analysis.ml.percent}%
+            </span>
+            ${analysis.mlConsensus === 'high' ? `
+              <span class="badge-consensus">
+                ✓ ${t('ml_confidence_high')}
+              </span>
+            ` : ''}
+            ${analysis.mlAnomaly ? `
+              <span class="badge-anomaly">
+                ⚠️ ${t('ml_anomaly_detected')}
+              </span>
+            ` : ''}
+          </div>
+        ` : ''}
       </div>
     `;
 
@@ -5570,6 +5906,41 @@ const SecurityAnalyzer = {
       const data = this.collectDomainData();
       const analysis = this.analyzeDomain(data);
       this.renderAnalysis(analysis, targetEl);
+
+      // Inferência ML ONNX client-side via WebAssembly
+      try {
+        if (typeof MLInference !== 'undefined' && typeof MLInference.runInference === 'function') {
+          const mlResult = await MLInference.runInference(data);
+          if (mlResult) {
+            analysis.ml = mlResult;
+
+            // Lógica de Ensemble (Consenso Regras + ML)
+            const rulesSafe = analysis.score >= 70;
+            const mlSafe = mlResult.probSafe >= 0.6;
+            const rulesVerySafe = analysis.score > 80;
+            const mlVerySafe = mlResult.probSafe > 0.8;
+
+            if (rulesVerySafe && mlVerySafe) {
+              analysis.mlConsensus = 'high';
+            } else if (rulesSafe !== mlSafe) {
+              analysis.mlAnomaly = true;
+              const alreadyHas = analysis.findings.some(f => f.id === 'ml_anomaly_detected');
+              if (!alreadyHas) {
+                analysis.findings.unshift({
+                  id: 'ml_anomaly_detected',
+                  severity: 'warning',
+                  points: 0
+                });
+              }
+            }
+
+            // Re-renderiza com as informações do ML integradas
+            this.renderAnalysis(analysis, targetEl);
+          }
+        }
+      } catch (errMl) {
+        console.warn('ML Inference run failed:', errMl);
+      }
     } else {
       const data = this.collectPersonalData();
       const analysis = this.analyzePersonalNetwork(data);
@@ -5825,4 +6196,6 @@ window.toggleLangDropdown = toggleLangDropdown;
 window.t = t;
 window.applyTranslations = applyTranslations;
 window.SecurityAnalyzer = SecurityAnalyzer;
+window.MLInference = MLInference;
+window.prepareTensorForONNX = prepareTensorForONNX;
 window.SUPPORTED_LANGS = SUPPORTED_LANGS;
