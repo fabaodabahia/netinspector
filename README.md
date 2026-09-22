@@ -48,6 +48,7 @@ O repositório é composto por 8 arquivos essenciais, perfeitamente desacoplados
 netinspector/
 ├── index.html       # Redirecionamento canônico e inteligente para /meu-ip.html
 ├── meu-ip.html      # Página Principal (Home: IP / ISP / Localização / Log, data-page="home")
+├── dns-leak.html    # Auditoria de Privacidade VPN / Teste de Vazamento DNS & WebRTC (data-page="dnsleak")
 ├── domain.html      # Analisador de Domínio com 36 scanners (data-page="domain")
 ├── style.css        # Design System centralizado (CSS variables, seletor i18n e responsividade)
 ├── app.js           # Núcleo reativo (i18n com 10 idiomas, ApiManager, Card Factory, Scanners)
@@ -76,7 +77,17 @@ Nova página inicial focada na identificação imediata de identidade de rede e 
   - **Log de Diagnóstico**: Terminal em tempo real registrando o andamento das requisições assíncronas.
 - **Conteúdo Didático e SEO**: Artigos aprofundados explicando blocos de endereçamento, geolocalização e diferenças práticas entre IPv4 e IPv6.
 
-### 3. Analisador de Domínio (`domain.html`) — `data-page="domain"`
+### 3. Teste de Vazamento DNS e WebRTC (`dns-leak.html`) — `data-page="dnsleak"`
+Landing page voltada para auditoria de conexões VPN, Proxy e proteção da privacidade:
+- **Hero Audit Section**: Indicador de integridade e auditoria de privacidade de navegação.
+- **Cards Focados em Privacidade**:
+  - **Endereços IP**: Verificação de IPv4, IPv6 e detecção de bypass de WebRTC expondo o IP real.
+  - **Segurança & Privacidade**: Detecção de VPN/Proxy, nó de saída Tor, modo anônimo, suporte a DoH/DoT e versão TLS.
+  - **Latência & DNS**: Medição de ping HTTP, servidor DNS ativo e tempo de resolução.
+  - **Log de Diagnóstico**: Acompanhamento passo a passo dos testes de segurança.
+- **Conteúdo Didático e FAQ**: Explicação de vazamentos de DNS (DNS Leak), riscos de WebRTC STUN bypass, protocolos DoH/DoT e guia de correção.
+
+### 4. Analisador de Domínio (`domain.html`) — `data-page="domain"`
 Ferramenta para auditoria completa de qualquer site ou domínio da web:
 - **36 Scanners Concorrentes**:
   - Registros DNS completos (`A`, `AAAA`, `MX`, `NS`, `TXT`, `CNAME`, `SOA`, `CAA`, `PTR`).
