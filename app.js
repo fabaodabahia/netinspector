@@ -2517,24 +2517,7 @@ const CARDS_CONFIG = [
       { labelKey: 'lbl_ipv6_public', label: 'IPv6 público', id: 'v-ipv6', class: 'accent', defaultValue: '<span class="spin"></span>' },
       { labelKey: 'lbl_ip_local', label: 'IP local (LAN)', id: 'v-local' },
       { labelKey: 'lbl_ipv6_local', label: 'IPv6 local', id: 'v-local6' },
-      { labelKey: 'lbl_webrtc_leak', label: 'WebRTC leak', id: 'v-webrtc', defaultValue: 'testando…' },
-      {
-        type: 'details',
-        id: 'webrtc-details',
-        summaryKey: 'webrtc_edu_learn_more',
-        contentKeys: [
-          'webrtc_edu_summary',
-          'webrtc_edu_stops_title',
-          'webrtc_edu_stops_voip',
-          'webrtc_edu_stops_p2p',
-          'webrtc_edu_stops_gaming',
-          'webrtc_edu_safe_title',
-          'webrtc_edu_safe_apps',
-          'webrtc_edu_safe_streaming',
-          'webrtc_edu_safe_browsing',
-          'webrtc_edu_tip'
-        ]
-      }
+      { labelKey: 'lbl_webrtc_leak', label: 'WebRTC leak', id: 'v-webrtc', defaultValue: 'testando…' }
     ]
   },
   {
@@ -5129,12 +5112,7 @@ const SecurityAnalyzer = {
     // WebRTC Leak
     if (data.webrtcLeak) {
       score -= 20;
-      findings.push({
-        id: 'risk_webrtc_leak',
-        severity: 'critical',
-        points: -20,
-        hasDetails: true
-      });
+      findings.push({ id: 'risk_webrtc_leak', severity: 'critical', points: -20 });
     }
 
     // IPv6 disponível mas desprotegido (se estiver em VPN no IPv4 mas IPv6 vazando)
@@ -5414,7 +5392,11 @@ const SecurityAnalyzer = {
       const recKey = map[f.id];
       if (recKey && !seen.has(recKey)) {
         seen.add(recKey);
-        recs.push({ key: recKey, severity: f.severity });
+        const recObj = { key: recKey, severity: f.severity };
+        if (f.id === 'risk_webrtc_leak') {
+          recObj.hasWebRtcEdu = true;
+        }
+        recs.push(recObj);
       }
     });
 
@@ -5471,30 +5453,7 @@ const SecurityAnalyzer = {
         <div class="findings-section critical">
           <h4>🔴 ${t('risks_critical')} (${criticalList.length})</h4>
           <ul>
-            ${criticalList.map(item => `
-              <li>
-                <div><strong>${item.points} pts:</strong> ${t(item.id)} ${item.owasp ? `<span style="opacity:0.75">[OWASP ${item.owasp}]</span>` : ''}</div>
-                ${item.hasDetails ? `
-                  <details class="finding-details">
-                    <summary>ℹ️ ${t('webrtc_edu_learn_more')}</summary>
-                    <div class="finding-edu-content">
-                      <p class="webrtc-summary">${t('webrtc_edu_summary')}</p>
-                      <h5>⚠️ ${t('webrtc_edu_stops_title')}</h5>
-                      <ul>
-                        <li>📹 ${t('webrtc_edu_stops_voip')}</li>
-                        <li>📤 ${t('webrtc_edu_stops_p2p')}</li>
-                      </ul>
-                      <h5>✅ ${t('webrtc_edu_safe_title')}</h5>
-                      <ul>
-                        <li>💻 ${t('webrtc_edu_safe_apps')}</li>
-                        <li>📺 ${t('webrtc_edu_safe_streaming')}</li>
-                      </ul>
-                      <p class="webrtc-tip">💡 ${t('webrtc_edu_tip')}</p>
-                    </div>
-                  </details>
-                ` : ''}
-              </li>
-            `).join('')}
+            ${criticalList.map(item => `<li><strong>${item.points} pts:</strong> ${t(item.id)} ${item.owasp ? `<span style="opacity:0.75">[OWASP ${item.owasp}]</span>` : ''}</li>`).join('')}
           </ul>
         </div>
       `;
@@ -5542,7 +5501,35 @@ const SecurityAnalyzer = {
         <div class="recommendations-section">
           <h4>💡 ${t('recommendations_title')} (${recommendations.length})</h4>
           <ol>
-            ${recommendations.map(rec => `<li>${t(rec.key)}</li>`).join('')}
+            ${recommendations.map(rec => `
+              <li>
+                <strong>💡 ${t(rec.key)}</strong>
+                ${rec.hasWebRtcEdu ? `
+                  <details class="webrtc-details recommendation-details">
+                    <summary>ℹ️ ${t('webrtc_edu_learn_more')}</summary>
+                    <div class="webrtc-edu-content">
+                      <p class="webrtc-summary">${t('webrtc_edu_summary')}</p>
+                      
+                      <h5>⚠️ ${t('webrtc_edu_stops_title')}</h5>
+                      <ul>
+                        <li>📹 ${t('webrtc_edu_stops_voip')}</li>
+                        <li>📤 ${t('webrtc_edu_stops_p2p')}</li>
+                        <li>🎮 ${t('webrtc_edu_stops_gaming')}</li>
+                      </ul>
+                      
+                      <h5>✅ ${t('webrtc_edu_safe_title')}</h5>
+                      <ul>
+                        <li>💻 ${t('webrtc_edu_safe_apps')}</li>
+                        <li>📺 ${t('webrtc_edu_safe_streaming')}</li>
+                        <li>🌐 ${t('webrtc_edu_safe_browsing')}</li>
+                      </ul>
+                      
+                      <p class="webrtc-tip">💡 ${t('webrtc_edu_tip')}</p>
+                    </div>
+                  </details>
+                ` : ''}
+              </li>
+            `).join('')}
           </ol>
         </div>
       `;
