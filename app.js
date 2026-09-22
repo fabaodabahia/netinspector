@@ -161,7 +161,76 @@ const TRANSLATIONS = {
     footer_analytics: '📊 Analytics privacy-first via GoatCounter (sem cookies) —',
     footer_stats: 'Ver estatísticas públicas ↗',
     btn_optout_off: 'Desativar Analytics',
-    btn_optout_on: 'Ativar Analytics'
+    btn_optout_on: 'Ativar Analytics',
+    // ─── Security AI (pt-br) ───
+    ai_security_title: '🤖 Análise de Segurança IA',
+    ai_analyzing: 'Analisando...',
+    ai_awaiting: 'Aguardando dados...',
+    score_label: 'Score de Segurança',
+    score_excellent: 'Excelente',
+    score_good: 'Bom',
+    score_moderate: 'Moderado',
+    score_poor: 'Ruim',
+    score_critical: 'Crítico',
+    risks_critical: 'Riscos Críticos',
+    risks_warning: 'Pontos de Atenção',
+    risks_info: 'Informações',
+    strengths_positive: 'Pontos Fortes',
+    recommendations_title: 'Recomendações',
+    no_critical_risks: '🎉 Nenhum risco crítico detectado!',
+    insufficient_data: 'Dados insuficientes para análise completa',
+    risk_dns_leak: 'DNS Leak detectado — seu ISP pode ver todos os sites visitados',
+    risk_webrtc_leak: 'WebRTC vazando seu IP real',
+    risk_no_vpn: 'Nenhuma VPN/Proxy detectado',
+    risk_no_doh: 'DNS-over-HTTPS não habilitado',
+    risk_ipv6_unprotected: 'IPv6 disponível mas sem proteção VPN',
+    risk_ssl_invalid: 'Certificado SSL inválido ou expirado',
+    risk_ssl_expiring_critical: 'Certificado SSL expira em menos de 7 dias',
+    risk_ssl_expiring_soon: 'Certificado SSL expira em menos de 30 dias',
+    risk_tls_weak: 'Protocolo TLS fraco (1.0 ou 1.1)',
+    risk_cipher_weak: 'Cipher fraco detectado (vulnerável a POODLE/BEAST/CRIME)',
+    risk_no_hsts: 'HSTS não habilitado',
+    risk_missing_csp: 'Falta header Content-Security-Policy',
+    risk_missing_xframe: 'Falta header X-Frame-Options',
+    risk_missing_xcontent: 'Falta header X-Content-Type-Options',
+    risk_missing_referrer: 'Falta header Referrer-Policy',
+    risk_missing_permissions: 'Falta header Permissions-Policy',
+    risk_server_version: 'Servidor expõe versão (information disclosure)',
+    risk_no_dnssec: 'DNSSEC não habilitado',
+    risk_no_spf: 'Registro SPF ausente ou inválido',
+    risk_no_dmarc: 'DMARC ausente ou policy fraca',
+    risk_cookies_insecure: 'Cookies sem flag Secure',
+    risk_cookies_no_httponly: 'Cookies sem flag HttpOnly',
+    risk_no_https_redirect: 'Sem redirect HTTP → HTTPS',
+    risk_malware_detected: 'Domínio marcado como malware/phishing',
+    positive_tor: 'Conexão via Tor detectada',
+    positive_dual_stack: 'IPv4 e IPv6 ambos disponíveis',
+    positive_vpn_active: 'VPN/Proxy ativo',
+    positive_doh_active: 'DNS-over-HTTPS ativo',
+    positive_waf: 'Web Application Firewall detectado',
+    positive_security_txt: 'security.txt encontrado',
+    positive_hsts_preload: 'HSTS com preload habilitado',
+    positive_dmarc_reject: 'DMARC com policy reject',
+    rec_dns_leak: 'Configure DNS privado ou ative VPN para evitar DNS leaks',
+    rec_webrtc_leak: 'Desative WebRTC no navegador ou use extensão anti-leak',
+    rec_enable_vpn: 'Considere usar VPN para proteger sua privacidade',
+    rec_enable_doh: 'Ative DNS-over-HTTPS (DoH) nas configurações do navegador',
+    rec_renew_ssl: 'Renove o certificado SSL urgentemente',
+    rec_upgrade_tls: 'Atualize para TLS 1.2 ou superior',
+    rec_fix_cipher: 'Remova ciphers fracos da configuração do servidor',
+    rec_enable_hsts: 'Habilite HSTS com max-age mínimo de 1 ano',
+    rec_add_csp: 'Adicione header Content-Security-Policy',
+    rec_add_xframe: 'Adicione header X-Frame-Options: DENY',
+    rec_add_xcontent: 'Adicione header X-Content-Type-Options: nosniff',
+    rec_add_referrer: 'Adicione header Referrer-Policy',
+    rec_add_permissions: 'Adicione header Permissions-Policy',
+    rec_hide_server: 'Remova header Server que expõe versão',
+    rec_enable_dnssec: 'Habilite DNSSEC no domínio',
+    rec_configure_spf: 'Configure registro SPF válido',
+    rec_configure_dmarc: 'Configure DMARC com policy quarantine ou reject',
+    rec_secure_cookies: 'Adicione flag Secure em todos os cookies',
+    rec_force_https: 'Implemente redirect HTTP → HTTPS',
+    rec_remove_malware: 'Remova imediatamente qualquer malware do servidor',
   },
   'en': {
     logo_subtitle: 'Full connection &amp; ISP diagnostics',
@@ -306,7 +375,76 @@ const TRANSLATIONS = {
     footer_analytics: '📊 Privacy-first analytics via GoatCounter (no cookies) —',
     footer_stats: 'View public stats ↗',
     btn_optout_off: 'Disable Analytics',
-    btn_optout_on: 'Enable Analytics'
+    btn_optout_on: 'Enable Analytics',
+    // ─── Security AI (en) ───
+    ai_security_title: '🤖 AI Security Analysis',
+    ai_analyzing: 'Analyzing...',
+    ai_awaiting: 'Waiting for data...',
+    score_label: 'Security Score',
+    score_excellent: 'Excellent',
+    score_good: 'Good',
+    score_moderate: 'Moderate',
+    score_poor: 'Poor',
+    score_critical: 'Critical',
+    risks_critical: 'Critical Risks',
+    risks_warning: 'Warnings',
+    risks_info: 'Information',
+    strengths_positive: 'Strengths',
+    recommendations_title: 'Recommendations',
+    no_critical_risks: '🎉 No critical risks detected!',
+    insufficient_data: 'Insufficient data for complete analysis',
+    risk_dns_leak: 'DNS Leak detected — your ISP can see all visited sites',
+    risk_webrtc_leak: 'WebRTC leaking your real IP',
+    risk_no_vpn: 'No VPN/Proxy detected',
+    risk_no_doh: 'DNS-over-HTTPS not enabled',
+    risk_ipv6_unprotected: 'IPv6 available without VPN protection',
+    risk_ssl_invalid: 'Invalid or expired SSL certificate',
+    risk_ssl_expiring_critical: 'SSL certificate expires in less than 7 days',
+    risk_ssl_expiring_soon: 'SSL certificate expires in less than 30 days',
+    risk_tls_weak: 'Weak TLS protocol (1.0 or 1.1)',
+    risk_cipher_weak: 'Weak cipher detected (vulnerable to POODLE/BEAST/CRIME)',
+    risk_no_hsts: 'HSTS not enabled',
+    risk_missing_csp: 'Missing Content-Security-Policy header',
+    risk_missing_xframe: 'Missing X-Frame-Options header',
+    risk_missing_xcontent: 'Missing X-Content-Type-Options header',
+    risk_missing_referrer: 'Missing Referrer-Policy header',
+    risk_missing_permissions: 'Missing Permissions-Policy header',
+    risk_server_version: 'Server exposes version (information disclosure)',
+    risk_no_dnssec: 'DNSSEC not enabled',
+    risk_no_spf: 'Missing or invalid SPF record',
+    risk_no_dmarc: 'Missing or weak DMARC policy',
+    risk_cookies_insecure: 'Cookies without Secure flag',
+    risk_cookies_no_httponly: 'Cookies without HttpOnly flag',
+    risk_no_https_redirect: 'No HTTP → HTTPS redirect',
+    risk_malware_detected: 'Domain flagged as malware/phishing',
+    positive_tor: 'Tor connection detected',
+    positive_dual_stack: 'IPv4 and IPv6 both available',
+    positive_vpn_active: 'VPN/Proxy active',
+    positive_doh_active: 'DNS-over-HTTPS active',
+    positive_waf: 'Web Application Firewall detected',
+    positive_security_txt: 'security.txt found',
+    positive_hsts_preload: 'HSTS with preload enabled',
+    positive_dmarc_reject: 'DMARC with reject policy',
+    rec_dns_leak: 'Configure private DNS or enable VPN to prevent DNS leaks',
+    rec_webrtc_leak: 'Disable WebRTC in browser or use an anti-leak extension',
+    rec_enable_vpn: 'Consider using a VPN to protect your privacy',
+    rec_enable_doh: 'Enable DNS-over-HTTPS (DoH) in browser settings',
+    rec_renew_ssl: 'Renew SSL certificate urgently',
+    rec_upgrade_tls: 'Upgrade to TLS 1.2 or higher',
+    rec_fix_cipher: 'Remove weak ciphers from server configuration',
+    rec_enable_hsts: 'Enable HSTS with min 1-year max-age',
+    rec_add_csp: 'Add Content-Security-Policy header',
+    rec_add_xframe: 'Add X-Frame-Options: DENY header',
+    rec_add_xcontent: 'Add X-Content-Type-Options: nosniff header',
+    rec_add_referrer: 'Add Referrer-Policy header',
+    rec_add_permissions: 'Add Permissions-Policy header',
+    rec_hide_server: 'Remove Server header exposing version',
+    rec_enable_dnssec: 'Enable DNSSEC on domain',
+    rec_configure_spf: 'Configure valid SPF record',
+    rec_configure_dmarc: 'Configure DMARC with quarantine or reject policy',
+    rec_secure_cookies: 'Add Secure flag to all cookies',
+    rec_force_https: 'Implement HTTP → HTTPS redirect',
+    rec_remove_malware: 'Immediately clean malware from server',
   },
   'es': {
     logo_subtitle: 'Diagnóstico completo de conexión e ISP',
@@ -451,7 +589,76 @@ const TRANSLATIONS = {
     footer_analytics: '📊 Analítica privacy-first con GoatCounter (sin cookies) —',
     footer_stats: 'Ver estadísticas públicas ↗',
     btn_optout_off: 'Desactivar Analítica',
-    btn_optout_on: 'Activar Analítica'
+    btn_optout_on: 'Activar Analítica',
+    // ─── Security AI (es) ───
+    ai_security_title: '🤖 Análisis de Seguridad IA',
+    ai_analyzing: 'Analizando...',
+    ai_awaiting: 'Esperando datos...',
+    score_label: 'Puntuación de Seguridad',
+    score_excellent: 'Excelente',
+    score_good: 'Bueno',
+    score_moderate: 'Moderado',
+    score_poor: 'Deficiente',
+    score_critical: 'Crítico',
+    risks_critical: 'Riesgos Críticos',
+    risks_warning: 'Puntos de Atención',
+    risks_info: 'Información',
+    strengths_positive: 'Puntos Fuertes',
+    recommendations_title: 'Recomendaciones',
+    no_critical_risks: '🎉 ¡No se detectaron riesgos críticos!',
+    insufficient_data: 'Datos insuficientes para análisis completo',
+    risk_dns_leak: 'Fuga de DNS detectada — su ISP puede ver todos los sitios visitados',
+    risk_webrtc_leak: 'WebRTC filtrando su IP real',
+    risk_no_vpn: 'Ninguna VPN/Proxy detectado',
+    risk_no_doh: 'DNS-over-HTTPS no habilitado',
+    risk_ipv6_unprotected: 'IPv6 disponible sin protección VPN',
+    risk_ssl_invalid: 'Certificado SSL inválido o vencido',
+    risk_ssl_expiring_critical: 'Certificado SSL expira en menos de 7 días',
+    risk_ssl_expiring_soon: 'Certificado SSL expira en menos de 30 días',
+    risk_tls_weak: 'Protocolo TLS débil (1.0 o 1.1)',
+    risk_cipher_weak: 'Cifrado débil detectado (vulnerable a POODLE/BEAST/CRIME)',
+    risk_no_hsts: 'HSTS no habilitado',
+    risk_missing_csp: 'Falta encabezado Content-Security-Policy',
+    risk_missing_xframe: 'Falta encabezado X-Frame-Options',
+    risk_missing_xcontent: 'Falta encabezado X-Content-Type-Options',
+    risk_missing_referrer: 'Falta encabezado Referrer-Policy',
+    risk_missing_permissions: 'Falta encabezado Permissions-Policy',
+    risk_server_version: 'Servidor expone versión (divulgación de información)',
+    risk_no_dnssec: 'DNSSEC no habilitado',
+    risk_no_spf: 'Registro SPF ausente o inválido',
+    risk_no_dmarc: 'DMARC ausente o política débil',
+    risk_cookies_insecure: 'Cookies sin flag Secure',
+    risk_cookies_no_httponly: 'Cookies sin flag HttpOnly',
+    risk_no_https_redirect: 'Sin redirección HTTP → HTTPS',
+    risk_malware_detected: 'Dominio marcado como malware/phishing',
+    positive_tor: 'Conexión Tor detectada',
+    positive_dual_stack: 'IPv4 e IPv6 ambos disponibles',
+    positive_vpn_active: 'VPN/Proxy activo',
+    positive_doh_active: 'DNS-over-HTTPS activo',
+    positive_waf: 'Firewall de Aplicaciones Web detectado',
+    positive_security_txt: 'security.txt encontrado',
+    positive_hsts_preload: 'HSTS con precarga habilitado',
+    positive_dmarc_reject: 'DMARC con política reject',
+    rec_dns_leak: 'Configure DNS privado o active VPN para evitar fugas de DNS',
+    rec_webrtc_leak: 'Desactive WebRTC en el navegador o use extensión anti-fugas',
+    rec_enable_vpn: 'Considere usar una VPN para proteger su privacidad',
+    rec_enable_doh: 'Active DNS-over-HTTPS (DoH) en la configuración del navegador',
+    rec_renew_ssl: 'Renueve el certificado SSL urgentemente',
+    rec_upgrade_tls: 'Actualice a TLS 1.2 o superior',
+    rec_fix_cipher: 'Elimine cifrados débiles de la configuración del servidor',
+    rec_enable_hsts: 'Habilite HSTS con max-age mínimo de 1 año',
+    rec_add_csp: 'Añada el encabezado Content-Security-Policy',
+    rec_add_xframe: 'Añada el encabezado X-Frame-Options: DENY',
+    rec_add_xcontent: 'Añada el encabezado X-Content-Type-Options: nosniff',
+    rec_add_referrer: 'Añada el encabezado Referrer-Policy',
+    rec_add_permissions: 'Añada el encabezado Permissions-Policy',
+    rec_hide_server: 'Elimine encabezado Server que expone versión',
+    rec_enable_dnssec: 'Habilite DNSSEC en el dominio',
+    rec_configure_spf: 'Configure un registro SPF válido',
+    rec_configure_dmarc: 'Configure DMARC con política quarantine o reject',
+    rec_secure_cookies: 'Añada la flag Secure a todas las cookies',
+    rec_force_https: 'Implemente redirección HTTP → HTTPS',
+    rec_remove_malware: 'Elimine inmediatamente cualquier malware del servidor',
   },
   'fr': {
     logo_subtitle: 'Diagnostic complet de connexion &amp; FAI',
@@ -593,7 +800,76 @@ const TRANSLATIONS = {
     footer_analytics: '📊 Statistiques respectueuses de la vie privée via GoatCounter (sans cookies) —',
     footer_stats: 'Statistiques publiques ↗',
     btn_optout_off: 'Désactiver les statistiques',
-    btn_optout_on: 'Activer les statistiques'
+    btn_optout_on: 'Activer les statistiques',
+    // ─── Security AI (fr) ───
+    ai_security_title: '🤖 Analyse de Sécurité IA',
+    ai_analyzing: 'Analyse en cours...',
+    ai_awaiting: 'En attente de données...',
+    score_label: 'Score de Sécurité',
+    score_excellent: 'Excellent',
+    score_good: 'Bon',
+    score_moderate: 'Modéré',
+    score_poor: 'Médiocre',
+    score_critical: 'Critique',
+    risks_critical: 'Risques Critiques',
+    risks_warning: 'Points d’Attention',
+    risks_info: 'Informations',
+    strengths_positive: 'Points Forts',
+    recommendations_title: 'Recommandations',
+    no_critical_risks: '🎉 Aucun risque critique détecté !',
+    insufficient_data: 'Données insuffisantes pour une analyse complète',
+    risk_dns_leak: 'Fuite DNS détectée — votre FAI peut voir tous les sites visités',
+    risk_webrtc_leak: 'WebRTC fuit votre véritable adresse IP',
+    risk_no_vpn: 'Aucun VPN/Proxy détecté',
+    risk_no_doh: 'DNS-over-HTTPS non activé',
+    risk_ipv6_unprotected: 'IPv6 disponible sans protection VPN',
+    risk_ssl_invalid: 'Certificat SSL invalide ou expiré',
+    risk_ssl_expiring_critical: 'Certificat SSL expire dans moins de 7 jours',
+    risk_ssl_expiring_soon: 'Certificat SSL expire dans moins de 30 jours',
+    risk_tls_weak: 'Protocole TLS obsolète (1.0 ou 1.1)',
+    risk_cipher_weak: 'Chiffrement faible détecté (vulnérable POODLE/BEAST/CRIME)',
+    risk_no_hsts: 'HSTS non activé',
+    risk_missing_csp: 'En-tête Content-Security-Policy manquant',
+    risk_missing_xframe: 'En-tête X-Frame-Options manquant',
+    risk_missing_xcontent: 'En-tête X-Content-Type-Options manquant',
+    risk_missing_referrer: 'En-tête Referrer-Policy manquant',
+    risk_missing_permissions: 'En-tête Permissions-Policy manquant',
+    risk_server_version: 'Le serveur expose sa version (divulgation d’informations)',
+    risk_no_dnssec: 'DNSSEC non activé',
+    risk_no_spf: 'Enregistrement SPF absent ou invalide',
+    risk_no_dmarc: 'DMARC absent ou politique faible',
+    risk_cookies_insecure: 'Cookies sans attribut Secure',
+    risk_cookies_no_httponly: 'Cookies sans attribut HttpOnly',
+    risk_no_https_redirect: 'Pas de redirection HTTP → HTTPS',
+    risk_malware_detected: 'Domaine signalé comme malware/hameçonnage',
+    positive_tor: 'Connexion Tor détectée',
+    positive_dual_stack: 'IPv4 et IPv6 tous deux disponibles',
+    positive_vpn_active: 'VPN/Proxy actif',
+    positive_doh_active: 'DNS-over-HTTPS actif',
+    positive_waf: 'Pare-feu d’application web (WAF) détecté',
+    positive_security_txt: 'security.txt trouvé',
+    positive_hsts_preload: 'HSTS avec préchargement activé',
+    positive_dmarc_reject: 'DMARC avec politique reject',
+    rec_dns_leak: 'Configurez un DNS privé ou activez un VPN pour éviter les fuites DNS',
+    rec_webrtc_leak: 'Désactivez WebRTC dans le navigateur ou utilisez une extension anti-fuite',
+    rec_enable_vpn: 'Pensez à utiliser un VPN pour protéger votre vie privée',
+    rec_enable_doh: 'Activez DNS-over-HTTPS (DoH) dans les paramètres du navigateur',
+    rec_renew_ssl: 'Renouvelez le certificat SSL d’urgence',
+    rec_upgrade_tls: 'Passez à TLS 1.2 ou supérieur',
+    rec_fix_cipher: 'Supprimez les chiffrements faibles de la configuration serveur',
+    rec_enable_hsts: 'Activez HSTS avec un max-age minimum d’un an',
+    rec_add_csp: 'Ajoutez l’en-tête Content-Security-Policy',
+    rec_add_xframe: 'Ajoutez l’en-tête X-Frame-Options: DENY',
+    rec_add_xcontent: 'Ajoutez l’en-tête X-Content-Type-Options: nosniff',
+    rec_add_referrer: 'Ajoutez l’en-tête Referrer-Policy',
+    rec_add_permissions: 'Ajoutez l’en-tête Permissions-Policy',
+    rec_hide_server: 'Supprimez l’en-tête Server qui expose la version',
+    rec_enable_dnssec: 'Activez DNSSEC sur le domaine',
+    rec_configure_spf: 'Configurez un enregistrement SPF valide',
+    rec_configure_dmarc: 'Configurez DMARC avec une politique quarantine ou reject',
+    rec_secure_cookies: 'Ajoutez l’attribut Secure à tous les cookies',
+    rec_force_https: 'Mettez en place la redirection HTTP → HTTPS',
+    rec_remove_malware: 'Nettoyez immédiatement tout malware sur le serveur',
   },
   'de': {
     logo_subtitle: 'Vollständige Verbindungs- &amp; ISP-Diagnose',
@@ -738,7 +1014,76 @@ const TRANSLATIONS = {
     footer_analytics: '📊 Datenschutzfreundliche Analyse mit GoatCounter (keine Cookies) —',
     footer_stats: 'Öffentliche Statistiken ↗',
     btn_optout_off: 'Analytics deaktivieren',
-    btn_optout_on: 'Analytics aktivieren'
+    btn_optout_on: 'Analytics aktivieren',
+    // ─── Security AI (de) ───
+    ai_security_title: '🤖 KI-Sicherheitsanalyse',
+    ai_analyzing: 'Analysiere...',
+    ai_awaiting: 'Warte auf Daten...',
+    score_label: 'Sicherheits-Score',
+    score_excellent: 'Ausgezeichnet',
+    score_good: 'Gut',
+    score_moderate: 'Moderat',
+    score_poor: 'Schlecht',
+    score_critical: 'Kritisch',
+    risks_critical: 'Kritische Risiken',
+    risks_warning: 'Warnungen',
+    risks_info: 'Informationen',
+    strengths_positive: 'Stärken',
+    recommendations_title: 'Empfehlungen',
+    no_critical_risks: '🎉 Keine kritischen Risiken erkannt!',
+    insufficient_data: 'Unzureichende Daten für vollständige Analyse',
+    risk_dns_leak: 'DNS-Leak erkannt — Ihr ISP kann alle besuchten Websites sehen',
+    risk_webrtc_leak: 'WebRTC leakt Ihre echte IP',
+    risk_no_vpn: 'Kein VPN/Proxy erkannt',
+    risk_no_doh: 'DNS-over-HTTPS nicht aktiviert',
+    risk_ipv6_unprotected: 'IPv6 verfügbar ohne VPN-Schutz',
+    risk_ssl_invalid: 'Ungültiges oder abgelaufenes SSL-Zertifikat',
+    risk_ssl_expiring_critical: 'SSL-Zertifikat läuft in weniger als 7 Tagen ab',
+    risk_ssl_expiring_soon: 'SSL-Zertifikat läuft in weniger als 30 Tagen ab',
+    risk_tls_weak: 'Schwaches TLS-Protokoll (1.0 oder 1.1)',
+    risk_cipher_weak: 'Schwache Cipher erkannt (anfällig für POODLE/BEAST/CRIME)',
+    risk_no_hsts: 'HSTS nicht aktiviert',
+    risk_missing_csp: 'Content-Security-Policy-Header fehlt',
+    risk_missing_xframe: 'X-Frame-Options-Header fehlt',
+    risk_missing_xcontent: 'X-Content-Type-Options-Header fehlt',
+    risk_missing_referrer: 'Referrer-Policy-Header fehlt',
+    risk_missing_permissions: 'Permissions-Policy-Header fehlt',
+    risk_server_version: 'Server exponiert Versionsnummer (Information Disclosure)',
+    risk_no_dnssec: 'DNSSEC nicht aktiviert',
+    risk_no_spf: 'Fehlender oder ungültiger SPF-Eintrag',
+    risk_no_dmarc: 'DMARC fehlt oder schwache Richtlinie',
+    risk_cookies_insecure: 'Cookies ohne Secure-Flag',
+    risk_cookies_no_httponly: 'Cookies ohne HttpOnly-Flag',
+    risk_no_https_redirect: 'Keine HTTP → HTTPS Weiterleitung',
+    risk_malware_detected: 'Domain als Malware/Phishing eingestuft',
+    positive_tor: 'Tor-Verbindung erkannt',
+    positive_dual_stack: 'IPv4 und IPv6 beide verfügbar',
+    positive_vpn_active: 'VPN/Proxy aktiv',
+    positive_doh_active: 'DNS-over-HTTPS aktiv',
+    positive_waf: 'Web Application Firewall erkannt',
+    positive_security_txt: 'security.txt gefunden',
+    positive_hsts_preload: 'HSTS mit Preload aktiviert',
+    positive_dmarc_reject: 'DMARC mit reject-Richtlinie',
+    rec_dns_leak: 'Privates DNS konfigurieren oder VPN aktivieren, um DNS-Leaks zu verhindern',
+    rec_webrtc_leak: 'WebRTC im Browser deaktivieren oder Anti-Leak-Erweiterung nutzen',
+    rec_enable_vpn: 'Nutzung eines VPNs zum Schutz Ihrer Privatsphäre erwägen',
+    rec_enable_doh: 'DNS-over-HTTPS (DoH) in den Browsereinstellungen aktivieren',
+    rec_renew_ssl: 'SSL-Zertifikat dringend erneuern',
+    rec_upgrade_tls: 'Auf TLS 1.2 oder höher aktualisieren',
+    rec_fix_cipher: 'Schwache Cipher aus Serverkonfiguration entfernen',
+    rec_enable_hsts: 'HSTS mit mindestens 1 Jahr max-age aktivieren',
+    rec_add_csp: 'Content-Security-Policy-Header hinzufügen',
+    rec_add_xframe: 'X-Frame-Options: DENY Header hinzufügen',
+    rec_add_xcontent: 'X-Content-Type-Options: nosniff Header hinzufügen',
+    rec_add_referrer: 'Referrer-Policy-Header hinzufügen',
+    rec_add_permissions: 'Permissions-Policy-Header hinzufügen',
+    rec_hide_server: 'Server-Header mit Versionsnummer entfernen',
+    rec_enable_dnssec: 'DNSSEC auf der Domain aktivieren',
+    rec_configure_spf: 'Gültigen SPF-Eintrag konfigurieren',
+    rec_configure_dmarc: 'DMARC mit Richtlinie quarantine oder reject konfigurieren',
+    rec_secure_cookies: 'Secure-Flag für alle Cookies setzen',
+    rec_force_https: 'HTTP → HTTPS Weiterleitung einrichten',
+    rec_remove_malware: 'Schadsoftware unverzüglich vom Server entfernen',
   },
   'it': {
     logo_subtitle: 'Diagnostica completa di connessione &amp; ISP',
@@ -883,7 +1228,76 @@ const TRANSLATIONS = {
     footer_analytics: '📊 Statistiche privacy-first via GoatCounter (senza cookie) —',
     footer_stats: 'Visualizza statistiche pubbliche ↗',
     btn_optout_off: 'Disattiva Statistiche',
-    btn_optout_on: 'Attiva Statistiche'
+    btn_optout_on: 'Attiva Statistiche',
+    // ─── Security AI (it) ───
+    ai_security_title: '🤖 Analisi di Sicurezza IA',
+    ai_analyzing: 'Analisi in corso...',
+    ai_awaiting: 'In attesa dei dati...',
+    score_label: 'Punteggio di Sicurezza',
+    score_excellent: 'Eccellente',
+    score_good: 'Buono',
+    score_moderate: 'Moderato',
+    score_poor: 'Scarso',
+    score_critical: 'Critico',
+    risks_critical: 'Rischi Critici',
+    risks_warning: 'Attenzione',
+    risks_info: 'Informazioni',
+    strengths_positive: 'Punti di Forza',
+    recommendations_title: 'Raccomandazioni',
+    no_critical_risks: '🎉 Nessun rischio critico rilevato!',
+    insufficient_data: 'Dati insufficienti per un’analisi completa',
+    risk_dns_leak: 'Rilevato DNS Leak — il tuo ISP può vedere tutti i siti visitati',
+    risk_webrtc_leak: 'WebRTC espone il tuo vero IP',
+    risk_no_vpn: 'Nessuna VPN/Proxy rilevata',
+    risk_no_doh: 'DNS-over-HTTPS non abilitato',
+    risk_ipv6_unprotected: 'IPv6 disponibile senza protezione VPN',
+    risk_ssl_invalid: 'Certificato SSL non valido o scaduto',
+    risk_ssl_expiring_critical: 'Il certificato SSL scade in meno di 7 giorni',
+    risk_ssl_expiring_soon: 'Il certificato SSL scade in meno di 30 giorni',
+    risk_tls_weak: 'Protocollo TLS debole (1.0 o 1.1)',
+    risk_cipher_weak: 'Cifrario debole rilevato (vulnerabile a POODLE/BEAST/CRIME)',
+    risk_no_hsts: 'HSTS non abilitato',
+    risk_missing_csp: 'Intestazione Content-Security-Policy mancante',
+    risk_missing_xframe: 'Intestazione X-Frame-Options mancante',
+    risk_missing_xcontent: 'Intestazione X-Content-Type-Options mancante',
+    risk_missing_referrer: 'Intestazione Referrer-Policy mancante',
+    risk_missing_permissions: 'Intestazione Permissions-Policy mancante',
+    risk_server_version: 'Il server espone la versione (divulgazione di informazioni)',
+    risk_no_dnssec: 'DNSSEC non abilitato',
+    risk_no_spf: 'Record SPF mancante o non valido',
+    risk_no_dmarc: 'DMARC mancante o criterio debole',
+    risk_cookies_insecure: 'Cookie senza flag Secure',
+    risk_cookies_no_httponly: 'Cookie senza flag HttpOnly',
+    risk_no_https_redirect: 'Nessun reindirizzamento HTTP → HTTPS',
+    risk_malware_detected: 'Dominio segnalato come malware/phishing',
+    positive_tor: 'Connessione Tor rilevata',
+    positive_dual_stack: 'IPv4 e IPv6 entrambi disponibili',
+    positive_vpn_active: 'VPN/Proxy attivo',
+    positive_doh_active: 'DNS-over-HTTPS attivo',
+    positive_waf: 'Web Application Firewall rilevato',
+    positive_security_txt: 'security.txt trovato',
+    positive_hsts_preload: 'HSTS con preload abilitato',
+    positive_dmarc_reject: 'DMARC con criterio reject',
+    rec_dns_leak: 'Configura DNS privato o attiva VPN per evitare fughe DNS',
+    rec_webrtc_leak: 'Disabilita WebRTC nel browser o usa un’estensione anti-leak',
+    rec_enable_vpn: 'Valuta l’uso di una VPN per proteggere la tua privacy',
+    rec_enable_doh: 'Attiva DNS-over-HTTPS (DoH) nelle impostazioni del browser',
+    rec_renew_ssl: 'Rinnova urgentemente il certificato SSL',
+    rec_upgrade_tls: 'Aggiorna a TLS 1.2 o superiore',
+    rec_fix_cipher: 'Rimuovi i cifrari deboli dalla configurazione del server',
+    rec_enable_hsts: 'Abilita HSTS con max-age di almeno 1 anno',
+    rec_add_csp: 'Aggiungi l’intestazione Content-Security-Policy',
+    rec_add_xframe: 'Aggiungi l’intestazione X-Frame-Options: DENY',
+    rec_add_xcontent: 'Aggiungi l’intestazione X-Content-Type-Options: nosniff',
+    rec_add_referrer: 'Aggiungi l’intestazione Referrer-Policy',
+    rec_add_permissions: 'Aggiungi l’intestazione Permissions-Policy',
+    rec_hide_server: 'Rimuovi l’intestazione Server che espone la versione',
+    rec_enable_dnssec: 'Abilita DNSSEC sul dominio',
+    rec_configure_spf: 'Configura un record SPF valido',
+    rec_configure_dmarc: 'Configura DMARC con criterio quarantine o reject',
+    rec_secure_cookies: 'Aggiungi la flag Secure a tutti i cookie',
+    rec_force_https: 'Implementa il reindirizzamento HTTP → HTTPS',
+    rec_remove_malware: 'Rimuovi immediatamente qualsiasi malware dal server',
   },
   'ja': {
     logo_subtitle: '完全な接続とISPのリアルタイム診断',
@@ -1028,7 +1442,76 @@ const TRANSLATIONS = {
     footer_analytics: '📊 GoatCounterによるプライバシー重視のアクセス解析（Cookie不使用） —',
     footer_stats: '公開統計を見る ↗',
     btn_optout_off: '解析を無効化',
-    btn_optout_on: '解析を有効化'
+    btn_optout_on: '解析を有効化',
+    // ─── Security AI (ja) ───
+    ai_security_title: '🤖 AI セキュリティ診断',
+    ai_analyzing: '分析中...',
+    ai_awaiting: 'データ待機中...',
+    score_label: 'セキュリティスコア',
+    score_excellent: '極めて優秀',
+    score_good: '良好',
+    score_moderate: '注意',
+    score_poor: '脆弱',
+    score_critical: '危険',
+    risks_critical: '重大なリスク',
+    risks_warning: '警戒項目',
+    risks_info: '情報項目',
+    strengths_positive: '評価された項目',
+    recommendations_title: '改善推奨事項',
+    no_critical_risks: '🎉 重大なリスクは検出されませんでした！',
+    insufficient_data: '完全な分析のためのデータが不足しています',
+    risk_dns_leak: 'DNS漏洩が検出されました — ISPが閲覧履歴を把握できます',
+    risk_webrtc_leak: 'WebRTCから実際のIPアドレスが漏洩しています',
+    risk_no_vpn: 'VPNまたはプロキシが検出されませんでした',
+    risk_no_doh: 'DNS-over-HTTPSが無効です',
+    risk_ipv6_unprotected: 'IPv6がVPN保護なしで露出しています',
+    risk_ssl_invalid: '無効または期限切れのSSL証明書',
+    risk_ssl_expiring_critical: 'SSL証明書の有効期限が7日未満です',
+    risk_ssl_expiring_soon: 'SSL証明書の有効期限が30日未満です',
+    risk_tls_weak: '脆弱なTLSプロトコル（1.0または1.1）',
+    risk_cipher_weak: '脆弱な暗号スイート（POODLE/BEAST/CRIMEの危険性）',
+    risk_no_hsts: 'HSTSが無効です',
+    risk_missing_csp: 'Content-Security-Policyヘッダーがありません',
+    risk_missing_xframe: 'X-Frame-Optionsヘッダーがありません',
+    risk_missing_xcontent: 'X-Content-Type-Optionsヘッダーがありません',
+    risk_missing_referrer: 'Referrer-Policyヘッダーがありません',
+    risk_missing_permissions: 'Permissions-Policyヘッダーがありません',
+    risk_server_version: 'サーバーがバージョン情報を公開しています（情報漏洩）',
+    risk_no_dnssec: 'DNSSECが無効です',
+    risk_no_spf: 'SPFレコードが存在しないか無効です',
+    risk_no_dmarc: 'DMARCが存在しないかポリシーが弱いです',
+    risk_cookies_insecure: 'Secure属性のないCookieがあります',
+    risk_cookies_no_httponly: 'HttpOnly属性のないCookieがあります',
+    risk_no_https_redirect: 'HTTPからHTTPSへのリダイレクトがありません',
+    risk_malware_detected: 'ドメインがマルウェア/フィッシングとして報告されています',
+    positive_tor: 'Tor接続が検出されました',
+    positive_dual_stack: 'IPv4およびIPv6の双方が利用可能です',
+    positive_vpn_active: 'VPN/プロキシが有効です',
+    positive_doh_active: 'DNS-over-HTTPSが有効です',
+    positive_waf: 'Webアプリケーションファイアウォール（WAF）を検出',
+    positive_security_txt: 'security.txtが確認されました',
+    positive_hsts_preload: 'HSTSプリロードが有効です',
+    positive_dmarc_reject: 'DMARCポリシーにrejectが設定されています',
+    rec_dns_leak: 'プライベートDNSまたはVPNを設定してDNS漏洩を防いでください',
+    rec_webrtc_leak: 'ブラウザのWebRTCを無効にするか、対策拡張機能をご利用ください',
+    rec_enable_vpn: 'プライバシー保護のために信頼できるVPNのご利用を推奨します',
+    rec_enable_doh: 'ブラウザ設定でDNS-over-HTTPS（DoH）を有効化してください',
+    rec_renew_ssl: '至急SSL証明書を更新してください',
+    rec_upgrade_tls: 'TLS 1.2以上にアップグレードしてください',
+    rec_fix_cipher: 'サーバーから脆弱な暗号スイートを無効化してください',
+    rec_enable_hsts: '最低1年間のmax-ageでHSTSを有効にしてください',
+    rec_add_csp: 'Content-Security-Policyヘッダーを追加してください',
+    rec_add_xframe: 'X-Frame-Options: DENYヘッダーを追加してください',
+    rec_add_xcontent: 'X-Content-Type-Options: nosniffヘッダーを追加してください',
+    rec_add_referrer: 'Referrer-Policyヘッダーを追加してください',
+    rec_add_permissions: 'Permissions-Policyヘッダーを追加してください',
+    rec_hide_server: 'バージョン情報を開示するServerヘッダーを非表示にしてください',
+    rec_enable_dnssec: 'ドメインでDNSSECを有効化してください',
+    rec_configure_spf: '適切なSPFレコードを設定してください',
+    rec_configure_dmarc: 'quarantineまたはrejectポリシーでDMARCを設定してください',
+    rec_secure_cookies: 'すべてのCookieにSecure属性を付与してください',
+    rec_force_https: 'HTTPからHTTPSへの常時リダイレクトを実装してください',
+    rec_remove_malware: 'サーバーからマルウェアを直ちに排除してください',
   },
   'zh': {
     logo_subtitle: '完整的网络连接与ISP实时诊断',
@@ -1173,7 +1656,76 @@ const TRANSLATIONS = {
     footer_analytics: '📊 基于 GoatCounter 的无 Cookie 隐私友好统计 —',
     footer_stats: '查看公开统计 ↗',
     btn_optout_off: '停用访问统计',
-    btn_optout_on: '启用访问统计'
+    btn_optout_on: '启用访问统计',
+    // ─── Security AI (zh) ───
+    ai_security_title: '🤖 AI 安全分析',
+    ai_analyzing: '分析中...',
+    ai_awaiting: '等待数据...',
+    score_label: '安全评分',
+    score_excellent: '优秀',
+    score_good: '良好',
+    score_moderate: '中等',
+    score_poor: '薄弱',
+    score_critical: '危险',
+    risks_critical: '严重风险',
+    risks_warning: '注意事项',
+    risks_info: '参考信息',
+    strengths_positive: '优势项目',
+    recommendations_title: '整改建议',
+    no_critical_risks: '🎉 未检测到重大安全风险！',
+    insufficient_data: '数据不足，无法完成全量分析',
+    risk_dns_leak: '检测到DNS泄露 — 运营商可监测您访问的所有网站',
+    risk_webrtc_leak: 'WebRTC泄露了您的真实公网IP',
+    risk_no_vpn: '未检测到VPN或代理',
+    risk_no_doh: '未启用DNS-over-HTTPS',
+    risk_ipv6_unprotected: 'IPv6已连通但未经过VPN防护',
+    risk_ssl_invalid: 'SSL证书无效或已过期',
+    risk_ssl_expiring_critical: 'SSL证书将在7天内过期',
+    risk_ssl_expiring_soon: 'SSL证书将在30天内过期',
+    risk_tls_weak: 'TLS协议弱（1.0或1.1）',
+    risk_cipher_weak: '检测到弱加密套件（易受POODLE/BEAST/CRIME攻击）',
+    risk_no_hsts: '未启用HSTS',
+    risk_missing_csp: '缺少Content-Security-Policy响应头',
+    risk_missing_xframe: '缺少X-Frame-Options响应头',
+    risk_missing_xcontent: '缺少X-Content-Type-Options响应头',
+    risk_missing_referrer: '缺少Referrer-Policy响应头',
+    risk_missing_permissions: '缺少Permissions-Policy响应头',
+    risk_server_version: '服务器暴露软件具体版本（信息泄露）',
+    risk_no_dnssec: '未启用DNSSEC',
+    risk_no_spf: '缺少或无效的SPF记录',
+    risk_no_dmarc: '缺少DMARC或策略薄弱',
+    risk_cookies_insecure: 'Cookie缺少Secure属性',
+    risk_cookies_no_httponly: 'Cookie缺少HttpOnly属性',
+    risk_no_https_redirect: '未开启HTTP → HTTPS强制重定向',
+    risk_malware_detected: '域名被标记为恶意软件或网络钓鱼',
+    positive_tor: '检测到Tor网络连接',
+    positive_dual_stack: 'IPv4和IPv6双栈均已启用',
+    positive_vpn_active: 'VPN/代理已生效',
+    positive_doh_active: 'DNS-over-HTTPS已启用',
+    positive_waf: '已检测到Web应用防火墙（WAF）',
+    positive_security_txt: '已部署security.txt安全准则',
+    positive_hsts_preload: '已加入HSTS Preload预加载名单',
+    positive_dmarc_reject: 'DMARC已配置严格的reject拒绝策略',
+    rec_dns_leak: '请配置私有安全DNS或开启VPN以杜绝DNS泄露',
+    rec_webrtc_leak: '请在浏览器中禁用WebRTC或安装防泄露插件',
+    rec_enable_vpn: '建议开启VPN以保障您的上网隐私',
+    rec_enable_doh: '请在浏览器设置中启用DNS-over-HTTPS (DoH)',
+    rec_renew_ssl: '请立即更新SSL数字证书',
+    rec_upgrade_tls: '请升级服务器至TLS 1.2或更高协议版本',
+    rec_fix_cipher: '请从服务器配置中剔除不安全的弱加密算法',
+    rec_enable_hsts: '请开启HSTS并设置至少1年的max-age',
+    rec_add_csp: '添加Content-Security-Policy内容安全策略头',
+    rec_add_xframe: '添加X-Frame-Options: DENY防点击劫持头',
+    rec_add_xcontent: '添加X-Content-Type-Options: nosniff头',
+    rec_add_referrer: '添加合理的Referrer-Policy策略头',
+    rec_add_permissions: '添加Permissions-Policy权限策略头',
+    rec_hide_server: '隐藏Server响应头中暴露的软件版本',
+    rec_enable_dnssec: '请为您的域名开启DNSSEC安全解析',
+    rec_configure_spf: '请配置正确的SPF发信认证解析记录',
+    rec_configure_dmarc: '请配置DMARC并设为quarantine或reject',
+    rec_secure_cookies: '请为所有敏感Cookie加上Secure安全属性',
+    rec_force_https: '请配置全站HTTP到HTTPS的强制301重定向',
+    rec_remove_malware: '请立即排查并清除服务器上的恶意文件',
   },
   'ru': {
     logo_subtitle: 'Полная диагностика сетевого соединения и провайдера',
@@ -1318,7 +1870,76 @@ const TRANSLATIONS = {
     footer_analytics: '📊 Приватная аналитика через GoatCounter (без файлов cookie) —',
     footer_stats: 'Открыть публичную статистику ↗',
     btn_optout_off: 'Отключить аналитику',
-    btn_optout_on: 'Включить аналитику'
+    btn_optout_on: 'Включить аналитику',
+    // ─── Security AI (ru) ───
+    ai_security_title: '🤖 ИИ-анализ безопасности',
+    ai_analyzing: 'Анализ...',
+    ai_awaiting: 'Ожидание данных...',
+    score_label: 'Оценка безопасности',
+    score_excellent: 'Отлично',
+    score_good: 'Хорошо',
+    score_moderate: 'Умеренно',
+    score_poor: 'Слабо',
+    score_critical: 'Критично',
+    risks_critical: 'Критические риски',
+    risks_warning: 'Внимание',
+    risks_info: 'Информация',
+    strengths_positive: 'Сильные стороны',
+    recommendations_title: 'Рекомендации',
+    no_critical_risks: '🎉 Критических рисков не обнаружено!',
+    insufficient_data: 'Недостаточно данных для полного анализа',
+    risk_dns_leak: 'Обнаружена утечка DNS — провайдер видит все посещаемые сайты',
+    risk_webrtc_leak: 'WebRTC раскрывает ваш настоящий IP-адрес',
+    risk_no_vpn: 'VPN или прокси не обнаружены',
+    risk_no_doh: 'DNS-over-HTTPS не включен',
+    risk_ipv6_unprotected: 'IPv6 доступен без защиты VPN',
+    risk_ssl_invalid: 'Недействительный или просроченный SSL-сертификат',
+    risk_ssl_expiring_critical: 'Срок действия SSL истекает менее чем через 7 дней',
+    risk_ssl_expiring_soon: 'Срок действия SSL истекает менее чем через 30 дней',
+    risk_tls_weak: 'Устаревший протокол TLS (1.0 или 1.1)',
+    risk_cipher_weak: 'Обнаружен слабый шифр (уязвим к POODLE/BEAST/CRIME)',
+    risk_no_hsts: 'HSTS не включен',
+    risk_missing_csp: 'Отсутствует заголовок Content-Security-Policy',
+    risk_missing_xframe: 'Отсутствует заголовок X-Frame-Options',
+    risk_missing_xcontent: 'Отсутствует заголовок X-Content-Type-Options',
+    risk_missing_referrer: 'Отсутствует заголовок Referrer-Policy',
+    risk_missing_permissions: 'Отсутствует заголовок Permissions-Policy',
+    risk_server_version: 'Сервер раскрывает номер версии (утечка информации)',
+    risk_no_dnssec: 'DNSSEC не включен',
+    risk_no_spf: 'Запись SPF отсутствует или некорректна',
+    risk_no_dmarc: 'DMARC отсутствует или слабая политика',
+    risk_cookies_insecure: 'Файлы cookie без флага Secure',
+    risk_cookies_no_httponly: 'Файлы cookie без флага HttpOnly',
+    risk_no_https_redirect: 'Нет перенаправления с HTTP на HTTPS',
+    risk_malware_detected: 'Домен помечен как вредоносный/фишинг',
+    positive_tor: 'Обнаружено соединение через Tor',
+    positive_dual_stack: 'IPv4 и IPv6 оба доступны',
+    positive_vpn_active: 'VPN/прокси активен',
+    positive_doh_active: 'DNS-over-HTTPS активен',
+    positive_waf: 'Обнаружен Web Application Firewall (WAF)',
+    positive_security_txt: 'Файл security.txt найден',
+    positive_hsts_preload: 'Включен HSTS с предварительной загрузкой',
+    positive_dmarc_reject: 'DMARC настроен с политикой reject',
+    rec_dns_leak: 'Настройте приватный DNS или включите VPN для предотвращения утечек DNS',
+    rec_webrtc_leak: 'Отключите WebRTC в браузере или используйте расширение защиты',
+    rec_enable_vpn: 'Используйте надежный VPN для защиты конфиденциальности',
+    rec_enable_doh: 'Включите DNS-over-HTTPS (DoH) в настройках браузера',
+    rec_renew_ssl: 'Срочно обновите SSL-сертификат',
+    rec_upgrade_tls: 'Обновите протокол до TLS 1.2 или новее',
+    rec_fix_cipher: 'Удалите слабые шифры из конфигурации сервера',
+    rec_enable_hsts: 'Включите HSTS с max-age не менее 1 года',
+    rec_add_csp: 'Добавьте заголовок Content-Security-Policy',
+    rec_add_xframe: 'Добавьте заголовок X-Frame-Options: DENY',
+    rec_add_xcontent: 'Добавьте заголовок X-Content-Type-Options: nosniff',
+    rec_add_referrer: 'Добавьте заголовок Referrer-Policy',
+    rec_add_permissions: 'Добавьте заголовок Permissions-Policy',
+    rec_hide_server: 'Скройте заголовок Server, раскрывающий версию',
+    rec_enable_dnssec: 'Включите DNSSEC для домена',
+    rec_configure_spf: 'Настройте корректную запись SPF',
+    rec_configure_dmarc: 'Настройте DMARC с политикой quarantine или reject',
+    rec_secure_cookies: 'Установите флаг Secure для всех cookie',
+    rec_force_https: 'Настройте постоянное перенаправление с HTTP на HTTPS',
+    rec_remove_malware: 'Немедленно удалите вредоносный код с сервера',
   },
   'ar': {
     logo_subtitle: 'تشخيص شامل للاتصال ومزود خدمة الإنترنت',
@@ -1463,7 +2084,76 @@ const TRANSLATIONS = {
     footer_analytics: '📊 إحصائيات تحترم الخصوصية عبر GoatCounter (بدون ملفات تعريف ارتباط) —',
     footer_stats: 'عرض الإحصائيات العامة ↗',
     btn_optout_off: 'تعطيل الإحصائيات',
-    btn_optout_on: 'تفعيل الإحصائيات'
+    btn_optout_on: 'تفعيل الإحصائيات',
+    // ─── Security AI (ar) ───
+    ai_security_title: '🤖 تحليل الأمان بالذكاء الاصطناعي',
+    ai_analyzing: 'جارٍ التحليل...',
+    ai_awaiting: 'في انتظار البيانات...',
+    score_label: 'نقاط الأمان',
+    score_excellent: 'ممتاز',
+    score_good: 'جيد',
+    score_moderate: 'متوسط',
+    score_poor: 'ضعيف',
+    score_critical: 'حرج',
+    risks_critical: 'مخاطر حرجة',
+    risks_warning: 'نقاط انتباه',
+    risks_info: 'معلومات',
+    strengths_positive: 'نقاط القوة',
+    recommendations_title: 'التوصيات',
+    no_critical_risks: '🎉 لم يتم اكتشاف أي مخاطر حرجة!',
+    insufficient_data: 'بيانات غير كافية للتحليل الكامل',
+    risk_dns_leak: 'تم اكتشاف تسريب DNS — يمكن لمزود الخدمة رؤية جميع المواقع التي تزورها',
+    risk_webrtc_leak: 'بروتوكول WebRTC يسرب عنوان IP الحقيقي الخاص بك',
+    risk_no_vpn: 'لم يتم اكتشاف VPN أو وكيل (Proxy)',
+    risk_no_doh: 'خاصية DNS-over-HTTPS غير مفعلة',
+    risk_ipv6_unprotected: 'عنوان IPv6 متاح دون حماية VPN',
+    risk_ssl_invalid: 'شهادة SSL غير صالحة أو منتهية الصلاحية',
+    risk_ssl_expiring_critical: 'تنتهي صلاحية شهادة SSL في أقل من 7 أيام',
+    risk_ssl_expiring_soon: 'تنتهي صلاحية شهادة SSL في أقل من 30 يوماً',
+    risk_tls_weak: 'بروتوكول TLS ضعيف (1.0 أو 1.1)',
+    risk_cipher_weak: 'تم اكتشاف خوارزمية تشفير ضعيفة (معرضة لـ POODLE/BEAST/CRIME)',
+    risk_no_hsts: 'بروتوكول HSTS غير مفعل',
+    risk_missing_csp: 'ترويسة Content-Security-Policy مفقودة',
+    risk_missing_xframe: 'ترويسة X-Frame-Options مفقودة',
+    risk_missing_xcontent: 'ترويسة X-Content-Type-Options مفقودة',
+    risk_missing_referrer: 'ترويسة Referrer-Policy مفقودة',
+    risk_missing_permissions: 'ترويسة Permissions-Policy مفقودة',
+    risk_server_version: 'الخادم يكشف رقم الإصدار (إفشاء معلومات)',
+    risk_no_dnssec: 'خاصية DNSSEC غير مفعلة',
+    risk_no_spf: 'سجل SPF مفقود أو غير صالح',
+    risk_no_dmarc: 'سجل DMARC مفقود أو ضعيف',
+    risk_cookies_insecure: 'ملفات تعريف ارتباط بدون وسم Secure',
+    risk_cookies_no_httponly: 'ملفات تعريف ارتباط بدون وسم HttpOnly',
+    risk_no_https_redirect: 'لا يوجد إعادة توجيه من HTTP إلى HTTPS',
+    risk_malware_detected: 'تم تصنيف النطاق كبرمجية خبيثة أو تصيد احتيالي',
+    positive_tor: 'تم اكتشاف اتصال عبر شبكة Tor',
+    positive_dual_stack: 'بروتوكولا IPv4 و IPv6 متاحان معاً',
+    positive_vpn_active: 'اتصال VPN أو بروكسي مفعل',
+    positive_doh_active: 'خاصية DNS-over-HTTPS مفعلة',
+    positive_waf: 'تم اكتشاف جدار حماية تطبيقات الويب (WAF)',
+    positive_security_txt: 'تم العثور على ملف security.txt',
+    positive_hsts_preload: 'تم تفعيل HSTS مع القائمة المسبقة (preload)',
+    positive_dmarc_reject: 'تم ضبط DMARC بسياسة الرفض reject',
+    rec_dns_leak: 'قم بتهيئة DNS خاص أو تفعيل VPN لمنع تسريبات DNS',
+    rec_webrtc_leak: 'قم بتعطيل WebRTC في المتصفح أو استخدم إضافة للحماية من التسريب',
+    rec_enable_vpn: 'فكر في استخدام VPN موثوق لحماية خصوصيتك',
+    rec_enable_doh: 'قم بتفعيل DNS-over-HTTPS (DoH) في إعدادات المتصفح',
+    rec_renew_ssl: 'قم بتجديد شهادة SSL بشكل عاجل',
+    rec_upgrade_tls: 'قم بالترقية إلى TLS 1.2 أو أحدث',
+    rec_fix_cipher: 'قم بإزالة خوارزميات التشفير الضعيفة من إعدادات الخادم',
+    rec_enable_hsts: 'قم بتفعيل HSTS بمدة max-age لا تقل عن سنة واحدة',
+    rec_add_csp: 'أضف ترويسة Content-Security-Policy للحماية من الهجمات',
+    rec_add_xframe: 'أضف ترويسة X-Frame-Options: DENY لمنع الاختطاف',
+    rec_add_xcontent: 'أضف ترويسة X-Content-Type-Options: nosniff',
+    rec_add_referrer: 'أضف ترويسة Referrer-Policy المناسبة',
+    rec_add_permissions: 'أضف ترويسة Permissions-Policy للتحكم بالصلاحيات',
+    rec_hide_server: 'قم بإخفاء ترويسة Server التي تكشف إصدار البرمجيات',
+    rec_enable_dnssec: 'قم بتفعيل DNSSEC للنطاق لحماية الاستعلامات',
+    rec_configure_spf: 'قم بتهيئة سجل SPF صالح لمنع انتحال البريد',
+    rec_configure_dmarc: 'قم بتهيئة DMARC بسياسة quarantine أو reject',
+    rec_secure_cookies: 'أضف علامة Secure إلى جميع ملفات تعريف الارتباط الحساسة',
+    rec_force_https: 'قم بتطبيق إعادة التوجيه الإجباري من HTTP إلى HTTPS',
+    rec_remove_malware: 'قم بإزالة أي برمجيات خبيثة من الخادم فوراً',
   }
 };
 
@@ -1596,6 +2286,11 @@ function applyTranslations() {
 
   // Atualiza botões de ação e opt-out
   updateOptOutButtons();
+
+  // Re-renderiza o SecurityAnalyzer com as novas traduções se já houver análise
+  if (typeof SecurityAnalyzer !== 'undefined' && typeof SecurityAnalyzer.reRender === 'function') {
+    SecurityAnalyzer.reRender();
+  }
 }
 
 // Fechar menu de idioma ao clicar fora
@@ -1609,6 +2304,16 @@ document.addEventListener('click', e => {
 
 /* ─────────── Card Factory ─────────── */
 const CARDS_CONFIG = [
+  {
+    id: 'security-ai',
+    titleKey: 'ai_security_title',
+    icon: '🤖',
+    badge: { id: 'badge-ai', class: 'badge-info', textKey: 'ai_analyzing', text: 'Analisando...' },
+    fullWidth: true,
+    fields: [
+      { type: 'placeholder', id: 'ai-content', class: 'ai-placeholder' }
+    ]
+  },
   {
     id: 'isp',
     icon: '🏢',
@@ -2234,7 +2939,12 @@ function createCard(config) {
     const badgeSpan = document.createElement('span');
     badgeSpan.className = 'card-badge' + (config.badge.class ? ' ' + config.badge.class : '');
     badgeSpan.id = config.badge.id;
-    badgeSpan.textContent = config.badge.text;
+    if (config.badge.textKey) {
+      badgeSpan.setAttribute('data-i18n', config.badge.textKey);
+      badgeSpan.textContent = t(config.badge.textKey);
+    } else {
+      badgeSpan.textContent = config.badge.text || '—';
+    }
     head.appendChild(badgeSpan);
   }
   card.appendChild(head);
@@ -2251,6 +2961,16 @@ function createCard(config) {
   } else {
     if (config.fields) {
       config.fields.forEach(field => {
+        if (field.type === 'placeholder') {
+          const ph = document.createElement('div');
+          if (field.id) ph.id = field.id;
+          if (field.class) ph.className = field.class;
+          ph.setAttribute('data-i18n', 'ai_awaiting');
+          ph.textContent = t('ai_awaiting') || 'Aguardando dados...';
+          body.appendChild(ph);
+          return;
+        }
+
         const row = document.createElement('div');
         row.className = 'row';
         if (field.rowStyle) {
@@ -2312,14 +3032,25 @@ function renderCards() {
   let cardsToRender = CARDS_CONFIG;
 
   if (page === 'home' || page === 'ip') {
-    const allowedCards = ['isp', 'location', 'ip', 'diagnostic-log'];
-    cardsToRender = CARDS_CONFIG.filter(cfg => allowedCards.includes(cfg.id));
+    const allowedCards = ['security-ai', 'isp', 'location', 'ip', 'diagnostic-log'];
+    cardsToRender = allowedCards
+      .map(id => CARDS_CONFIG.find(cfg => cfg.id === id))
+      .filter(Boolean);
   } else if (page === 'dnsleak') {
-    const allowedCards = ['ip', 'security', 'latency', 'diagnostic-log'];
-    cardsToRender = CARDS_CONFIG.filter(cfg => allowedCards.includes(cfg.id));
+    const allowedCards = ['security-ai', 'ip', 'security', 'latency', 'diagnostic-log'];
+    cardsToRender = allowedCards
+      .map(id => CARDS_CONFIG.find(cfg => cfg.id === id))
+      .filter(Boolean);
   } else if (page === 'domain') {
     const personalCards = ['isp', 'location', 'ip', 'latency', 'browser', 'security', 'connectivity'];
-    cardsToRender = CARDS_CONFIG.filter(cfg => !personalCards.includes(cfg.id));
+    const domainCards = CARDS_CONFIG.filter(cfg => !personalCards.includes(cfg.id) && cfg.id !== 'domain-scan' && cfg.id !== 'security-ai');
+    // Ordem: domain-scan, security-ai, demais 36 scanners, diagnostic-log
+    const scanCard = CARDS_CONFIG.find(cfg => cfg.id === 'domain-scan');
+    const aiCard = CARDS_CONFIG.find(cfg => cfg.id === 'security-ai');
+    cardsToRender = [];
+    if (scanCard) cardsToRender.push(scanCard);
+    if (aiCard) cardsToRender.push(aiCard);
+    cardsToRender.push(...domainCards);
   }
 
   cardsToRender.forEach(cfg => {
@@ -3174,6 +3905,17 @@ async function runAll() {
   ]);
 
   log('✅ Diagnóstico concluído.');
+
+  // Execução do SecurityAnalyzer local
+  try {
+    if (typeof SecurityAnalyzer !== 'undefined' && typeof SecurityAnalyzer.run === 'function') {
+      await SecurityAnalyzer.run();
+      log('🤖 Análise de segurança IA concluída');
+    }
+  } catch (e) {
+    log('⚠️ Erro ao executar análise de segurança IA: ' + e.message);
+  }
+
   if (btn) {
     btn.disabled = false;
     btn.textContent = '↺ Reanalisar';
@@ -3251,6 +3993,16 @@ async function scanDomain() {
     ]);
     
     log('✅ Análise de domínio concluída!');
+
+    // Execução do SecurityAnalyzer local para domínio
+    try {
+      if (typeof SecurityAnalyzer !== 'undefined' && typeof SecurityAnalyzer.run === 'function') {
+        await SecurityAnalyzer.run();
+        log('🤖 Análise de segurança IA concluída');
+      }
+    } catch (errAi) {
+      log('⚠️ Erro ao executar análise de segurança IA: ' + errAi.message);
+    }
   } catch (e) {
     log('❌ Erro na análise: ' + e.message);
   }
@@ -4026,6 +4778,578 @@ async function scanTLSCompatibility(domain) {
   log('👥 TLS Compatibility: Modern browsers OK');
 }
 
+/* ─────────── Local Security AI (Sistema Especialista de Regras) ─────────── */
+const SecurityAnalyzer = {
+  _lastAnalysis: null,
+
+  /**
+   * Coleta dados de rede pessoal a partir dos cards do DOM
+   */
+  collectPersonalData() {
+    function clean(id) {
+      const el = document.getElementById(id);
+      if (!el) return null;
+      const txt = (el.textContent || '').trim();
+      if (!txt || txt === '—' || txt.includes('testando') || txt.includes('verificando') || txt.includes('medindo') || txt.includes('não exposto')) {
+        return null;
+      }
+      return txt;
+    }
+
+    const ipv4Raw = clean('v-ipv4');
+    const ipv6Raw = clean('v-ipv6');
+    const webrtcRaw = clean('v-webrtc');
+    const proxyRaw = clean('v-proxy');
+    const torRaw = clean('v-tor');
+    const dohRaw = clean('v-doh');
+    const tlsRaw = clean('v-tls');
+    const dnsRaw = clean('v-dns');
+    const dnsLookupRaw = clean('v-dnslookup');
+    const asnRaw = clean('v-asn');
+
+    const ipv4 = (ipv4Raw && !ipv4Raw.includes('Não detectado') && !ipv4Raw.includes('Erro')) ? ipv4Raw : null;
+    const ipv6 = (ipv6Raw && !ipv6Raw.includes('Não disponível')) ? ipv6Raw : null;
+
+    let webrtcLeak = false;
+    if (webrtcRaw) {
+      if (webrtcRaw.includes('Nenhum vazamento') || webrtcRaw.includes('Protegido')) {
+        webrtcLeak = false;
+      } else if (ipv4 && webrtcRaw.includes(ipv4)) {
+        webrtcLeak = true;
+      } else if (/\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/.test(webrtcRaw)) {
+        // Se vazou qualquer IP público IPv4
+        const matches = webrtcRaw.match(/\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/g) || [];
+        const publicIps = matches.filter(ip => !ip.startsWith('10.') && !ip.startsWith('192.168.') && !ip.startsWith('172.16.') && !ip.startsWith('127.'));
+        if (publicIps.length > 0) webrtcLeak = true;
+      }
+    }
+
+    const isProxy = proxyRaw ? (proxyRaw.includes('Detectado') && !proxyRaw.includes('Não detectado')) : null;
+    const isTor = torRaw ? (torRaw.includes('Detectado') && !torRaw.includes('Não detectado')) : null;
+    
+    // DNS Leak detection
+    // Se o usuário está em VPN/Proxy mas o servidor DNS pertence ao seu ISP original
+    let dnsLeak = false;
+    if (isProxy && dnsRaw && asnRaw) {
+      const asnClean = asnRaw.replace(/^AS\d+\s*/i, '').toLowerCase();
+      if (asnClean && dnsRaw.toLowerCase().includes(asnClean)) {
+        dnsLeak = true;
+      }
+    }
+
+    return {
+      ipv4,
+      ipv6,
+      webrtcRaw,
+      webrtcLeak,
+      isProxy,
+      isTor,
+      dohRaw,
+      tlsRaw,
+      dnsRaw,
+      dnsLookupRaw,
+      dnsLeak
+    };
+  },
+
+  /**
+   * Coleta dados dos scanners de domínio a partir dos cards do DOM
+   */
+  collectDomainData() {
+    function clean(id) {
+      const el = document.getElementById(id);
+      if (!el) return null;
+      const txt = (el.textContent || '').trim();
+      if (!txt || txt === '—' || txt.includes('CORS') || txt.includes('Indisponível') || txt.includes('Requer') || txt.includes('Verificar') || txt.includes('Não verificado')) {
+        return null;
+      }
+      return txt;
+    }
+
+    return {
+      sslValid: clean('v-ssl-valid'),
+      sslDays: clean('v-ssl-days'),
+      sslProto: clean('v-ssl-proto'),
+      sslCipher: clean('v-ssl-cipher'),
+      tlsAuditGrade: clean('v-tlsaudit-grade'),
+      tlsAuditWeak: clean('v-tlsaudit-weak'),
+      tlsAuditPoodle: clean('v-tlsaudit-poodle'),
+      tlsAuditBeast: clean('v-tlsaudit-beast'),
+      tlsAuditCrime: clean('v-tlsaudit-crime'),
+      hstsEnabled: clean('v-hsts-enabled'),
+      hstsPreload: clean('v-hsts-preload'),
+      csp: clean('v-httpsec-csp'),
+      xframe: clean('v-httpsec-frame'),
+      xcontent: clean('v-httpsec-content'),
+      referrer: clean('v-httpsec-referrer'),
+      permissions: clean('v-httpsec-permissions'),
+      serverHeader: clean('v-headers-server') || clean('v-tech-server'),
+      dnssec: clean('v-dnssec-enabled'),
+      spf: clean('v-email-spf') || clean('v-txt-spf'),
+      dmarc: clean('v-email-dmarc') || clean('v-txt-dmarc'),
+      cookiesSecure: clean('v-cookies-secure'),
+      cookiesHttpOnly: clean('v-cookies-httponly'),
+      redirectFinal: clean('v-redirect-final'),
+      redirectChain: clean('v-redirect-chain'),
+      waf: clean('v-firewall-waf'),
+      securityTxt: clean('v-sectxt-found'),
+      malwareThreat: clean('v-malware-threat'),
+      malwareGoogle: clean('v-malware-google')
+    };
+  },
+
+  /**
+   * Analisa rede pessoal (Home / DNS Leak)
+   */
+  analyzePersonalNetwork(data) {
+    let score = 100;
+    const findings = [];
+    const recommendations = [];
+
+    // DNS Leak
+    if (data.dnsLeak) {
+      score -= 25;
+      findings.push({ id: 'risk_dns_leak', severity: 'critical', points: -25 });
+    }
+
+    // WebRTC Leak
+    if (data.webrtcLeak) {
+      score -= 20;
+      findings.push({ id: 'risk_webrtc_leak', severity: 'critical', points: -20 });
+    }
+
+    // IPv6 disponível mas desprotegido (se estiver em VPN no IPv4 mas IPv6 vazando)
+    if (data.ipv6 && data.isProxy && !data.webrtcLeak) {
+      score -= 5;
+      findings.push({ id: 'risk_ipv6_unprotected', severity: 'warning', points: -5 });
+    }
+
+    // VPN / Proxy não detectado
+    if (data.isProxy === false) {
+      score -= 5;
+      findings.push({ id: 'risk_no_vpn', severity: 'info', points: -5 });
+    }
+
+    // DoH/DoT não ativo
+    if (data.dohRaw && (data.dohRaw.includes('Não') || data.dohRaw.includes('Inativo'))) {
+      score -= 10;
+      findings.push({ id: 'risk_no_doh', severity: 'warning', points: -10 });
+    }
+
+    // TLS fraco
+    if (data.tlsRaw && (data.tlsRaw.includes('1.0') || data.tlsRaw.includes('1.1'))) {
+      score -= 10;
+      findings.push({ id: 'risk_tls_weak', severity: 'warning', points: -10 });
+    }
+
+    // Pontos Fortes (Bônus)
+    if (data.isTor) {
+      score += 5;
+      findings.push({ id: 'positive_tor', severity: 'positive', points: 5 });
+    }
+
+    if (data.ipv4 && data.ipv6) {
+      score += 2;
+      findings.push({ id: 'positive_dual_stack', severity: 'positive', points: 2 });
+    }
+
+    if (data.isProxy) {
+      score += 5;
+      findings.push({ id: 'positive_vpn_active', severity: 'positive', points: 5 });
+    }
+
+    if (data.dohRaw && (data.dohRaw.includes('Sim') || data.dohRaw.includes('Ativo') || data.dohRaw.includes('✓'))) {
+      score += 5;
+      findings.push({ id: 'positive_doh_active', severity: 'positive', points: 5 });
+    }
+
+    // Clamp score
+    score = Math.max(0, Math.min(100, score));
+
+    return {
+      score,
+      findings,
+      classification: this.classifyScore(score),
+      recommendations: this.generateRecommendations(findings)
+    };
+  },
+
+  /**
+   * Analisa domínio (Domain Analyzer)
+   */
+  analyzeDomain(data) {
+    let score = 100;
+    const findings = [];
+
+    // 1. Malware / Phishing (A06)
+    if (data.malwareThreat && (data.malwareThreat.includes('Malicious') || data.malwareThreat.includes('Alto') || data.malwareThreat.includes('High'))) {
+      score -= 40;
+      findings.push({ id: 'risk_malware_detected', severity: 'critical', points: -40, owasp: 'A06' });
+    }
+
+    // 2. SSL Válido / Expirado (A02)
+    if (data.sslValid) {
+      if (data.sslValid.includes('Inválido') || data.sslValid.includes('✗') || data.sslValid.includes('Expirado')) {
+        score -= 30;
+        findings.push({ id: 'risk_ssl_invalid', severity: 'critical', points: -30, owasp: 'A02' });
+      }
+    }
+
+    // 3. SSL Dias restantes (A02)
+    if (data.sslDays) {
+      const matchDays = data.sslDays.match(/(\d+)/);
+      if (matchDays) {
+        const days = parseInt(matchDays[1], 10);
+        if (days < 7) {
+          score -= 25;
+          findings.push({ id: 'risk_ssl_expiring_critical', severity: 'critical', points: -25, owasp: 'A02' });
+        } else if (days < 30) {
+          score -= 15;
+          findings.push({ id: 'risk_ssl_expiring_soon', severity: 'warning', points: -15, owasp: 'A02' });
+        }
+      }
+    }
+
+    // 4. Protocolo TLS fraco (A02)
+    if (data.sslProto && (data.sslProto.includes('1.0') || data.sslProto.includes('1.1'))) {
+      score -= 20;
+      findings.push({ id: 'risk_tls_weak', severity: 'critical', points: -20, owasp: 'A02' });
+    }
+
+    // 5. Ciphers fracos / Vulnerabilidades (A02)
+    if ((data.tlsAuditWeak && data.tlsAuditWeak !== '0' && !data.tlsAuditWeak.includes('Nenhum')) ||
+        (data.tlsAuditPoodle && data.tlsAuditPoodle.includes('Vulnerável')) ||
+        (data.tlsAuditBeast && data.tlsAuditBeast.includes('Vulnerável')) ||
+        (data.tlsAuditCrime && data.tlsAuditCrime.includes('Vulnerável'))) {
+      score -= 15;
+      findings.push({ id: 'risk_cipher_weak', severity: 'warning', points: -15, owasp: 'A02' });
+    }
+
+    // 6. Redirect HTTP -> HTTPS (A02)
+    if (data.redirectFinal && data.redirectFinal.startsWith('http://')) {
+      score -= 10;
+      findings.push({ id: 'risk_no_https_redirect', severity: 'warning', points: -10, owasp: 'A02' });
+    }
+
+    // 7. HSTS (A02)
+    if (data.hstsEnabled) {
+      if (data.hstsEnabled.includes('Inativo') || data.hstsEnabled.includes('✗') || data.hstsEnabled.includes('Não')) {
+        score -= 10;
+        findings.push({ id: 'risk_no_hsts', severity: 'warning', points: -10, owasp: 'A02' });
+      } else if (data.hstsPreload && (data.hstsPreload.includes('Sim') || data.hstsPreload.includes('✓'))) {
+        score += 3;
+        findings.push({ id: 'positive_hsts_preload', severity: 'positive', points: 3, owasp: 'A02' });
+      }
+    }
+
+    // 8. Content-Security-Policy (A05)
+    if (data.csp) {
+      if (data.csp.includes('Ausente') || data.csp.includes('✗')) {
+        score -= 8;
+        findings.push({ id: 'risk_missing_csp', severity: 'warning', points: -8, owasp: 'A05' });
+      }
+    }
+
+    // 9. X-Frame-Options (A05)
+    if (data.xframe) {
+      if (data.xframe.includes('Ausente') || data.xframe.includes('✗')) {
+        score -= 5;
+        findings.push({ id: 'risk_missing_xframe', severity: 'warning', points: -5, owasp: 'A05' });
+      }
+    }
+
+    // 10. X-Content-Type-Options (A05)
+    if (data.xcontent) {
+      if (data.xcontent.includes('Ausente') || data.xcontent.includes('✗') || !data.xcontent.includes('nosniff')) {
+        score -= 5;
+        findings.push({ id: 'risk_missing_xcontent', severity: 'warning', points: -5, owasp: 'A05' });
+      }
+    }
+
+    // 11. Referrer-Policy (A05)
+    if (data.referrer) {
+      if (data.referrer.includes('Ausente') || data.referrer.includes('✗')) {
+        score -= 3;
+        findings.push({ id: 'risk_missing_referrer', severity: 'warning', points: -3, owasp: 'A05' });
+      }
+    }
+
+    // 12. Permissions-Policy (A05)
+    if (data.permissions) {
+      if (data.permissions.includes('Ausente') || data.permissions.includes('✗')) {
+        score -= 2;
+        findings.push({ id: 'risk_missing_permissions', severity: 'info', points: -2, owasp: 'A05' });
+      }
+    }
+
+    // 13. Servidor expõe versão (A05)
+    if (data.serverHeader && /\d+\.\d+/.test(data.serverHeader)) {
+      score -= 5;
+      findings.push({ id: 'risk_server_version', severity: 'warning', points: -5, owasp: 'A05' });
+    }
+
+    // 14. DNSSEC (A02)
+    if (data.dnssec) {
+      if (data.dnssec.includes('Inativo') || data.dnssec.includes('✗') || data.dnssec.includes('Não')) {
+        score -= 5;
+        findings.push({ id: 'risk_no_dnssec', severity: 'info', points: -5, owasp: 'A02' });
+      }
+    }
+
+    // 15. SPF (A05)
+    if (data.spf) {
+      if (data.spf.includes('Não encontrado') || data.spf.includes('Ausente') || data.spf.includes('Inválido')) {
+        score -= 5;
+        findings.push({ id: 'risk_no_spf', severity: 'warning', points: -5, owasp: 'A05' });
+      }
+    }
+
+    // 16. DMARC (A05)
+    if (data.dmarc) {
+      if (data.dmarc.includes('Não encontrado') || data.dmarc.includes('none') || data.dmarc.includes('Ausente')) {
+        score -= 5;
+        findings.push({ id: 'risk_no_dmarc', severity: 'warning', points: -5, owasp: 'A05' });
+      } else if (data.dmarc.includes('reject')) {
+        score += 3;
+        findings.push({ id: 'positive_dmarc_reject', severity: 'positive', points: 3, owasp: 'A05' });
+      }
+    }
+
+    // 17. Cookies Secure & HttpOnly (A02 & A05)
+    if (data.cookiesSecure && data.cookiesSecure.includes('Ausente')) {
+      score -= 5;
+      findings.push({ id: 'risk_cookies_insecure', severity: 'warning', points: -5, owasp: 'A02' });
+    }
+    if (data.cookiesHttpOnly && data.cookiesHttpOnly.includes('Ausente')) {
+      score -= 5;
+      findings.push({ id: 'risk_cookies_no_httponly', severity: 'warning', points: -5, owasp: 'A05' });
+    }
+
+    // 18. Pontos Fortes (Bônus)
+    if (data.waf && (data.waf.includes('Detectado') || data.waf.includes('✓') || data.waf.includes('Sim'))) {
+      findings.push({ id: 'positive_waf', severity: 'positive', points: 0, owasp: 'A05' });
+    }
+
+    if (data.securityTxt && (data.securityTxt.includes('Sim') || data.securityTxt.includes('✓') || data.securityTxt.includes('Encontrado'))) {
+      score += 2;
+      findings.push({ id: 'positive_security_txt', severity: 'positive', points: 2, owasp: 'A05' });
+    }
+
+    // Clamp score
+    score = Math.max(0, Math.min(100, score));
+
+    return {
+      score,
+      findings,
+      classification: this.classifyScore(score),
+      recommendations: this.generateRecommendations(findings)
+    };
+  },
+
+  /**
+   * Classifica o score em 5 faixas
+   */
+  classifyScore(score) {
+    if (score >= 96) return { key: 'score_excellent', class: 'score-excellent' };
+    if (score >= 81) return { key: 'score_good',      class: 'score-good' };
+    if (score >= 61) return { key: 'score_moderate',  class: 'score-moderate' };
+    if (score >= 41) return { key: 'score_poor',      class: 'score-poor' };
+    return { key: 'score_critical',  class: 'score-critical' };
+  },
+
+  /**
+   * Mapeamento de findings para recomendações
+   */
+  generateRecommendations(findings) {
+    const map = {
+      'risk_dns_leak': 'rec_dns_leak',
+      'risk_webrtc_leak': 'rec_webrtc_leak',
+      'risk_no_vpn': 'rec_enable_vpn',
+      'risk_no_doh': 'rec_enable_doh',
+      'risk_ipv6_unprotected': 'rec_enable_vpn',
+      'risk_ssl_invalid': 'rec_renew_ssl',
+      'risk_ssl_expiring_critical': 'rec_renew_ssl',
+      'risk_ssl_expiring_soon': 'rec_renew_ssl',
+      'risk_tls_weak': 'rec_upgrade_tls',
+      'risk_cipher_weak': 'rec_fix_cipher',
+      'risk_no_hsts': 'rec_enable_hsts',
+      'risk_missing_csp': 'rec_add_csp',
+      'risk_missing_xframe': 'rec_add_xframe',
+      'risk_missing_xcontent': 'rec_add_xcontent',
+      'risk_missing_referrer': 'rec_add_referrer',
+      'risk_missing_permissions': 'rec_add_permissions',
+      'risk_server_version': 'rec_hide_server',
+      'risk_no_dnssec': 'rec_enable_dnssec',
+      'risk_no_spf': 'rec_configure_spf',
+      'risk_no_dmarc': 'rec_configure_dmarc',
+      'risk_cookies_insecure': 'rec_secure_cookies',
+      'risk_cookies_no_httponly': 'rec_secure_cookies',
+      'risk_no_https_redirect': 'rec_force_https',
+      'risk_malware_detected': 'rec_remove_malware'
+    };
+
+    const recs = [];
+    const seen = new Set();
+
+    findings.forEach(f => {
+      const recKey = map[f.id];
+      if (recKey && !seen.has(recKey)) {
+        seen.add(recKey);
+        recs.push({ key: recKey, severity: f.severity });
+      }
+    });
+
+    return recs;
+  },
+
+  /**
+   * Renderiza os resultados visualmente no card security-ai
+   */
+  renderAnalysis(analysis, cardElement) {
+    if (!analysis) return;
+    this._lastAnalysis = analysis;
+
+    const targetEl = cardElement || document.getElementById('ai-content');
+    if (!targetEl) return;
+
+    // Atualiza o badge do card
+    const badge = document.getElementById('badge-ai');
+    if (badge) {
+      badge.className = 'card-badge badge-ok';
+      badge.textContent = `${analysis.score}/100`;
+    }
+
+    const { score, classification, findings, recommendations } = analysis;
+    const classText = t(classification.key);
+
+    const criticalList = findings.filter(f => f.severity === 'critical');
+    const warningList  = findings.filter(f => f.severity === 'warning');
+    const infoList     = findings.filter(f => f.severity === 'info');
+    const positiveList = findings.filter(f => f.severity === 'positive');
+
+    let html = `
+      <div class="security-score ${classification.class}">
+        <div class="score-value">${score}</div>
+        <div class="score-label">${t('score_label')}: ${score}/100 — ${classText}</div>
+        <div class="score-bar">
+          <div class="score-fill" id="ai-score-fill" style="width: 0%;"></div>
+        </div>
+      </div>
+    `;
+
+    // Mensagem positiva se não houver riscos críticos
+    if (criticalList.length === 0) {
+      html += `
+        <div class="no-risks-message">
+          ${t('no_critical_risks')}
+        </div>
+      `;
+    }
+
+    // Riscos Críticos
+    if (criticalList.length > 0) {
+      html += `
+        <div class="findings-section critical">
+          <h4>🔴 ${t('risks_critical')} (${criticalList.length})</h4>
+          <ul>
+            ${criticalList.map(item => `<li><strong>${item.points} pts:</strong> ${t(item.id)} ${item.owasp ? `<span style="opacity:0.75">[OWASP ${item.owasp}]</span>` : ''}</li>`).join('')}
+          </ul>
+        </div>
+      `;
+    }
+
+    // Pontos de Atenção
+    if (warningList.length > 0) {
+      html += `
+        <div class="findings-section warning">
+          <h4>🟡 ${t('risks_warning')} (${warningList.length})</h4>
+          <ul>
+            ${warningList.map(item => `<li><strong>${item.points} pts:</strong> ${t(item.id)} ${item.owasp ? `<span style="opacity:0.75">[OWASP ${item.owasp}]</span>` : ''}</li>`).join('')}
+          </ul>
+        </div>
+      `;
+    }
+
+    // Informações
+    if (infoList.length > 0) {
+      html += `
+        <div class="findings-section info">
+          <h4>ℹ️ ${t('risks_info')} (${infoList.length})</h4>
+          <ul>
+            ${infoList.map(item => `<li><strong>${item.points} pts:</strong> ${t(item.id)} ${item.owasp ? `<span style="opacity:0.75">[OWASP ${item.owasp}]</span>` : ''}</li>`).join('')}
+          </ul>
+        </div>
+      `;
+    }
+
+    // Pontos Fortes
+    if (positiveList.length > 0) {
+      html += `
+        <div class="findings-section positive">
+          <h4>✅ ${t('strengths_positive')} (${positiveList.length})</h4>
+          <ul>
+            ${positiveList.map(item => `<li><strong>+${item.points} pts:</strong> ${t(item.id)}</li>`).join('')}
+          </ul>
+        </div>
+      `;
+    }
+
+    // Recomendações
+    if (recommendations.length > 0) {
+      html += `
+        <div class="recommendations-section">
+          <h4>💡 ${t('recommendations_title')} (${recommendations.length})</h4>
+          <ol>
+            ${recommendations.map(rec => `<li>${t(rec.key)}</li>`).join('')}
+          </ol>
+        </div>
+      `;
+    }
+
+    targetEl.innerHTML = html;
+
+    // Anima a barra de progresso suavemente
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        const fill = document.getElementById('ai-score-fill');
+        if (fill) {
+          fill.style.width = score + '%';
+        }
+      }, 50);
+    });
+  },
+
+  /**
+   * Re-renderiza a última análise com as novas strings do idioma atual
+   */
+  reRender() {
+    if (this._lastAnalysis) {
+      this.renderAnalysis(this._lastAnalysis);
+    }
+  },
+
+  /**
+   * Método principal orquestrador
+   */
+  async run() {
+    const page = (document.body && document.body.dataset && document.body.dataset.page) ? document.body.dataset.page : 'home';
+    const targetEl = document.getElementById('ai-content');
+
+    if (!targetEl) return;
+
+    if (page === 'domain') {
+      const data = this.collectDomainData();
+      const analysis = this.analyzeDomain(data);
+      this.renderAnalysis(analysis, targetEl);
+    } else {
+      const data = this.collectPersonalData();
+      const analysis = this.analyzePersonalNetwork(data);
+      this.renderAnalysis(analysis, targetEl);
+    }
+  }
+};
+
+
 /* ─────────── Sistema de Navegação Unificado ─────────── */
 
 function setupMobileMenu() {
@@ -4271,4 +5595,5 @@ window.setLanguage = setLanguage;
 window.toggleLangDropdown = toggleLangDropdown;
 window.t = t;
 window.applyTranslations = applyTranslations;
+window.SecurityAnalyzer = SecurityAnalyzer;
 window.SUPPORTED_LANGS = SUPPORTED_LANGS;

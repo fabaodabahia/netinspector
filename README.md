@@ -92,6 +92,37 @@ Ferramenta para auditoria completa de qualquer site ou domínio da web:
 
 ---
 
+## 🤖 Análise de Segurança IA
+
+O NET INSPECTOR inclui um **Sistema Especialista de Análise de Segurança** que roda 100% no seu navegador, sem enviar dados para servidores externos.
+
+### Como funciona
+- Analisa os dados já coletados pelos cards (IP, SSL, headers, DNS, cookies, etc.)
+- Calcula um **Security Score de 0 a 100** com classificação visual
+- Identifica vulnerabilidades por severidade (Crítico, Atenção, Info)
+- Gera recomendações personalizadas e acionáveis
+
+### Categorias OWASP Cobertas
+- **A01:2021** - Broken Access Control (parcial — SameSite cookies, CORS)
+- **A02:2021** - Cryptographic Failures (SSL/TLS, HSTS, DNSSEC)
+- **A05:2021** - Security Misconfiguration (headers ausentes, versões expostas)
+- **A06:2021** - Vulnerable Components (malware, tech stack conhecido)
+
+### Classificação de Score
+- 🟢 **96-100**: Excelente
+- 🔵 **81-95**: Bom
+- 🟡 **61-80**: Moderado
+- 🟠 **41-60**: Ruim
+- 🔴 **0-40**: Crítico
+
+### Transparência
+- ✅ Análise 100% local (nada é enviado para servidores)
+- ✅ Baseado em padrões reconhecidos (OWASP, Mozilla Observatory, SSL Labs)
+- ✅ Totalmente explicável (cada risco aponta para dados específicos)
+- ⚠️ Limitação: análise externa (black-box) cobre ~70% dos itens OWASP verificáveis remotamente
+
+---
+
 ## 🌍 Sistema de Internacionalização (i18n)
 
 O **NET INSPECTOR** possui um motor de internacionalização nativo (Vanilla JS) com suporte a 10 idiomas:
