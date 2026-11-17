@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO Meta Tags -->
+  <title>DNS Leak &amp; WebRTC Test | VPN Privacy Audit | NET INSPECTOR</title>
+  <meta name="description" content="Check if your VPN or Proxy is leaking DNS queries, real IP address, or WebRTC candidates. Instant, free, and 100% client-side with zero logs.">
+  <meta name="keywords" content="dns leak test, webrtc leak test, vpn privacy audit, ip leak test, secure dns, doh, dot, disable webrtc, net inspector">
+  <meta name="author" content="NET INSPECTOR">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://netinspector.net/en/dns-leak.html">
+
+  <!-- Hreflang Tags para SEO Internacional -->
+  <link rel="alternate" hreflang="x-default" href="https://netinspector.net/dns-leak.html">
+  <link rel="alternate" hreflang="pt" href="https://netinspector.net/dns-leak.html">
+  <link rel="alternate" hreflang="en" href="https://netinspector.net/en/dns-leak.html">
+  <link rel="alternate" hreflang="es" href="https://netinspector.net/es/dns-leak.html">
+  <link rel="alternate" hreflang="fr" href="https://netinspector.net/dns-leak.html?lang=fr">
+  <link rel="alternate" hreflang="de" href="https://netinspector.net/dns-leak.html?lang=de">
+  <link rel="alternate" hreflang="it" href="https://netinspector.net/dns-leak.html?lang=it">
+  <link rel="alternate" hreflang="ja" href="https://netinspector.net/dns-leak.html?lang=ja">
+  <link rel="alternate" hreflang="zh" href="https://netinspector.net/dns-leak.html?lang=zh">
+  <link rel="alternate" hreflang="ru" href="https://netinspector.net/dns-leak.html?lang=ru">
+  <link rel="alternate" hreflang="ar" href="https://netinspector.net/dns-leak.html?lang=ar">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://netinspector.net/en/dns-leak.html">
+  <meta property="og:title" content="DNS Leak &amp; WebRTC Test | VPN Privacy Audit | NET INSPECTOR">
+  <meta property="og:description" content="Check if your VPN or Proxy is leaking DNS requests, real IP, or WebRTC. Free and 100% client-side.">
+  <meta property="og:image" content="https://netinspector.net/og-image.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://netinspector.net/en/dns-leak.html">
+  <meta name="twitter:title" content="DNS Leak &amp; WebRTC Test | VPN Privacy Audit | NET INSPECTOR">
+  <meta name="twitter:description" content="Check if your VPN or Proxy is leaking DNS requests, real IP, or WebRTC. Free and 100% client-side.">
+  <meta name="twitter:image" content="https://netinspector.net/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="alternate icon" href="../favicon.ico">
+
+  <!-- Google Fonts Optimization -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap">
+
+  <!-- Design System CSS -->
+  <link rel="stylesheet" href="../style.css">
+
+  <!-- Schema.org JSON-LD para IA e Search Engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "@id": "https://netinspector.net/en/dns-leak.html#webapp",
+        "name": "DNS Leak Test — NET INSPECTOR",
+        "alternateName": "DNS Leak & WebRTC Privacy Test",
+        "url": "https://netinspector.net/en/dns-leak.html",
+        "description": "Verifique vazamentos de DNS, WebRTC e integridade de navegação com VPN de forma rápida e 100% client-side.",
+        "applicationCategory": "SecurityApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "featureList": "DNS Leak Test, WebRTC Leak Detection, VPN/Proxy Detection, DoH Verification, Latency & Diagnostic Log",
+        "inLanguage": "en-US"
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://netinspector.net/en/dns-leak.html#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "O que é um vazamento de DNS (DNS Leak)?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Um vazamento de DNS ocorre quando as requisições de resolução de nomes não passam pelo túnel criptografado da VPN, sendo enviadas diretamente aos servidores DNS do seu provedor de internet (ISP)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "O que é o risco de vazamento por WebRTC?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "O WebRTC permite chamadas e conexões P2P no navegador. Suas consultas STUN podem contornar a VPN e expor o endereço IPv4 ou IPv6 real da sua conexão."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Minha VPN mascara automaticamente minhas requisições DNS?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Nem sempre. Falhas de configuração no cliente VPN ou configurações padrão do sistema operacional podem deixar escapar consultas DNS fora do túnel."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Como corrigir um vazamento de DNS?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Ative o recurso Kill Switch e a proteção contra vazamento DNS no aplicativo da sua VPN, ou configure manualmente DNS seguros como Cloudflare (1.1.1.1)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Devo desabilitar o WebRTC completamente?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Desativá-lo por completo quebra videochamadas no navegador (Meet, Zoom, WhatsApp Web). Em vez disso, use extensões como o uBlock Origin que ativam a proteção contra vazamento sem interromper seus serviços."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <!-- Analytics Privacy-First (Sem cookies / LGPD & GDPR compliant) -->
+  <script data-goatcounter="https://netinspector.goatcounter.com/count"
+          async src="//gc.zgo.at/count.js"></script>
+
+  <!-- Microsoft Clarity -->
+  <script type="text/javascript">
+      (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "zf2n37rcc2");
+  </script>
+
+  <!-- Script da Aplicação compartilhado -->
+  <script src="../app.js" defer></script>
+</head>
+<body data-page="dnsleak">
+
+<header id="main-header"></header>
+
+<main>
+  <!-- Hero Section -->
+  <div class="hero">
+    <div class="hero-label" id="hero-label" data-i18n="leak_hero_badge">Privacy &amp; VPN Audit</div>
+    <h1 style="font-size:1.8rem;color:var(--color-text-primary);margin:var(--spacing-sm) 0;font-weight:700;" data-i18n="leak_hero_title">Is your VPN or Proxy leaking private data?</h1>
+    <p style="max-width:680px;margin:0 auto;color:var(--color-text-secondary);font-size:0.95rem;line-height:1.6;" data-i18n="leak_hero_desc">Run an end-to-end DNS leak, public IP and WebRTC test to guarantee your internet traffic stays 100% private and protected.</p>
+  </div>
+
+  <!-- Grid de Cards Filtrada (IP, Segurança, Latência, Log) -->
+  <div class="grid" id="cards-container"></div>
+
+  <!-- Artigo Rico e Otimizado para SEO -->
+  <article style="max-width:960px;margin:var(--spacing-2xl) auto 0;padding:var(--spacing-xl);background:var(--color-bg-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);line-height:1.75;color:var(--color-text-secondary);">
+    <h2 style="font-size:1.4rem;color:var(--color-text-primary);margin-bottom:var(--spacing-md);display:flex;align-items:center;gap:var(--spacing-sm);">
+      <span>🛡️</span> <span data-i18n="leak_art_dns_title">What is a DNS Leak?</span>
+    </h2>
+    <p style="margin-bottom:var(--spacing-md);" data-i18n="leak_art_dns_p1">When connected to a VPN, all network traffic and DNS queries should route through an encrypted tunnel directly to your VPN provider DNS servers. A DNS leak happens when your device bypasses this tunnel, sending requests to your local internet provider (ISP) DNS servers instead.</p>
+    <p style="margin-bottom:var(--spacing-xl);" data-i18n="leak_art_dns_p2">This means that despite believing you are anonymous, your ISP can still monitor which websites you visit, entirely undermining your VPN privacy.</p>
+
+    <h2 style="font-size:1.4rem;color:var(--color-text-primary);margin-bottom:var(--spacing-md);display:flex;align-items:center;gap:var(--spacing-sm);">
+      <span>⚠️</span> <span data-i18n="leak_art_webrtc_title">The Danger of WebRTC Leaks</span>
+    </h2>
+    <p style="margin-bottom:var(--spacing-md);" data-i18n="leak_art_webrtc_p1">WebRTC is built into modern browsers for peer-to-peer real-time communication. However, STUN requests can bypass VPN network adapters, exposing your true public IPv4 or IPv6 address directly to websites.</p>
+    <p style="margin-bottom:var(--spacing-xl);" data-i18n="leak_art_webrtc_p2">NET INSPECTOR inspects your browser local ICE candidates in real time and alerts you if any divergence between your VPN IP and real IP is found.</p>
+
+    <!-- Seção Educativa WebRTC Integrada -->
+    <section class="webrtc-education" aria-labelledby="webrtc-impact-heading">
+      <h2 id="webrtc-impact-heading" data-i18n="webrtc_edu_title">What happens if I disable WebRTC?</h2>
+      
+      <p class="edu-summary" data-i18n="webrtc_edu_summary">Disabling WebRTC increases privacy by preventing real IP leaks, but real-time audio/video services may stop working.</p>
+      
+      <div class="edu-columns">
+        <div class="edu-column warning">
+          <h3>⚠️ <span data-i18n="webrtc_edu_stops_title">What will stop working</span></h3>
+          <ul>
+            <li>📹 <span data-i18n="webrtc_edu_stops_voip">Browser video calls (Google Meet, Zoom Web, Discord Web, WhatsApp Web)</span></li>
+            <li>📤 <span data-i18n="webrtc_edu_stops_p2p">Web P2P file sharing (Snapdrop, ShareDrop, WebTorrent)</span></li>
+            <li>🎮 <span data-i18n="webrtc_edu_stops_gaming">Cloud gaming and interactive browser streaming</span></li>
+          </ul>
+        </div>
+        
+        <div class="edu-column safe">
+          <h3>✅ <span data-i18n="webrtc_edu_safe_title">What will NOT be affected</span></h3>
+          <ul>
+            <li>💻 <span data-i18n="webrtc_edu_safe_apps">Dedicated desktop/mobile apps (Zoom, Discord, Teams, WhatsApp)</span></li>
+            <li>📺 <span data-i18n="webrtc_edu_safe_streaming">Standard video streaming (YouTube, Netflix, Twitch)</span></li>
+            <li>🌐 <span data-i18n="webrtc_edu_safe_browsing">General web browsing (websites, social media, online stores)</span></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="edu-tip">
+        <p>💡 <span data-i18n="webrtc_edu_tip">Recommendation: instead of disabling completely, use an anti-leak extension (such as uBlock Origin) that keeps WebRTC functional without exposing your real IP.</span></p>
+      </div>
+    </section>
+
+    <h2 style="font-size:1.4rem;color:var(--color-text-primary);margin-bottom:var(--spacing-md);display:flex;align-items:center;gap:var(--spacing-sm);margin-top:var(--spacing-2xl);">
+      <span>🔒</span> <span data-i18n="leak_art_doh_title">How DNS-over-HTTPS (DoH) & DoT Protect You</span>
+    </h2>
+    <p style="margin-bottom:var(--spacing-md);" data-i18n="leak_art_doh_p1">Standard DNS queries travel unencrypted over UDP port 53, making them vulnerable to surveillance. DNS-over-HTTPS (DoH) and DNS-over-TLS (DoT) wrap requests in secure TLS tunnels, preventing tampering and snooping.</p>
+
+    <h2 style="font-size:1.4rem;color:var(--color-text-primary);margin-bottom:var(--spacing-md);display:flex;align-items:center;gap:var(--spacing-sm);">
+      <span>❓</span> <span data-i18n="leak_faq_title">VPN &amp; DNS Privacy Frequently Asked Questions (FAQ)</span>
+    </h2>
+
+    <div style="display:flex;flex-direction:column;gap:var(--spacing-md);">
+      <div style="padding:var(--spacing-md);background:var(--color-bg-primary);border:1px solid var(--color-border);border-radius:var(--radius-md);">
+        <strong style="color:var(--color-text-primary);display:block;margin-bottom:var(--spacing-xs);" data-i18n="leak_faq_q1">Does my VPN always hide my DNS queries?</strong>
+        <p style="font-size:0.9rem;margin:0;" data-i18n="leak_faq_a1">Not always. Misconfigured VPN clients or operating system fallbacks can route lookups to your local ISP router.</p>
+      </div>
+
+      <div style="padding:var(--spacing-md);background:var(--color-bg-primary);border:1px solid var(--color-border);border-radius:var(--radius-md);">
+        <strong style="color:var(--color-text-primary);display:block;margin-bottom:var(--spacing-xs);" data-i18n="leak_faq_q2">How can a website discover my real IP even with an active VPN?</strong>
+        <p style="font-size:0.9rem;margin:0;" data-i18n="leak_faq_a2">Mainly through WebRTC leaks or unprotected IPv6 traffic. If your VPN only handles IPv4, your true IPv6 might be exposed.</p>
+      </div>
+
+      <div style="padding:var(--spacing-md);background:var(--color-bg-primary);border:1px solid var(--color-border);border-radius:var(--radius-md);">
+        <strong style="color:var(--color-text-primary);display:block;margin-bottom:var(--spacing-xs);" data-i18n="leak_faq_q3">What are DNS-over-HTTPS (DoH) and DNS-over-TLS (DoT)?</strong>
+        <p style="font-size:0.9rem;margin:0;" data-i18n="leak_faq_a3">They are modern security protocols encrypting DNS traffic, preventing eavesdropping on public Wi-Fi and ISP monitoring.</p>
+      </div>
+
+      <div style="padding:var(--spacing-md);background:var(--color-bg-primary);border:1px solid var(--color-border);border-radius:var(--radius-md);">
+        <strong style="color:var(--color-text-primary);display:block;margin-bottom:var(--spacing-xs);" data-i18n="leak_faq_q4">How do I fix a DNS leak detected by this test?</strong>
+        <p style="font-size:0.9rem;margin:0;" data-i18n="leak_faq_a4">Enable DNS Leak Protection and Kill Switch inside your VPN app, or manually set trusted DNS servers like Cloudflare (1.1.1.1) on your network adapter.</p>
+      </div>
+
+      <div style="padding:var(--spacing-md);background:var(--color-bg-primary);border:1px solid var(--color-border);border-radius:var(--radius-md);">
+        <strong style="color:var(--color-text-primary);display:block;margin-bottom:var(--spacing-xs);" data-i18n="leak_faq_q5">Should I completely disable WebRTC?</strong>
+        <p style="font-size:0.9rem;margin:0;" data-i18n="leak_faq_a5">Disabling it completely breaks browser meetings (Meet, Zoom, WhatsApp Web). Instead, use extensions like uBlock Origin that prevent IP leaks without disrupting services.</p>
+      </div>
+    </div>
+
+    <!-- CTA para Meu IP & Provedor -->
+    <div style="margin-top:var(--spacing-2xl);padding:var(--spacing-lg);background:linear-gradient(135deg, rgba(0,212,255,0.08), rgba(124,58,237,0.08));border:1px solid var(--color-border-hover);border-radius:var(--radius-md);text-align:center;">
+      <h3 style="color:var(--color-text-primary);margin-bottom:var(--spacing-xs);font-size:1.1rem;" data-i18n="leak_cta_home_title">Want to inspect your internet provider and IP details?</h3>
+      <p style="font-size:0.9rem;margin-bottom:var(--spacing-md);color:var(--color-text-secondary);" data-i18n="leak_cta_home_desc">Check detailed geolocation, ASN routing, and connectivity speed.</p>
+      <div style="display:flex;justify-content:center;gap:var(--spacing-md);flex-wrap:wrap;">
+        <a href="./index.html" class="btn" style="display:inline-block;text-decoration:none;padding:10px 22px;background:var(--gradient-accent);color:var(--color-bg-primary);border-radius:var(--radius-md);font-weight:700;font-size:0.9rem;box-shadow:var(--shadow-glow);" data-i18n="leak_cta_home_btn">Inspect My IP &amp; ISP 📍</a>
+      </div>
+    </div>
+  </article>
+</main>
+
+<footer>
+  <p data-i18n="footer_desc">NET INSPECTOR · 100% Client-Side Network & IP Diagnostics · Zero data stored</p>
+  <p style="margin-top:4px">
+    <a href="./index.html" style="color:var(--color-accent);text-decoration:none;" data-i18n="footer_link_ip">What is My IP?</a> · 
+    <a href="./cgnat.html" style="color:var(--color-accent);text-decoration:none;" data-i18n="footer_link_cgnat">CGNAT &amp; Gaming NAT Test</a> · 
+    <a href="./dns-leak.html" style="color:var(--color-accent);text-decoration:none;" data-i18n="footer_link_dnsleak">DNS Leak Test</a> · 
+    <a href="./domain.html" style="color:var(--color-accent);text-decoration:none;" data-i18n="footer_link_domain">Domain Analysis</a> · 
+    Fontes: ipapi.co · ipify.org · WebRTC API · Navigator API
+  </p>
+  <p style="margin-top:6px;font-size:0.7rem;color:var(--color-text-muted);">
+    <span data-i18n="footer_analytics">📊 Privacy-first analytics via GoatCounter (no cookies) —</span> 
+    <a href="https://netinspector.goatcounter.com/" target="_blank" rel="noopener" style="color:var(--color-accent);text-decoration:none;" data-i18n="footer_stats">View public stats ↗</a> · 
+    <button id="analytics-optout-btn" onclick="toggleAnalytics()" class="optout-btn" data-i18n="btn_optout_off">Disable Analytics</button>
+  </p>
+</footer>
+
+</body>
+</html>

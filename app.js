@@ -2833,6 +2833,13 @@ function detectLanguage() {
     }
   } catch (e) {}
 
+  // Prioriza pasta estática do idioma (/en/ ou /es/)
+  try {
+    const p = window.location.pathname || '';
+    if (p === '/en' || p.startsWith('/en/')) return 'en';
+    if (p === '/es' || p.startsWith('/es/')) return 'es';
+  } catch (e) {}
+
   try {
     const saved = localStorage.getItem('preferred_language');
     if (saved && SUPPORTED_LANGS[saved.toLowerCase()]) {
@@ -2878,6 +2885,25 @@ function setLanguage(langCode) {
   currentLang = code;
   try {
     localStorage.setItem('preferred_language', code);
+  } catch (e) {}
+
+  // Se houver versão estática dedicada (pt-br na raiz, /en/, /es/), redireciona para a URL canônica correspondente
+  try {
+    const path = window.location.pathname || '/';
+    const file = path.split('/').pop() || 'index.html';
+    const validFiles = ['index.html', 'cgnat.html', 'dns-leak.html', 'domain.html', ''];
+    if (validFiles.includes(file) && ['pt-br', 'en', 'es'].includes(code)) {
+      const targetFile = file === '' ? 'index.html' : file;
+      const targetPrefix = code === 'pt-br' ? '/' : `/${code}/`;
+      const currentPrefix = path.startsWith('/en/') ? '/en/' : (path.startsWith('/es/') ? '/es/' : '/');
+      if (targetPrefix !== currentPrefix) {
+        const nextUrl = new URL(window.location.href);
+        nextUrl.pathname = targetPrefix + (targetFile === 'index.html' && targetPrefix === '/' ? '' : targetFile);
+        nextUrl.searchParams.delete('lang');
+        window.location.href = nextUrl.toString();
+        return;
+      }
+    }
   } catch (e) {}
 
   // Atualiza atributo lang e dir do html
@@ -2970,11 +2996,18 @@ function updateSeoMetaTags() {
     else if (page === 'dnsleak') basePath = '/dns-leak.html';
     else if (page === 'cgnat') basePath = '/cgnat.html';
 
-    // Atualiza canonical para refletir ?lang= quando presente (evita descarte de hreflang pelo Google)
+    const pathName = window.location.pathname || '/';
+    const langPrefix = pathName.startsWith('/en/') || pathName === '/en' ? '/en'
+      : (pathName.startsWith('/es/') || pathName === '/es' ? '/es' : '');
+    if (langPrefix) {
+      basePath = langPrefix + (basePath === '/' ? '/' : basePath);
+    }
+
+    // Atualiza canonical para refletir rota estática ou ?lang=
     const canonicalEl = document.querySelector('link[rel="canonical"]');
     if (canonicalEl) {
       const canonicalUrl = new URL('https://netinspector.net' + basePath);
-      if (langParam && SUPPORTED_LANGS[langParam.toLowerCase()]) {
+      if (!langPrefix && langParam && SUPPORTED_LANGS[langParam.toLowerCase()]) {
         canonicalUrl.searchParams.set('lang', langParam.toLowerCase());
       }
       canonicalEl.setAttribute('href', canonicalUrl.toString());
@@ -6295,7 +6328,7 @@ const MLInference = {
   async getCalibration() {
     if (this._calibration) return this._calibration;
     try {
-      const resp = await fetch('./models/calibration.json');
+      const resp = await fetch('/models/calibration.json');
       if (resp.ok) {
         this._calibration = await resp.json();
         return this._calibration;
@@ -6362,7 +6395,7 @@ const MLInference = {
     const ort = await this.loadONNXRuntime();
 
     try {
-      const resp = await fetch('./models/security-model.onnx');
+      const resp = await fetch('/models/security-model.onnx');
       if (!resp.ok) throw new Error(`HTTP ${resp.status} ao carregar modelo ONNX`);
       const buffer = await resp.arrayBuffer();
       this._session = await ort.InferenceSession.create(buffer, {
@@ -6372,7 +6405,7 @@ const MLInference = {
       return this._session;
     } catch (fetchErr) {
       console.warn('MLInference: fallback para carregamento direto via URL', fetchErr);
-      this._session = await ort.InferenceSession.create('./models/security-model.onnx', {
+      this._session = await ort.InferenceSession.create('/models/security-model.onnx', {
         executionProviders: ['wasm']
       });
       this._isReady = true;
@@ -7231,8 +7264,11 @@ function renderHeader() {
   `;
 
   // Breadcrumb Schema.org dinâmico
+  const pathName = window.location.pathname || '/';
+  const langPrefix = pathName.startsWith('/en/') || pathName === '/en' ? '/en'
+    : (pathName.startsWith('/es/') || pathName === '/es' ? '/es' : '');
   const currentItem = navItems.find(item => item.id === page || (page === 'ip' && item.id === 'home')) || navItems[0];
-  const canonicalUrl = `https://netinspector.net/${currentItem.href === 'index.html' ? '' : currentItem.href}`;
+  const canonicalUrl = `https://netinspector.net${langPrefix}/${currentItem.href === 'index.html' ? '' : currentItem.href}`;
 
   const breadcrumbJson = {
     "@context": "https://schema.org",
