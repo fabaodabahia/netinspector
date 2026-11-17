@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO Meta Tags -->
+  <title>Teste de CGNAT Online e NAT para Jogos — Meu IP é Compartilhado? | NET INSPECTOR</title>
+  <meta name="description" content="Descubra se o seu provedor de internet usa CGNAT (RFC 6598 - 100.64.x.x), verifique se seu NAT é Estrito ou Cone em jogos (PS5, Xbox, PC), teste IPv6 nativo e copie o texto pronto para pedir a remoção.">
+  <meta name="keywords" content="teste cgnat, como saber se estou em cgnat, verificar cgnat online, nat estrito jogos, ip compartilhado rfc 6598, sair do cgnat claro vivo tim, teste ipv6, cgnat checker, net inspector">
+  <meta name="author" content="NET INSPECTOR">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://netinspector.net/cgnat.html">
+
+  <!-- Hreflang Tags para SEO Internacional -->
+  <link rel="alternate" hreflang="x-default" href="https://netinspector.net/cgnat.html">
+  <link rel="alternate" hreflang="pt" href="https://netinspector.net/cgnat.html?lang=pt-br">
+  <link rel="alternate" hreflang="en" href="https://netinspector.net/cgnat.html?lang=en">
+  <link rel="alternate" hreflang="es" href="https://netinspector.net/cgnat.html?lang=es">
+  <link rel="alternate" hreflang="fr" href="https://netinspector.net/cgnat.html?lang=fr">
+  <link rel="alternate" hreflang="de" href="https://netinspector.net/cgnat.html?lang=de">
+  <link rel="alternate" hreflang="it" href="https://netinspector.net/cgnat.html?lang=it">
+  <link rel="alternate" hreflang="ja" href="https://netinspector.net/cgnat.html?lang=ja">
+  <link rel="alternate" hreflang="zh" href="https://netinspector.net/cgnat.html?lang=zh">
+  <link rel="alternate" hreflang="ru" href="https://netinspector.net/cgnat.html?lang=ru">
+  <link rel="alternate" hreflang="ar" href="https://netinspector.net/cgnat.html?lang=ar">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://netinspector.net/cgnat.html">
+  <meta property="og:title" content="Teste de CGNAT Online e NAT para Jogos — Meu IP é Compartilhado?">
+  <meta property="og:description" content="Verifique se sua internet está atrás de CGNAT (100.64.x.x), analise NAT Simétrico/Cone para jogos, IPv6 nativo e gere a solicitação para o suporte da operadora.">
+  <meta property="og:image" content="https://netinspector.net/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://netinspector.net/cgnat.html">
+  <meta name="twitter:title" content="Teste de CGNAT Online e NAT para Jogos — NET INSPECTOR">
+  <meta name="twitter:description" content="Verifique se seu provedor usa CGNAT, detecte NAT Estrito para jogos e teste IPv6 nativo 100% no navegador.">
+  <meta name="twitter:image" content="https://netinspector.net/og-image.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="alternate icon" href="./favicon.ico">
+
+  <!-- Google Fonts Optimization -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap">
+
+  <!-- Design System CSS -->
+  <link rel="stylesheet" href="./style.css">
+
+  <!-- Schema.org JSON-LD para IA e Search Engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "@id": "https://netinspector.net/cgnat.html#webapp",
+        "name": "Teste de CGNAT & NAT para Jogos — NET INSPECTOR",
+        "alternateName": "CGNAT Checker & Gaming NAT Diagnostic",
+        "url": "https://netinspector.net/cgnat.html",
+        "description": "Ferramenta online gratuita para detectar CGNAT (RFC 6598), comportamento de NAT Simétrico vs. Cone via STUN e disponibilidade de IPv6 nativo.",
+        "applicationCategory": "UtilityApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "BRL"
+        },
+        "featureList": "Detecção RFC 6598 (100.64.0.0/10), Teste de Comportamento NAT STUN (Cone vs Symmetric), Auditoria IPv6 Dual-Stack, Gerador de Solicitação para Provedor",
+        "inLanguage": "pt-BR"
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://netinspector.net/cgnat.html#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Qual é a faixa de IP oficial do CGNAT?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A faixa oficial definida pela RFC 6598 é 100.64.0.0/10, que vai de 100.64.0.0 até 100.127.255.255. Alguns provedores também utilizam endereços privados como 10.x.x.x ou 172.16.x.x na interface WAN antes do IP público."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "O CGNAT aumenta o ping ou deixa a internet mais lenta?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Para streaming e navegação comum não altera a velocidade de download. Porém, em jogos P2P e consoles, a tradução extra e o bloqueio de portas podem causar NAT Estrito e falhas de conexão."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Posso pedir para o provedor retirar minha conexão do CGNAT?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sim. A maioria dos provedores faz a remoção gratuita (rollback) para IPv4 público dinâmico quando o cliente informa necessidade técnica, como acesso remoto a câmeras de segurança CFTV/DVR ou VPN de trabalho."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Se eu tiver IPv6 funcionando, preciso sair do CGNAT?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Para serviços modernos compatíveis com IPv6, não é necessário, pois o IPv6 não usa CGNAT. Contudo, muitos jogos e servidores ainda dependem exclusivamente de IPv4."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <!-- Analytics Privacy-First (Sem cookies / LGPD & GDPR compliant) -->
+  <script data-goatcounter="https://netinspector.goatcounter.com/count"
+          async src="//gc.zgo.at/count.js"></script>
+
+  <!-- Script da Aplicação compartilhado -->
+  <script src="./app.js" defer></script>
+</head>
+<body data-page="cgnat">
+
+<header id="main-header"></header>
+
+<main>
+  <!-- Hero Section -->
+  <div class="hero">
+    <div class="hero-label" id="hero-label" data-i18n="cgnat_hero_badge">Diagnóstico de Rede, IPv6 &amp; Jogos Online</div>
+    <h1 style="font-size:clamp(1.5rem, 4vw, 2.2rem);color:var(--color-text-primary);margin:var(--spacing-sm) 0;font-weight:700;" data-i18n="cgnat_hero_title">
+      Teste de CGNAT Online: Meu IP é Compartilhado?
+    </h1>
+    <p style="max-width:700px;margin:0 auto var(--spacing-md);color:var(--color-text-secondary);font-size:0.95rem;line-height:1.6;" data-i18n="cgnat_hero_desc">
+      Descubra se o seu provedor usa CGNAT (Carrier-Grade NAT), verifique o tipo de NAT para jogos (PlayStation, Xbox, PC), teste seu IPv6 nativo e copie o texto pronto para pedir remoção ao suporte.
+    </p>
+    <div id="cgnat-hero-status" style="display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border-radius:9999px;background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.3);font-family:var(--font-mono);font-size:0.85rem;color:var(--color-accent);">
+      <span class="spin"></span> <span>Analisando NAT e comportamento STUN...</span>
+    </div>
+    <div style="margin-top:var(--spacing-sm);display:flex;justify-content:center;gap:10px;flex-wrap:wrap;">
+      <button type="button" id="copy-cgnat-btn" onclick="copyCgnatSupportText()" style="display:none;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.35);color:#10b981;padding:7px 16px;border-radius:9999px;font-family:var(--font-mono);font-size:0.78rem;font-weight:600;cursor:pointer;" data-i18n="cgnat_btn_copy_isp">
+        📋 Copiar Pedido de Saída do CGNAT
+      </button>
+    </div>
+  </div>
+
+  <!-- Grid de Cards Filtrada (CGNAT, ISP, IP, Conectividade, Log) -->
+  <div class="grid" id="cards-container"></div>
+
+  <!-- Artigo Rico e Otimizado para SEO -->
+  <article style="max-width:960px;margin:var(--spacing-2xl) auto 0;padding:var(--spacing-xl);background:var(--color-bg-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);line-height:1.75;color:var(--color-text-secondary);">
+    <h2 style="font-size:1.4rem;color:var(--color-text-primary);margin-bottom:var(--spacing-md);display:flex;align-items:center;gap:var(--spacing-sm);">
+      <span>🎮</span> <span data-i18n="cgnat_art1_title">O que é CGNAT e como saber se estou usando?</span>
+    </h2>
+    <p style="margin-bottom:var(--spacing-md);" data-i18n="cgnat_art1_p1">
+      O CGNAT (Carrier-Grade NAT) é uma técnica usada por provedores de internet (Claro, Vivo, TIM, Oi e provedores regionais de fibra) para compartilhar um único endereço IPv4 público entre dezenas de clientes simultaneamente, devido ao esgotamento dos endereços IPv4.
+    </p>
+    <p style="margin-bottom:var(--spacing-xl);" data-i18n="cgnat_art1_p2">
+      Quando sua conexão está atrás de um CGNAT, o roteador recebe um endereço da faixa reservada RFC 6598 (100.64.0.0 até 100.127.255.255) na porta WAN, enquanto os sites enxergam o IP compartilhado do provedor. Isso impede redirecionamento de portas e gera NAT Estrito (Tipo 3) em jogos.
+    </p>
+
+    <h2 style="font-size:1.4rem;color:var(--color-text-primary);margin-bottom:var(--spacing-md);display:flex;align-items:center;gap:var(--spacing-sm);">
+      <span>🎯</span> <span data-i18n="cgnat_art2_title">Como o CGNAT afeta Jogos, Câmeras e Acesso Remoto?</span>
+    </h2>
+    <p style="margin-bottom:var(--spacing-md);" data-i18n="cgnat_art2_p1">
+      Jogos P2P e consoles (PlayStation, Xbox, Nintendo Switch) dependem de conexões diretas entre jogadores. No CGNAT com NAT Simétrico, o roteador da operadora muda constantemente a porta externa usada em cada servidor, gerando erro de NAT Estrito e falhas em chat de voz.
+    </p>
+    <p style="margin-bottom:var(--spacing-xl);" data-i18n="cgnat_art2_p2">
+      Além disso, servidores caseiros, acesso remoto via VPN própria, câmeras de segurança DVR/NVR sem nuvem e sistemas corporativos deixam de ficar acessíveis externamente via IPv4.
+    </p>
+
+    <h2 style="font-size:1.4rem;color:var(--color-text-primary);margin-bottom:var(--spacing-md);display:flex;align-items:center;gap:var(--spacing-sm);">
+      <span>🛠️</span> <span data-i18n="cgnat_art3_title">Como sair do CGNAT ou resolver o problema?</span>
+    </h2>
+    <p style="margin-bottom:var(--spacing-md);" data-i18n="cgnat_art3_p1">
+      1. Confira no roteador: acesse o painel do modem e olhe o "IP da WAN". Se começar entre 100.64.x.x e 100.127.x.x, você está 100% em CGNAT.
+    </p>
+    <p style="margin-bottom:var(--spacing-xl);" data-i18n="cgnat_art3_p2">
+      2. Use IPv6 nativo: se o teste mostrar IPv6 ativo, ele não passa por CGNAT. 3. Peça o Rollback ao Provedor: entre em contato com o suporte técnico solicitando IPv4 público dinâmico (saída do CGNAT) para uso de câmeras CFTV/DVR ou VPN de trabalho.
+    </p>
+
+    <h2 style="font-size:1.4rem;color:var(--color-text-primary);margin-bottom:var(--spacing-md);display:flex;align-items:center;gap:var(--spacing-sm);">
+      <span>❓</span> <span data-i18n="cgnat_faq_title">Perguntas Frequentes sobre CGNAT e NAT (FAQ)</span>
+    </h2>
+
+    <div style="display:flex;flex-direction:column;gap:var(--spacing-md);">
+      <div style="padding:var(--spacing-md);background:var(--color-bg-primary);border:1px solid var(--color-border);border-radius:var(--radius-md);">
+        <strong style="color:var(--color-text-primary);display:block;margin-bottom:var(--spacing-xs);" data-i18n="cgnat_faq_q1">Qual é a faixa de IP oficial do CGNAT?</strong>
+        <p style="font-size:0.9rem;margin:0;" data-i18n="cgnat_faq_a1">A faixa oficial definida pela RFC 6598 é 100.64.0.0/10 (de 100.64.0.0 até 100.127.255.255). Alguns provedores também usam 10.x.x.x ou 172.16.x.x na WAN antes do IP público.</p>
+      </div>
+
+      <div style="padding:var(--spacing-md);background:var(--color-bg-primary);border:1px solid var(--color-border);border-radius:var(--radius-md);">
+        <strong style="color:var(--color-text-primary);display:block;margin-bottom:var(--spacing-xs);" data-i18n="cgnat_faq_q2">O CGNAT aumenta o ping ou deixa a internet mais lenta?</strong>
+        <p style="font-size:0.9rem;margin:0;" data-i18n="cgnat_faq_a2">Para streaming e navegação comum não altera a velocidade. Porém, em jogos P2P, a tradução extra e o bloqueio de portas podem causar NAT Estrito e falhas de conexão em lobbies.</p>
+      </div>
+
+      <div style="padding:var(--spacing-md);background:var(--color-bg-primary);border:1px solid var(--color-border);border-radius:var(--radius-md);">
+        <strong style="color:var(--color-text-primary);display:block;margin-bottom:var(--spacing-xs);" data-i18n="cgnat_faq_q3">Posso pedir para o provedor retirar minha conexão do CGNAT?</strong>
+        <p style="font-size:0.9rem;margin:0;" data-i18n="cgnat_faq_a3">Sim. A maioria dos provedores faz a remoção gratuita (rollback) para IPv4 público dinâmico quando o cliente informa necessidade técnica, como acesso remoto a câmeras ou VPN.</p>
+      </div>
+
+      <div style="padding:var(--spacing-md);background:var(--color-bg-primary);border:1px solid var(--color-border);border-radius:var(--radius-md);">
+        <strong style="color:var(--color-text-primary);display:block;margin-bottom:var(--spacing-xs);" data-i18n="cgnat_faq_q4">Se eu tiver IPv6 funcionando, preciso sair do CGNAT?</strong>
+        <p style="font-size:0.9rem;margin:0;" data-i18n="cgnat_faq_a4">Para serviços compatíveis com IPv6, não. Contudo, muitos jogos e servidores ainda dependem exclusivamente de IPv4, tornando a remoção útil para quem joga online.</p>
+      </div>
+    </div>
+
+    <!-- CTA para DNS Leak -->
+    <div style="margin-top:var(--spacing-2xl);padding:var(--spacing-lg);background:linear-gradient(135deg, rgba(0,212,255,0.08), rgba(124,58,237,0.08));border:1px solid var(--color-border-hover);border-radius:var(--radius-md);text-align:center;">
+      <h3 style="color:var(--color-text-primary);margin-bottom:var(--spacing-xs);font-size:1.1rem;" data-i18n="cgnat_cta_title">Quer testar se sua VPN está vazando seu IP ou DNS?</h3>
+      <p style="font-size:0.9rem;margin-bottom:var(--spacing-md);color:var(--color-text-secondary);" data-i18n="cgnat_cta_desc">Execute nossa auditoria de vazamento de DNS e WebRTC para garantir navegação anônima e protegida.</p>
+      <a href="./dns-leak.html" class="btn" style="display:inline-block;text-decoration:none;padding:10px 22px;background:var(--gradient-accent);color:var(--color-bg-primary);border-radius:var(--radius-md);font-weight:700;font-size:0.9rem;box-shadow:var(--shadow-glow);" data-i18n="cgnat_cta_btn">Abrir Teste de Vazamento DNS 🛡️</a>
+    </div>
+  </article>
+</main>
+
+<footer>
+  <p data-i18n="footer_desc">NET INSPECTOR · Diagnóstico de IP e Conexão 100% Client-Side · Nenhum dado é registrado</p>
+  <p style="margin-top:4px">
+    <a href="./index.html" style="color:var(--color-accent);text-decoration:none;" data-i18n="footer_link_ip">Qual é o Meu IP?</a> · 
+    <a href="./cgnat.html" style="color:var(--color-accent);text-decoration:none;" data-i18n="footer_link_cgnat">Teste de CGNAT &amp; Jogos</a> · 
+    <a href="./dns-leak.html" style="color:var(--color-accent);text-decoration:none;" data-i18n="footer_link_dnsleak">Teste de Vazamento DNS</a> · 
+    <a href="./domain.html" style="color:var(--color-accent);text-decoration:none;" data-i18n="footer_link_domain">Análise de Domínio</a>
+  </p>
+  <p style="margin-top:6px;font-size:0.7rem;color:var(--color-text-muted);">
+    <span data-i18n="footer_analytics">📊 Analytics privacy-first via GoatCounter (sem cookies) —</span> 
+    <a href="https://netinspector.goatcounter.com/" target="_blank" rel="noopener" style="color:var(--color-accent);text-decoration:none;" data-i18n="footer_stats">Ver estatísticas públicas ↗</a> · 
+    <button id="analytics-optout-btn" onclick="toggleAnalytics()" class="optout-btn" data-i18n="btn_optout_off">Desativar Analytics</button>
+  </p>
+</footer>
+
+</body>
+</html>

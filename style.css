@@ -144,7 +144,8 @@ header {
   flex-shrink: 0;
 }
 
-.logo-text h1, header h1 {
+.logo-text h1, .logo-text .logo-title, header h1 {
+  display: block;
   font-family: var(--font-mono);
   font-size: 0.95rem;
   font-weight: 600;

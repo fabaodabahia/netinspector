@@ -33,11 +33,17 @@
   <meta property="og:image" content="https://netinspector.net/og-image.png">
 
   <!-- Twitter Card -->
-  <meta property="twitter:card" content="summary_large_image">
-  <meta property="twitter:url" content="https://netinspector.net/">
-  <meta property="twitter:title" content="Qual é o Meu IP Público? Veja seu IP, ISP e Localização">
-  <meta property="twitter:description" content="Verifique seu IP público, ISP e geolocalização em tempo real sem rastreamento. Análise rápida e 100% client-side.">
-  <meta property="twitter:image" content="https://netinspector.net/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://netinspector.net/">
+  <meta name="twitter:title" content="Qual é o Meu IP Público? Veja seu IP, ISP e Localização">
+  <meta name="twitter:description" content="Verifique seu IP público, ISP e geolocalização em tempo real sem rastreamento. Análise rápida e 100% client-side.">
+  <meta name="twitter:image" content="https://netinspector.net/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="alternate icon" href="./favicon.ico">
 
   <!-- Google Fonts Optimization -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -134,8 +140,13 @@
 <main>
   <!-- Hero Section -->
   <div class="hero">
-    <div class="hero-label" id="hero-label" data-i18n="hero_ip_label">Seu Endereço de IP Público</div>
+    <h1 class="hero-label" id="hero-label" data-i18n="hero_ip_label">Seu Endereço de IP Público</h1>
     <div id="hero-ip"><span class="spin"></span></div>
+    <div style="margin-top:var(--spacing-sm);">
+      <button type="button" id="copy-ip-btn" onclick="copyPublicIp()" class="btn-secondary" style="background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.3);color:var(--color-accent);padding:6px 14px;border-radius:9999px;font-family:var(--font-mono);font-size:0.78rem;cursor:pointer;transition:all 0.2s;">
+        📋 <span data-i18n="btn_copy_ip">Copiar Meu IP</span>
+      </button>
+    </div>
   </div>
 
   <!-- Grid de Cards Filtrada (ISP, Localização, IP, Log) -->
@@ -212,6 +223,7 @@
   <p data-i18n="footer_desc">NET INSPECTOR · Diagnóstico de IP e Conexão 100% Client-Side · Nenhum dado é registrado</p>
   <p style="margin-top:4px">
     <a href="./index.html" style="color:var(--color-accent);text-decoration:none;" data-i18n="footer_link_ip">Qual é o Meu IP?</a> · 
+    <a href="./cgnat.html" style="color:var(--color-accent);text-decoration:none;" data-i18n="footer_link_cgnat">Teste de CGNAT &amp; Jogos</a> · 
     <a href="./dns-leak.html" style="color:var(--color-accent);text-decoration:none;" data-i18n="footer_link_dnsleak">Teste de Vazamento DNS</a> · 
     <a href="./domain.html" style="color:var(--color-accent);text-decoration:none;" data-i18n="footer_link_domain">Análise de Domínio</a> · 
     Fontes: ipapi.co · ipify.org · WebRTC API · Navigator API
