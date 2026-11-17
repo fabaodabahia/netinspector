@@ -1,15 +1,20 @@
 # NET INSPECTOR 🔍
 
-**Diagnóstico completo de conexão, IP & análise de domínio — 100% Client-Side**
+**Complete Network Diagnostics, CGNAT & Gaming NAT Test, DNS Leak Audit & Domain Security AI**  
+*Diagnóstico completo de conexão, Teste de CGNAT/NAT para jogos, Auditoria VPN & Análise de Domínio com IA em WebAssembly*
 
-[![Status](https://img.shields.io/badge/status-produção-success)](https://netinspector.net)
-[![Licença](https://img.shields.io/badge/licença-MIT-blue)](LICENSE)
-[![Tecnologia](https://img.shields.io/badge/tech-Vanilla%20HTML%2FCSS%2FJS-brightgreen)](https://netinspector.net)
-[![Privacidade](https://img.shields.io/badge/privacidade-Zero%20Cookies-purple)](https://netinspector.goatcounter.com/)
+[![Status](https://img.shields.io/badge/status-production-success)](https://netinspector.net)
+[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+[![Edge](https://img.shields.io/badge/Cloudflare-Workers%20%2B%20Assets-F38020)](https://netinspector.net)
+[![ML](https://img.shields.io/badge/Security%20AI-XGBoost%20ONNX%20WASM-7c3aed)](https://netinspector.net/domain.html)
+[![Privacy](https://img.shields.io/badge/privacy-Client--Side%20%26%20Zero%20Logs-purple)](https://netinspector.goatcounter.com/)
 
-**🌐 Demo Online:** [https://netinspector.net/](https://netinspector.net/)
+**🌐 Live Demo:**
+- 🇧🇷 Português (Padrão): [https://netinspector.net/](https://netinspector.net/)
+- 🇺🇸 English: [https://netinspector.net/en/](https://netinspector.net/en/)
+- 🇪🇸 Español: [https://netinspector.net/es/](https://netinspector.net/es/)
 
-O **NET INSPECTOR** é uma plataforma web moderna de arquitetura Multi-Page Application (MPA) para diagnóstico aprofundado de conexões de rede, provedores de internet (ISP), resolução DNS, segurança e infraestrutura completa de domínios. Tudo é processado localmente no navegador, sem backend proprietário e sem armazenamento de dados.
+O **NET INSPECTOR** é uma plataforma web open-source (arquitetura MPA em Vanilla HTML/CSS/JS + Cloudflare Worker Anti-CORS) para diagnóstico aprofundado de conexões de internet, detecção de CGNAT e tipo de NAT para jogos, auditoria de vazamentos de VPN (DNS & WebRTC) e inspeção completa de segurança de domínios com **Machine Learning local via WebAssembly (XGBoost → ONNX)**.
 
 ---
 
@@ -17,308 +22,161 @@ O **NET INSPECTOR** é uma plataforma web moderna de arquitetura Multi-Page Appl
 
 - [Visão Geral](#-visão-geral)
 - [Estrutura do Projeto](#-estrutura-do-projeto)
-- [Funcionalidades e Páginas](#-funcionalidades-e-páginas)
-- [Arquitetura Técnica](#-arquitetura-técnica)
-- [APIs Utilizadas](#-apis-utilizadas)
-- [Analytics Privacy-First (GoatCounter)](#-analytics-privacy-first-goatcounter)
-- [Otimização para Mecanismos de Busca (SEO)](#-otimização-para-mecanismos-de-busca-seo)
-- [Privacidade e Segurança](#-privacidade-e-segurança)
-- [Como Usar](#-como-usar)
-- [Compatibilidade](#-compatibilidade)
-- [FAQ - Perguntas Frequentes](#-faq---perguntas-frequentes)
+- [Ferramentas e Páginas](#-ferramentas-e-páginas)
+- [Análise de Segurança IA (Regras + ONNX WASM)](#-análise-de-segurança-ia-regras-especialistas--machine-learning-onnx)
+- [Cloudflare Worker Anti-CORS](#-cloudflare-worker-anti-cors-workerjs)
+- [Internacionalização & Páginas Estáticas](#-internacionalização-i18n--páginas-estáticas)
+- [APIs & Protocolos Utilizados](#-apis--protocolos-utilizados)
+- [Analytics](#-analytics)
+- [Como Executar Localmente](#-como-executar-localmente)
 - [Licença](#-licença)
 
 ---
 
 ## 🎯 Visão Geral
 
-Diferente de ferramentas tradicionais que exigem instalação ou realizam rastreamento invasivo, o **NET INSPECTOR** foi concebido sob três pilares fundamentais:
-
-1. **Privacidade Absoluta**: Nenhum dado é salvo em bancos de dados. Não há cookies nem localStorage para tracking.
-2. **Performance Instantânea**: Arquitetura leve em Vanilla JavaScript e CSS puro com concorrência assíncrona.
-3. **Multi-Page Application (MPA)**: Páginas dedicadas e especializadas que compartilham a mesma base modular de regras de negócio e componentes de interface.
+1. **Zero Logs & Privacidade**: Nenhum IP pesquisado ou histórico de análise é armazenado em banco de dados. Toda a inferência de IA e testes WebRTC/DNS ocorrem localmente no navegador.
+2. **Arquitetura Híbrida (Client-Side + Edge Worker)**: Consultas DNS-over-HTTPS, WebRTC STUN e modelo XGBoost rodam no cliente, enquanto um Cloudflare Worker (`/api/inspect`) elimina restrições de CORS para ler cabeçalhos HTTP, `Set-Cookie`, `robots.txt`, `security.txt` e redirects reais na borda.
+3. **SEO Multi-Idioma Nativo**: Páginas estáticas dedicadas para Português (`/`), Inglês (`/en/`) e Espanhol (`/es/`), além de tradução dinâmica em 10 idiomas com suporte RTL.
 
 ---
 
 ## 📁 Estrutura do Projeto
 
-O repositório é composto por 8 arquivos essenciais, perfeitamente desacoplados e organizados:
-
-```
+```text
 netinspector/
-├── index.html       # Página Principal (Home: IP / ISP / Localização / Log, data-page="home")
-├── dns-leak.html    # Auditoria de Privacidade VPN / Teste de Vazamento DNS & WebRTC (data-page="dnsleak")
-├── domain.html      # Analisador de Domínio com 36 scanners (data-page="domain")
-├── style.css        # Design System centralizado (CSS variables, seletor i18n e responsividade)
-├── app.js           # Núcleo reativo (i18n com 10 idiomas, ApiManager, Card Factory, Scanners)
-├── sitemap.xml      # Mapa de URLs canônicas e hreflang para indexação por motores de busca
-├── robots.txt       # Diretivas de rastreamento para web crawlers
-└── LICENSE          # Termos da Licença MIT
+├── index.html             # Home PT-BR: IP público, ISP, ASN, Geolocalização & Log
+├── cgnat.html             # Teste de CGNAT (RFC 6598), NAT para Jogos (STUN) & IPv6
+├── dns-leak.html          # Auditoria de Privacidade VPN: DNS Leak & WebRTC Leak
+├── domain.html            # Analisador de Domínio com Worker Anti-CORS, RDAP & ML ONNX
+├── en/                    # Versões estáticas pré-renderizadas em Inglês (SEO)
+│   ├── index.html
+│   ├── cgnat.html
+│   ├── dns-leak.html
+│   └── domain.html
+├── es/                    # Versões estáticas pré-renderizadas em Espanhol (SEO)
+│   ├── index.html
+│   ├── cgnat.html
+│   ├── dns-leak.html
+│   └── domain.html
+├── app.js                 # Core: i18n (10 idiomas), ApiManager, Card Factory, Scanners, MLInference & SecurityAnalyzer
+├── style.css              # Design System (Tailored Dark Palette, tokens CSS e responsividade)
+├── worker.js              # Cloudflare Worker Anti-CORS (/api/inspect) + proteção SSRF
+├── wrangler.jsonc         # Configuração Cloudflare Workers & Static Assets
+├── .assetsignore          # Exclusão de arquivos internos do bundle estático público
+├── models/
+│   ├── security-model.onnx  # Modelo XGBoost exportado para ONNX (~68 KB)
+│   └── calibration.json     # Coeficientes (a, b) de calibração de Platt
+├── train_model.py         # Script Python de treino sintético, calibração de Platt e exportação ONNX
+├── requirements.txt       # Dependências Python do pipeline ML
+├── sitemap.xml            # Sitemap canônico (12 URLs com hreflang)
+├── robots.txt             # Regras para crawlers
+├── og-image.png           # Banner Open Graph / Twitter Card (1200x630)
+├── favicon.svg / .ico     # Ícones do site
+└── LICENSE                # Licença MIT
 ```
 
 ---
 
-## ⚡ Funcionalidades e Páginas
+## ⚡ Ferramentas e Páginas
 
-### 1. Página Principal / Qual é o Meu IP (`index.html`) — `data-page="home"`
-Página inicial nativa focada na identificação imediata de identidade de rede e conectividade:
-- **Hero IP Section**: Exibição em destaque do endereço público com detecção de protocolo e animação pulsante.
-- **Cards Essenciais**:
-  - **ISP & ASN**: Identificação do provedor de acesso, organização titular, número de sistema autônomo (ASN) e rota BGP.
-  - **Localização Geográfica**: País, estado, município, código postal, coordenadas e mapa interativo OpenStreetMap incorporado.
-  - **Endereços IP & WebRTC**: Detecção independente de IPv4 público, IPv6 público, IP local LAN e auditoria de vazamento de WebRTC (*WebRTC leak* para usuários de VPN).
-  - **Log de Diagnóstico**: Terminal em tempo real registrando o andamento das requisições assíncronas.
-- **Conteúdo Didático e SEO**: Artigos aprofundados explicando blocos de endereçamento, geolocalização e diferenças práticas entre IPv4 e IPv6.
+### 1. Qual é o Meu IP Público (`index.html`) — `data-page="home"`
+- Exibição instantânea do **IPv4 e IPv6 públicos** com botão **Copiar Meu IP** em 1 clique.
+- Identificação de **ISP, Organização e ASN**, mapa interativo OpenStreetMap e auditoria de exposição WebRTC.
 
-### 2. Teste de Vazamento DNS e WebRTC (`dns-leak.html`) — `data-page="dnsleak"`
-Landing page voltada para auditoria de conexões VPN, Proxy e proteção da privacidade:
-- **Hero Audit Section**: Indicador de integridade e auditoria de privacidade de navegação.
-- **Cards Focados em Privacidade**:
-  - **Endereços IP**: Verificação de IPv4, IPv6 e detecção de bypass de WebRTC expondo o IP real.
-  - **Segurança & Privacidade**: Detecção de VPN/Proxy, nó de saída Tor, modo anônimo, suporte a DoH/DoT e versão TLS.
-  - **Latência & DNS**: Medição de ping HTTP, servidor DNS ativo e tempo de resolução.
-  - **Log de Diagnóstico**: Acompanhamento passo a passo dos testes de segurança.
-- **Conteúdo Didático e FAQ**: Explicação de vazamentos de DNS (DNS Leak), riscos de WebRTC STUN bypass, protocolos DoH/DoT e guia de correção.
+### 2. Teste de CGNAT, IPv6 e NAT para Jogos (`cgnat.html`) — `data-page="cgnat"`
+- **Detecção RFC 6598 (`100.64.0.0/10`)**: Verifica candidatos locais e públicos em busca da faixa oficial de CGNAT.
+- **Comportamento NAT via múltiplos STUN (`probeStunNatCandidates`)**: Compara mapeamentos `srflx` entre servidores STUN do Google e Cloudflare para identificar **Symmetric NAT (NAT Estrito / Tipo 3)** vs. **Cone NAT (Aberto/Moderado)**.
+- **Auditoria IPv6 Nativo (Dual-Stack)**: Indica se a conexão possui IPv6 funcional para contornar o CGNAT.
+- **Gerador de Solicitação ao Suporte**: Botão pronto para copiar um texto técnico com os dados da linha solicitando rollback de CGNAT junto ao provedor.
 
-### 3. Analisador de Domínio (`domain.html`) — `data-page="domain"`
-Ferramenta para auditoria completa de qualquer site ou domínio da web:
-- **36 Scanners Concorrentes**:
-  - Registros DNS completos (`A`, `AAAA`, `MX`, `NS`, `TXT`, `CNAME`, `SOA`, `CAA`, `PTR`).
-  - Validação de certificados SSL/TLS, cadeia de confiança e dias restantes até expiração.
-  - Dados de registro Whois e entidades delegadas.
-  - Cabeçalhos de segurança HTTP (`HSTS`, `CSP`, `X-Frame-Options`, `X-Content-Type-Options`).
-  - Detecção de tecnologias web, robots.txt, sitemap XML e security.txt.
-  - Histórico de arquivos (Wayback Machine API).
+### 3. Teste de Vazamento DNS & WebRTC (`dns-leak.html`) — `data-page="dnsleak"`
+- Auditoria de privacidade para conexões **VPN e Proxy**, detecção de saída Tor, verificação de DNS-over-HTTPS (DoH), latência HTTP e guia educativo sobre o impacto de desabilitar o WebRTC.
+
+### 4. Analisador de Domínio + Links Compartilháveis (`domain.html`) — `data-page="domain"`
+- **URL Compartilhável (`?d=dominio.com`)**: Execução automática ao abrir o link + botão **"Compartilhar Relatório"**.
+- **Scanners Concorrentes Funcionais**:
+  - **IP Info & Server Location**: Resolução DNS (`A`) seguida de geolocalização e ASN do servidor.
+  - **Whois / RDAP Oficial**: Consulta direta ao protocolo IETF RDAP (`rdap.registro.br` para `.br` e `rdap.org` global) com cálculo real da idade do domínio.
+  - **DNS Records, TXT & DNSSEC**: Registros `A`, `AAAA`, `MX`, `NS`, `CNAME`, `SPF`, `DMARC`, `DKIM` e `DS`.
+  - **SSL Chain & HSTS**: Verificação de validade SSL, dias restantes e diretivas `max-age` / `preload`.
+  - **Headers HTTP, Cookies, Firewall (WAF), Redirect Chain, Tech Stack, Carbon Footprint, `robots.txt` e `security.txt`**: Alimentados pelo Worker Anti-CORS sem bloqueios de navegador.
+  - **Archive History**: Histórico de capturas via Wayback Machine.
 
 ---
 
 ## 🤖 Análise de Segurança IA (Regras Especialistas + Machine Learning ONNX)
 
-O NET INSPECTOR inclui uma arquitetura híbrida de segurança que roda 100% no seu navegador via WebAssembly, sem enviar nenhum dado para servidores externos:
+O `domain.html` combina duas camadas 100% locais no navegador:
 
-### 1. Sistema Especialista (Regras Heurísticas)
-- Analisa os dados já coletados pelos cards (IP, SSL, headers, DNS, cookies, etc.)
-- Calcula um **Security Score de 0 a 100** com classificação visual
-- Identifica vulnerabilidades por severidade (Crítico, Atenção, Info)
-- Gera recomendações personalizadas e acionáveis
-
-### 2. Machine Learning Client-Side (XGBoost + ONNX WebAssembly)
-- **Modelo Ultra Leve**: Classificador XGBoost exportado para ONNX (`models/security-model.onnx`, 68 KB) executado em WebAssembly via `onnxruntime-web`.
-- **24 Indicadores Vetorizados**: Processamento de atributos de rede (SSL, dias para expiração, TLS 1.3, ciphers, HSTS, CSP, nosniff, DNSSEC, DMARC, cookies, WAF, etc.).
-- **Lazy Loading**: O runtime de IA só é carregado sob demanda quando o usuário aciona a análise de domínio.
-
-### 3. Calibração de Platt e Experiência do Usuário (Fase 16)
-- **Calibração de Probabilidades**: Aplicação de Platt Scaling no JavaScript (`models/calibration.json`), mitigando o excesso de confiança das árvores de decisão.
-- **Badge Autoexplicativo com Semáforo**: Exibe `"🧠 IA: X% de chance de ser seguro"` nas cores:
-  - 🟢 **Verde (`>= 70%`)**: Alta chance de ser seguro.
-  - 🟡 **Amarelo (`40% - 69%`)**: Risco moderado.
-  - 🔴 **Vermelho (`< 40%`)**: Alta chance de ser vulnerável.
-- **Alerta de Anomalia**: Quando o score das regras e a probabilidade de ML divergem significativamente (`|score - mlPercent| > 30`), um alerta visual `.anomaly-alert` é renderizado no topo do card alertando sobre padrões atípicos.
-- **Conteúdo Didático Integrado**: Badge expansível (`<details>`) explicando o cálculo, metodologia e limites do modelo em 10 idiomas.
-
-### Categorias OWASP Cobertas
-- **A01:2021** - Broken Access Control (parcial — SameSite cookies, CORS)
-- **A02:2021** - Cryptographic Failures (SSL/TLS, HSTS, DNSSEC)
-- **A05:2021** - Security Misconfiguration (headers ausentes, versões expostas)
-- **A06:2021** - Vulnerable Components (malware, tech stack conhecido)
-
-### Classificação de Score
-- 🟢 **96-100**: Excelente
-- 🔵 **81-95**: Bom
-- 🟡 **61-80**: Moderado
-- 🟠 **41-60**: Ruim
-- 🔴 **0-40**: Crítico
-
-### Transparência
-- ✅ Análise 100% local (nada é enviado para servidores)
-- ✅ Baseado em padrões reconhecidos (OWASP, Mozilla Observatory, SSL Labs)
-- ✅ Totalmente explicável (cada risco aponta para dados específicos)
-- ⚠️ Limitação: análise externa (black-box) cobre ~70% dos itens OWASP verificáveis remotamente
+1. **Sistema Especialista (`SecurityAnalyzer`)**: Avalia categorias OWASP (A01, A02, A05, A06), gera um **Security Score de 0 a 100** e recomendações acionáveis.
+2. **Machine Learning Client-Side (`MLInference`)**:
+   - **Lazy Loading**: O runtime `onnxruntime-web` (WASM) e o modelo [`models/security-model.onnx`](models/security-model.onnx) (~68 KB) só são carregados sob demanda ao iniciar uma análise de domínio.
+   - **24 Features Vetorizadas**: `prepareTensorForONNX()` converte os dados dos scanners em um `Float32Array` de 24 posições alinhado ao [`train_model.py`](train_model.py).
+   - **Calibração de Platt (JS-side)**: Aplica `logit = ln(p / (1 - p))` e `p_cal = sigmoid(a * logit + b)` usando os coeficientes em [`models/calibration.json`](models/calibration.json).
+   - **Semáforo + Alerta de Anomalia**: Exibe `"🧠 IA: X% de chance de ser seguro"` (verde/amarelo/vermelho) com explicação educativa em `<details>` e dispara alerta `.anomaly-alert` quando a divergência entre Regras e ML ultrapassa 30 pontos.
 
 ---
 
-## 🌍 Sistema de Internacionalização (i18n)
+## ⚡ Cloudflare Worker Anti-CORS (`worker.js`)
 
-O **NET INSPECTOR** possui um motor de internacionalização nativo (Vanilla JS) com suporte a 10 idiomas:
-
-| Idioma | Código | Direção do Texto | Bandeira |
-|---|---|---|---|
-| Português (Brasil) | `pt-br` *(Padrão)* | LTR | 🇧🇷 |
-| English | `en` | LTR | 🇺🇸 |
-| Español | `es` | LTR | 🇪🇸 |
-| Français | `fr` | LTR | 🇫🇷 |
-| Deutsch | `de` | LTR | 🇩🇪 |
-| Italiano | `it` | LTR | 🇮🇹 |
-| 日本語 (Japanese) | `ja` | LTR | 🇯🇵 |
-| 中文 (Chinese) | `zh` | LTR | 🇨🇳 |
-| Русский (Russian) | `ru` | LTR | 🇷🇺 |
-| العربية (Arabic) | `ar` | RTL (`dir="rtl"`) | 🇸🇦 |
-
-### Recursos do Sistema i18n:
-1. **Detecção Automática Hierárquica**: Prioriza parâmetro de URL (`?lang=es`), em seguida preferência salva no `localStorage`, e por fim o idioma do navegador (`navigator.language`).
-2. **Seletor Visual no Header**: Menu suspenso estilizado com código, nome e bandeira do país.
-3. **Suporte Nativo a RTL**: Alternância automática de `dir="rtl"` para árabe (`ar`).
-4. **Tradução Completa**: Cobre cards, rótulos de rede, artigos explicativos, FAQs e rodapé.
-5. **Como Adicionar um Novo Idioma**:
-   Basta registrar a chave correspondente no objeto `SUPPORTED_LANGS` e adicionar as chaves equivalentes no dicionário `TRANSLATIONS` dentro de `app.js`.
+O arquivo [`worker.js`](worker.js) atua na borda da Cloudflare servindo os arquivos estáticos via `env.ASSETS` e expondo a rota `GET /api/inspect?domain=...`:
+- Coleta cabeçalhos HTTP, flags reais de `Set-Cookie`, cadeia de redirecionamentos (`http://` → `https://`), status HTTP, `/robots.txt`, `/.well-known/security.txt` e metadados HTML (OG/Twitter tags e stack tecnológica).
+- **Segurança Anti-SSRF**: Rejeita endereços IP literais, `localhost`, `.local`, `.internal` e domínios inválidos.
+- **Fallback Transparente**: Caso o site seja aberto em servidor estático puro (sem Worker), o `ApiManager.inspectDomain()` faz fallback automático para o modo client-side.
 
 ---
 
-## 🏗️ Arquitetura Técnica
+## 🌍 Internacionalização (i18n) & Páginas Estáticas
 
-O projeto utiliza padrões arquiteturais modernos sem frameworks pesados:
-
-### 1. Card Factory Reativo
-Todos os cards da interface são gerados e orquestrados por uma configuração centralizada (`CARDS_CONFIG` em `app.js`). Cada definição de card suporta:
-- Filtragem inteligente por página (`pages: ['home']` ou `pages: ['domain']`).
-- Estrutura de campos com chaves i18n (`labelKey`, `titleKey`), badges informativos dinâmicos e slots para injeção HTML customizada.
-- Renderização limpa via `renderCards()`.
-
-### 2. ApiManager Centralizado
-Camada de rede que encapsula 31 chamadas externas com recursos avançados:
-- **In-flight Promise Deduplication**: Requisições simultâneas para o mesmo recurso compartilham a mesma Promise, evitando tráfego redundante.
-- **Cache de Sessão em Memória com TTL**: Armazenamento temporário de respostas durante o ciclo de vida da página para respostas instantâneas.
-- **Resiliência com Fallback em Cascata**:
-  - Resolução DNS com alternância transparente (Google DNS over HTTPS → Cloudflare DoH).
-  - Obtenção isolada de IPv4 (`api4.ipify.org`, `ipv4.icanhazip.com`) e IPv6 (`api6.ipify.org`, `ipv6.icanhazip.com`).
-  - Detecção de geolocalização multi-provedor (`ipwho.is`, `freeipapi.com`, `ipapi.co`).
-- **Timeouts Automáticos via AbortController**: Evita que requisições lentas travem o fluxo da aplicação.
-
-### 3. Design System Modular (`style.css`)
-- **Tokens CSS Modernos**: Variáveis para paleta de cores (Tailored Dark Palette), espaçamentos, tipografia, bordas e sombras neon glow.
-- **Aliases Retrocompatíveis**: Compatibilidade total entre nomes clássicos (`--bg`, `--surface`, `--accent`, `--ok`, `--warn`, `--err`) e tokens de sistema (`--color-bg-primary`, `--color-status-ok`).
-- **Responsividade Fluida**: Breakpoints mobile-first cobrindo desde telas estreitas (320px) até monitores ultra-wide (1024px+).
-
-### 4. Controle via Atributo `data-page`
-O elemento `<body>` de cada página declara seu contexto de visualização (`data-page="home"` em `index.html`, `data-page="dnsleak"` em `dns-leak.html`, `data-page="domain"` em `domain.html`). O script adapta o comportamento de inicialização, a exibição de cards e os botões de ação contextuais com base nessa propriedade.
-
-### 5. Navegação Unificada via `renderHeader()`
-O cabeçalho e menu de navegação responsivo são construídos dinamicamente pela função `renderHeader()`:
-- Destaca visualmente a página corrente (`nav-active`).
-- Integração do seletor dropdown internacional de idiomas (`pt-br`, `en`, `es`, `fr`, `de`, `it`, `ja`, `zh`, `ru`, `ar`).
-- Menu hambúrguer acessível para dispositivos móveis com fechamento automático ao clicar fora ou redimensionar.
+Suporte completo a **10 idiomas** (`pt-br`, `en`, `es`, `fr`, `de`, `it`, `ja`, `zh`, `ru`, `ar` com `dir="rtl"`):
+- **Rotas Estáticas Canônicas**: Português na raiz (`/`), Inglês em `/en/` e Espanhol em `/es/`, com `<title>`, `description`, `<h1>` e artigos já traduzidos no HTML para indexação limpa em mecanismos de busca.
+- **Troca Dinâmica**: Os demais 7 idiomas funcionam instantaneamente via seletor no cabeçalho ou `?lang=xx`.
 
 ---
 
-## 🌐 APIs Utilizadas
+## 🌐 APIs & Protocolos Utilizados
 
-| Serviço / Endpoint | Finalidade Técnica | Modo de Acesso |
-|---|---|---|
-| `https://api4.ipify.org` | Detecção estrita de endereço IPv4 público | JSON via HTTPS |
-| `https://api6.ipify.org` | Detecção estrita de endereço IPv6 público | JSON via HTTPS |
-| `https://ipv4.icanhazip.com` | Fallback de contingência para IPv4 | Texto puro via HTTPS |
-| `https://ipv6.icanhazip.com` | Fallback de contingência para IPv6 | Texto puro via HTTPS |
-| `https://ipwho.is/` | Dados geográficos, ASN, ISP e rota de rede | JSON via HTTPS (sem CORS lock) |
-| `https://freeipapi.com/` | Provedor secundário de geolocalização e proxy | JSON via HTTPS |
-| `https://dns.google/resolve` | Consulta primária a registros DNS via DoH | DNS-over-HTTPS |
-| `https://cloudflare-dns.com/dns-query` | Fallback de alta disponibilidade para DNS DoH | DNS-over-HTTPS |
-| `https://archive.org/wayback/available` | Histórico de capturas arquivadas de domínio | JSON via HTTPS |
-| `https://www.openstreetmap.org/` | Renderização do mapa cartográfico embed | Iframe local sem cookies |
-| `WebRTC API` (`RTCPeerConnection`) | Mapeamento de interfaces locais e detecção de vazamento | API Nativa do Navegador |
-| `Navigator API` | Extração de parâmetros de hardware e rede do cliente | API Nativa do Navegador |
+| Serviço / Protocolo | Finalidade |
+|---|---|
+| `Cloudflare Worker (/api/inspect)` | Inspeção Anti-CORS de headers, cookies, redirects, `robots.txt` e `security.txt` |
+| `dns.google` / `cloudflare-dns.com` | Resolução DNS-over-HTTPS (`A`, `AAAA`, `MX`, `NS`, `TXT`, `CNAME`, `DS`) |
+| `rdap.registro.br` / `rdap.org` | Consulta oficial Whois/RDAP com suporte nativo a CORS |
+| `api4.ipify.org` / `api6.ipify.org` / `icanhazip.com` | Detecção isolada de IPv4 e IPv6 públicos |
+| `ipwho.is` / `freeipapi.com` / `ipapi.co` | Geolocalização, ISP e ASN em cascata |
+| `archive.org/wayback/available` | Histórico de capturas do domínio |
+| `WebRTC` (`RTCPeerConnection` + STUN Google/Cloudflare) | Detecção de WebRTC Leak, IPs locais, RFC 6598 e Cone vs. Symmetric NAT |
 
 ---
 
-## 📊 Analytics Privacy-First (GoatCounter)
+## 📊 Analytics
 
-O **NET INSPECTOR** adota o [GoatCounter](https://www.goatcounter.com/), uma solução de análise estatística de código aberto, estritamente ética e em conformidade com o GDPR e a LGPD:
-
-- ✅ **Sem cookies**: Nenhum dado ou identificador persistente é armazenado no seu dispositivo.
-- ✅ **Sem tracking cross-site**: Não rastreamos a navegação do usuário em outros sites da internet.
-- ✅ **IP anonimizado**: Endereços IP são processados com hash criptográfico irreversível e salteamento diário.
-- ✅ **Sem popups de consentimento**: Como não há coleta de dados pessoais nem cookies, não incomodamos você com banners irritantes.
-- ✅ **Transparência total**: As estatísticas de acesso são públicas e auditáveis em tempo real por qualquer pessoa em: **[https://netinspector.goatcounter.com/](https://netinspector.goatcounter.com/)**
-- ✅ **Mecanismo de Opt-Out simples**: Qualquer usuário pode desativar o rastreamento clicando no botão **"Desativar Analytics"** presente no rodapé de todas as páginas (o sistema adiciona o parâmetro `?skipgc=on` na URL).
-
-**Dados métricos computados (totalmente agregados):**
-- Páginas visitadas (ex: `/index.html`, `/dns-leak.html`, `/domain.html`)
-- Referrer (origem da visita)
-- Navegador e sistema operacional (genéricos, não identificáveis)
-- Faixa geral de resolução de tela
+- **[GoatCounter](https://netinspector.goatcounter.com/)**: Analytics privacy-first sem cookies e com opção de opt-out no rodapé (`?skipgc=on`).
+- **Microsoft Clarity**: Análise agregada de usabilidade e mapas de calor.
 
 ---
 
-## 🔍 Otimização para Mecanismos de Busca (SEO)
+## 🚀 Como Executar Localmente
 
-O projeto implementa as melhores práticas recomendadas de SEO técnico e semântico:
-- **Schema.org Estruturado**: Injeção de metadados ricos em formato JSON-LD com marcações `@graph` de `WebApplication`, `FAQPage` e `BreadcrumbList`.
-- **Open Graph & Twitter Cards**: Tags canônicas completas com imagens pré-configuradas de preview em redes sociais.
-- **Sitemap Canônico (`sitemap.xml`)**: Mapeamento das 3 URLs fundamentais com prioridades balanceadas e frequência de rastreamento.
-- **Controle de Crawlers (`robots.txt`)**: Diretivas amigáveis para robôs de busca.
-
----
-
-## 🔒 Privacidade e Segurança
-
-- **100% Client-Side**: O código fonte roda exclusivamente na sua máquina. Não mantemos servidores coletando logs ou armazenando tráfego.
-- **Código Auditável**: Todo o projeto é transparente e distribuído abertamente sob a licença MIT.
-- **Sem Dependências Ocultas**: Nenhum framework externo de terceiros ou script invasivo de anúncios.
-- **Diagnóstico + Conteúdo Educativo Integrado**: Além de detectar vulnerabilidades e vazamentos em tempo real (como vazamentos WebRTC ou DNS Leak), o NET INSPECTOR educa o usuário com explicações práticas e transparentes sobre o impacto de desabilitar recursos do navegador, orientando o uso de contramedidas inteligentes (como extensões anti-leak) em vez de soluções drásticas que quebram ferramentas essenciais de trabalho.
-
----
-
-## 🚀 Como Usar
-
-### Acesso Online
-Acesse a versão em produção hospedada globalmente na Cloudflare Pages:
-👉 **[https://netinspector.net/](https://netinspector.net/)**
-
-### Execução em Ambiente Local
-
-Por ser construído em tecnologias nativas, você pode executar o projeto localmente com qualquer servidor estático:
-
+### Opção 1: Com Cloudflare Wrangler (inclui o Worker `/api/inspect`)
 ```bash
-# Clone o repositório
 git clone https://github.com/fabaodabahia/netinspector.git
 cd netinspector
+npx wrangler dev
+```
 
-# Inicie um servidor HTTP local simples:
-# Opção 1: Python 3
+### Opção 2: Servidor Estático Simples (modo client-side com fallback automático)
+```bash
+# Python 3
 python -m http.server 8000
 
-# Opção 2: Node.js (npx)
+# ou Node.js
 npx serve .
-
-# Opção 3: PHP
-php -S localhost:8000
 ```
-Em seguida, acesse `http://localhost:8000` em seu navegador web.
-
----
-
-## 💻 Compatibilidade
-
-O NET INSPECTOR é compatível com os principais navegadores modernos para Desktop e Mobile:
-- **Google Chrome / Chromium**: Versão 70+
-- **Mozilla Firefox**: Versão 68+
-- **Microsoft Edge**: Versão 79+
-- **Apple Safari**: Versão 12.1+
-- **Opera**: Versão 57+
-- **Brave / Vivaldi / Tor Browser**: Totalmente suportados
-
----
-
-## ❓ FAQ - Perguntas Frequentes
-
-### O que é o NET INSPECTOR?
-É um conjunto de ferramentas web gratuitas para diagnóstico completo de conectividade de rede, dados de provedor de internet (ISP), endereço IP público, latência com medição de ping, auditoria de DNS e inspeção de domínios.
-
-### Como funciona o teste de latência e ping?
-O teste avalia o tempo de trânsito de ida e volta (Round-Trip Time) até nós globais de alta disponibilidade, computando o valor em milissegundos e classificando visualmente a qualidade da rota da sua conexão.
-
-### O que é vazamento de WebRTC (WebRTC Leak)?
-Trata-se de uma vulnerabilidade presente em alguns navegadores onde requisições do protocolo de comunicação em tempo real (WebRTC) revelam seu verdadeiro endereço IP local ou público, mesmo com um túnel de VPN ativo. O NET INSPECTOR realiza a checagem e alerta o usuário imediatamente.
-
-### Algum dado meu é armazenado?
-Não. Todas as requisições ocorrem diretamente do seu navegador para as APIs de consulta técnica. Nenhum banco de dados ou backend armazena o que você pesquisa ou visualiza.
+Acesse `http://localhost:8000` (ou a porta exibida pelo Wrangler).
 
 ---
 
 ## 📄 Licença
 
-Distribuído sob a licença **MIT**. Consulte o arquivo [LICENSE](LICENSE) para termos completos de uso e distribuição.
-
----
-
-**NET INSPECTOR** · Dados processados localmente · Nenhuma informação pessoal é armazenada  
-*Projeto open source mantido com foco em segurança, transparência e privacidade.*
+Distribuído sob a licença **MIT**. Consulte [LICENSE](LICENSE).
