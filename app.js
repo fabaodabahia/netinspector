@@ -3921,6 +3921,26 @@ const ApiManager = {
   },
 
   /**
+   * Inspeção Anti-CORS via Cloudflare Worker (/api/inspect?domain=...)
+   * Retorna null caso esteja rodando fora da Cloudflare (ex: servidor estático local)
+   */
+  async inspectDomain(domain) {
+    const key = 'worker:inspect:' + domain;
+    return this._execute(key, async () => {
+      try {
+        const resp = await this.request(`/api/inspect?domain=${encodeURIComponent(domain)}`, { cache: 'no-store' }, 8000);
+        if (!resp.ok) return null;
+        const ct = resp.headers.get('content-type') || '';
+        if (!ct.includes('application/json')) return null;
+        const data = await resp.json();
+        return (data && data.ok) ? data : null;
+      } catch {
+        return null;
+      }
+    });
+  },
+
+  /**
    * Requisição GET JSON com deduplicação e timeout
    */
   async getJson(url, options = {}, timeoutMs = this.DEFAULT_TIMEOUT_MS) {
@@ -5200,25 +5220,59 @@ async function scanDNSRecords(domain) {
   }
 }
 
-// 4. Cookies
+// 4. Cookies (Usa headers Set-Cookie reais via Worker quando disponível)
 async function scanCookies(domain) {
   try {
+    const insp = await ApiManager.inspectDomain(domain);
+    if (insp && insp.cookies) {
+      const c = insp.cookies;
+      setCardValue('v-cookies-total', c.total.toString());
+      setCardValue('v-cookies-secure', c.total === 0 ? 'N/A' : (c.allSecure ? '✓ Todos Secure' : '✗ Ausente'), c.total === 0 || c.allSecure ? 'ok' : 'warn');
+      setCardValue('v-cookies-httponly', c.total === 0 ? 'N/A' : (c.allHttpOnly ? '✓ Todos HttpOnly' : '✗ Ausente'), c.total === 0 || c.allHttpOnly ? 'ok' : 'warn');
+      setCardValue('v-cookies-samesite', c.sameSite || '—');
+      setCardValue('v-cookies-session', c.total > 0 ? 'Presentes' : 'Nenhum Set-Cookie');
+      if ($('badge-cookies')) $('badge-cookies').textContent = c.total + ' encontrados';
+      log(`🍪 Cookies (Set-Cookie): ${c.total} analisados`);
+      return;
+    }
+
     const cookies = document.cookie.split(';').filter(c => c.trim());
     setCardValue('v-cookies-total', cookies.length.toString());
     setCardValue('v-cookies-secure', 'Verificar headers', '');
     setCardValue('v-cookies-httponly', 'Verificar headers', '');
     setCardValue('v-cookies-samesite', 'Verificar headers', '');
     setCardValue('v-cookies-session', cookies.length > 0 ? 'Presentes' : 'Ausentes');
-    $('badge-cookies').textContent = cookies.length + ' encontrados';
+    if ($('badge-cookies')) $('badge-cookies').textContent = cookies.length + ' encontrados';
     log(`🍪 Cookies locais: ${cookies.length}`);
   } catch (e) {
     log('⚠ Cookie analysis limitada no browser');
   }
 }
 
-// 5. Crawl Rules (usa ApiManager.getText com deduplicação)
+// 5. Crawl Rules (Worker Anti-CORS -> fallback ApiManager.getText)
 async function scanCrawlRules(domain) {
   try {
+    const insp = await ApiManager.inspectDomain(domain);
+    if (insp && insp.robotsTxt) {
+      const rb = insp.robotsTxt;
+      if (rb.found) {
+        setCardValue('v-crawl-robots', '✓ Encontrado', 'ok');
+        setCardValue('v-crawl-sitemap', rb.sitemap || '—');
+        setCardValue('v-crawl-disallow', rb.disallow.toString());
+        setCardValue('v-crawl-allow', rb.allow.toString());
+        if ($('badge-crawl')) $('badge-crawl').textContent = 'OK';
+        log(`🤖 robots.txt: ${rb.disallow} regras Disallow`);
+      } else {
+        setCardValue('v-crawl-robots', rb.blocked ? '⚠ Bloqueado (WAF)' : '✗ Não encontrado', 'warn');
+        setCardValue('v-crawl-sitemap', '—');
+        setCardValue('v-crawl-disallow', '0');
+        setCardValue('v-crawl-allow', '0');
+        if ($('badge-crawl')) $('badge-crawl').textContent = rb.blocked ? 'WAF' : 'Ausente';
+        log('⚠ robots.txt não encontrado');
+      }
+      return;
+    }
+
     const url = `https://${domain}/robots.txt`;
     const res = await ApiManager.getText(url, {}, 5000);
     if (res.ok) {
@@ -5245,18 +5299,18 @@ async function scanCrawlRules(domain) {
   }
 }
 
-// 6. Headers (usa ApiManager.head com deduplicação)
+// 6. Headers (Worker Anti-CORS -> fallback ApiManager.head)
 async function scanHeaders(domain) {
   try {
-    const res = await ApiManager.head(`https://${domain}`, {}, 5000);
-    const headers = res.headers;
+    const insp = await ApiManager.inspectDomain(domain);
+    const headers = (insp && insp.headers) ? insp.headers : (await ApiManager.head(`https://${domain}`, {}, 5000)).headers;
     
-    setCardValue('v-headers-server', headers['server'] || '—');
+    setCardValue('v-headers-server', headers['server'] || 'Oculto');
     setCardValue('v-headers-content', headers['content-type'] || '—');
-    setCardValue('v-headers-xframe', headers['x-frame-options'] || '—');
+    setCardValue('v-headers-xframe', headers['x-frame-options'] || '✗ Ausente', headers['x-frame-options'] ? 'ok' : 'warn');
     setCardValue('v-headers-xss', headers['x-xss-protection'] || '—');
-    setCardValue('v-headers-csp', headers['content-security-policy'] ? 'Presente' : '—', headers['content-security-policy'] ? 'ok' : 'warn');
-    $('badge-headers').textContent = 'OK';
+    setCardValue('v-headers-csp', headers['content-security-policy'] ? '✓ Presente' : '✗ Ausente', headers['content-security-policy'] ? 'ok' : 'warn');
+    if ($('badge-headers')) $('badge-headers').textContent = 'OK';
     log('📝 Headers HTTP coletados');
   } catch (e) {
     setCardValue('v-headers-server', '⚠ Indisponível (CORS)', 'warn');
@@ -5264,7 +5318,7 @@ async function scanHeaders(domain) {
     setCardValue('v-headers-xframe', '—');
     setCardValue('v-headers-xss', '—');
     setCardValue('v-headers-csp', '—');
-    $('badge-headers').textContent = '—';
+    if ($('badge-headers')) $('badge-headers').textContent = '—';
     log('⚠ Headers indisponíveis (CORS)');
   }
 }
@@ -5309,9 +5363,20 @@ async function scanAssociatedHosts(domain) {
   log('🔗 Associated Hosts requer API externa');
 }
 
-// 10. Redirect Chain
+// 10. Redirect Chain (Worker Anti-CORS -> fallback navegador)
 async function scanRedirectChain(domain) {
   try {
+    const insp = await ApiManager.inspectDomain(domain);
+    if (insp && insp.redirects) {
+      const r = insp.redirects;
+      setCardValue('v-redirect-count', r.count.toString());
+      setCardValue('v-redirect-final', r.finalUrl, r.finalUrl.startsWith('https://') ? 'ok' : 'warn');
+      setCardValue('v-redirect-chain', r.chain.length <= 2 ? r.chain.join(' → ') : `${r.chain[0]} → ... → ${r.chain[r.chain.length - 1]}`);
+      if ($('badge-redirect')) $('badge-redirect').textContent = r.count + ' redirects';
+      log(`➡️ Redirect Chain: ${r.count} redirects (${r.finalUrl})`);
+      return;
+    }
+
     let url = `https://${domain}`;
     const chain = [];
     let count = 0;
@@ -5364,9 +5429,23 @@ async function scanTXTRecords(domain) {
   }
 }
 
-// 12. Server Status (reutiliza HEAD com deduplicação)
+// 12. Server Status (Worker Anti-CORS -> fallback HEAD)
 async function scanServerStatus(domain) {
   try {
+    const insp = await ApiManager.inspectDomain(domain);
+    if (insp && insp.status > 0) {
+      setCardValue('v-status-code', insp.status.toString(), insp.status < 400 ? 'ok' : 'warn');
+      setCardValue('v-status-text', insp.statusText || 'OK');
+      setCardValue('v-status-time', insp.responseTimeMs + ' ms', insp.responseTimeMs < 600 ? 'ok' : 'warn');
+      setCardValue('v-status-uptime', '✓ Ativo (Edge)');
+      if ($('badge-status')) {
+        $('badge-status').textContent = insp.status === 200 ? 'Online' : 'Status ' + insp.status;
+        $('badge-status').className = 'card-badge ' + (insp.status < 400 ? 'badge-ok' : 'badge-warn');
+      }
+      log(`💚 Server Status: ${insp.status} (${insp.responseTimeMs}ms)`);
+      return;
+    }
+
     const t0 = performance.now();
     const res = await ApiManager.head(`https://${domain}`, {}, 5000);
     const time = Math.round(performance.now() - t0);
@@ -5409,9 +5488,24 @@ async function scanTraceroute(domain) {
   log('🛣️ Traceroute requer backend');
 }
 
-// 15. Carbon Footprint (reutiliza getText/head)
+// 15. Carbon Footprint (Worker Anti-CORS -> fallback navegador)
 async function scanCarbonFootprint(domain) {
   try {
+    const insp = await ApiManager.inspectDomain(domain);
+    if (insp && (insp.html?.byteLength || insp.headers?.['content-length'])) {
+      const sizeBytes = parseInt(insp.headers['content-length'] || insp.html.byteLength, 10);
+      const sizeKB = (sizeBytes / 1024).toFixed(2) + ' KB';
+      const co2 = (sizeBytes / 1024 * 0.0003).toFixed(4) + ' g';
+      const annual = (sizeBytes / 1024 * 0.0003 * 10000).toFixed(2) + ' kg';
+      setCardValue('v-carbon-size', sizeKB);
+      setCardValue('v-carbon-co2', co2);
+      setCardValue('v-carbon-annual', annual);
+      setCardValue('v-carbon-rating', sizeBytes < 100000 ? '✓ Baixo' : '⚠ Moderado', 'ok');
+      if ($('badge-carbon')) $('badge-carbon').textContent = 'Calculado';
+      log(`🌱 Carbon Footprint: ${co2} por visita`);
+      return;
+    }
+
     const res = await ApiManager.getText(`https://${domain}`, {}, 5000);
     const contentLength = res.headers ? res.headers.get('content-length') : null;
     const size = contentLength || (res.text ? res.text.length.toString() : '—');
@@ -5436,15 +5530,20 @@ async function scanCarbonFootprint(domain) {
   }
 }
 
-// 16. Server Info (combina Geo/ASN + HEAD quando disponível)
+// 16. Server Info (combina Geo/ASN + Worker Anti-CORS / HEAD)
 async function scanServerInfo(domain) {
   try {
-    const [geoRes, headRes] = await Promise.all([
+    const [geoRes, inspRes] = await Promise.all([
       resolveDomainGeo(domain).catch(() => null),
-      ApiManager.head(`https://${domain}`, {}, 4500).catch(() => null)
+      ApiManager.inspectDomain(domain).catch(() => null)
     ]);
-    const server = headRes?.headers?.['server'] || (geoRes?.org ? 'Protegido / Proxy' : '—');
-    const powered = headRes?.headers?.['x-powered-by'] || 'Oculto (Seguro)';
+    let headers = inspRes?.headers || null;
+    if (!headers) {
+      const headRes = await ApiManager.head(`https://${domain}`, {}, 4500).catch(() => null);
+      headers = headRes?.headers || null;
+    }
+    const server = headers?.['server'] || (geoRes?.org ? 'Protegido / Proxy' : '—');
+    const powered = headers?.['x-powered-by'] || 'Oculto (Seguro)';
     const hosting = geoRes?.org || '—';
     const dc = geoRes ? `${geoRes.city || ''} ${geoRes.country_code ? '(' + geoRes.country_code + ')' : ''}`.trim() : '—';
 
@@ -5576,11 +5675,12 @@ async function scanDNSSEC(domain) {
   }
 }
 
-// 20. HSTS (reutiliza HEAD com deduplicação)
+// 20. HSTS (Worker Anti-CORS -> fallback HEAD)
 async function scanHSTS(domain) {
   try {
-    const res = await ApiManager.head(`https://${domain}`, {}, 5000);
-    const hsts = res.headers['strict-transport-security'];
+    const insp = await ApiManager.inspectDomain(domain);
+    const headers = (insp && insp.headers) ? insp.headers : (await ApiManager.head(`https://${domain}`, {}, 5000)).headers;
+    const hsts = headers['strict-transport-security'];
     
     if (hsts) {
       const maxAge = hsts.match(/max-age=(\d+)/)?.[1] || '—';
@@ -5591,16 +5691,20 @@ async function scanHSTS(domain) {
       setCardValue('v-hsts-age', maxAge);
       setCardValue('v-hsts-sub', sub);
       setCardValue('v-hsts-preload', preload);
-      $('badge-hsts').textContent = 'Ativo';
-      $('badge-hsts').className = 'card-badge badge-ok';
+      if ($('badge-hsts')) {
+        $('badge-hsts').textContent = 'Ativo';
+        $('badge-hsts').className = 'card-badge badge-ok';
+      }
       log(`🔒 HSTS: Ativo (max-age=${maxAge})`);
     } else {
       setCardValue('v-hsts-enabled', '✗ Inativo', 'warn');
       setCardValue('v-hsts-age', '—');
       setCardValue('v-hsts-sub', '—');
       setCardValue('v-hsts-preload', '—');
-      $('badge-hsts').textContent = 'Inativo';
-      $('badge-hsts').className = 'card-badge badge-warn';
+      if ($('badge-hsts')) {
+        $('badge-hsts').textContent = 'Inativo';
+        $('badge-hsts').className = 'card-badge badge-warn';
+      }
       log('⚠ HSTS não configurado');
     }
   } catch (e) {
@@ -5608,7 +5712,7 @@ async function scanHSTS(domain) {
     setCardValue('v-hsts-age', '—');
     setCardValue('v-hsts-sub', '—');
     setCardValue('v-hsts-preload', '—');
-    $('badge-hsts').textContent = '—';
+    if ($('badge-hsts')) $('badge-hsts').textContent = '—';
   }
 }
 
@@ -5631,9 +5735,28 @@ async function scanDNSServer(domain) {
   }
 }
 
-// 22. Tech Stack (reutiliza HTML e headers via ApiManager)
+// 22. Tech Stack (Worker Anti-CORS -> fallback navegador)
 async function scanTechStack(domain) {
   try {
+    const insp = await ApiManager.inspectDomain(domain);
+    if (insp && insp.headers) {
+      const server = insp.headers['server'] || '—';
+      const powered = insp.headers['x-powered-by'] || '—';
+      const cms = insp.html?.cms || '—';
+      const framework = insp.html?.framework || '—';
+      const lang = powered.includes('PHP') ? 'PHP' : powered.includes('ASP.NET') ? 'ASP.NET' : '—';
+      const analytics = insp.html?.analytics || '—';
+
+      setCardValue('v-tech-server', server);
+      setCardValue('v-tech-cms', cms);
+      setCardValue('v-tech-framework', framework);
+      setCardValue('v-tech-lang', lang);
+      setCardValue('v-tech-analytics', analytics);
+      if ($('badge-tech')) $('badge-tech').textContent = cms !== '—' ? cms : (framework !== '—' ? framework : 'Detectado');
+      log(`🧰 Tech Stack: ${cms !== '—' ? cms : server}`);
+      return;
+    }
+
     const res = await ApiManager.getText(`https://${domain}`, {}, 5000);
     const html = res.text;
     const headers = {};
@@ -5676,9 +5799,36 @@ async function scanListedPages(domain) {
   log('📄 Listed Pages requer APIs externas');
 }
 
-// 24. security.txt via ApiManager.getText
+// 24. security.txt (Worker Anti-CORS -> fallback ApiManager.getText)
 async function scanSecurityTxt(domain) {
   try {
+    const insp = await ApiManager.inspectDomain(domain);
+    if (insp && insp.securityTxt) {
+      const st = insp.securityTxt;
+      if (st.found) {
+        setCardValue('v-sectxt-found', '✓ Encontrado', 'ok');
+        setCardValue('v-sectxt-contact', st.contact);
+        setCardValue('v-sectxt-encrypt', st.encryption);
+        setCardValue('v-sectxt-policy', st.policy);
+        if ($('badge-sectxt')) {
+          $('badge-sectxt').textContent = 'Encontrado';
+          $('badge-sectxt').className = 'card-badge badge-ok';
+        }
+        log('📯 security.txt: encontrado');
+      } else {
+        setCardValue('v-sectxt-found', '✗ Não encontrado', 'warn');
+        setCardValue('v-sectxt-contact', '—');
+        setCardValue('v-sectxt-encrypt', '—');
+        setCardValue('v-sectxt-policy', '—');
+        if ($('badge-sectxt')) {
+          $('badge-sectxt').textContent = 'Não encontrado';
+          $('badge-sectxt').className = 'card-badge badge-warn';
+        }
+        log('⚠ security.txt não encontrado');
+      }
+      return;
+    }
+
     const res = await ApiManager.getText(`https://${domain}/.well-known/security.txt`, {}, 5000);
     if (res.ok) {
       const text = res.text;
@@ -5711,9 +5861,20 @@ async function scanSecurityTxt(domain) {
   }
 }
 
-// 25. Linked Pages (reutiliza HTML via ApiManager)
+// 25. Linked Pages (Worker Anti-CORS -> fallback navegador)
 async function scanLinkedPages(domain) {
   try {
+    const insp = await ApiManager.inspectDomain(domain);
+    if (insp && insp.html) {
+      setCardValue('v-linked-total', insp.html.linksTotal.toString());
+      setCardValue('v-linked-internal', insp.html.linksInternal.toString());
+      setCardValue('v-linked-external', insp.html.linksExternal.toString());
+      setCardValue('v-linked-broken', 'OK (Edge)');
+      if ($('badge-linked')) $('badge-linked').textContent = insp.html.linksTotal + ' links';
+      log(`🔗 Linked Pages: ${insp.html.linksTotal} links encontrados`);
+      return;
+    }
+
     const res = await ApiManager.getText(`https://${domain}`, {}, 5000);
     const html = res.text;
     const links = html.match(/href=["'](https?:\/\/[^"']+)["']/gi) || [];
@@ -5736,9 +5897,21 @@ async function scanLinkedPages(domain) {
   }
 }
 
-// 26. Social Tags (reutiliza HTML via ApiManager)
+// 26. Social Tags (Worker Anti-CORS -> fallback navegador)
 async function scanSocialTags(domain) {
   try {
+    const insp = await ApiManager.inspectDomain(domain);
+    if (insp && insp.html) {
+      const h = insp.html;
+      setCardValue('v-social-ogtitle', h.ogTitle.substring(0, 40) + (h.ogTitle.length > 40 ? '...' : ''));
+      setCardValue('v-social-ogdesc', h.ogDesc.substring(0, 40) + (h.ogDesc.length > 40 ? '...' : ''));
+      setCardValue('v-social-ogimg', h.ogImg);
+      setCardValue('v-social-twitter', h.twitter);
+      if ($('badge-social')) $('badge-social').textContent = h.ogTitle !== '—' ? 'OK' : 'Parcial';
+      log(`📱 Social Tags: OG=${h.ogTitle !== '—'}, Twitter=${h.twitter !== '—'}`);
+      return;
+    }
+
     const res = await ApiManager.getText(`https://${domain}`, {}, 5000);
     const html = res.text;
     
@@ -5788,39 +5961,42 @@ async function scanEmailConfig(domain) {
   }
 }
 
-// 28. Firewall Detection (reutiliza HEAD com deduplicação)
+// 28. Firewall Detection (Worker Anti-CORS -> fallback HEAD)
 async function scanFirewall(domain) {
   try {
-    const res = await ApiManager.head(`https://${domain}`, {}, 5000);
-    const server = res.headers['server'] || '';
-    const cfRay = res.headers['cf-ray'];
-    const xAkamai = res.headers['x-akamai-transformed'];
+    const insp = await ApiManager.inspectDomain(domain);
+    const headers = (insp && insp.headers) ? insp.headers : (await ApiManager.head(`https://${domain}`, {}, 5000)).headers;
+    const server = (headers['server'] || '').toLowerCase();
+    const cfRay = headers['cf-ray'];
+    const xAkamai = headers['x-akamai-transformed'];
     
-    const wafDetected = cfRay || xAkamai || server.includes('cloudflare') || server.includes('akamai');
-    const wafType = cfRay ? 'Cloudflare' : xAkamai ? 'Akamai' : server.includes('sucuri') ? 'Sucuri' : '—';
+    const wafDetected = cfRay || xAkamai || server.includes('cloudflare') || server.includes('akamai') || server.includes('sucuri');
+    const wafType = cfRay || server.includes('cloudflare') ? 'Cloudflare' : xAkamai ? 'Akamai' : server.includes('sucuri') ? 'Sucuri' : '—';
     
-    setCardValue('v-firewall-waf', wafDetected ? '✓ Detectado' : '✗ Não detectado', wafDetected ? 'warn' : 'ok');
+    setCardValue('v-firewall-waf', wafDetected ? '✓ Detectado' : '✗ Não detectado', wafDetected ? 'ok' : 'warn');
     setCardValue('v-firewall-type', wafType);
-    setCardValue('v-firewall-cf', cfRay ? '✓ Sim' : '✗ Não');
+    setCardValue('v-firewall-cf', (cfRay || server.includes('cloudflare')) ? '✓ Sim' : '✗ Não');
     setCardValue('v-firewall-akamai', xAkamai ? '✓ Sim' : '✗ Não');
-    $('badge-firewall').textContent = wafDetected ? 'WAF Ativo' : 'Sem WAF';
-    $('badge-firewall').className = 'card-badge ' + (wafDetected ? 'badge-warn' : 'badge-ok');
+    if ($('badge-firewall')) {
+      $('badge-firewall').textContent = wafDetected ? 'WAF Ativo' : 'Sem WAF';
+      $('badge-firewall').className = 'card-badge ' + (wafDetected ? 'badge-ok' : 'badge-warn');
+    }
     log(`🧱 Firewall: ${wafDetected ? wafType : 'Não detectado'}`);
   } catch (e) {
     setCardValue('v-firewall-waf', '⚠ Indisponível (CORS)', 'warn');
     setCardValue('v-firewall-type', '—');
     setCardValue('v-firewall-cf', '—');
     setCardValue('v-firewall-akamai', '—');
-    $('badge-firewall').textContent = '—';
+    if ($('badge-firewall')) $('badge-firewall').textContent = '—';
     log('⚠ Firewall detection falhou');
   }
 }
 
-// 29. HTTP Security Features (reutiliza HEAD com deduplicação)
+// 29. HTTP Security Features (Worker Anti-CORS -> fallback HEAD)
 async function scanHTTPSecurity(domain) {
   try {
-    const res = await ApiManager.head(`https://${domain}`, {}, 5000);
-    const headers = res.headers;
+    const insp = await ApiManager.inspectDomain(domain);
+    const headers = (insp && insp.headers) ? insp.headers : (await ApiManager.head(`https://${domain}`, {}, 5000)).headers;
     
     const csp = headers['content-security-policy'];
     const xFrame = headers['x-frame-options'];
@@ -5833,7 +6009,7 @@ async function scanHTTPSecurity(domain) {
     setCardValue('v-httpsec-content', xContent === 'nosniff' ? '✓ nosniff' : '✗ Ausente', xContent === 'nosniff' ? 'ok' : 'warn');
     setCardValue('v-httpsec-referrer', referrer || '✗ Ausente', referrer ? 'ok' : 'warn');
     setCardValue('v-httpsec-permissions', permissions ? '✓ Presente' : '✗ Ausente', permissions ? 'ok' : 'warn');
-    $('badge-httpsec').textContent = 'Verificado';
+    if ($('badge-httpsec')) $('badge-httpsec').textContent = 'Verificado';
     log(`🔐 HTTP Security: CSP=${csp ? 'OK' : 'N/A'}`);
   } catch (e) {
     setCardValue('v-httpsec-csp', '⚠ Indisponível (CORS)', 'warn');
@@ -5841,7 +6017,7 @@ async function scanHTTPSecurity(domain) {
     setCardValue('v-httpsec-content', '—');
     setCardValue('v-httpsec-referrer', '—');
     setCardValue('v-httpsec-permissions', '—');
-    $('badge-httpsec').textContent = '—';
+    if ($('badge-httpsec')) $('badge-httpsec').textContent = '—';
     log('⚠ HTTP Security scan falhou');
   }
 }
@@ -5889,9 +6065,24 @@ async function scanGlobalRanking(domain) {
   log('📊 Global Ranking requer APIs externas');
 }
 
-// 32. Block Detection (reutiliza robots.txt via ApiManager)
+// 32. Block Detection (Worker Anti-CORS -> fallback robots.txt)
 async function scanBlockDetection(domain) {
   try {
+    const insp = await ApiManager.inspectDomain(domain);
+    if (insp && insp.robotsTxt) {
+      const blocked = insp.robotsTxt.blocked || insp.status === 403 || insp.status === 429;
+      setCardValue('v-block-robots', blocked ? '⚠ Bloqueado' : '✓ Liberado', blocked ? 'warn' : 'ok');
+      setCardValue('v-block-geo', '✓ Acessível (Edge)');
+      setCardValue('v-block-ip', blocked ? 'Restrito' : 'Liberado');
+      setCardValue('v-block-captcha', insp.status === 403 ? 'Possível desafio' : 'Não detectado');
+      if ($('badge-block')) {
+        $('badge-block').textContent = blocked ? 'Bloqueado' : 'OK';
+        $('badge-block').className = 'card-badge ' + (blocked ? 'badge-warn' : 'badge-ok');
+      }
+      log(`🚫 Block Detection: ${blocked ? 'Bloqueado' : 'Liberado'}`);
+      return;
+    }
+
     const url = `https://${domain}/robots.txt`;
     const res = await ApiManager.getText(url, {}, 5000);
     const blocked = res.status === 403 || res.status === 429;
